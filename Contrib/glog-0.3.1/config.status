@@ -637,11 +637,11 @@ s,@ac_cv_have_unistd_h@,|#_!!_#|1,g
 s,@ac_cv_have_uint16_t@,|#_!!_#|1,g
 s,@ac_cv_have_u_int16_t@,|#_!!_#|1,g
 s,@ac_cv_have___uint16@,|#_!!_#|0,g
-s,@ac_cv_have_libgflags@,|#_!!_#|0,g
+s,@ac_cv_have_libgflags@,|#_!!_#|1,g
 s,@GFLAGS_CFLAGS@,|#_!!_#|,g
 s,@GTEST_CFLAGS@,|#_!!_#|,g
 s,@GMOCK_CFLAGS@,|#_!!_#|,g
-s,@GFLAGS_LIBS@,|#_!!_#|,g
+s,@GFLAGS_LIBS@,|#_!!_#|-lgflags,g
 s,@GTEST_LIBS@,|#_!!_#|,g
 s,@GMOCK_LIBS@,|#_!!_#|,g
 s,@LIBOBJS@,|#_!!_#|,g
@@ -937,6 +937,7 @@ s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE___ATTRIBUTE__\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE___BUILTIN_EXPECT\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_PTHREAD\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_LIBPTHREAD\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_LIB_GFLAGS\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_RWLOCK\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_NAMESPACES\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*STL_NAMESPACE\)[	 (].*,\1define\2 std ,
