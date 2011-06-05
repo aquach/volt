@@ -10,7 +10,7 @@ APP := $(BIN_DIR)/$(APP)
 
 APP_SRCS = main.cpp
 
-INCLUDE_DIR = -I $(SRC_DIR)
+INCLUDE_DIR = -I $(SRC_DIR) -I ../
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 LIBS = -lSDL -lSDL_image -lGL -lGLU
 
@@ -24,7 +24,7 @@ dirs: $(BIN_DIR) $(OBJ_DIR)
 $(BIN_DIR) $(OBJ_DIR):
 	@mkdir -p $@
 
-$(APP): $(APP_OBJS) 
+$(APP): $(APP_OBJS)
 	$(CXX) $(CPPFLAGS) -o $(APP) $^ $(LIBVOLT) $(LIBS)
 
 $(APP_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp

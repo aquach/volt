@@ -1,7 +1,7 @@
 LIB = libvolt
 
 BIN_DIR = Build
-SRC_DIR = Source
+SRC_DIR = Volt
 OBJ_DIR = Obj
 TEST_DIR = Test
 
@@ -35,8 +35,8 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) -c $< -o $@
 
 test : $(LIB)
-	cd $(TEST_DIR) && $(MAKE)	
-	
+	cd $(TEST_DIR) && $(MAKE)
+
 .PHONY : all clean dirs
 
 clean:
