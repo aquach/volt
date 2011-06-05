@@ -1,0 +1,15 @@
+*.exe
+*.ilk
+*.ncb
+*.pdb
+*.o
+*.dep
+*.idb
+*.obj
+*.txt
+*.log
+*.user
+Thumbs.db
+Build/*
+!Build/*.dll
+Obj
