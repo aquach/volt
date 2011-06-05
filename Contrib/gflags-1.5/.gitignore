@@ -1,0 +1,7 @@
+Makefile
+config.status
+gflags_strip_flags_test
+gflags_unittest2
+gflags_unittest3
+src/config.h
+src/stamp-h1
