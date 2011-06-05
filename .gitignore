@@ -13,3 +13,9 @@ Thumbs.db
 Build/*
 !Build/*.dll
 Obj
+*unittest
+*.lo
+.deps
+.libs
+*.la
+*.pc
