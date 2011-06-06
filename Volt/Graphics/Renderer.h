@@ -6,7 +6,7 @@
 
 namespace Volt {
 
-class Layer
+class Layer;
 
 /**
  *  Main rendering engine.

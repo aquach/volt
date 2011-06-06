@@ -5,8 +5,8 @@
 		MIN returns the smaller of the arguments.
 		MAX returns the larger of the arguments.
 */
-#define MIN(a, b) (((a) < (b)) ? (a) : (b)) 
-#define MAX(a, b) (((a) > (b)) ? (a) : (b)) 
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 /*	CLAMP
 		Combines min and max in one macro for convenience.
@@ -14,8 +14,8 @@
 #define CLAMP(a, min, max) MIN(MAX(a, max), min)
 
 /* SIGN
-		If value is larger than 0, return to. 
-		If value is smaller than 0, return -to. 
+		If value is larger than 0, return to.
+		If value is smaller than 0, return -to.
 		If value is 0, return 0.
 */
 #define SIGN(value, to) ((value < 0) ? -to : ((value > 0) ? to : 0))

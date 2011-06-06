@@ -4,23 +4,24 @@
 
 namespace Volt
 {
-	Random::Random () {
-		srand(static_cast<unsigned int>(time(NULL)));
-	}
 
-	void Random::Seed (unsigned int seed) {
-		srand(seed);
-	}
+Random::Random () {
+	srand(static_cast<unsigned int>(time(NULL)));
+}
 
-	int Random::Range (int start, int end) {
-		return start + (rand() % (end-start));
-	}
+void Random::Seed (unsigned int seed) {
+	srand(seed);
+}
 
-	float Random::Percent () {
-		return ((float) rand()) / (float) RAND_MAX;
-	}
+int Random::Range (int start, int end) {
+	return start + (rand() % (end - start));
+}
 
-	float Random::RangeFloat (float start, float end) {
-		return ((((float) rand()) / (float) RAND_MAX) * (end-start)) + start;
-	}
+float Random::Percent () {
+	return ((float) rand()) / (float) RAND_MAX;
+}
+
+float Random::RangeFloat (float start, float end) {
+	return ((((float) rand()) / (float) RAND_MAX) * (end - start)) + start;
+}
 }

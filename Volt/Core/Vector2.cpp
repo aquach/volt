@@ -30,20 +30,29 @@ void Vector2::Set (float x, float y)
 	this->x = x, this->y = y;
 }
 
+void Vector2::SetFromAngleDegrees (float angle) {
+	x = cos(angle * Volt::c_deg2rad);
+	y = sin(angle * Volt::c_deg2rad);
+}
+
 Vector2 Vector2::Random () {
-	float rad = (Random::Range (0,360)) * Volt::c_deg2rad;
+	float rad = (Random::Range(0, 360)) * Volt::c_deg2rad;
 	return Vector2(sin(rad), cos(rad));
 }
 
-float Vector2::LengthSquared () {
-	return pow(x, 2) + pow(y, 2);
+float Vector2::DistanceTo (const Vector2& other) const {
+	return (other - *this).Length();
 }
 
-float Vector2::Length () {
-	return sqrt(pow(x, 2) + pow(y, 2));
+float Vector2::LengthSquared () const {
+	return x * x + y * y;
 }
 
-Vector2 Vector2::GetNormalized () {
+float Vector2::Length () const {
+	return sqrt(x * x + y * y);
+}
+
+Vector2 Vector2::GetNormalized () const {
 	float mag = Length();
 	return Vector2(x / mag, y / mag);
 }
@@ -54,16 +63,16 @@ void Vector2::Normalize () {
 	y /= mag;
 }
 
-Vector2 Vector2::GetPerpendicularLeft () {
+Vector2 Vector2::GetPerpendicularLeft () const {
 	return Vector2(-y, x);
 }
 
-Vector2 Vector2::GetPerpendicularRight () {
+Vector2 Vector2::GetPerpendicularRight () const {
 	return Vector2(y, -x);
 }
 
 void Vector2::Clamp (float max) {
-	if ((pow(x, 2) + pow(y, 2)) > pow(max, 2))
+	if (x * x + y * y > max * max)
 	{
 		Normalize();
 		x *= max;
@@ -71,34 +80,31 @@ void Vector2::Clamp (float max) {
 	}
 }
 
-bool Vector2::IsInRange (float range) {
-	return ((pow(x, 2) + pow(y, 2)) <= pow(range, 2));
+bool Vector2::IsInRange (float range) const {
+	return (x * x + y * y) <= range * range;
 }
 
-float Vector2::Dot (Vector2 b) {
+float Vector2::Dot (const Vector2& b) const {
 	return (x * b.x + y * b.y);
 }
 
-float Vector2::Cross (Vector2 b) {
+float Vector2::Cross (const Vector2& b) const {
 	return (x * b.y - y * b.x);
 }
 
 Vector2 Vector2::Reflect (const Vector2& a, const Vector2& b) {
 	Vector2 newVec;
-	float dotProduct = -a.x*b.x - a.y*b.y;
+	float dotProduct = -a.Dot(b);
 	newVec.x = a.x + 2 * b.x * dotProduct;
 	newVec.y = a.y + 2 * b.y * dotProduct;
 	return newVec;
 }
 
-Vector2 Vector2::Reflect (const Vector2 &other) {
-	float dotProduct = -x*other.x - y*other.y;
-	x = x + 2 * other.x * dotProduct;
-	y = y + 2 * other.y * dotProduct;
-	return *this;
+Vector2 Vector2::Reflect (const Vector2& other) const {
+	return Vector2::Reflect(*this, other);
 }
 
-float Vector2::GetAngleRadians () {
+float Vector2::GetAngleRadians () const {
 	float angle = atan2(y, x);
 	if (angle < 0)
 	{
@@ -107,46 +113,43 @@ float Vector2::GetAngleRadians () {
 	return angle;
 }
 
-float Vector2::GetAngleDegrees () {
+float Vector2::GetAngleDegrees () const {
 	return GetAngleRadians() * Volt::c_rad2deg;
 }
 
-Vector2 Vector2::xx ()const {
+Vector2 Vector2::xx () const {
 	return Vector2(this->x, this->x);
 }
 
-Vector2 Vector2::yy ()const {
+Vector2 Vector2::yy () const {
 	return Vector2(this->y, this->y);
 }
 
-Vector2 Vector2::yx ()const {
+Vector2 Vector2::yx () const {
 	return Vector2(this->y, this->x);
 }
 
-float& Vector2::operator[]  (unsigned int i) {
-	switch(i)
-	{
-	case 0: return x;
-	case 1: return y;
-
-	default: return x;
+float& Vector2::operator[] (unsigned int i) {
+	switch(i) {
+		case 0: return x;
+		case 1: return y;
+		default: return x;
 	}
 }
 
-Vector2& Vector2::operator= (const Vector2& rhs) {
-	if (&rhs != this)
-	{
+Vector2& Vector2::operator= (const Vector2& rhs){
+	if (&rhs != this) {
 		x = rhs.x;
 		y = rhs.y;
 	}
 	return *this;
 }
 
-bool Vector2::operator== (const Vector2& rhs) {
+bool Vector2::operator== (const Vector2& rhs) const {
 	return ((x == rhs.x) && (y == rhs.y));
 }
 
-bool Vector2::operator!= (const Vector2& rhs) {
+bool Vector2::operator!= (const Vector2& rhs) const {
 	return ((x != rhs.x) || (y != rhs.y));
 }
 

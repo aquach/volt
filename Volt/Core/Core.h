@@ -10,7 +10,7 @@
 
 #include "Macros.h"
 #include "CoreBase.h"
-#include "Rect.h"
+#include "BBox.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Color.h"
