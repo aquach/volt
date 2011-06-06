@@ -27,8 +27,8 @@ public:
 	BBox Union (const BBox& other);
 	BBox Union (const Vector2& point);
 
-	bool IsInside (const Vector2& point);
-	void BoundingCircle (Vector2* point, float* radius);
+	bool IsInside (const Vector2& point) const;
+	void BoundingCircle (Vector2* point, float* radius) const;
 };
 
 }

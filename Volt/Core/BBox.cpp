@@ -22,12 +22,12 @@ BBox BBox::Union (const Vector2& point) {
     return ret;
 }
 
-bool BBox::IsInside (const Vector2& point) {
+bool BBox::IsInside (const Vector2& point) const {
     return (point.x >= min.x && point.x <= max.x) &&
            (point.y >= min.y && point.y < max.y);
 }
 
-void BBox::BoundingCircle (Vector2* point, float* radius) {
+void BBox::BoundingCircle (Vector2* point, float* radius) const {
     *point = 0.5f * min + 0.5f * max;
     *radius = point->DistanceTo(max);
 }

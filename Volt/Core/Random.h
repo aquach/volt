@@ -6,7 +6,7 @@ namespace Volt
 class Random
 {
 public:
-	Random ();
+	static void Seed ();
 	static void Seed (unsigned int seed);
 	static int Range (int start, int end);
 	static float Percent ();

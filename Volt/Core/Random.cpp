@@ -5,7 +5,7 @@
 namespace Volt
 {
 
-Random::Random () {
+void Random::Seed () {
 	srand(static_cast<unsigned int>(time(NULL)));
 }
 

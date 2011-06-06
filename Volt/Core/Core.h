@@ -16,6 +16,7 @@
 #include "Color.h"
 #include "Math.h"
 #include "Random.h"
+#include "Time.h"
 
 #include <glog/logging.h>
 
