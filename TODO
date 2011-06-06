@@ -1,1 +1,4 @@
 TODO LIST
+
+* Build on Windows.
+* Do not assume CWD = executable directory.

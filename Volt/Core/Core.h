@@ -3,6 +3,7 @@
 #include <ctime>
 #include <string>
 #include <vector>
+#include <list>
 #include <map>
 #include <utility>
 #include <cstdio>
@@ -15,5 +16,7 @@
 #include "Color.h"
 #include "Math.h"
 #include "Random.h"
+
+#include <glog/logging.h>
 
 using namespace std;

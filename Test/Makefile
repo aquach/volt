@@ -13,6 +13,7 @@ APP_SRCS = main.cpp
 
 INCLUDE_DIR = -I $(SRC_DIR)
 INCLUDE_DIR += -I ../
+INCLUDE_DIR += -I ../Volt
 INCLUDE_DIR += -I $(CONTRIB_DIR)/gflags-1.5/src
 INCLUDE_DIR += -I $(CONTRIB_DIR)/glog-0.3.1/src
 

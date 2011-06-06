@@ -1,13 +1,15 @@
-#include "Volt/Core/Vector2.h"
+#include "Volt/Core/Core.h"
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "Volt/Assets/DirectoryDataSource.h"
 
 int main (int argc, char** argv) {
 	google::InitGoogleLogging(argv[0]);
 	google::ParseCommandLineFlags(&argc, &argv, true);
 	FLAGS_logtostderr = true;
 
-	LOG(INFO) << "WASSUP";
+	Volt::DataSource* source = new Volt::DirectoryDataSource("../Data");
+	Volt::DataItem item;
+	bool loaded = source->LoadDataItem("item.txt", &item);
 
 	return 0;
 }
