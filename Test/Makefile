@@ -32,7 +32,7 @@ dirs: $(BIN_DIR) $(OBJ_DIR)
 $(BIN_DIR) $(OBJ_DIR):
 	@mkdir -p $@
 
-$(APP): $(APP_OBJS)
+$(APP): $(APP_OBJS) $(LIBVOLT)
 	$(CXX) $(CPPFLAGS) -o $(APP) $^ $(LIBVOLT) $(LIBS)
 
 $(APP_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
