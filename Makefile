@@ -16,6 +16,10 @@ CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 
 all: dirs test $(LIB)
 
+depends:
+	(cd Contrib/glog-0.3.1 && ./configure && make)
+	(cd Contrib/gflags-1.5 && ./configure && make)
+
 dirs: $(BIN_DIR) $(OBJ_DIR)
 
 $(BIN_DIR) $(OBJ_DIR):
@@ -37,7 +41,7 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 test : $(LIB)
 	cd $(TEST_DIR) && $(MAKE)
 
-.PHONY : all clean dirs
+.PHONY : all clean dirs depends
 
 clean:
 	rm -rf $(APP) Obj

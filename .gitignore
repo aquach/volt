@@ -1,4 +1,6 @@
 *.geany
+*~
+autom4te.cache
 *.exe
 *.ilk
 *.ncb
