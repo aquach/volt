@@ -5,8 +5,8 @@
 namespace Volt {
 
 class AssetManager;
-class Renderer;
 class Scene;
+class Window;
 
 /**
  *  Manages the entire game.
@@ -23,17 +23,20 @@ public:
     float dt () const { return m_dt; }
     float fps () const { return 1 / m_ticksPerFrame * 1000; }
 
-    Scene* GetScene () const;
-    //void SetScene (Scene* scene);
+    Scene* currentScene () const { return m_currentScene; }
+    void SetScene (Scene* scene);
+
+    void UpdateInput ();
 
 private:
     string m_name;
     bool m_willQuit;
 
-    list<Scene*> m_scenes;
+    Scene* m_currentScene;
+    Scene* m_switchToScene;
 
+    Window* m_window;
     AssetManager* m_assetManager;
-    Renderer* m_renderer;
     Time m_time;
 
     long m_lastTick;

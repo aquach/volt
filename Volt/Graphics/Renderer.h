@@ -13,12 +13,14 @@ class Layer;
  */
 class Renderer {
 public:
-    Renderer () { }
+    Renderer (int w, int h);
     ~Renderer () { }
 
     void Render ();
 
 private:
+    int m_width;
+    int m_height;
     list<Layer*> m_layers;
 
     DISALLOW_COPY_AND_ASSIGN(Renderer);
