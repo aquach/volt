@@ -51,6 +51,8 @@ clean:
 	rm -rf $(APP) Obj
 	cd $(TEST_DIR) && $(MAKE) clean
 
+# TODO: Fix this. It's not working because the directories aren't being
+# included in the generated dependencies.
 ifneq "$(MAKECMDGOALS)" "clean"
-	-include $(LIB_DEPS)
+-include $(LIB_DEPS)
 endif
