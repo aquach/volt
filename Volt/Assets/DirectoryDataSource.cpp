@@ -39,7 +39,9 @@ void DirectoryDataSource::WriteToPackFile (const string& packPath) {
     if (!out.is_open())
         return;
 
-    // TODO : Also rethink interface.
+    /* TODO : Also rethink interface. Should each data source (maybe more
+    than two) be able to write to the other ones and read in everything in a
+    common manner? Probably not. */
 }
 
 }

@@ -25,6 +25,14 @@ void Scene::Update () {
     ResolveEntityChanges();
 }
 
+void Scene::Add (Entity* entity) {
+    m_entitiesToAdd.push_back(entity);
+}
+
+void Scene::Remove (Entity* entity) {
+    m_entitiesToRemove.push_back(entity);
+}
+
 void Scene::ResolveEntityChanges () {
     for (list<Entity*>::iterator i = m_entitiesToRemove.begin();
          i != m_entitiesToRemove.end(); i++) {
