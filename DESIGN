@@ -1,0 +1,10 @@
+Design FAQ
+
+Why can an entity only have one collider?
+
+If it needs multiple colliders, one can subclass Collider to be an aggregate.
+
+Why does the Game logic need to know about layers?
+
+Layers potentially could be in the Graphics logic, but then switching Graphics
+on an Entity would change what layer it's in.
