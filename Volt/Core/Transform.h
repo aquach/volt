@@ -20,7 +20,7 @@ public:
 	void LerpTransform (Transform *prev, Transform *next, float percent);
 
 	/** Retrieves a direction vector based on the rotation value. */
-	Vector2 GetDirectionVector();
+	Vector2 GetDirectionVector() const;
 
 	Vector2 position;
 	float rotation;
