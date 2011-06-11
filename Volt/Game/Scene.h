@@ -21,6 +21,9 @@ public:
     virtual void OnBegin () { };
     virtual void OnEnd () { };
 
+    void Add (Entity* entity);
+    void Remove (Entity* entity);
+
 private:
     void ResolveEntityChanges ();
 
