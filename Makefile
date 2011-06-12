@@ -37,6 +37,8 @@ $(LIB): $(LIB_OBJS)
 $(LIB_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) -MM $(CPPFLAGS) $< > $@
+	# Because python is easier than shell seds.
+	@./fix_depends.py $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -51,8 +53,6 @@ clean:
 	rm -rf $(APP) Obj
 	cd $(TEST_DIR) && $(MAKE) clean
 
-# TODO: Fix this. It's not working because the directories aren't being
-# included in the generated dependencies.
 ifneq "$(MAKECMDGOALS)" "clean"
 -include $(LIB_DEPS)
 endif
