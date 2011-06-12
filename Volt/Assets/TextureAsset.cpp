@@ -7,6 +7,10 @@
 
 namespace Volt {
 
+TextureAsset::~TextureAsset () {
+    Unload();
+}
+
 bool TextureAsset::Load (const DataItem& item, FilterType filterType,
                          bool repeatX, bool repeatY) {
     SDL_RWops* rw = SDL_RWFromMem(item.data, item.size);

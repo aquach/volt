@@ -16,7 +16,7 @@ public:
     };
 
     TextureAsset () { }
-    ~TextureAsset () { }
+    ~TextureAsset ();
 
     bool Load (const DataItem& item, FilterType filterType, bool repeatX,
                bool repeatY);

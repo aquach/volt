@@ -15,6 +15,7 @@ LIB_DEPS = $(patsubst %.cpp,$(OBJ_DIR)/%.d,$(LIB_SRCS))
 INCLUDE_DIR = -I $(SRC_DIR)
 INCLUDE_DIR += -I $(CONTRIB_DIR)/gflags-1.5/src
 INCLUDE_DIR += -I $(CONTRIB_DIR)/glog-0.3.1/src
+INCLUDE_DIR += -I $(CONTRIB_DIR)
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 
@@ -34,10 +35,10 @@ lib : $(LIB)
 $(LIB): $(LIB_OBJS)
 	ar rcs $@ $^
 
+# Because python is easier than shell seds.
 $(LIB_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) -MM $(CPPFLAGS) $< > $@
-	# Because python is easier than shell seds.
 	@./fix_depends.py $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
