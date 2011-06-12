@@ -8,6 +8,20 @@ Scene::Scene ()
     : m_isPaused(false) {
 }
 
+Scene::~Scene () {
+    RemoveAll();
+    ResolveEntityChanges();
+}
+
+void Scene::RemoveAll () {
+    for (Layers::iterator layer = m_layers.begin();
+         layer != m_layers.end();
+         layer++) {
+        list<Entity*>& entityList = layer->second;
+        copy(entityList.begin(), entityList.end(), m_entitiesToRemove.begin());
+    }
+}
+
 void Scene::Update () {
     if (!m_isPaused) {
         for (Layers::iterator layer = m_layers.begin();

@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Core/Core.h"
+#include "Camera.h"
 
 namespace Volt {
 
 class Entity;
+class Game;
 
 /**
  *  A scene of the game. Scenes can be startup screens, level screens, gameplay,
@@ -13,7 +15,7 @@ class Entity;
 class Scene {
 public:
     Scene ();
-    virtual ~Scene () { }
+    virtual ~Scene ();
 
     virtual void Render ();
     virtual void Update ();
@@ -25,9 +27,14 @@ public:
     void Remove (Entity* entity);
 
 private:
+    friend class Game;
+
     void ResolveEntityChanges ();
+    void RemoveAll ();
 
     bool m_isPaused;
+    Game* m_game;
+    Camera m_camera;
 
     typedef map<int, list<Entity* > > Layers;
     Layers m_layers;

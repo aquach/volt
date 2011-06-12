@@ -71,8 +71,11 @@ void Game::Run () {
         if (m_switchToScene != NULL) {
             Scene* oldScene = m_currentScene;
             oldScene->OnEnd();
+            oldScene->m_game = NULL;
+
             m_currentScene = m_switchToScene;
             m_switchToScene = NULL;
+            m_currentScene->m_game = this;
             m_currentScene->OnBegin();
         }
 
@@ -87,6 +90,7 @@ void Game::SetScene (Scene* scene) {
         m_switchToScene = scene;
     } else {
         m_currentScene = scene;
+        m_currentScene->m_game = this;
         m_currentScene->OnBegin();
     }
 }
