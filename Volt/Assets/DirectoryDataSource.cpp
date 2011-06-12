@@ -11,7 +11,7 @@ DirectoryDataSource::~DirectoryDataSource () {
 }
 
 bool DirectoryDataSource::LoadDataItem (const string& itemPath,
-                                        DataItem* item) {
+                                        DataItem* item) const {
     CHECK_NOTNULL(item);
 
     string path = sourcePath() + "/" + itemPath;

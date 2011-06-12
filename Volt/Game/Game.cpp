@@ -1,5 +1,7 @@
 #include "Game.h"
 #include <SDL/SDL.h>
+#include "Assets/AssetManager.h"
+#include "Assets/DataSource.h"
 #include "Graphics/Window.h"
 #include "Scene.h"
 
@@ -7,18 +9,21 @@
 
 namespace Volt {
 
-Game::Game (const string& name, int w, int h, bool fullscreen)
+Game::Game (const string& name, const DataSource* source, int w, int h,
+            bool fullscreen)
     : m_name(name),
       m_willQuit(false),
       m_ticksPerFrame(0),
       m_lastTick(0),
       m_window(NULL),
       m_currentScene(NULL),
-      m_switchToScene(NULL) {
+      m_switchToScene(NULL),
+      m_assetManager(NULL) {
 
     Random::Seed();
 
     m_window = new Window(name, w, h, fullscreen);
+    m_assetManager = new AssetManager(source);
 }
 
 void Game::UpdateInput () { // TODO: move to Window?

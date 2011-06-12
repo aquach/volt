@@ -34,7 +34,8 @@ public:
     DataSource (const string& sourcePath) : m_sourcePath(sourcePath) { }
     virtual ~DataSource () { }
 
-    virtual bool LoadDataItem (const string& itemPath, DataItem* item) = 0;
+    virtual bool LoadDataItem (const string& itemPath,
+                               DataItem* item) const = 0;
 
     string sourcePath () const { return m_sourcePath; }
 

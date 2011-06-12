@@ -11,7 +11,7 @@ class DataSource;
 /* Manages all assets, including asset loading/reloading. */
 class AssetManager {
 public:
-    AssetManager (DataSource* source);
+    AssetManager (const DataSource* source);
     ~AssetManager ();
 
     AssetRef<TextureAsset> RequestTexture (
@@ -22,10 +22,10 @@ public:
     void GarbageCollect ();
 
     void ReloadAll ();
-    void ReloadPath (Asset* asset, DataItem* item);
+    void ReloadPath (const Asset* asset, DataItem* item);
 
 private:
-    DataSource* m_dataSource;
+    const DataSource* m_dataSource;
     typedef map<string, Asset*> Assets;
     Assets m_assets;
 

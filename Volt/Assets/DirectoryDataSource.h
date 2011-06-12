@@ -13,7 +13,7 @@ public:
     DirectoryDataSource (const string& sourcePath);
     virtual ~DirectoryDataSource ();
 
-    virtual bool LoadDataItem (const string& itemPath, DataItem* item);
+    virtual bool LoadDataItem (const string& itemPath, DataItem* item) const;
 
     void WriteToPackFile (const string& packPath);
 };

@@ -4,7 +4,7 @@
 
 namespace Volt {
 
-AssetManager::AssetManager (DataSource* source)
+AssetManager::AssetManager (const DataSource* source)
     : m_dataSource(source) {
 }
 
@@ -19,7 +19,7 @@ void AssetManager::ReloadAll () {
         i->second->Reload();
 }
 
-void AssetManager::ReloadPath (Asset* asset, DataItem* item) {
+void AssetManager::ReloadPath (const Asset* asset, DataItem* item) {
     m_dataSource->LoadDataItem(asset->path(), item);
 }
 
