@@ -21,10 +21,10 @@
 namespace Volt
 {
 
-FontAsset::FontAsset ()
+FontAsset::FontAsset (int textureWidth, int textureHeight)
     : m_fontCData(NULL),
-      m_textureWidth(1024),
-      m_textureHeight(1024),
+      m_textureWidth(textureWidth),
+      m_textureHeight(textureHeight),
       m_texID(0),
       m_size(0) {
 }
@@ -33,15 +33,7 @@ FontAsset::~FontAsset () {
     Unload();
 }
 
-bool FontAsset::Load (const DataItem& item, float size, int textureWidth,
-		      int textureHeight) {
-    CHECK_EQ(item.size, 1 << 20);
-
-    if (textureWidth != -1)
-	m_textureWidth = textureWidth;
-    if (textureHeight != -1)
-	m_textureHeight = textureHeight;
-
+bool FontAsset::Load (const DataItem& item, float size) {
     m_size = size;
 
     m_fontCData = new stbtt_bakedchar[96];
@@ -124,7 +116,7 @@ void FontAsset::GetGlyphData (char c, float* x, float* y, BBox& verts,
 		       x,
 		       y, // Pointer to x and y position in screen pixel space.
 		       &q, // Otuput quad to draw.
-		       1 // OpenGL Mode
+		       1 // OpenGL Mode.
 		       );
 
     verts.min.x = q.x0;

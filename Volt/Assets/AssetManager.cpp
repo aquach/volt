@@ -23,20 +23,55 @@ void AssetManager::ReloadPath (const Asset* asset, DataItem* item) {
     m_dataSource->LoadDataItem(asset->path(), item);
 }
 
+AssetRef<FontAsset> AssetManager::RequestFont (
+    const string& path, float size, int textureWidth, int textureHeight) {
+
+    AssetRef<FontAsset> asset = GetAssetByName<FontAsset>(path);
+    if (asset.HasAsset())
+        return asset;
+
+    DataItem item;
+    if (!m_dataSource->LoadDataItem(path, &item)) {
+        LOG(WARNING) << "Failed to load data item " << path;
+        return NULL;
+    }
+
+    FontAsset* font = new FontAsset(textureWidth, textureHeight);
+    font->m_manager = this;
+    if (!font->Load(item, size)) {
+        LOG(WARNING) << "Failed to load font " << path;
+        delete font;
+        return NULL;
+    }
+
+    m_assets[path] = font;
+
+    return AssetRef<FontAsset>(font);
+}
+
+template <class T> AssetRef<T> AssetManager::GetAssetByName (
+    const string& path) {
+    Assets::iterator iter = m_assets.find(path);
+    if (iter != m_assets.end()) {
+        Asset* asset = iter->second;
+        T* specialAsset = dynamic_cast<T*>(asset);
+        if (specialAsset == NULL) {
+            LOG(WARNING) << "Requested path " << path << " was not "
+                         << "the type expected.";
+            return NULL;
+        }
+        return AssetRef<T>(specialAsset);
+    }
+    return NULL;
+}
+
 AssetRef<TextureAsset> AssetManager::RequestTexture (
     const string& path, TextureAsset::FilterType type, bool repeatX,
     bool repeatY) {
 
-    Assets::iterator iter = m_assets.find(path);
-    if (iter != m_assets.end()) {
-        Asset* asset = iter->second;
-        TextureAsset* tex = dynamic_cast<TextureAsset*>(asset);
-        if (tex == NULL) {
-            LOG(WARNING) << "Requested path " << path << " was not a texture.";
-            return NULL;
-        }
-        return AssetRef<TextureAsset>(tex);
-    }
+    AssetRef<TextureAsset> asset = GetAssetByName<TextureAsset>(path);
+    if (asset.HasAsset())
+        return asset;
 
     DataItem item;
     if (!m_dataSource->LoadDataItem(path, &item)) {

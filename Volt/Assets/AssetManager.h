@@ -2,6 +2,7 @@
 
 #include "Core/Core.h"
 #include "AssetRef.h"
+#include "FontAsset.h"
 #include "TextureAsset.h"
 
 namespace Volt {
@@ -18,6 +19,9 @@ public:
         const string& path,
         TextureAsset::FilterType type = TextureAsset::e_filterTypeLinear,
         bool repeatX = true, bool repeatY = true);
+    AssetRef<FontAsset> RequestFont (
+        const string& path, float size, int textureWidth = 1024,
+        int textureHeight = 1024);
 
     void GarbageCollect ();
 
@@ -25,6 +29,8 @@ public:
     void ReloadPath (const Asset* asset, DataItem* item);
 
 private:
+    template <class T> AssetRef<T> GetAssetByName (const string& path);
+
     const DataSource* m_dataSource;
     typedef map<string, Asset*> Assets;
     Assets m_assets;

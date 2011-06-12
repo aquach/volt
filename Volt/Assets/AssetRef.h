@@ -12,7 +12,6 @@ public:
             m_asset->AddReference();
     }
     AssetRef (const AssetRef& other) {
-        LOG(INFO) << "COPY";
         m_asset = other.m_asset;
         if (m_asset)
             m_asset->AddReference();
@@ -25,7 +24,6 @@ public:
     bool HasAsset () const { return m_asset != NULL; }
 
     AssetRef& operator=(const AssetRef& other) {
-        LOG(INFO) << "=";
         if (this != &other) {
             Free();
             m_asset = other.m_asset;

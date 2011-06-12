@@ -10,12 +10,11 @@ class DataItem;
 
 class FontAsset : public Asset {
 public:
-    FontAsset ();
+    FontAsset (int textureWidth, int textureHeight);
     ~FontAsset ();
 
     // TODO: What happens if you load same filename with two sizes?
-    bool Load (const DataItem& item, float size,
-	       int textureWidth = -1, int textureHeight = -1);
+    bool Load (const DataItem& item, float size);
 
     void Reload ();
     void Unload ();
