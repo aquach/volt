@@ -12,15 +12,15 @@ class Asset;
 struct DataItem {
 public:
     DataItem () : size(0), data(NULL) { }
+    ~DataItem () {
+        delete[] data;
+        data = NULL;
+    }
 
     int size;
     char* data;
     string path;
-
-    void Unload () {
-        delete data;
-        data = NULL;
-    }
+    string fullpath;
 
 private:
     DISALLOW_COPY_AND_ASSIGN(DataItem);
@@ -36,7 +36,7 @@ public:
 
     virtual bool LoadDataItem (const string& itemPath, DataItem* item) = 0;
 
-    string SourcePath () { return m_sourcePath; }
+    string sourcePath () const { return m_sourcePath; }
 
 private:
     string m_sourcePath;

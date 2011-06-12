@@ -14,10 +14,12 @@ bool DirectoryDataSource::LoadDataItem (const string& itemPath,
                                         DataItem* item) {
     CHECK_NOTNULL(item);
 
-    string path = SourcePath() + "/" + itemPath;
+    string path = sourcePath() + "/" + itemPath;
     ifstream file(path.c_str());
-    if (!file.is_open())
+    if (!file.is_open()) {
+        LOG(WARNING) << "Path doesn't exist: " << path;
         return false;
+    }
 
     file.seekg(0, ios::end);
     int size = file.tellg();
@@ -28,13 +30,14 @@ bool DirectoryDataSource::LoadDataItem (const string& itemPath,
 
     item->size = size;
     item->data = data;
-    item->path = path;
+    item->fullpath = path;
+    item->path = itemPath;
 
     return true;
 }
 
 void DirectoryDataSource::WriteToPackFile (const string& packPath) {
-    string path = SourcePath() + "/" + packPath;
+    string path = sourcePath() + "/" + packPath;
     ofstream out(path.c_str());
     if (!out.is_open())
         return;
