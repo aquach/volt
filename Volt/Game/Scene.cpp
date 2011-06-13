@@ -98,6 +98,7 @@ void Scene::ResolveEntityChanges () {
 
 void Scene::Render () {
     // Setup window perspective.
+    Graphics::Clear();
     m_camera.ApplyMatrix();
 
     for (Layers::iterator layer = m_layers.begin(); layer != m_layers.end();

@@ -15,6 +15,10 @@ Graphics::Graphics (Window* window) {
 	m_window = window;
 }
 
+void Graphics::Clear () {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void Graphics::Init () {
 	/*
 	if (GLEW_OK != glewInit()) {

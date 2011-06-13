@@ -17,6 +17,8 @@ public:
 	BLEND_MULTIPLY,
     };
 
+    static void Clear ();
+
     static void Set2D (int virtualWidth, int virtualHeight);
     static const Vector2& GetResolutionScale ();
 

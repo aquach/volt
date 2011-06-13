@@ -30,7 +30,8 @@ public:
 
     void UpdateInput ();
 
-    AssetManager* assetManager() { return m_assetManager; } // TODO: HACK
+    static void Register (Game* game) { instance = game; }
+    static Game* Instance () { return instance; }
 
 private:
     string m_name;
@@ -48,7 +49,11 @@ private:
     float m_ticksPerFrame;
     float m_dt;
 
+    static Game* instance;
+
     DISALLOW_COPY_AND_ASSIGN(Game);
 };
+
+#define G_Game Game::Instance()
 
 }

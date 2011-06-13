@@ -8,3 +8,10 @@ Why does the Game logic need to know about layers?
 
 Layers potentially could be in the Graphics logic, but then switching Graphics
 on an Entity would change what layer it's in.
+
+How do you handle globals like the AssetManager and the Game?
+
+These are regular classes, but have Register and Instance functions that
+register instances as being the global instance. A helper macro G_Game is
+defined to refer to the global instance. Graphics is still uncertain because
+the interface is still under consideration.

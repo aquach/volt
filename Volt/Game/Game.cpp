@@ -10,6 +10,8 @@
 
 namespace Volt {
 
+Game* Game::instance = NULL;
+
 Game::Game (const string& name, const DataSource* source, int w, int h,
             bool fullscreen)
     : m_name(name),
@@ -28,6 +30,7 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     m_graphics->Set2D(w, h);
     m_assetManager = new AssetManager(source);
     AssetManager::Register(m_assetManager);
+    Game::Register(this);
 }
 
 Game::~Game () {
