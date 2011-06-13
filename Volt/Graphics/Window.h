@@ -4,8 +4,6 @@
 
 namespace Volt {
 
-class SDL_Surface;
-
 /**
  *  Manages the graphics window.
  */
@@ -16,8 +14,10 @@ public:
 
     void Close ();
 
+    void Screenshot (const string& filename);
+
 private:
-    SDL_Surface* m_screen;
+    void* m_screen;
     DISALLOW_COPY_AND_ASSIGN(Window);
 };
 

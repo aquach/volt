@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <SDL/SDL.h>
+#include <GL/gl.h>
 
 namespace Volt {
 
@@ -21,7 +22,7 @@ Window::Window (const string& name, int w, int h, bool fullscreen)
     SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 
     int flags = SDL_SWSURFACE | SDL_OPENGL | (fullscreen ? SDL_FULLSCREEN : 0);
-    SDL_Surface* screen = (SDL_Surface*)SDL_SetVideoMode(w, h, 0, flags);
+    SDL_Surface* screen = SDL_SetVideoMode(w, h, 0, flags);
     if (screen == NULL) {
         LOG(FATAL) << "Unable to set video mode: " << SDL_GetError();
         exit(1);
@@ -34,6 +35,43 @@ Window::Window (const string& name, int w, int h, bool fullscreen)
 
 void Window::Close () {
     SDL_Quit();
+}
+
+void Window::Screenshot (const string& filename) {
+    SDL_Surface* screen = (SDL_Surface*)m_screen;
+
+    SDL_Surface* temp = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                             screen->w, screen->h, 24,
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+    0x000000FF, 0x0000FF00, 0x00FF0000, 0
+#else
+    0x00FF0000, 0x0000FF00, 0x000000FF, 0
+#endif
+    );
+
+    if (temp == NULL)
+        return;
+
+    unsigned char* pixels = (unsigned char*)malloc(3 * screen->w * screen->h);
+
+    if (pixels == NULL) {
+        SDL_FreeSurface(temp);
+        return;
+    }
+
+    glReadPixels(0, 0, screen->w, screen->h,
+                 GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+    for (int i = 0; i < screen->h; i++)
+        memcpy(((char *)temp->pixels) + temp->pitch * i,
+               pixels + 3 * screen->w * (screen->h - i - 1),
+               screen->w * 3);
+    free(pixels);
+
+    SDL_SaveBMP(temp, filename.c_str());
+    SDL_FreeSurface(temp);
+
+    return;
 }
 
 }
