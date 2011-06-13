@@ -32,10 +32,9 @@ public:
     int glID () const { return m_texID; }
 
     virtual string assetKey () const {
-        string key = path();
-        key += "-";
-        key += m_size;
-        return key;
+        char buffer[512];
+        sprintf(buffer, "%s-%.3f", path().c_str(), m_size);
+        return buffer;
     }
 
 private:

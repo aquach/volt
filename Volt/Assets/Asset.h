@@ -15,7 +15,7 @@ public:
     virtual ~Asset () { }
 
     void AddReference () { m_refCount++; }
-    void RemoveReference () { m_refCount--; }
+    void RemoveReference () { m_refCount--; DCHECK_GE(m_refCount, 0); }
     int referenceCount () const { return m_refCount; }
 
     string path () const { return m_path; }

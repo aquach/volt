@@ -2,6 +2,7 @@
 #include <SDL/SDL.h>
 #include "Assets/AssetManager.h"
 #include "Assets/DataSource.h"
+#include "Graphics/Graphics.h"
 #include "Graphics/Window.h"
 #include "Scene.h"
 
@@ -23,6 +24,8 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     Random::Seed();
 
     m_window = new Window(name, w, h, fullscreen);
+    m_graphics = new Graphics(m_window);
+    m_graphics->Set2D(w, h);
     m_assetManager = new AssetManager(source);
 }
 
@@ -59,6 +62,7 @@ void Game::UpdateInput () { // TODO: move to Window?
 
 void Game::Run () {
     m_time.Start();
+    m_graphics->Init();
 
     m_lastTick = m_time.GetMilliseconds();
 

@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include <algorithm>
 #include "Entity.h"
+#include "Graphics/Graphics.h"
 
 namespace Volt {
 
@@ -18,7 +19,8 @@ void Scene::RemoveAll () {
          layer != m_layers.end();
          layer++) {
         list<Entity*>& entityList = layer->second;
-        copy(entityList.begin(), entityList.end(), m_entitiesToRemove.begin());
+        m_entitiesToRemove.insert(m_entitiesToRemove.end(),
+                                  entityList.begin(), entityList.end());
     }
 }
 
@@ -95,7 +97,8 @@ void Scene::ResolveEntityChanges () {
 }
 
 void Scene::Render () {
-    // Setup window perspective stuff.
+    // Setup window perspective.
+    m_camera.ApplyMatrix();
 
     for (Layers::iterator layer = m_layers.begin(); layer != m_layers.end();
          layer++) {
@@ -106,6 +109,8 @@ void Scene::Render () {
             (*i)->Render();
         }
     }
+
+    Graphics::ShowBuffer();
 }
 
 }

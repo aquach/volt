@@ -128,7 +128,7 @@ void Graphics::RenderLine (const Vector2& pos1, const Vector2& pos2) {
 		glVertex3f(pos2.x, pos2.y, 0.0f);
 	glEnd();
 }
-
+*/
 void Graphics::RenderLineRect (float x, float y, float w, float h)
 {
 	float hw = w*0.5f;
@@ -148,25 +148,12 @@ void Graphics::RenderLineRect (float x, float y, float w, float h)
 		glVertex3f(x-hw, y-hh, 0.0f);
 	glEnd();
 }
-*/
 
-int Graphics::GetVirtualWidth()
-{
-	return instance->virtualWidth;
-}
-
-int Graphics::GetVirtualHeight()
-{
-	return instance->virtualHeight;
-}
-
-Vector2 Graphics::GetScreenCenter()
-{
+Vector2 Graphics::GetScreenCenter() {
 	return instance->screenCenter;
 }
 
-void Graphics::RenderQuadCustom(const Vector2 &ul, const Vector2 &ur, const Vector2 &lr, const Vector2 &ll, const Vector2 &textureOffset, const Vector2 &textureScale)
-{
+void Graphics::RenderQuadCustom(const Vector2 &ul, const Vector2 &ur, const Vector2 &lr, const Vector2 &ll, const Vector2 &textureOffset, const Vector2 &textureScale) {
 	glBegin(GL_QUADS);
 		// UL
 		glTexCoord2f(textureOffset.x, textureOffset.y);
@@ -212,6 +199,7 @@ void Graphics::RenderQuad(float width, float height, const Vector2 &textureOffse
 
 void Graphics::RenderText (FontAssetRef font, const string& text,
 						   float x, float y) {
+	BindFont(font);
 	BBox verts, texCoords;
 	glBegin(GL_QUADS);
 	for (unsigned int i = 0; i < text.size(); i++)

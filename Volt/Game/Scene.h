@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
-#include "Camera.h"
+#include "Graphics/Camera.h"
 
 namespace Volt {
 

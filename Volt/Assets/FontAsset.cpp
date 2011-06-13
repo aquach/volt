@@ -8,6 +8,8 @@
 #include <stb/stb_truetype.h>
 #pragma GCC diagnostic warning "-Wwrite-strings"
 
+#define NUM_CHARACTERS 96
+
 namespace Volt {
 
 FontAsset::FontAsset (int textureWidth, int textureHeight)
@@ -24,8 +26,9 @@ FontAsset::~FontAsset () {
 
 bool FontAsset::Load (const DataItem& item, float size) {
     m_size = size;
+    m_path = item.path;
 
-    m_fontCData = new stbtt_bakedchar[96];
+    m_fontCData = new stbtt_bakedchar[NUM_CHARACTERS];
 
     unsigned char* tempBitmap = new unsigned char[
 	m_textureWidth * m_textureHeight];
@@ -37,10 +40,10 @@ bool FontAsset::Load (const DataItem& item, float size) {
 				      m_textureWidth,
 				      m_textureHeight,
 				      32, // Starting character.
-				      96, // Number of characters.
+				      NUM_CHARACTERS,
 				      (stbtt_bakedchar*)m_fontCData);
     if (result <= 0) {
-	LOG(WARNING) << "Could only fit " << -result << "/" << 96
+	LOG(WARNING) << "Could only fit " << -result << "/" << NUM_CHARACTERS
 		     << " characters into bitmap.";
     }
 

@@ -23,7 +23,7 @@ public:
 
     bool HasAsset () const { return m_asset != NULL; }
 
-    AssetRef& operator=(const AssetRef& other) {
+    AssetRef& operator= (const AssetRef& other) {
         if (this != &other) {
             Free();
             m_asset = other.m_asset;

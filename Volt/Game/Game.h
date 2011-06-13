@@ -6,6 +6,7 @@ namespace Volt {
 
 class AssetManager;
 class DataSource;
+class Graphics;
 class Scene;
 class Window;
 
@@ -38,6 +39,7 @@ private:
     Scene* m_currentScene;
     Scene* m_switchToScene;
 
+    Graphics* m_graphics;
     Window* m_window;
     AssetManager* m_assetManager;
     Time m_time;

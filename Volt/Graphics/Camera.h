@@ -4,18 +4,21 @@
 
 namespace Volt {
 
-/**
- *  A camera in 2D space.
- */
+/* Manages where the camera is looking in the world. */
 class Camera {
 public:
-    Camera () { }
-    ~Camera () { }
+    Camera ();
 
-    float* GetViewTransform ();
+    void ApplyMatrix () const;
+
+    void SetLayers (int backLayer, int frontLayer);
+    int backLayer () const { return m_backLayer; }
+    int frontLayer () const { return m_frontLayer; }
+
+    Transform transform;
 private:
-    C2Vector position;
-    float scale;
+    int m_backLayer;
+    int m_frontLayer;
 };
 
 }
