@@ -21,7 +21,7 @@ public:
     bool Load (const DataItem& item, FilterType filterType, bool repeatX,
                bool repeatY);
 
-    int glId() const { return m_texId; }
+    int glID() const { return m_texId; }
     int width () const { return m_width; }
     int height () const { return m_height; }
 

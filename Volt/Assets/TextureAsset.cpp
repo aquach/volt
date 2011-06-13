@@ -26,11 +26,18 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
     SDL_Surface* newSurface;
     bool hasAlpha = (tex->format->BytesPerPixel == 4);
     if (hasAlpha) {
-        newSurface = SDL_CreateRGBSurface(0, w, h, 32, 0xff000000, 0x00ff0000,
-                                          0x0000ff00, 0x000000ff);
+        newSurface = SDL_CreateRGBSurface(0, w, h, 32,
+                                          0x000000ff,
+                                          0x0000ff00,
+                                          0x00ff0000,
+                                          0xff000000);
+        SDL_SetAlpha(tex, 0, 0);
     } else {
-        newSurface = SDL_CreateRGBSurface(0, w, h, 24, 0xff000000, 0x00ff0000,
-                                          0x0000ff00, 0);
+        newSurface = SDL_CreateRGBSurface(0, w, h, 24,
+                                          0xff000000,
+                                          0x0000ff00,
+                                          0x00ff0000,
+                                          0);
     }
     SDL_BlitSurface(tex, 0, newSurface, 0);
 
@@ -55,8 +62,8 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
                      GL_UNSIGNED_BYTE, newSurface->pixels);
     } else {
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE,
-                     newSurface->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB,
+                     GL_UNSIGNED_BYTE, newSurface->pixels);
     }
 
     m_path = item.path;
