@@ -4,7 +4,9 @@
 #include "Assets/DataSource.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
+#pragma GCC diagnostic ignored "-Wwrite-strings"
 #include <stb/stb_truetype.h>
+#pragma GCC diagnostic warning "-Wwrite-strings"
 
 namespace Volt {
 
