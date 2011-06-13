@@ -31,6 +31,13 @@ public:
 
     int glID () const { return m_texID; }
 
+    virtual string assetKey () const {
+        string key = path();
+        key += "-";
+        key += m_size;
+        return key;
+    }
+
 private:
     void* m_fontCData;
     int m_texID;

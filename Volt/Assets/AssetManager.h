@@ -32,7 +32,7 @@ public:
     void ReloadPath (const Asset* asset, DataItem* item);
 
 private:
-    template <class T> AssetRef<T> GetAssetByName (const string& path);
+    template <class T> AssetRef<T> GetAssetByKey (const string& path);
 
     const DataSource* m_dataSource;
     typedef map<string, Asset*> Assets;

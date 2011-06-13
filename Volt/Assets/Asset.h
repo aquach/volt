@@ -25,6 +25,11 @@ public:
 
     AssetManager* manager () { return m_manager; }
 
+    /** Key that AssetManager uses to differentiate assets. Defaults to just
+     *  the path, but child classes can override to add other keys like font
+     *  size. */
+    virtual string assetKey () const { return m_path; }
+
 protected:
     string m_path;
     AssetManager* m_manager;

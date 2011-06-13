@@ -26,7 +26,7 @@ void AssetManager::ReloadPath (const Asset* asset, DataItem* item) {
 FontAssetRef AssetManager::GetFont (
     const string& path, float size, int textureWidth, int textureHeight) {
 
-    FontAssetRef asset = GetAssetByName<FontAsset>(path);
+    FontAssetRef asset = GetAssetByKey<FontAsset>(path);
     if (asset.HasAsset())
         return asset;
 
@@ -44,12 +44,12 @@ FontAssetRef AssetManager::GetFont (
         return NULL;
     }
 
-    m_assets[path] = font;
+    m_assets[font->assetKey()] = font;
 
     return FontAssetRef(font);
 }
 
-template <class T> AssetRef<T> AssetManager::GetAssetByName (
+template <class T> AssetRef<T> AssetManager::GetAssetByKey (
     const string& path) {
     Assets::iterator iter = m_assets.find(path);
     if (iter != m_assets.end()) {
@@ -69,7 +69,7 @@ TextureAssetRef AssetManager::GetTexture (
     const string& path, TextureAsset::FilterType type, bool repeatX,
     bool repeatY) {
 
-    TextureAssetRef asset = GetAssetByName<TextureAsset>(path);
+    TextureAssetRef asset = GetAssetByKey<TextureAsset>(path);
     if (asset.HasAsset())
         return asset;
 
@@ -87,7 +87,7 @@ TextureAssetRef AssetManager::GetTexture (
         return NULL;
     }
 
-    m_assets[path] = texture;
+    m_assets[texture->assetKey()] = texture;
 
     return TextureAssetRef(texture);
 }
