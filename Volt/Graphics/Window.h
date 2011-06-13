@@ -16,6 +16,9 @@ public:
 
     void Screenshot (const string& filename);
 
+    int width () const;
+    int height () const;
+
 private:
     void* m_screen;
     DISALLOW_COPY_AND_ASSIGN(Window);

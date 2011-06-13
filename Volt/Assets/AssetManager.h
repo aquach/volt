@@ -20,7 +20,7 @@ public:
 
     TextureAssetRef GetTexture (
         const string& path,
-        TextureAsset::FilterType type = TextureAsset::e_filterTypeLinear,
+        TextureAsset::FilterType type = TextureAsset::FILTER_LINEAR,
         bool repeatX = true, bool repeatY = true);
     FontAssetRef GetFont (
         const string& path, float size, int textureWidth = 1024,

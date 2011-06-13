@@ -4,7 +4,7 @@
 namespace Volt
 {
 
-BBox BBox::Union (const BBox& other) {
+BBox BBox::Union (const BBox& other) const {
     BBox ret;
     ret.min.x = MIN(other.min.x, min.x);
     ret.min.y = MIN(other.min.y, min.y);
@@ -13,7 +13,7 @@ BBox BBox::Union (const BBox& other) {
     return ret;
 }
 
-BBox BBox::Union (const Vector2& point) {
+BBox BBox::Union (const Vector2& point) const {
     BBox ret;
     ret.min.x = MIN(min.x, point.x);
     ret.min.y = MIN(min.y, point.y);
@@ -30,6 +30,13 @@ bool BBox::IsInside (const Vector2& point) const {
 void BBox::BoundingCircle (Vector2* point, float* radius) const {
     *point = 0.5f * min + 0.5f * max;
     *radius = point->DistanceTo(max);
+}
+
+BBox BBox::Expand (float margin) const {
+    return BBox(
+        Vector2(min.x - margin, min.y - margin),
+        Vector2(max.x + margin, max.y + margin)
+    );
 }
 
 }

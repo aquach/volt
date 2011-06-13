@@ -24,11 +24,13 @@ public:
 		  max(other.max) {
 	}
 
-	BBox Union (const BBox& other);
-	BBox Union (const Vector2& point);
+	BBox Union (const BBox& other) const;
+	BBox Union (const Vector2& point) const;
 
 	bool IsInside (const Vector2& point) const;
 	void BoundingCircle (Vector2* point, float* radius) const;
+
+	BBox Expand (float margin) const;
 };
 
 }

@@ -11,8 +11,8 @@ class DataItem;
 class TextureAsset : public Asset {
 public:
     enum FilterType {
-        e_filterTypeNone,
-        e_filterTypeLinear
+        FILTER_NONE,
+        FILTER_LINEAR
     };
 
     TextureAsset () { }

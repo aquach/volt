@@ -46,9 +46,9 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
     glBindTexture(GL_TEXTURE_2D, glTexture);
 
     int filterTypeParam;
-    if (filterType == e_filterTypeLinear)
+    if (filterType == FILTER_LINEAR)
         filterTypeParam = GL_LINEAR;
-    else if (filterType == e_filterTypeNone)
+    else if (filterType == FILTER_NONE)
         filterTypeParam = GL_NEAREST;
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterTypeParam);

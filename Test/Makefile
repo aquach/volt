@@ -16,6 +16,8 @@ INCLUDE_DIR += -I ../
 INCLUDE_DIR += -I ../Volt
 INCLUDE_DIR += -I $(CONTRIB_DIR)/gflags-1.5/src
 INCLUDE_DIR += -I $(CONTRIB_DIR)/glog-0.3.1/src
+INCLUDE_DIR += -I $(CONTRIB_DIR)/gl
+INCLUDE_DIR += -I $(CONTRIB_DIR)
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 LIBS = -lSDL -lSDL_image -lGL -lGLU

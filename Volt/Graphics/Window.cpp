@@ -78,4 +78,12 @@ void Window::Screenshot (const string& filename) {
     return;
 }
 
+int Window::width () const {
+    return ((SDL_Surface*)m_screen)->w;
+}
+
+int Window::height () const {
+    return ((SDL_Surface*)m_screen)->h;
+}
+
 }
