@@ -23,8 +23,6 @@ public:
     virtual void Reload () = 0;
     virtual void Unload () = 0;
 
-    AssetManager* manager () { return m_manager; }
-
     /** Key that AssetManager uses to differentiate assets. Defaults to just
      *  the path, but child classes can override to add other keys like font
      *  size. */

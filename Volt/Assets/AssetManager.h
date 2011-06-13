@@ -31,6 +31,11 @@ public:
     void ReloadAll ();
     void ReloadPath (const Asset* asset, DataItem* item);
 
+    static void Register (AssetManager* manager) {
+        instance = manager;
+    }
+    static AssetManager* Instance () { return instance; }
+
 private:
     template <class T> AssetRef<T> GetAssetByKey (const string& path);
 
@@ -38,7 +43,11 @@ private:
     typedef map<string, Asset*> Assets;
     Assets m_assets;
 
+    static AssetManager* instance;
+
     DISALLOW_COPY_AND_ASSIGN(AssetManager);
 };
+
+#define G_AssetManager AssetManager::Instance()
 
 }

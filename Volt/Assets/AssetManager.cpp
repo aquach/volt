@@ -4,6 +4,8 @@
 
 namespace Volt {
 
+AssetManager* AssetManager::instance = NULL;
+
 AssetManager::AssetManager (const DataSource* source)
     : m_dataSource(source) {
 }

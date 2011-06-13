@@ -27,6 +27,7 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     m_graphics = new Graphics(m_window);
     m_graphics->Set2D(w, h);
     m_assetManager = new AssetManager(source);
+    AssetManager::Register(m_assetManager);
 }
 
 Game::~Game () {
