@@ -19,11 +19,17 @@ public:
     void Reload ();
     void Unload ();
 
+    /** Gets the information for where to render the given character. x and y
+     *  are the desired location for the texture, and are updated to be the new
+     *  position after rendering the current quad with the data returned in the
+     *  BBoxes. */
     void GetGlyphData (char c, float* x, float* y,
-		       BBox& verts, BBox& texCoords) const;
+		       BBox* verts, BBox* texCoords) const;
 
     float GetTextWidth (const string &text);
     float GetTextHeight (const string &text);
+
+    int glID () const { return m_texID; }
 
 private:
     void* m_fontCData;
