@@ -23,10 +23,10 @@ void AssetManager::ReloadPath (const Asset* asset, DataItem* item) {
     m_dataSource->LoadDataItem(asset->path(), item);
 }
 
-AssetRef<FontAsset> AssetManager::RequestFont (
+FontAssetRef AssetManager::GetFont (
     const string& path, float size, int textureWidth, int textureHeight) {
 
-    AssetRef<FontAsset> asset = GetAssetByName<FontAsset>(path);
+    FontAssetRef asset = GetAssetByName<FontAsset>(path);
     if (asset.HasAsset())
         return asset;
 
@@ -46,7 +46,7 @@ AssetRef<FontAsset> AssetManager::RequestFont (
 
     m_assets[path] = font;
 
-    return AssetRef<FontAsset>(font);
+    return FontAssetRef(font);
 }
 
 template <class T> AssetRef<T> AssetManager::GetAssetByName (
@@ -65,11 +65,11 @@ template <class T> AssetRef<T> AssetManager::GetAssetByName (
     return NULL;
 }
 
-AssetRef<TextureAsset> AssetManager::RequestTexture (
+TextureAssetRef AssetManager::GetTexture (
     const string& path, TextureAsset::FilterType type, bool repeatX,
     bool repeatY) {
 
-    AssetRef<TextureAsset> asset = GetAssetByName<TextureAsset>(path);
+    TextureAssetRef asset = GetAssetByName<TextureAsset>(path);
     if (asset.HasAsset())
         return asset;
 
@@ -89,7 +89,7 @@ AssetRef<TextureAsset> AssetManager::RequestTexture (
 
     m_assets[path] = texture;
 
-    return AssetRef<TextureAsset>(texture);
+    return TextureAssetRef(texture);
 }
 
 void AssetManager::GarbageCollect () {

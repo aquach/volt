@@ -9,17 +9,20 @@ namespace Volt {
 
 class DataSource;
 
+typedef AssetRef<TextureAsset> TextureAssetRef;
+typedef AssetRef<FontAsset> FontAssetRef;
+
 /* Manages all assets, including asset loading/reloading. */
 class AssetManager {
 public:
     AssetManager (const DataSource* source);
     ~AssetManager ();
 
-    AssetRef<TextureAsset> RequestTexture (
+    TextureAssetRef GetTexture (
         const string& path,
         TextureAsset::FilterType type = TextureAsset::e_filterTypeLinear,
         bool repeatX = true, bool repeatY = true);
-    AssetRef<FontAsset> RequestFont (
+    FontAssetRef GetFont (
         const string& path, float size, int textureWidth = 1024,
         int textureHeight = 1024);
 
