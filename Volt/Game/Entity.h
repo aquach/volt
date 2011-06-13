@@ -11,8 +11,8 @@ class Scene;
 
 class Entity {
 public:
-    Entity ();
-    virtual ~Entity ();
+    Entity () { }
+    virtual ~Entity () { }
 
     int layer () const { return m_layer; }
     bool IsOnLayer (int layer) const { return m_layer == layer; }

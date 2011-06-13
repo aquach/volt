@@ -49,7 +49,7 @@ bool FontAsset::Load (const DataItem& item, float size) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, m_textureWidth, m_textureHeight,
 		 0, GL_ALPHA, GL_UNSIGNED_BYTE, tempBitmap);
 
-    free(tempBitmap);
+    delete[] tempBitmap;
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 

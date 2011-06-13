@@ -16,7 +16,7 @@ class Game {
 public:
     Game (const string& name, const DataSource* source, int w = 1024,
           int h = 768, bool fullscreen = false);
-    ~Game () { }
+    ~Game ();
 
     void Run ();
     void Quit ();
@@ -28,6 +28,8 @@ public:
     void SetScene (Scene* scene);
 
     void UpdateInput ();
+
+    AssetManager* assetManager() { return m_assetManager; } // TODO: HACK
 
 private:
     string m_name;

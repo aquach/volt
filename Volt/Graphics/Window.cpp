@@ -33,6 +33,10 @@ Window::Window (const string& name, int w, int h, bool fullscreen)
     m_screen = screen;
 }
 
+Window::~Window () {
+    Close();
+}
+
 void Window::Close () {
     SDL_Quit();
 }

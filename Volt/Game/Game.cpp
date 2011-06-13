@@ -26,6 +26,15 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     m_assetManager = new AssetManager(source);
 }
 
+Game::~Game () {
+    if (m_currentScene != NULL) {
+        m_currentScene->OnEnd();
+        delete m_currentScene;
+    }
+    delete m_assetManager;
+    delete m_window;
+}
+
 void Game::UpdateInput () { // TODO: move to Window?
     SDL_Event event;
     while (SDL_PollEvent(&event)) {

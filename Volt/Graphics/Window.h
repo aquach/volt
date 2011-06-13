@@ -10,7 +10,7 @@ namespace Volt {
 class Window {
 public:
     Window (const string& name, int w, int h, bool fullscreen);
-    ~Window () { }
+    ~Window ();
 
     void Close ();
 
