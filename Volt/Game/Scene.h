@@ -7,6 +7,7 @@
 namespace Volt {
 
 class Entity;
+class Filter;
 class Game;
 
 /**
@@ -24,18 +25,23 @@ public:
     virtual void OnBegin () { };
     virtual void OnEnd () { };
 
-    void Add (Entity* entity);
+    void Add (Entity* entity, int layer = 0);
     void Remove (Entity* entity);
 
     virtual void OnKeyEvent (SDL_KeyboardEvent event) { }
     virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event) { }
     virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event) { }
 
+    int numFilters () const { return m_filters.size(); }
+    void AddFilter (Filter* filter);
+    void RemoveFilter (Filter* filter);
+
 private:
     friend class Game;
 
     void ResolveEntityChanges ();
     void RemoveAll ();
+    void RenderFilter (Filter* filter);
 
     bool m_isPaused;
     Game* m_game;
@@ -45,6 +51,8 @@ private:
     Layers m_layers;
     list<Entity*> m_entitiesToAdd;
     list<Entity*> m_entitiesToRemove;
+
+    list<Filter*> m_filters;
 
     DISALLOW_COPY_AND_ASSIGN(Scene);
 };

@@ -57,6 +57,7 @@ class TestScene : public Scene {
 public:
 	TestScene () {
 		font = G_AssetManager->GetFont("test.ttf", 20);
+		font2 = G_AssetManager->GetFont("test.ttf", 50);
 	}
 
 	virtual void OnBegin () {
@@ -67,6 +68,11 @@ public:
 		label->SetColor(Color::RGB(240, 100, 230));
 		label->SetText("FPS");
 		Add(label);
+
+		Label* label2 = new Label(font2, 70, 50);
+		label2->SetColor(Color::RGB(200, 0, 0));
+		label2->SetText("ON TOP");
+		Add(label2, -1);
 	}
 
 	virtual void Update () {
@@ -86,6 +92,7 @@ public:
 	TestEntity* entity;
 	Label* label;
 	FontAssetRef font;
+	FontAssetRef font2;
 };
 
 int main (int argc, char** argv) {

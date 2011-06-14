@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include "Core/Core.h"
 
 /* A thing in the game with game logic. */
 namespace Volt {
@@ -11,7 +12,7 @@ class Scene;
 
 class Entity {
 public:
-    Entity () { }
+    Entity ();
     virtual ~Entity () { }
 
     int layer () const { return m_layer; }
@@ -46,7 +47,6 @@ private:
 
     Transform m_transform;
 
-    int m_id;
     int m_layer;
     Scene* m_scene;
     Entity* m_parent;

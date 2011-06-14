@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include <algorithm>
 #include "Entity.h"
+#include "Graphics/Filter.h"
 #include "Graphics/Graphics.h"
 
 namespace Volt {
@@ -41,7 +42,8 @@ void Scene::Update () {
     ResolveEntityChanges();
 }
 
-void Scene::Add (Entity* entity) {
+void Scene::Add (Entity* entity, int layer) {
+    entity->m_layer = layer;
     m_entitiesToAdd.push_back(entity);
 }
 
@@ -96,22 +98,69 @@ void Scene::ResolveEntityChanges () {
     m_entitiesToAdd.clear();
 }
 
+void Scene::RenderFilter (Filter* filter) {
+    // TODO.
+}
+
 void Scene::Render () {
     // Setup window perspective.
     Graphics::Clear();
     m_camera.ApplyMatrix();
 
-    for (Layers::iterator layer = m_layers.begin(); layer != m_layers.end();
-         layer++) {
-        list<Entity*>& entityList = layer->second;
-        for (list<Entity*>::iterator i = entityList.begin();
-             i != entityList.end();
-             i++) {
-            (*i)->Render();
+    list<Filter*>::iterator currentFilter = m_filters.begin();
+
+    for (Layers::reverse_iterator layer = m_layers.rbegin();
+         layer != m_layers.rend(); layer++) {
+        int layerNum = layer->first;
+        if (layerNum <= m_camera.backLayer() &&
+            layerNum >= m_camera.frontLayer()) {
+            list<Entity*>& entityList = layer->second;
+            for (list<Entity*>::iterator i = entityList.begin();
+                 i != entityList.end();
+                 i++) {
+                (*i)->Render();
+            }
+
+            if (currentFilter != m_filters.end()) {
+                if ((*currentFilter)->layer() <= layerNum) {
+                    RenderFilter(*currentFilter);
+                    currentFilter++;
+
+                    // Restore normal projection matrix.
+                    m_camera.ApplyMatrix();
+                }
+            }
+        }
+    }
+
+    // Render remaining filters on top.
+    for (; currentFilter != m_filters.end(); currentFilter++) {
+        int layerNum = (*currentFilter)->layer();
+        if (layerNum <= m_camera.backLayer() &&
+            layerNum >= m_camera.frontLayer()) {
+            RenderFilter(*currentFilter);
         }
     }
 
     Graphics::ShowBuffer();
+}
+
+void Scene::AddFilter (Filter* filter) {
+    list<Filter*>::iterator i = m_filters.begin();
+    while (i != m_filters.end() && (*i)->layer() < filter->layer())
+        i++;
+    m_filters.insert(i, filter);
+}
+
+void Scene::RemoveFilter (Filter* filter) {
+    for (list<Filter*>::iterator i = m_filters.begin(); i != m_filters.end();) {
+        if (*i == filter) {
+            i = m_filters.erase(i);
+            break;
+        } else {
+            i++;
+        }
+    }
 }
 
 }
