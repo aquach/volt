@@ -13,7 +13,6 @@ public:
     FontAsset (int textureWidth, int textureHeight);
     ~FontAsset ();
 
-    // TODO: What happens if you load same filename with two sizes?
     bool Load (const DataItem& item, float size);
 
     void Reload ();
