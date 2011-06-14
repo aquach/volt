@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <ctime>
 
+#ifndef INFINITY
+    #define INFINITY 1e+08
+#endif
+
 namespace Volt {
 
 const float c_pi = 3.14159265f;

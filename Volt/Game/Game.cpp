@@ -59,9 +59,9 @@ void Game::Run () {
 
         long delta = tick - m_lastTick;
 
-        m_ticksPerFrame = m_ticksPerFrame * 0.9 + delta * 0.1;
+        m_ticksPerFrame = m_ticksPerFrame * 0.9f + delta * 0.1f;
 
-        m_dt = MIN(((double)(tick - m_lastTick)) * 0.001f, MAX_DELTA_TIME);
+        m_dt = MIN((tick - m_lastTick) * 0.001f, MAX_DELTA_TIME);
 
         m_window->UpdateInput();
 

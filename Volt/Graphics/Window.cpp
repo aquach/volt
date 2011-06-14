@@ -1,7 +1,6 @@
 #include "Window.h"
-#include <GL/gl.h>
-#include <SDL/SDL.h>
 #include "Game/Game.h"
+#include "OpenGL.h"
 
 namespace Volt {
 

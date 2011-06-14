@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "Graphics.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 
 namespace Volt {
 

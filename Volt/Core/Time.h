@@ -2,10 +2,10 @@
 
 #include "Core/Core.h"
 
-#ifdef COMPILER_GCC
+#if COMPILER_GCC
     #include <sys/time.h>
 #else
-    // TODO
+    #include <windows.h>
 #endif
 
 namespace Volt {
@@ -18,10 +18,10 @@ public:
     long GetMilliseconds () const;
 private:
     bool started;
-#ifdef COMPILER_GCC
+#if COMPILER_GCC
     timeval startTime;
 #else
-    // TODO
+    long startTickCount;
 #endif
 };
 

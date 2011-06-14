@@ -9,7 +9,7 @@ class Asset;
 /**
  *  An item in a data source.
  */
-struct DataItem {
+class DataItem {
 public:
     DataItem () : size(0), data(NULL) { }
     ~DataItem () {

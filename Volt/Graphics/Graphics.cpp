@@ -1,7 +1,6 @@
 #include "Graphics.h"
-#include <gl/glew.h>
-#include <SDL/SDL.h>
 #include "Assets/AssetManager.h"
+#include "OpenGL.h"
 #include "Window.h"
 
 namespace Volt {

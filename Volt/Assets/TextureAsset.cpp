@@ -1,9 +1,8 @@
 #include "TextureAsset.h"
-#include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-#include <GL/gl.h>
 #include "AssetManager.h"
 #include "DataSource.h"
+#include "Graphics/OpenGL.h"
 
 namespace Volt {
 

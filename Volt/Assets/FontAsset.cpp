@@ -1,12 +1,16 @@
 #include "FontAsset.h"
-#include <GL/gl.h>
 #include "Assets/AssetManager.h"
 #include "Assets/DataSource.h"
+#include "Graphics/OpenGL.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
-#pragma GCC diagnostic ignored "-Wwrite-strings"
+#if COMPILER_GCC
+    #pragma GCC diagnostic ignored "-Wwrite-strings"
+#endif
 #include <stb/stb_truetype.h>
+#if COMPILER_GCC
 #pragma GCC diagnostic warning "-Wwrite-strings"
+#endif
 
 #define NUM_CHARACTERS 96
 
