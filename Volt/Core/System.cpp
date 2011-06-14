@@ -4,6 +4,7 @@
 #if COMPILER_GCC
 #include <unistd.h>
 #include <sys/stat.h>
+#include <ftw.h>
 #endif
 
 namespace Volt {
@@ -24,8 +25,32 @@ string GetExecutableDirectory (string exePath) {
 
     return "";
 #else
+    // TODO
     return "";
 #endif
 }
+
+#if COMPILER_GCC
+
+static vector<string>* fileList;
+
+static int FileCallback (const char* filePath, const struct stat* statb,
+                         int typeFlag) {
+    if (typeFlag == FTW_F)
+        fileList->push_back(filePath);
+    return 0;
+}
+
+void GetAllFilesInDirectory (string path, vector<string>* files) {
+    fileList = files;
+    ftw(path.c_str(), FileCallback, 10);
+    fileList = NULL;
+}
+
+#else
+void GetAllFilesInDirectory (string path, vector<string>* files) {
+    // TODO
+}
+#endif
 
 }

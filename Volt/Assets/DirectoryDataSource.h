@@ -15,7 +15,7 @@ public:
 
     virtual bool LoadDataItem (const string& itemPath, DataItem* item) const;
 
-    void WriteToPackFile (const string& packPath);
+    void WriteToPackFile (const string& packFilename);
 };
 
 }

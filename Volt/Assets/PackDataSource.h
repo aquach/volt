@@ -5,6 +5,8 @@
 
 namespace Volt {
 
+const int PACK_CODE = 0xb1d0000f;
+
 /**
  *  Game data in the form of a single packed file.
  *  Format:
@@ -28,6 +30,9 @@ public:
     virtual bool LoadDataItem (const string& itemPath, DataItem* item);
 
     void WriteToDirectory (const string& dirPath);
+
+    static void BuildPackFile (const vector<string>& filenames,
+                               const string& packFilename);
 };
 
 }

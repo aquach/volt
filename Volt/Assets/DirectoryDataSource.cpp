@@ -1,5 +1,6 @@
 #include "DirectoryDataSource.h"
 #include <fstream>
+#include "PackDataSource.h"
 
 namespace Volt {
 
@@ -36,15 +37,10 @@ bool DirectoryDataSource::LoadDataItem (const string& itemPath,
     return true;
 }
 
-void DirectoryDataSource::WriteToPackFile (const string& packPath) {
-    string path = sourcePath() + "/" + packPath;
-    ofstream out(path.c_str());
-    if (!out.is_open())
-        return;
-
-    /* TODO : Also rethink interface. Should each data source (maybe more
-    than two) be able to write to the other ones and read in everything in a
-    common manner? Probably not. */
+void DirectoryDataSource::WriteToPackFile (const string& packFilename) {
+    vector<string> files;
+    GetAllFilesInDirectory(sourcePath(), &files);
+    PackDataSource::BuildPackFile(files, packFilename);
 }
 
 }
