@@ -1,3 +1,5 @@
 #include <SDL/SDL.h>
-#include <SDL/SDL_OpenGL.h>
+#if COMPILER_VCC
+    #include <SDL/SDL_OpenGL.h>
+#endif
 #include <GL/gl.h>
