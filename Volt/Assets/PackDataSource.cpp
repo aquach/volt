@@ -1,5 +1,6 @@
 #include "PackDataSource.h"
 #include <fstream>
+#include "Hash.h"
 
 namespace Volt {
 

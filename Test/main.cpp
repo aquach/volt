@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <SDL/SDL.h>
 #include "Volt/Assets/AssetManager.h"
+#include "Volt/Assets/Hash.h"
 #include "Volt/Assets/DirectoryDataSource.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
@@ -57,7 +58,7 @@ class TestScene : public Scene {
 public:
 	TestScene () {
 		font = G_AssetManager->GetFont("test.ttf", 20);
-		font2 = G_AssetManager->GetFont("test.ttf", 50);
+		font2 = G_AssetManager->GetFont("tfest.ttf", 50);
 	}
 
 	virtual void OnBegin () {

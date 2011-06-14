@@ -15,7 +15,7 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
     SDL_RWops* rw = SDL_RWFromMem(item.data, item.size);
     SDL_Surface* tex = IMG_Load_RW(rw, 1);
     if (tex == NULL) {
-        LOG(WARNING) << "Failed to load texture asset " << item.path;
+        LOG(ERROR) << "Failed to load texture asset " << item.path;
         return false;
     }
 

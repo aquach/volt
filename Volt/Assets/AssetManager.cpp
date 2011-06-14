@@ -36,14 +36,14 @@ FontAssetRef AssetManager::GetFont (
 
     DataItem item;
     if (!m_dataSource->LoadDataItem(path, &item)) {
-        LOG(WARNING) << "Failed to load data item " << path;
+        LOG(ERROR) << "Failed to load data item " << path;
         return NULL;
     }
 
     FontAsset* font = new FontAsset(textureWidth, textureHeight);
     font->m_manager = this;
     if (!font->Load(item, size)) {
-        LOG(WARNING) << "Failed to load font " << path;
+        LOG(ERROR) << "Failed to load font " << path;
         delete font;
         return NULL;
     }
@@ -60,8 +60,8 @@ template <class T> AssetRef<T> AssetManager::GetAssetByKey (
         Asset* asset = iter->second;
         T* specialAsset = dynamic_cast<T*>(asset);
         if (specialAsset == NULL) {
-            LOG(WARNING) << "Requested path " << path << " was not "
-                         << "the type expected.";
+            LOG(ERROR) << "Requested path " << path << " was not "
+                       << "the type expected.";
             return NULL;
         }
         return AssetRef<T>(specialAsset);
@@ -79,14 +79,14 @@ TextureAssetRef AssetManager::GetTexture (
 
     DataItem item;
     if (!m_dataSource->LoadDataItem(path, &item)) {
-        LOG(WARNING) << "Failed to load data item " << path;
+        LOG(ERROR) << "Failed to load data item " << path;
         return NULL;
     }
 
     TextureAsset* texture = new TextureAsset();
     texture->m_manager = this;
     if (!texture->Load(item, type, repeatX, repeatY)) {
-        LOG(WARNING) << "Failed to load texture " << path;
+        LOG(ERROR) << "Failed to load texture " << path;
         delete texture;
         return NULL;
     }
