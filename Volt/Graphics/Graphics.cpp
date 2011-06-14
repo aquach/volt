@@ -109,6 +109,10 @@ void Graphics::Scale (const Vector2& scale) {
 	glScalef(scale.x, scale.y, 1.0f);
 }
 
+void Graphics::SetColor (const Color& color) {
+	glColor4f(color.r, color.g, color.b, color.a);
+}
+
 /*
 void Graphics::RenderQuad (float w, float h) {
 	float hw = w * 0.5f;

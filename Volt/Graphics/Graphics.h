@@ -52,6 +52,8 @@ public:
 
     static void SetBlend (BlendType blend);
 
+    static void SetColor (const Color& color);
+
     static void SetBackgroundColor (const Color& color);
     static Color GetBackgroundColor ();
     static void EnableBackgroundReset (bool bgReset = true);

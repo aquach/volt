@@ -25,11 +25,14 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
 
     Random::Seed();
 
-    m_window = new Window(name, w, h, fullscreen);
+    m_window = new Window(this, name, w, h, fullscreen);
+
     m_graphics = new Graphics(m_window);
     m_graphics->Set2D(w, h);
+
     m_assetManager = new AssetManager(source);
     AssetManager::Register(m_assetManager);
+
     Game::Register(this);
 }
 
@@ -40,28 +43,6 @@ Game::~Game () {
     }
     delete m_assetManager;
     delete m_window;
-}
-
-void Game::UpdateInput () { // TODO: move to Window?
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_KEYDOWN:
-            case SDL_KEYUP:
-                //grapher->HandleKeyboard(event.key);
-            break;
-            case SDL_MOUSEBUTTONUP:
-            case SDL_MOUSEBUTTONDOWN:
-                //grapher->HandleMouseButton(event.button);
-            break;
-            case SDL_MOUSEMOTION:
-                //grapher->HandleMouseMove(event.motion);
-            break;
-            case SDL_QUIT:
-                Quit();
-            break;
-        }
-    }
 }
 
 void Game::Run () {
@@ -82,7 +63,7 @@ void Game::Run () {
 
         m_dt = MIN(((double)(tick - m_lastTick)) * 0.001f, MAX_DELTA_TIME);
 
-        UpdateInput();
+        m_window->UpdateInput();
 
         if (m_currentScene != NULL) {
             m_currentScene->Update();
@@ -115,6 +96,21 @@ void Game::SetScene (Scene* scene) {
         m_currentScene->m_game = this;
         m_currentScene->OnBegin();
     }
+}
+
+void Game::OnKeyEvent (SDL_KeyboardEvent event) {
+    if (m_currentScene != NULL)
+        m_currentScene->OnKeyEvent(event);
+}
+
+void Game::OnMouseButtonEvent (SDL_MouseButtonEvent event) {
+    if (m_currentScene != NULL)
+        m_currentScene->OnMouseButtonEvent(event);
+}
+
+void Game::OnMouseMoveEvent (SDL_MouseMotionEvent event) {
+    if (m_currentScene != NULL)
+        m_currentScene->OnMouseMoveEvent(event);
 }
 
 void Game::Quit () {

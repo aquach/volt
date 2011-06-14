@@ -2,6 +2,7 @@
 
 #include "Core/Core.h"
 #include "Graphics/Camera.h"
+#include "Graphics/Input.h"
 
 namespace Volt {
 
@@ -25,6 +26,10 @@ public:
 
     void Add (Entity* entity);
     void Remove (Entity* entity);
+
+    virtual void OnKeyEvent (SDL_KeyboardEvent event) { }
+    virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event) { }
+    virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event) { }
 
 private:
     friend class Game;

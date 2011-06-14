@@ -1,11 +1,13 @@
 #include "Window.h"
-#include <SDL/SDL.h>
 #include <GL/gl.h>
+#include <SDL/SDL.h>
+#include "Game/Game.h"
 
 namespace Volt {
 
-Window::Window (const string& name, int w, int h, bool fullscreen)
-    : m_screen(NULL) {
+Window::Window (Game* game, const string& name, int w, int h, bool fullscreen)
+    : m_game(game),
+      m_screen(NULL) {
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         LOG(FATAL) << "Unable to initialize SDL: " << SDL_GetError();
@@ -84,6 +86,28 @@ int Window::width () const {
 
 int Window::height () const {
     return ((SDL_Surface*)m_screen)->h;
+}
+
+void Window::UpdateInput () {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_KEYDOWN:
+            case SDL_KEYUP:
+                m_game->OnKeyEvent(event.key);
+            break;
+            case SDL_MOUSEBUTTONUP:
+            case SDL_MOUSEBUTTONDOWN:
+                m_game->OnMouseButtonEvent(event.button);
+            break;
+            case SDL_MOUSEMOTION:
+                m_game->OnMouseMoveEvent(event.motion);
+            break;
+            case SDL_QUIT:
+                m_game->Quit();
+            break;
+        }
+    }
 }
 
 }

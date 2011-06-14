@@ -17,14 +17,21 @@ Color::Color (const Color &color)
 	: r(color.r), g(color.g), b(color.b), a(color.a) {
 }
 
+Color Color::RGB (int r, int g, int b) {
+	return Color((float)r / 255, (float)g / 255, (float)b / 255);
+}
+
 Color::Color ()
 	: r(1), g(1), b(1), a(1) {
 
 }
 
+Color::Color (float r, float g, float b)
+	: r(r), g(g), b(b), a(1.0f) {
+}
+
 Color::Color (float r, float g, float b, float a)
 	: r(r), g(g), b(b), a(a) {
-
 }
 
 bool Color::operator!= (const Color& rhs) {

@@ -20,5 +20,6 @@
 #include "Vector3.h"
 
 #include <glog/logging.h>
+#include <gflags/gflags.h>
 
 using namespace std;

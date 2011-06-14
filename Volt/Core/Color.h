@@ -11,7 +11,10 @@ class Color
 public:
 	Color (const Color &color);
 	Color ();
+	Color (float r, float g, float b);
 	Color (float r, float g, float b, float a);
+
+	static Color RGB (int r, int g, int b);
 
 	void Clamp ();
 

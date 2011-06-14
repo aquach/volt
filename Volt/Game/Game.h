@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
+#include "Graphics/Input.h"
 
 namespace Volt {
 
@@ -28,10 +29,12 @@ public:
     Scene* currentScene () const { return m_currentScene; }
     void SetScene (Scene* scene);
 
-    void UpdateInput ();
-
     static void Register (Game* game) { instance = game; }
     static Game* Instance () { return instance; }
+
+    void OnKeyEvent (SDL_KeyboardEvent event);
+    void OnMouseButtonEvent (SDL_MouseButtonEvent event);
+    void OnMouseMoveEvent (SDL_MouseMotionEvent event);
 
 private:
     string m_name;
