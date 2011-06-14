@@ -4,6 +4,7 @@
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/Hash.h"
 #include "Volt/Assets/DirectoryDataSource.h"
+#include "Volt/Assets/PackDataSource.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/Scene.h"
@@ -103,6 +104,14 @@ int main (int argc, char** argv) {
 
 	string exeDir = GetExecutableDirectory(argv[0]);
 	LOG(INFO) << "Executable directory: " << exeDir;
+
+	/*
+	PackDataSource* pack = new PackDataSource(exeDir + "../out.leopak");
+
+	DirectoryDataSource* s = new DirectoryDataSource(exeDir + "../TestData");
+	s->WriteToPackFile("out.leopak");
+	return 0;
+	*/
 
 	Game* game = new Game("Test Game",
 						  new DirectoryDataSource(exeDir + "../TestData"));

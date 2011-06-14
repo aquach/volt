@@ -1,5 +1,5 @@
 #include "System.h"
-#include "CoreBase.h"
+#include "Core.h"
 #include <string.h>
 #if COMPILER_GCC
 #include <unistd.h>
@@ -33,18 +33,21 @@ string GetExecutableDirectory (string exePath) {
 #if COMPILER_GCC
 
 static vector<string>* fileList;
+static string pathString;
 
 static int FileCallback (const char* filePath, const struct stat* statb,
                          int typeFlag) {
     if (typeFlag == FTW_F)
-        fileList->push_back(filePath);
+        fileList->push_back(string(filePath).substr(pathString.size() + 1));
     return 0;
 }
 
 void GetAllFilesInDirectory (string path, vector<string>* files) {
     fileList = files;
+    pathString = path;
     ftw(path.c_str(), FileCallback, 10);
     fileList = NULL;
+    pathString = "";
 }
 
 #else

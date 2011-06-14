@@ -40,7 +40,7 @@ bool DirectoryDataSource::LoadDataItem (const string& itemPath,
 void DirectoryDataSource::WriteToPackFile (const string& packFilename) {
     vector<string> files;
     GetAllFilesInDirectory(sourcePath(), &files);
-    PackDataSource::BuildPackFile(files, packFilename);
+    PackDataSource::BuildPackFile(files, sourcePath(), packFilename);
 }
 
 }

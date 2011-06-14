@@ -5,7 +5,7 @@
 
 namespace Volt {
 
-const int PACK_CODE = 0xb1d0000f;
+const unsigned int PACK_CODE = 0x000fb1d0;
 
 /**
  *  Game data in the form of a single packed file.
@@ -16,9 +16,9 @@ const int PACK_CODE = 0xb1d0000f;
  *
  *  For each data item:
  *  4-byte pointer into game data pack to beginning of data of data item.
+ *  4-byte length of file.
  *  4-byte length of path string
  *  Variable length path string
- *  Padding to 4-byte boundary
  *
  *  Data for each data item.
  */
@@ -27,12 +27,25 @@ public:
     PackDataSource (const string& sourcePath);
     virtual ~PackDataSource ();
 
-    virtual bool LoadDataItem (const string& itemPath, DataItem* item);
+    virtual bool LoadDataItem (const string& itemPath, DataItem* item) const;
 
     void WriteToDirectory (const string& dirPath);
 
+    /** Builds a pack file out of a list of filenames (relative to the source
+     *  path, an absolute path to where the filenames are stored). */
     static void BuildPackFile (const vector<string>& filenames,
+                               const string& sourcePath,
                                const string& packFilename);
+
+private:
+    struct PackItem {
+        int offset;
+        int size;
+    };
+
+    map<string, PackItem> m_files;
+    char* m_data;
+    int m_size;
 };
 
 }
