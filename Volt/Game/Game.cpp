@@ -39,6 +39,7 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
 }
 
 Game::~Game () {
+    LOG(INFO) << "Closing game...";
     if (m_currentScene != NULL) {
         m_currentScene->OnEnd();
         delete m_currentScene;

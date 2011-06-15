@@ -275,14 +275,6 @@ void Graphics::RenderText (FontAssetRef font, const string& text,
 	glEnd();
 }
 
-void Graphics::RenderTextCentered (FontAssetRef font, const string& text,
-								   float x, float y) {
-	x = x - font->GetTextWidth(text) * 0.5f;
-	y = y - font->GetTextHeight(text) * 0.5f;
-
-	RenderText(font, text, x, y);
-}
-
 void Graphics::DefaultMatrix () {
 	glLoadIdentity();
 	glScalef(instance->resolutionScale.x, instance->resolutionScale.y, 0.0f);

@@ -33,12 +33,13 @@ public:
 	~TestEntity () { LOG(INFO) << "DESTRUCT"; }
 
 	virtual void Render () {
+		return;
 		Graphics::SetBlend(Graphics::BLEND_ALPHA);
 
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 		Graphics::RenderText(font, "IM A COMPUTER", 100, 100);
-		Graphics::RenderTextCentered(font2, "IM A COMPUTER SMALL",
+		Graphics::RenderText(font2, "IM A COMPUTER SMALL",
 									 Graphics::width() / 2,
 									 Graphics::height() / 2);
 
@@ -68,21 +69,28 @@ public:
 		entity = new TestEntity;
 		Add(entity);
 
-		label = new Label(font, 50, 50);
+		label = new Label(font2, 400, 400);
 		label->SetColor(Color::RGB(240, 100, 230));
 		label->SetText("FPS");
 		Add(label);
 
-		Label* label2 = new Label(font2, 70, 50);
+		Label* label2 = new Label(font2, 300, 300);
 		label2->SetColor(Color::RGB(200, 0, 0));
 		label2->SetText("ON TOP");
 		Add(label2, -1);
 
-		GpuProgram* program = new GpuProgram;
-		program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
-		program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
-		Filter* filter = new Filter(program);
-		AddFilter(filter, -1);
+		Label* label3 = new Label(font2, 400, 200);
+		label3->SetAnchorX(Label::ANCHOR_LEFT);
+		label3->SetAnchorY(Label::ANCHOR_CENTER);
+		label3->SetColor(Color::RGB(200, 0, 0));
+		label3->SetText("LABEL ANCHOR!!!");
+		Add(label3, -1);
+
+		//GpuProgram* program = new GpuProgram;
+		//program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
+		//program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
+		//Filter* filter = new Filter(program);
+		//AddFilter(filter, -1);
 	}
 
 	virtual void Update () {

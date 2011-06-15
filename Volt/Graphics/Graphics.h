@@ -49,8 +49,6 @@ public:
 
     static void RenderText (FontAssetRef font, const string& text,
 			    float x, float y);
-    static void RenderTextCentered (FontAssetRef font, const string& text,
-				    float x, float y);
 
     static void RenderLineRect (float x, float y, float w, float h);
     static void RenderLineRect (const BBox& box);

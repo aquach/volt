@@ -8,16 +8,27 @@ namespace Volt {
 
 class Label : public Entity {
 public:
+	enum AnchorPosition {
+		ANCHOR_CENTER = 0,
+		ANCHOR_LEFT = 1,
+		ANCHOR_RIGHT = 2,
+		ANCHOR_TOP = 1,
+		ANCHOR_BOTTOM = 2
+	};
+
 	Label (FontAssetRef font, float x, float y)
 		: m_font(font),
 		  m_x(x),
 		  m_y(y),
-		  m_centered(false),
-          m_color(Color::white) {
+		  m_anchorX(ANCHOR_LEFT),
+		  m_anchorY(ANCHOR_TOP),
+          m_color(Color::black) {
 	}
 
-	bool centered () const { return m_centered; }
-	void SetCentered (bool centered) { m_centered = centered; }
+	bool anchorX () const { return m_anchorX; }
+	bool anchorY () const { return m_anchorY; }
+	void SetAnchorX (AnchorPosition p) { m_anchorX = p; }
+	void SetAnchorY (AnchorPosition p) { m_anchorY = p; }
 
 	string text () const { return m_text; }
 	void SetText (string text) { m_text = text; }
@@ -34,7 +45,8 @@ private:
 	string m_text;
 	float m_x;
 	float m_y;
-	bool m_centered;
+	AnchorPosition m_anchorX;
+	AnchorPosition m_anchorY;
 };
 
 }
