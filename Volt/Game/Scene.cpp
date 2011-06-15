@@ -117,14 +117,13 @@ void Scene::Render () {
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
 
-            if (currentFilter != m_filters.end()) {
-                if ((*currentFilter)->layer() >= layerNum) {
-                    (*currentFilter)->Render();
-                    currentFilter++;
-
-                    // Restore normal projection matrix.
-                    m_camera.ApplyMatrix();
-                }
+            /* While we have a filter that should go on a layer lower
+             * than the layer of entities we're about to render, render
+             * the filter and increment the filter iterator. */
+            while (currentFilter != m_filters.end() &&
+                   (*currentFilter)->layer() >= layerNum) {
+                (*currentFilter)->Render();
+                currentFilter++;
             }
 
             list<Entity*>& entityList = layer->second;
@@ -154,7 +153,7 @@ void Scene::AddFilter (Filter* filter, int layer) {
     filter->m_layer = layer;
 
     list<Filter*>::iterator i = m_filters.begin();
-    while (i != m_filters.end() && (*i)->layer() < filter->layer())
+    while (i != m_filters.end() && (*i)->layer() > filter->layer())
         i++;
     m_filters.insert(i, filter);
 }

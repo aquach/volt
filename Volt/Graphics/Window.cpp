@@ -10,6 +10,8 @@ Window::Window (Game* game, const string& name, int w, int h, bool fullscreen)
     : m_game(game),
       m_screen(NULL) {
 
+    LOG(INFO) << "Initializing window...";
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         LOG(FATAL) << "Unable to initialize SDL: " << SDL_GetError();
         exit(1);
@@ -37,6 +39,7 @@ Window::Window (Game* game, const string& name, int w, int h, bool fullscreen)
 }
 
 Window::~Window () {
+    LOG(INFO) << "Destroying window...";
     Close();
 }
 

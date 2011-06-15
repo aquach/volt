@@ -12,7 +12,6 @@ Graphics::Graphics (Window* window)
 	: m_program(NULL),
 	  m_window(window) {
 	instance = this;
-	lastBoundTextureID = 0;
 	currentBlend = BLEND_NONE;
 }
 
@@ -77,7 +76,7 @@ int Graphics::GetUniformLocation (const char* s) {
 void Graphics::SetShaderValue (const char* valueName, float value) {
 	if (instance->m_program != NULL) {
 		GLuint location = GetUniformLocation(valueName);
-		if (location == -1) {
+		if ((int)location == -1) {
 			LOG_FIRST_N(WARNING, 1) << "Could not get location of uniform "
 									<< valueName;
 		}
@@ -88,7 +87,7 @@ void Graphics::SetShaderValue (const char* valueName, float value) {
 void Graphics::SetShaderValue (const char* valueName, int value) {
 	if (instance->m_program != NULL) {
 		GLuint location = GetUniformLocation(valueName);
-		if (location == -1) {
+		if ((int)location == -1) {
 			LOG_FIRST_N(WARNING, 1) << "Could not get location of uniform "
 									<< valueName;
 		}
@@ -296,26 +295,18 @@ void Graphics::ShowBuffer () {
 
 void Graphics::BindTexture (TextureAssetRef textureAsset) {
 	if (textureAsset.HasAsset()) {
-		if (instance->lastBoundTextureID != textureAsset->glID()) {
-			glBindTexture(GL_TEXTURE_2D, textureAsset->glID());
-			instance->lastBoundTextureID = textureAsset->glID();
-		}
+		glBindTexture(GL_TEXTURE_2D, textureAsset->glID());
 	}
-	else if (instance->lastBoundTextureID != 0) {
+	else {
 		glBindTexture(GL_TEXTURE_2D, 0);
-		instance->lastBoundTextureID = 0;
 	}
 }
 
 void Graphics::BindFont (FontAssetRef fontAsset) {
 	if (fontAsset.HasAsset()) {
-		if (instance->lastBoundTextureID != fontAsset->glID()) {
-			glBindTexture(GL_TEXTURE_2D, fontAsset->glID());
-			instance->lastBoundTextureID = fontAsset->glID();
-		}
-	} else if (instance->lastBoundTextureID != 0) {
+		glBindTexture(GL_TEXTURE_2D, fontAsset->glID());
+	} else {
 		glBindTexture(GL_TEXTURE_2D, 0);
-		instance->lastBoundTextureID = 0;
 	}
 }
 

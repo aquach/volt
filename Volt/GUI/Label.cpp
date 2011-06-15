@@ -22,10 +22,6 @@ void Label::Render () {
         y += m_font->GetTextHeight(m_text) * 0.5f;
 
     Graphics::RenderText(m_font, m_text, x, y);
-
-    Graphics::SetBlend(Graphics::BLEND_NONE);
-    glLineWidth(3.0);
-    Graphics::RenderLineRect(m_x, m_y, 5, 5);
 }
 
 }

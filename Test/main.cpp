@@ -86,11 +86,20 @@ public:
 		label3->SetText("LABEL ANCHOR!!!");
 		Add(label3, -1);
 
-		//GpuProgram* program = new GpuProgram;
-		//program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
-		//program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
-		//Filter* filter = new Filter(program);
-		//AddFilter(filter, -1);
+		GpuProgram* program = new GpuProgram;
+		program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
+		program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
+		Filter* filter = new Filter(program);
+		AddFilter(filter, -2);
+
+		{
+			GpuProgram* program = new GpuProgram;
+			program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
+			program->Attach(G_AssetManager->GetShader("test2.frag", ShaderAsset::SHADER_FRAGMENT));
+			Filter* filter = new Filter(program);
+			AddFilter(filter, -1);
+		}
+
 	}
 
 	virtual void Update () {

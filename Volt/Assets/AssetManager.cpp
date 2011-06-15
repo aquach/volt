@@ -8,9 +8,11 @@ AssetManager* AssetManager::instance = NULL;
 
 AssetManager::AssetManager (const DataSource* source)
     : m_dataSource(source) {
+    LOG(INFO) << "Initializing asset manager...";
 }
 
 AssetManager::~AssetManager () {
+    LOG(INFO) << "Destroying asset manager...";
     delete m_dataSource;
     for (Assets::iterator i = m_assets.begin(); i != m_assets.end(); i++) {
         DCHECK_EQ(i->second->referenceCount(), 0) << "Asset: "

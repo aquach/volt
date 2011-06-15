@@ -14,8 +14,11 @@ public:
     Asset () : m_refCount(0) { }
     virtual ~Asset () { }
 
+    /* Do not call these manually! Use AssetRef to keep reference-counted
+     * pointers! */
     void AddReference () { m_refCount++; }
     void RemoveReference () { m_refCount--; DCHECK_GE(m_refCount, 0); }
+
     int referenceCount () const { return m_refCount; }
 
     string path () const { return m_path; }

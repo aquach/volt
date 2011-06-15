@@ -82,7 +82,6 @@ private:
 
     BlendType currentBlend;
     GpuProgram* m_program;
-    int lastBoundTextureID;
     int virtualWidth, virtualHeight;
     Vector2 resolutionScale;
     Vector2 screenCenter;
