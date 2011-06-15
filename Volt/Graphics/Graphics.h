@@ -5,6 +5,7 @@
 
 namespace Volt {
 
+class GpuProgram;
 class Window;
 
 class Graphics {
@@ -24,6 +25,11 @@ public:
 
     static void BindTexture (TextureAssetRef textureAsset);
     static void BindFont (FontAssetRef fontAsset);
+    static void BindShader (GpuProgram* program);
+
+    static void SetValue (const char* valueName, int value);
+    static void SetValue (const char* valueName, float value);
+    static int GetUniformLocation (const char* s);
 
     static void Translate (const Vector2& pos);
     static void Scale (const Vector2& pos);
@@ -75,11 +81,12 @@ public:
 private:
     static Graphics* instance;
 
+    BlendType currentBlend;
+    GpuProgram* m_program;
+    int lastBoundTextureID;
+    int virtualWidth, virtualHeight;
     Vector2 resolutionScale;
     Vector2 screenCenter;
-    int virtualWidth, virtualHeight;
-    int lastBoundTextureID;
-    BlendType currentBlend;
     Window* m_window;
 };
 

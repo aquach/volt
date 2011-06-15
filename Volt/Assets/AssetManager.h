@@ -3,14 +3,16 @@
 #include "Core/Core.h"
 #include "AssetRef.h"
 #include "FontAsset.h"
+#include "ShaderAsset.h"
 #include "TextureAsset.h"
 
 namespace Volt {
 
 class DataSource;
 
-typedef AssetRef<TextureAsset> TextureAssetRef;
 typedef AssetRef<FontAsset> FontAssetRef;
+typedef AssetRef<ShaderAsset> ShaderAssetRef;
+typedef AssetRef<TextureAsset> TextureAssetRef;
 
 /* Manages all assets, including asset loading/reloading. */
 class AssetManager {
@@ -25,6 +27,8 @@ public:
     FontAssetRef GetFont (
         const string& path, float size, int textureWidth = 1024,
         int textureHeight = 1024);
+    ShaderAssetRef GetShader (const string& path,
+                              ShaderAsset::ShaderType type);
 
     void GarbageCollect ();
 

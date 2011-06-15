@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include "Assets/AssetManager.h"
+#include "Graphics/GpuProgram.h"
 #include "OpenGL.h"
 #include "Window.h"
 
@@ -7,11 +8,12 @@ namespace Volt {
 
 Graphics* Graphics::instance = NULL;
 
-Graphics::Graphics (Window* window) {
+Graphics::Graphics (Window* window)
+	: m_program(NULL),
+	  m_window(window) {
 	instance = this;
 	lastBoundTextureID = 0;
 	currentBlend = BLEND_NONE;
-	m_window = window;
 }
 
 void Graphics::Clear () {
@@ -19,12 +21,10 @@ void Graphics::Clear () {
 }
 
 void Graphics::Init () {
-	/*
 	if (GLEW_OK != glewInit()) {
 		LOG(FATAL) << "Failed to initialize glewInit!";
 		exit(1);
 	}
-	*/
 
 	glEnable(GL_BLEND);
 	glDisable(GL_LIGHTING);
@@ -51,6 +51,46 @@ Color Graphics::GetBackgroundColor () {
 	Color color(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 	delete[] clearColor;
 	return color;
+}
+
+void Graphics::BindShader (GpuProgram* program) {
+	if (program != NULL) {
+		if (program != instance->m_program) {
+			glUseProgramObjectARB(program->handle());
+			instance->m_program = program;
+		}
+	} else {
+		glUseProgramObjectARB(0);
+		instance->m_program = NULL;
+	}
+}
+
+int Graphics::GetUniformLocation (const char* s) {
+	if (instance->m_program != NULL)
+		return glGetUniformLocationARB(instance->m_program->handle(), s);
+	return 0;
+}
+
+void Graphics::SetValue (const char* valueName, float value) {
+	if (instance->m_program != NULL) {
+		GLuint location = GetUniformLocation(valueName);
+		if (location == 0) {
+			LOG_FIRST_N(WARNING, 1) << "Could not get location of uniform "
+									<< valueName;
+		}
+		glUniform1fARB(location, value);
+	}
+}
+
+void Graphics::SetValue (const char* valueName, int value) {
+	if (instance->m_program != NULL) {
+		GLuint location = GetUniformLocation(valueName);
+		if (location == 0) {
+			LOG_FIRST_N(WARNING, 1) << "Could not get location of uniform "
+									<< valueName;
+		}
+		glUniform1iARB(location, value);
+	}
 }
 
 void Graphics::SetBlend (BlendType blend)
@@ -312,4 +352,5 @@ void Graphics::EndLine()
 	glEnd();
 }
 */
+
 }

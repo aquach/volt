@@ -69,6 +69,31 @@ template <class T> AssetRef<T> AssetManager::GetAssetByKey (
     return NULL;
 }
 
+ShaderAssetRef AssetManager::GetShader (const string& path,
+                                        ShaderAsset::ShaderType type) {
+    ShaderAssetRef asset = GetAssetByKey<ShaderAsset>(path);
+    if (asset.HasAsset())
+        return asset;
+
+    DataItem item;
+    if (!m_dataSource->LoadDataItem(path, &item)) {
+        LOG(ERROR) << "Failed to load data item " << path;
+        return NULL;
+    }
+
+    ShaderAsset* shader = new ShaderAsset();
+    shader->m_manager = this;
+    if (!shader->Load(item, type)) {
+        LOG(ERROR) << "Failed to load shader " << path;
+        delete shader;
+        return NULL;
+    }
+
+    m_assets[shader->assetKey()] = shader;
+
+    return ShaderAssetRef(shader);
+}
+
 TextureAssetRef AssetManager::GetTexture (
     const string& path, TextureAsset::FilterType type, bool repeatX,
     bool repeatY) {
