@@ -11,6 +11,7 @@ Camera::Camera()
 }
 
 void Camera::ApplyMatrix () const {
+    glMatrixMode(GL_MODELVIEW);
     Graphics::DefaultMatrix();
     Graphics::Scale(transform.scale);
     Graphics::Translate(transform.position * -1.0f);

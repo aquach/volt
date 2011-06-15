@@ -21,6 +21,7 @@ void Graphics::Clear () {
 }
 
 void Graphics::Init () {
+	LOG(INFO) << "Initializing graphics...";
 	if (GLEW_OK != glewInit()) {
 		LOG(FATAL) << "Failed to initialize glewInit!";
 		exit(1);
@@ -56,6 +57,8 @@ Color Graphics::GetBackgroundColor () {
 void Graphics::BindShader (GpuProgram* program) {
 	if (program != NULL) {
 		if (program != instance->m_program) {
+			if (!program->IsLinked())
+				program->Link();
 			glUseProgramObjectARB(program->handle());
 			instance->m_program = program;
 		}
@@ -71,10 +74,10 @@ int Graphics::GetUniformLocation (const char* s) {
 	return 0;
 }
 
-void Graphics::SetValue (const char* valueName, float value) {
+void Graphics::SetShaderValue (const char* valueName, float value) {
 	if (instance->m_program != NULL) {
 		GLuint location = GetUniformLocation(valueName);
-		if (location == 0) {
+		if (location == -1) {
 			LOG_FIRST_N(WARNING, 1) << "Could not get location of uniform "
 									<< valueName;
 		}
@@ -82,10 +85,10 @@ void Graphics::SetValue (const char* valueName, float value) {
 	}
 }
 
-void Graphics::SetValue (const char* valueName, int value) {
+void Graphics::SetShaderValue (const char* valueName, int value) {
 	if (instance->m_program != NULL) {
 		GLuint location = GetUniformLocation(valueName);
-		if (location == 0) {
+		if (location == -1) {
 			LOG_FIRST_N(WARNING, 1) << "Could not get location of uniform "
 									<< valueName;
 		}
@@ -330,6 +333,12 @@ Vector2 Graphics::GetMatrixPosition () {
 	float x = m[12];
 	float y = m[13];
 	return Vector2(x, y);
+}
+
+void Graphics::CheckErrors () {
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR)
+        LOG(ERROR) << "OpenGL Error: " << gluErrorString(error);
 }
 
 /*

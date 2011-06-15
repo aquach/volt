@@ -4,3 +4,4 @@
     #include <SDL/SDL_OpenGL.h>
 #endif
 #include <GL/gl.h>
+#include <GL/glu.h>

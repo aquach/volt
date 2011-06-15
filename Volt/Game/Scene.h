@@ -33,7 +33,10 @@ public:
     virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event) { }
 
     int numFilters () const { return m_filters.size(); }
-    void AddFilter (Filter* filter);
+
+    /* We don't let entities and filters change their layer except when adding
+     * them, because the scene's data structures need to keep this in mind. */
+    void AddFilter (Filter* filter, int layer = 0);
     void RemoveFilter (Filter* filter);
 
 private:
@@ -41,7 +44,6 @@ private:
 
     void ResolveEntityChanges ();
     void RemoveAll ();
-    void RenderFilter (Filter* filter);
 
     bool m_isPaused;
     Game* m_game;

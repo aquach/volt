@@ -16,9 +16,12 @@ public:
 
     int handle () const { return m_handle; }
 
+    bool IsLinked () const { return m_linked; }
+
 private:
     vector<ShaderAssetRef> m_shaders;
     int m_handle;
+    bool m_linked;
 };
 
 }

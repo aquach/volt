@@ -27,8 +27,8 @@ public:
     static void BindFont (FontAssetRef fontAsset);
     static void BindShader (GpuProgram* program);
 
-    static void SetValue (const char* valueName, int value);
-    static void SetValue (const char* valueName, float value);
+    static void SetShaderValue (const char* valueName, int value);
+    static void SetShaderValue (const char* valueName, float value);
     static int GetUniformLocation (const char* s);
 
     static void Translate (const Vector2& pos);
@@ -76,7 +76,8 @@ public:
     Graphics (Window* window);
     void Init ();
 
-    static void ShowBuffer();
+    static void ShowBuffer ();
+    static void CheckErrors ();
 
 private:
     static Graphics* instance;

@@ -8,6 +8,8 @@
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/Scene.h"
+#include "Volt/Graphics/Filter.h"
+#include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/GUI/Label.h"
 
@@ -23,7 +25,7 @@ class TestEntity : public Entity {
 public:
 	TestEntity () {
 		LOG(INFO) << "LOADING";
-		font = G_AssetManager->GetFont("test.ttf", 80);
+		font = G_AssetManager->GetFont("Inconsolata.ttf", 80);
 		font2 = G_AssetManager->GetFont("test.ttf", 40);
 		LOG(INFO) << "LOADED";
 		t = 0;
@@ -58,8 +60,8 @@ public:
 class TestScene : public Scene {
 public:
 	TestScene () {
-		font = G_AssetManager->GetFont("test.ttf", 20);
-		font2 = G_AssetManager->GetFont("tfest.ttf", 50);
+		font = G_AssetManager->GetFont("Inconsolata.ttf", 20);
+		font2 = G_AssetManager->GetFont("Inconsolata.ttf", 50);
 	}
 
 	virtual void OnBegin () {
@@ -75,6 +77,12 @@ public:
 		label2->SetColor(Color::RGB(200, 0, 0));
 		label2->SetText("ON TOP");
 		Add(label2, -1);
+
+		GpuProgram* program = new GpuProgram;
+		program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
+		program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
+		Filter* filter = new Filter(program);
+		AddFilter(filter, -1);
 	}
 
 	virtual void Update () {

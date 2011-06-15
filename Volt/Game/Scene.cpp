@@ -13,6 +13,12 @@ Scene::Scene ()
 Scene::~Scene () {
     RemoveAll();
     ResolveEntityChanges();
+
+    for (list<Filter*>::iterator i = m_filters.begin(); i != m_filters.end();
+         i++) {
+        delete *i;
+    }
+    m_filters.clear();
 }
 
 void Scene::RemoveAll () {
@@ -98,10 +104,6 @@ void Scene::ResolveEntityChanges () {
     m_entitiesToAdd.clear();
 }
 
-void Scene::RenderFilter (Filter* filter) {
-    // TODO.
-}
-
 void Scene::Render () {
     // Setup window perspective.
     Graphics::Clear();
@@ -114,21 +116,22 @@ void Scene::Render () {
         int layerNum = layer->first;
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
-            list<Entity*>& entityList = layer->second;
-            for (list<Entity*>::iterator i = entityList.begin();
-                 i != entityList.end();
-                 i++) {
-                (*i)->Render();
-            }
 
             if (currentFilter != m_filters.end()) {
-                if ((*currentFilter)->layer() <= layerNum) {
-                    RenderFilter(*currentFilter);
+                if ((*currentFilter)->layer() >= layerNum) {
+                    (*currentFilter)->Render();
                     currentFilter++;
 
                     // Restore normal projection matrix.
                     m_camera.ApplyMatrix();
                 }
+            }
+
+            list<Entity*>& entityList = layer->second;
+            for (list<Entity*>::iterator i = entityList.begin();
+                 i != entityList.end();
+                 i++) {
+                (*i)->Render();
             }
         }
     }
@@ -138,14 +141,18 @@ void Scene::Render () {
         int layerNum = (*currentFilter)->layer();
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
-            RenderFilter(*currentFilter);
+            (*currentFilter)->Render();
         }
     }
+
+    Graphics::CheckErrors();
 
     Graphics::ShowBuffer();
 }
 
-void Scene::AddFilter (Filter* filter) {
+void Scene::AddFilter (Filter* filter, int layer) {
+    filter->m_layer = layer;
+
     list<Filter*>::iterator i = m_filters.begin();
     while (i != m_filters.end() && (*i)->layer() < filter->layer())
         i++;

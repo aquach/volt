@@ -26,9 +26,11 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     Random::Seed();
 
     m_window = new Window(this, name, w, h, fullscreen);
+    Window::Register(m_window);
 
     m_graphics = new Graphics(m_window);
     m_graphics->Set2D(w, h);
+    m_graphics->Init();
 
     m_assetManager = new AssetManager(source);
     AssetManager::Register(m_assetManager);
@@ -46,8 +48,9 @@ Game::~Game () {
 }
 
 void Game::Run () {
+    LOG(INFO) << "Starting game...";
+
     m_time.Start();
-    m_graphics->Init();
 
     m_lastTick = m_time.GetMilliseconds();
 

@@ -23,11 +23,16 @@ public:
     }
 
     void Load (const DataItem& item) {
-        glShaderSourceARB(m_handle, 1, (const char**)&item.data, NULL);
+        char* buffer = new char[item.size + 1];
+        buffer[item.size] = 0;
+        memcpy(buffer, item.data, item.size);
+        glShaderSourceARB(m_handle, 1, (const char**)&buffer, NULL);
         m_filename = item.path;
+        free(buffer);
     }
 
     bool Compile () {
+        LOG(INFO) << "Compiling " << m_filename << "...";
         glCompileShaderARB(m_handle);
 
         GLint compileStatus = 0;
@@ -44,7 +49,7 @@ public:
             int length;
             glGetInfoLogARB(m_handle, maxLength, &length, log);
 
-            LOG(ERROR) << "Error, Shader compilation failed for '"
+            LOG(ERROR) << " Shader compilation failed for '"
                        << m_filename << "' :" << log;
             delete[] log;
             return false;
@@ -70,6 +75,7 @@ int ShaderAsset::handle () const {
 bool ShaderAsset::Load (const DataItem& item, ShaderType type) {
     m_shader = new Shader(type);
     m_shader->Load(item);
+    m_path = item.path;
     return m_shader->Compile();
 }
 

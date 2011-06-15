@@ -3,7 +3,13 @@
 
 namespace Volt {
 
-GpuProgram::GpuProgram () {
+GpuProgram::GpuProgram ()
+    : m_linked(false) {
+    if (glCreateProgramObjectARB == NULL) {
+        LOG(FATAL) << "Graphics card does not support shaders.";
+        return;
+    }
+
     m_handle = glCreateProgramObjectARB();
 }
 
@@ -17,6 +23,7 @@ GpuProgram::~GpuProgram () {
 void GpuProgram::Attach (ShaderAssetRef shader) {
     m_shaders.push_back(shader);
     glAttachObjectARB(m_handle, shader->handle());
+    m_linked = false;
 }
 
 bool GpuProgram::Link () {
@@ -36,12 +43,13 @@ bool GpuProgram::Link () {
         int length;
         glGetInfoLogARB(m_handle, maxLength, &length, log);
 
-        LOG(ERROR) << "Error, GPU program '" << m_handle
+        LOG(ERROR) << "GPU program '" << m_handle
                    << "' link failed : " << log;
         delete[] log;
 
         return false;
     }
+    m_linked = true;
     return true;
 }
 

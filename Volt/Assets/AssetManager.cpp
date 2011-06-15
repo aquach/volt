@@ -13,7 +13,8 @@ AssetManager::AssetManager (const DataSource* source)
 AssetManager::~AssetManager () {
     delete m_dataSource;
     for (Assets::iterator i = m_assets.begin(); i != m_assets.end(); i++) {
-        DCHECK_EQ(i->second->referenceCount(), 0);
+        DCHECK_EQ(i->second->referenceCount(), 0) << "Asset: "
+                                                  << i->second->path();
         delete i->second;
     }
 }

@@ -4,6 +4,8 @@
 
 namespace Volt {
 
+Window* Window::instance = NULL;
+
 Window::Window (Game* game, const string& name, int w, int h, bool fullscreen)
     : m_game(game),
       m_screen(NULL) {

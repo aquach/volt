@@ -25,10 +25,17 @@ public:
 
     void UpdateInput ();
 
+    static void Register (Window* window) { instance = window; }
+    static Window* Instance () { return instance; }
+
 private:
+    static Window* instance;
+
     Game* m_game;
     void* m_screen;
     DISALLOW_COPY_AND_ASSIGN(Window);
 };
+
+#define G_Window Window::Instance()
 
 }
