@@ -26,6 +26,10 @@ depends:
 	(cd Contrib/glog-0.3.1 && ./configure && make)
 	(cd Contrib/gflags-1.5 && ./configure && make)
 
+install-deps:
+	sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libglew1.5-dev \
+	                     libopenal-dev libogg-dev
+
 dirs: $(BIN_DIR) $(OBJ_DIR)
 
 $(BIN_DIR) $(OBJ_DIR):

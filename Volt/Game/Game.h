@@ -9,6 +9,7 @@ class AssetManager;
 class DataSource;
 class Graphics;
 class Scene;
+class SoundManager;
 class Window;
 
 /**
@@ -43,6 +44,7 @@ private:
     Scene* m_currentScene;
     Scene* m_switchToScene;
 
+    SoundManager* m_soundManager;
     Graphics* m_graphics;
     Window* m_window;
     AssetManager* m_assetManager;

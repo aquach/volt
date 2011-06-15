@@ -4,6 +4,7 @@
 #include "AssetRef.h"
 #include "FontAsset.h"
 #include "ShaderAsset.h"
+#include "SoundAsset.h"
 #include "TextureAsset.h"
 
 namespace Volt {
@@ -13,6 +14,7 @@ class DataSource;
 typedef AssetRef<FontAsset> FontAssetRef;
 typedef AssetRef<ShaderAsset> ShaderAssetRef;
 typedef AssetRef<TextureAsset> TextureAssetRef;
+typedef AssetRef<SoundAsset> SoundAssetRef;
 
 /* Manages all assets, including asset loading/reloading. */
 class AssetManager {

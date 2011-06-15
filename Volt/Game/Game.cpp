@@ -2,6 +2,7 @@
 #include <SDL/SDL.h>
 #include "Assets/AssetManager.h"
 #include "Assets/DataSource.h"
+#include "Assets/SoundManager.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Window.h"
 #include "Scene.h"
@@ -21,7 +22,8 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
       m_window(NULL),
       m_currentScene(NULL),
       m_switchToScene(NULL),
-      m_assetManager(NULL) {
+      m_assetManager(NULL),
+      m_soundManager(NULL) {
 
     Random::Seed();
 
@@ -35,6 +37,9 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     m_assetManager = new AssetManager(source);
     AssetManager::Register(m_assetManager);
 
+    m_soundManager = new SoundManager();
+    SoundManager::Register(m_soundManager);
+
     Game::Register(this);
 }
 
@@ -44,6 +49,7 @@ Game::~Game () {
         m_currentScene->OnEnd();
         delete m_currentScene;
     }
+    delete m_soundManager;
     delete m_assetManager;
     delete m_window;
 }
