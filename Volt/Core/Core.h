@@ -20,6 +20,11 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
+#if COMPILER_VCC
+#include <windows.h>
+#undef ERROR
+#undef RGB
+#endif
 #include <glog/logging.h>
 #include <gflags/gflags.h>
 

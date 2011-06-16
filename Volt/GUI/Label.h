@@ -25,8 +25,8 @@ public:
           m_color(Color::black) {
 	}
 
-	bool anchorX () const { return m_anchorX; }
-	bool anchorY () const { return m_anchorY; }
+	AnchorPosition anchorX () const { return m_anchorX; }
+	AnchorPosition anchorY () const { return m_anchorY; }
 	void SetAnchorX (AnchorPosition p) { m_anchorX = p; }
 	void SetAnchorY (AnchorPosition p) { m_anchorY = p; }
 

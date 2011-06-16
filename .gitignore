@@ -22,3 +22,9 @@ Obj
 .libs
 *.la
 *.pc
+Debug
+Release
+*.suo
+UpgradeLog*
+*UpgradeReport*
+*.old

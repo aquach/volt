@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Contrib/include&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/glog-0.3.1/src/windows&quot;;&quot;$(SolutionDir)../Contrib/gflags-1.5/src/windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/glog-0.3.1/src/windows&quot;;&quot;$(SolutionDir)../Contrib/gflags-1.5/src/windows&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib/include&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/glog-0.3.1/src/windows&quot;;&quot;$(SolutionDir)../Contrib/gflags-1.5/src/windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/glog-0.3.1/src/windows&quot;;&quot;$(SolutionDir)../Contrib/gflags-1.5/src/windows&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -169,10 +169,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Volt\Assets\DataSource.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Volt\Assets\DataSource.h"
 				>
 			</File>
@@ -190,6 +186,14 @@
 			</File>
 			<File
 				RelativePath="..\Volt\Assets\FontAsset.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Assets\Hash.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Assets\Hash.h"
 				>
 			</File>
 			<File
@@ -221,11 +225,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Volt\Assets\SoundManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Assets\SoundManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Volt\Assets\TextureAsset.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Volt\Assets\TextureAsset.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Assets\Vorbis.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Assets\Vorbis.h"
 				>
 			</File>
 		</Filter>
@@ -270,6 +290,14 @@
 			</File>
 			<File
 				RelativePath="..\Volt\Core\Random.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Core\System.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Core\System.h"
 				>
 			</File>
 			<File
@@ -370,6 +398,14 @@
 			</File>
 			<File
 				RelativePath="..\Volt\Graphics\Filter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Graphics\GpuProgram.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Graphics\GpuProgram.h"
 				>
 			</File>
 			<File
