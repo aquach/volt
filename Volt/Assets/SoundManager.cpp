@@ -27,7 +27,43 @@ SoundManager::~SoundManager () {
     alcMakeContextCurrent(NULL);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
+}
 
+void SoundManager::Update () {
+    for (set<SoundAsset*>::iterator i = m_sounds.begin(); i != m_sounds.end();
+         i++) {
+        (*i)->Update();
+    }
+
+    CheckErrors();
+}
+
+void SoundManager::RegisterSound (SoundAsset* asset) {
+    m_sounds.insert(asset);
+}
+
+void SoundManager::UnregisterSound (SoundAsset* asset) {
+    m_sounds.erase(asset);
+}
+
+void SoundManager::CheckErrors () {
+    int error;
+    if ((error = alGetError()) != AL_NO_ERROR) {
+        switch (error) {
+            case AL_INVALID_NAME:
+                LOG(ERROR) << "OpenAL invalid name.";
+            case AL_INVALID_ENUM:
+                LOG(ERROR) << "OpenAL invalid enum.";
+            case AL_INVALID_VALUE:
+                LOG(ERROR) << "OpenAL invalid value.";
+            case AL_INVALID_OPERATION:
+                LOG(ERROR) << "OpenAL invalid operation.";
+            case AL_OUT_OF_MEMORY:
+                LOG(ERROR) << "OpenAL out of memory.";
+            default:
+                LOG(ERROR) << "Unknown OpenAL error.";
+        }
+    }
 }
 
 }

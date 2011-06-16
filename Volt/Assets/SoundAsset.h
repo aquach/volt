@@ -6,17 +6,18 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 #include "Asset.h"
+#include "Vorbis.h"
 
-namespace Volt
-{
+namespace Volt {
+
+const int NUM_BUFFERS = 2;
 
 class DataItem;
+class SoundManager;
 
+/* A sound file. */
 class SoundAsset : public Asset {
 public:
-    enum SoundType {
-    };
-
     SoundAsset ();
     ~SoundAsset ();
 
@@ -25,17 +26,23 @@ public:
     void Reload ();
     void Unload ();
 
-    void Play ();
+    bool Play ();
     bool IsPlaying ();
     void Stop ();
 
-    void Update ();
+    bool Update ();
+
+    /* TODO: Pause capability, pan capabilities, stack multiple sounds. */
 private:
-    OggVorbis_File  m_oggStream;
-    vorbis_info*    m_info;
+    void EmptyBuffers ();
+    bool Stream (ALuint buffer);
+
+    OggFile m_file;
+    OggVorbis_File m_oggStream;
+    vorbis_info* m_info;
     vorbis_comment* m_comment;
 
-    ALuint m_buffers[2];
+    ALuint m_buffers[NUM_BUFFERS];
     ALuint m_source;
     ALenum m_format;
 };

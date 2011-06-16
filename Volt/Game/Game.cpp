@@ -7,6 +7,7 @@
 #include "Graphics/Window.h"
 #include "Scene.h"
 
+#define MIN_DELTA_TIME (1.0f / 120.0f)
 #define MAX_DELTA_TIME (1.0f / 30.0f)
 
 namespace Volt {
@@ -66,14 +67,20 @@ void Game::Run () {
             break;
 
         long tick = m_time.GetMilliseconds();
-
         long delta = tick - m_lastTick;
+        if (delta < MIN_DELTA_TIME * 1000) {
+            long sleepTicks = (int)(MIN_DELTA_TIME * 1000) - delta;
+            SleepMicroseconds(sleepTicks * 1000);
+            tick = m_time.GetMilliseconds();
+            delta = tick - m_lastTick;
+        }
 
+        float seconds = (tick - m_lastTick) * 0.001f;
         m_ticksPerFrame = m_ticksPerFrame * 0.9f + delta * 0.1f;
-
-        m_dt = MIN((tick - m_lastTick) * 0.001f, MAX_DELTA_TIME);
+        m_dt = MIN(seconds, MAX_DELTA_TIME);
 
         m_window->UpdateInput();
+        m_soundManager->Update();
 
         if (m_currentScene != NULL) {
             m_currentScene->Update();

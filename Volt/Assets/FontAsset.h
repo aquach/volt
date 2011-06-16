@@ -3,8 +3,7 @@
 #include "Core/Core.h"
 #include "Asset.h"
 
-namespace Volt
-{
+namespace Volt {
 
 class DataItem;
 

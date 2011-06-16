@@ -66,6 +66,10 @@ public:
 	}
 
 	virtual void OnBegin () {
+		sound = G_AssetManager->GetSound("bgm.ogg");
+		sound2 = G_AssetManager->GetSound("grow.ogg");
+		sound->Play();
+
 		entity = new TestEntity;
 		Add(entity);
 
@@ -90,14 +94,14 @@ public:
 		program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
 		program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
 		Filter* filter = new Filter(program);
-		AddFilter(filter, -2);
+		//AddFilter(filter, -2);
 
 		{
 			GpuProgram* program = new GpuProgram;
 			program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
 			program->Attach(G_AssetManager->GetShader("test2.frag", ShaderAsset::SHADER_FRAGMENT));
 			Filter* filter = new Filter(program);
-			AddFilter(filter, -1);
+			//AddFilter(filter, -1);
 		}
 
 	}
@@ -107,6 +111,7 @@ public:
 		char buffer[512];
 		sprintf(buffer, "FPS: %.1f", G_Game->fps());
 		label->SetText(buffer);
+		//sound2->Play();
 	}
 
 	virtual void OnKeyEvent (SDL_KeyboardEvent e) {
@@ -116,6 +121,8 @@ public:
 			}
 		}
 	}
+	SoundAssetRef sound;
+	SoundAssetRef sound2;
 	TestEntity* entity;
 	Label* label;
 	FontAssetRef font;

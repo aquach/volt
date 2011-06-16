@@ -1,45 +1,53 @@
 #include "SoundAsset.h"
 #include <AL/al.h>
 #include <ogg/ogg.h>
+#include "Assets/AssetManager.h"
 #include "Vorbis.h"
 #include "DataSource.h"
+#include "Assets/SoundManager.h"
 
 namespace Volt {
 
-const int BUFFER_SIZE = 4096 * 4;
+const int BUFFER_SIZE = 4096 * 16;
 
-SoundAsset::SoundAsset () {
+SoundAsset::SoundAsset ()
+    : m_info(NULL),
+      m_comment(NULL),
+      m_source(0),
+      m_format(0) {
 }
 
 SoundAsset::~SoundAsset () {
+    Unload();
 }
 
-
 bool SoundAsset::Load (const DataItem& item) {
+    m_path = item.path;
+
     ov_callbacks vorbisCallbacks;
     vorbisCallbacks.read_func = VorbisRead;
 	vorbisCallbacks.close_func = VorbisClose;
 	vorbisCallbacks.seek_func = VorbisSeek;
 	vorbisCallbacks.tell_func = VorbisTell;
 
-    OggFile file;
-    file.data = item.data;
-    file.size = item.size;
-    file.readBytes = 0;
+    m_file.data = new char[item.size];
+    memcpy(m_file.data, item.data, item.size);
+    m_file.size = item.size;
+    m_file.readBytes = 0;
 
-	if (ov_open_callbacks(&file, &m_oggStream, NULL, 0, vorbisCallbacks) != 0) {
-		LOG(ERROR) << "Could not read Ogg file from memory.";
+	if (ov_open_callbacks(&m_file, &m_oggStream, NULL, 0,
+                          vorbisCallbacks) != 0) {
+		LOG(ERROR) << "Could not read OGG file from memory.";
         return false;
     }
 
     m_info = ov_info(&m_oggStream, -1);
     m_comment = ov_comment(&m_oggStream, -1);
 
-    if(m_info->channels == 1)
+    if (m_info->channels == 1)
         m_format = AL_FORMAT_MONO16;
     else
         m_format = AL_FORMAT_STEREO16;
-
 
     alGenBuffers(2, m_buffers);
     alGenSources(1, &m_source);
@@ -50,176 +58,100 @@ bool SoundAsset::Load (const DataItem& item) {
     alSourcef (m_source, AL_ROLLOFF_FACTOR,  0.0          );
     alSourcei (m_source, AL_SOURCE_RELATIVE, AL_TRUE      );
 
+    G_SoundManager->RegisterSound(this);
+
     return true;
 }
 
 void SoundAsset::Reload () {
+    Unload();
+    DataItem item;
+    m_manager->ReloadPath(this, &item);
+    Load(item);
 }
 
 void SoundAsset::Unload () {
+    delete[] m_file.data;
+    alSourceStop(m_source);
+    // This doesn't seem necessary.
+    //EmptyBuffers();
+    alDeleteSources(1, &m_source);
+    alDeleteBuffers(NUM_BUFFERS, m_buffers);
+    ov_clear(&m_oggStream);
+    G_SoundManager->UnregisterSound(this);
 }
 
-void SoundAsset::Play () {
+bool SoundAsset::Play () {
+    if (IsPlaying())
+        return true;
+
+    for (int i = 0; i < NUM_BUFFERS; i++) {
+        if (!Stream(m_buffers[i]))
+            return false;
+    }
+
+    alSourceQueueBuffers(m_source, 2, m_buffers);
+    alSourcePlay(m_source);
+
+    return true;
+}
+
+void SoundAsset::Stop () {
+    alSourceStop(m_source);
+}
+
+void SoundAsset::EmptyBuffers () {
+    int numQueued;
+    alGetSourcei(m_source, AL_BUFFERS_QUEUED, &numQueued);
+    for (int i = 0; i < numQueued; i++) {
+        ALuint buffer;
+        alSourceUnqueueBuffers(m_source, 1, &buffer);
+    }
 }
 
 bool SoundAsset::IsPlaying () {
     ALenum state;
     alGetSourcei(m_source, AL_SOURCE_STATE, &state);
-    return (state == AL_PLAYING);
+    return state == AL_PLAYING;
 }
 
-/*
-void ogg_stream::release()
-{
-    alSourceStop(source);
-    empty();
-    alDeleteSources(1, &source);
-    check();
-    alDeleteBuffers(1, buffers);
-    check();
-
-    ov_clear(&oggStream);
-
-	// Free the memory that we created for the file
-	delete[] oggMemoryFile.dataPtr;
-	oggMemoryFile.dataPtr = NULL;
-}
-
-bool ogg_stream::playback()
-{
-    if(playing())
-        return true;
-
-    if(!stream(buffers[0]))
-        return false;
-
-    if(!stream(buffers[1]))
-        return false;
-
-    alSourceQueueBuffers(source, 2, buffers);
-    alSourcePlay(source);
-
-    return true;
-}
-
-
-
-
-bool ogg_stream::playing()
-{
-    ALenum state;
-
-    alGetSourcei(source, AL_SOURCE_STATE, &state);
-
-    return (state == AL_PLAYING);
-}
-
-
-
-
-bool ogg_stream::update()
-{
-    int processed;
+bool SoundAsset::Update () {
+    int numProcessed;
     bool active = true;
 
-    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+    alGetSourcei(m_source, AL_BUFFERS_PROCESSED, &numProcessed);
 
-    while(processed--)
-    {
+    for (int i = 0; i < numProcessed; i++) {
         ALuint buffer;
-
-        alSourceUnqueueBuffers(source, 1, &buffer);
-        check();
-
-        active = stream(buffer);
-
-        alSourceQueueBuffers(source, 1, &buffer);
-        check();
+        alSourceUnqueueBuffers(m_source, 1, &buffer);
+        active = Stream(buffer);
+        alSourceQueueBuffers(m_source, 1, &buffer);
     }
 
     return active;
 }
 
-
-
-
-bool ogg_stream::stream(ALuint buffer)
-{
+bool SoundAsset::Stream (ALuint buffer) {
     char pcm[BUFFER_SIZE];
-    int  size = 0;
-    int  section;
-    int  result;
+    int size = 0;
+    int section;
+    int result;
 
-    while(size < BUFFER_SIZE)
-    {
-        result = ov_read(&oggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1, &section);
-
-        if(result > 0)
+    while (size < BUFFER_SIZE) {
+        result = ov_read(&m_oggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
+                         &section);
+        if (result > 0)
             size += result;
+        else if (result < 0)
+            LOG(ERROR) << "OGG decoding error.";
         else
-            if(result < 0)
-                throw errorString(result);
-            else
-                break;
+            break;
     }
-
-    if(size == 0)
+    if (size == 0)
         return false;
 
-    alBufferData(buffer, format, pcm, size, vorbisInfo->rate);
-    check();
-
+    alBufferData(buffer, m_format, pcm, size, m_info->rate);
     return true;
 }
 
-
-
-
-void ogg_stream::empty()
-{
-    int queued;
-
-    alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
-
-    while(queued--)
-    {
-        ALuint buffer;
-
-        alSourceUnqueueBuffers(source, 1, &buffer);
-        check();
-    }
-}
-
-
-
-
-void ogg_stream::check()
-{
-	int error = alGetError();
-
-	if(error != AL_NO_ERROR)
-		throw string("OpenAL error was raised.");
-}
-
-
-
-string ogg_stream::errorString(int code)
-{
-    switch(code)
-    {
-        case OV_EREAD:
-            return string("Read from media.");
-        case OV_ENOTVORBIS:
-            return string("Not Vorbis data.");
-        case OV_EVERSION:
-            return string("Vorbis version mismatch.");
-        case OV_EBADHEADER:
-            return string("Invalid Vorbis header.");
-        case OV_EFAULT:
-            return string("Internal logic fault (bug or heap/stack corruption.");
-        default:
-            return string("Unknown Ogg error.");
-    }
-}
-*/
 }

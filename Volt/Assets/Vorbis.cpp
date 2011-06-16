@@ -2,8 +2,8 @@
 
 namespace Volt {
 
-size_t VorbisRead (void *ptr, size_t byteSize, size_t sizeToRead,
-                   void *datasource) {
+size_t VorbisRead (void* ptr, size_t byteSize, size_t sizeToRead,
+                   void* datasource) {
     size_t spaceToEOF;
     size_t actualSizeToRead;
     OggFile* vorbisData;
@@ -11,14 +11,15 @@ size_t VorbisRead (void *ptr, size_t byteSize, size_t sizeToRead,
     vorbisData = (OggFile*)datasource;
 
     spaceToEOF = vorbisData->size - vorbisData->readBytes;
-    if ((sizeToRead*byteSize) < spaceToEOF)
-        actualSizeToRead = (sizeToRead*byteSize);
+    if (sizeToRead * byteSize < spaceToEOF)
+        actualSizeToRead = sizeToRead * byteSize;
     else
         actualSizeToRead = spaceToEOF;
 
-    if (actualSizeToRead) {
-        memcpy(ptr, (char*)vorbisData->data + vorbisData->readBytes, actualSizeToRead);
-        vorbisData->readBytes += (actualSizeToRead);
+    if (actualSizeToRead > 0) {
+        memcpy(ptr, (char*)vorbisData->data + vorbisData->readBytes,
+                     actualSizeToRead);
+        vorbisData->readBytes += actualSizeToRead;
     }
 
     return actualSizeToRead;
@@ -45,7 +46,7 @@ int VorbisSeek (void* datasource, ogg_int64_t offset, int whence) {
             vorbisData->readBytes += actualOffset;
         break;
         case SEEK_END:
-            vorbisData->readBytes = vorbisData->size+1;
+            vorbisData->readBytes = vorbisData->size + 1;
         break;
         default:
             LOG(ERROR) << "Unknown seek command in VorbisSeek.";
@@ -59,7 +60,7 @@ int VorbisClose (void* datasource) {
     return 1;
 }
 
-long VorbisTell (void *datasource) {
+long VorbisTell (void* datasource) {
     OggFile* vorbisData = (OggFile*)datasource;
     return vorbisData->readBytes;
 }

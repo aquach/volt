@@ -20,7 +20,7 @@ INCLUDE_DIR += -I $(CONTRIB_DIR)/gl
 INCLUDE_DIR += -I $(CONTRIB_DIR)
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
-LIBS = -lSDL -lSDL_image -lGL -lGLU -lGLEW -lopenal -logg
+LIBS = -lSDL -lSDL_image -lGL -lGLU -lGLEW -lopenal -logg -lvorbisfile
 LIBS += $(CONTRIB_DIR)/gflags-1.5/.libs/libgflags.a
 LIBS += $(CONTRIB_DIR)/glog-0.3.1/.libs/libglog.a
 

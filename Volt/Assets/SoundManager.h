@@ -2,6 +2,7 @@
 
 #include "Core/Core.h"
 #include <AL/alc.h>
+#include <set>
 #include "AssetManager.h"
 
 namespace Volt {
@@ -16,11 +17,17 @@ public:
     }
     static SoundManager* Instance () { return instance; }
 
-    void Play (SoundAssetRef sound);
+    void Update ();
+
+    void RegisterSound (SoundAsset* asset);
+    void UnregisterSound (SoundAsset* asset);
 
 private:
     static SoundManager* instance;
 
+    void CheckErrors ();
+
+    set<SoundAsset*> m_sounds;
     ALCdevice* m_device;
     ALCcontext* m_context;
 

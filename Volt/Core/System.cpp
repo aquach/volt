@@ -9,6 +9,14 @@
 
 namespace Volt {
 
+void SleepMicroseconds (long usecs) {
+#if COMPILER_GCC
+    usleep(usecs);
+#else
+    // TODO
+#endif
+}
+
 string GetExecutableDirectory (string exePath) {
 #if COMPILER_GCC
     char path[255];
