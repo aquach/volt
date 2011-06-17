@@ -13,22 +13,15 @@ LIB_OBJS = $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(LIB_SRCS))
 LIB_DEPS = $(patsubst %.cpp,$(OBJ_DIR)/%.d,$(LIB_SRCS))
 
 INCLUDE_DIR = -I $(SRC_DIR)
-INCLUDE_DIR += -I $(CONTRIB_DIR)/gflags-1.5/src
-INCLUDE_DIR += -I $(CONTRIB_DIR)/glog-0.3.1/src
-INCLUDE_DIR += -I $(CONTRIB_DIR)/gl
 INCLUDE_DIR += -I $(CONTRIB_DIR)
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 
 all: dirs test $(LIB)
 
-depends:
-	(cd Contrib/glog-0.3.1 && ./configure && make)
-	(cd Contrib/gflags-1.5 && ./configure && make)
-
 install-deps:
 	sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libglew1.5-dev \
-	                     libopenal-dev libogg-dev
+	                     libopenal-dev libogg-dev libvorbis-dev
 
 dirs: $(BIN_DIR) $(OBJ_DIR)
 

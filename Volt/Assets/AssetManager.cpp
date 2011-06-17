@@ -15,8 +15,8 @@ AssetManager::~AssetManager () {
     LOG(INFO) << "Destroying asset manager...";
     delete m_dataSource;
     for (Assets::iterator i = m_assets.begin(); i != m_assets.end(); i++) {
-        DCHECK_EQ(i->second->referenceCount(), 0) << "Asset: "
-                                                  << i->second->path();
+        CHECK_EQ(i->second->referenceCount(), 0) << "Asset: "
+                                                 << i->second->path();
         delete i->second;
     }
 }

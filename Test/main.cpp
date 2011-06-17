@@ -131,10 +131,6 @@ public:
 };
 
 int main (int argc, char** argv) {
-	google::InitGoogleLogging(argv[0]);
-	google::ParseCommandLineFlags(&argc, &argv, true);
-	FLAGS_logtostderr = true;
-
 	string exeDir = GetExecutableDirectory(argv[0]);
 	LOG(INFO) << "Executable directory: " << exeDir;
 
