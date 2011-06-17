@@ -105,7 +105,7 @@ public:
         os << setfill('0') << setw(2) << hour
            << ":" << setw(2) << min
            << ":" << setw(2) << sec
-           << "." << usec;
+           << "." << setw(6) << usec;
         os << " ";
         string fileStr(file);
         size_t index = fileStr.find_last_of("/\\");

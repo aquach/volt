@@ -132,7 +132,10 @@ bool SoundAsset::IsPlaying () {
     return state == AL_PLAYING;
 }
 
-bool SoundAsset::Update () {
+void SoundAsset::Update () {
+    if (!IsPlaying())
+        return;
+
     int numProcessed;
     bool active = true;
 
@@ -145,7 +148,8 @@ bool SoundAsset::Update () {
         alSourceQueueBuffers(m_source, 1, &buffer);
     }
 
-    return active;
+    if (!active)
+        Stop();
 }
 
 bool SoundAsset::Stream (ALuint buffer) {

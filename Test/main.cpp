@@ -66,7 +66,7 @@ public:
 	}
 
 	virtual void OnBegin () {
-		sound = G_AssetManager->GetSound("bgm.ogg");
+		sound = G_AssetManager->GetSound("thunder.ogg");
 		sound2 = G_AssetManager->GetSound("cutscene2.ogg");
 		sound->Play();
 

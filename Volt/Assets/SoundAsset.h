@@ -26,15 +26,25 @@ public:
     void Reload ();
     void Unload ();
 
+    /** Plays the sound file. Returns true if the music is playing or was
+     *  succesfully started. */
     bool Play ();
+
     bool IsPlaying ();
     void Stop ();
 
-    bool Update ();
+    /** Streams and queues another buffers of data into the source queue when
+     *  a buffer has been processed. When the music data has ended, stops the
+     *  source.
+     */
+    void Update ();
 
     /* TODO: Pause capability, pan capabilities, stack multiple sounds. */
 private:
     void EmptyBuffers ();
+
+    /** Reads another chunk of the OGG, decompressing it into PCM data and
+     *  loading it into buffer. Returns true if the OGG has data left. */
     bool Stream (ALuint buffer);
 
     OggFile m_file;
