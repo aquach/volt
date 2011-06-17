@@ -25,7 +25,7 @@ enum LogType {
     LogStream(__FILE__, __LINE__, condition, #condition).Stream()
 
 #define CHECK_OP(a, b, op) \
-    LogStream(__FILE__, __LINE__, (int)a, (int)b, (a) op (b), #op).Stream()
+    LogStream(__FILE__, __LINE__, (int)(a), (int)(b), (a) op (b), #op).Stream()
 
 #define CHECK_EQ(a, b) CHECK_OP(a, b, ==)
 #define CHECK_GT(a, b) CHECK_OP(a, b, >)

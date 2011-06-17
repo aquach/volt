@@ -15,6 +15,8 @@ PackDataSource::PackDataSource (const string& sourcePath)
       m_data(NULL),
       m_size(0) {
 
+    LOG(INFO) << "Loading pack file...";
+
     ifstream file(sourcePath.c_str(), ifstream::binary);
     if (!file.is_open()) {
         LOG(ERROR) << "Could not open " << sourcePath;
@@ -82,6 +84,7 @@ PackDataSource::~PackDataSource () {
 bool PackDataSource::LoadDataItem (const string& itemPath,
                                    DataItem* item) const {
     CHECK_NOTNULL(item);
+    LOG(INFO) << "Loading " << itemPath << "...";
 
     map<string, PackItem>::const_iterator i = m_files.find(itemPath);
     if (i == m_files.end()) {
@@ -120,23 +123,27 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
     int memSize = 3 * 1024 * 1024 + sizeof(PackFileHeader)
                   + 20 * filenames.size();
 
-    char* packFile = (char*)malloc(memSize);
+    vector<char> packFile;
+    packFile.reserve(memSize);
 
-    PackFileHeader* header = (PackFileHeader*)packFile;
+    packFile.resize(packFile.size() + sizeof(PackFileHeader));
+    PackFileHeader* header = (PackFileHeader*)packFile.data();
     header->code = PACK_CODE;
     header->numItems = filenames.size();
 
     // Pointers into the pack file where offsets should go.
     char* filePtr = (char*)(header + 1);
-    vector<int*> offsets;
-    vector<int*> sizes;
+    vector<int> offsets;
+    vector<int> sizes;
     for (unsigned int i = 0; i < filenames.size(); i++) {
+        packFile.resize(packFile.size() + sizeof(int) * 3);
+
         // Offset.
-        offsets.push_back((int*)filePtr);
+        offsets.push_back(filePtr - packFile.data());
         filePtr += sizeof(int);
 
         // File size.
-        sizes.push_back((int*)filePtr);
+        sizes.push_back(filePtr - packFile.data());
         filePtr += sizeof(int);
 
         // String size.
@@ -144,10 +151,11 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
         filePtr += sizeof(int);
 
         // String.
+        packFile.resize(packFile.size() + filenames[i].size());
         memcpy(filePtr, filenames[i].c_str(), filenames[i].size());
         filePtr += filenames[i].size();
 
-        CHECK_LE(filePtr, packFile + memSize);
+        CHECK_LE(filePtr - packFile.data(), packFile.size());
     }
 
     // Write data.
@@ -163,30 +171,26 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
         int size = file.tellg();
         file.seekg(0, ios::beg);
 
-        *sizes[i] = size;
+        *(int*)&packFile[sizes[i]] = size;
 
-        if (filePtr - packFile > memSize - size) {
-            memSize = (memSize + size) * 2;
-            int len = filePtr - packFile;
-            packFile = (char*)realloc(packFile, memSize);
-            filePtr = packFile + len;
-        }
+        int index = filePtr - packFile.data();
+        packFile.resize(packFile.size() + size);
+        filePtr = packFile.data() + index;
+        CHECK_LE(filePtr - packFile.data() + size, packFile.size());
         file.read(filePtr, size);
 
         // Write offset for corresponding header.
-        *offsets[i] = filePtr - packFile;
+        *(int*)&packFile[offsets[i]] = filePtr - packFile.data();
         filePtr += size;
-
         file.close();
     }
 
-    int packFileLength = filePtr - packFile;
-    header->hash = HashData(packFile, packFileLength);
+    header = (PackFileHeader*)packFile.data();
+    header->hash = HashData(packFile.data(), packFile.size());
 
-    out.write(packFile, packFileLength);
+    out.write(packFile.data(), packFile.size());
     out.close();
-    free(packFile);
-    LOG(INFO) << "Wrote pack file (" << packFileLength << " bytes).";
+    LOG(INFO) << "Wrote pack file (" << packFile.size() << " bytes).";
 }
 
 }
