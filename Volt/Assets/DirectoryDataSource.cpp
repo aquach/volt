@@ -16,7 +16,7 @@ bool DirectoryDataSource::LoadDataItem (const string& itemPath,
     CHECK_NOTNULL(item);
 
     string path = sourcePath() + "/" + itemPath;
-    ifstream file(path.c_str());
+    ifstream file(path.c_str(), ifstream::binary);
     if (!file.is_open()) {
         LOG(FATAL) << "Path doesn't exist: " << path;
         return false;

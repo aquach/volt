@@ -50,8 +50,8 @@ Game::~Game () {
         m_currentScene->OnEnd();
         delete m_currentScene;
     }
-    delete m_soundManager;
     delete m_assetManager;
+    delete m_soundManager;
     delete m_window;
 }
 

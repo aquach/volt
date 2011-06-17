@@ -67,7 +67,7 @@ public:
 
 	virtual void OnBegin () {
 		sound = G_AssetManager->GetSound("bgm.ogg");
-		sound2 = G_AssetManager->GetSound("grow.ogg");
+		sound2 = G_AssetManager->GetSound("cutscene2.ogg");
 		sound->Play();
 
 		entity = new TestEntity;
@@ -90,6 +90,7 @@ public:
 		label3->SetText("LABEL ANCHOR!!!");
 		Add(label3, -1);
 
+        /*
 		GpuProgram* program = new GpuProgram;
 		program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));
 		program->Attach(G_AssetManager->GetShader("test.frag", ShaderAsset::SHADER_FRAGMENT));
@@ -103,7 +104,7 @@ public:
 			Filter* filter = new Filter(program);
 			//AddFilter(filter, -1);
 		}
-
+        */
 	}
 
 	virtual void Update () {

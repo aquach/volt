@@ -10,6 +10,22 @@ namespace Volt {
 
 const int BUFFER_SIZE = 4096 * 16;
 
+static string GetVorbisErrorString (int code) {
+    switch (code) {
+        case OV_EFAULT: return "Fault";
+        case OV_EIMPL: return "Impl";
+        case OV_EINVAL: return "Invalid value.";
+        case OV_ENOTVORBIS: return "Not vorbis file.";
+        case OV_EBADHEADER: return "Bad header.";
+        case OV_EVERSION: return "Version error.";
+        case OV_ENOTAUDIO: return "Not audio.";
+        case OV_EBADPACKET: return "Bad packet.";
+        case OV_EBADLINK: return "Bad link.";
+        case OV_ENOSEEK: return "No seek.";
+        default: return "Unknown error.";
+    }
+}
+
 SoundAsset::SoundAsset ()
     : m_info(NULL),
       m_comment(NULL),
@@ -35,9 +51,10 @@ bool SoundAsset::Load (const DataItem& item) {
     m_file.size = item.size;
     m_file.readBytes = 0;
 
-	if (ov_open_callbacks(&m_file, &m_oggStream, NULL, 0,
-                          vorbisCallbacks) != 0) {
-		LOG(ERROR) << "Could not read OGG file from memory.";
+    int ret = ov_open_callbacks(&m_file, &m_oggStream, NULL, 0,
+                                vorbisCallbacks);
+	if (ret != 0) {
+        LOG(ERROR) << "Could not read OGG file from memory: " << GetVorbisErrorString(ret);
         return false;
     }
 

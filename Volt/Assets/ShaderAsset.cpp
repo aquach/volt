@@ -76,6 +76,7 @@ bool ShaderAsset::Load (const DataItem& item, ShaderType type) {
     m_shader = new Shader(type);
     m_shader->Load(item);
     m_path = item.path;
+    m_type = type;
     return m_shader->Compile();
 }
 
