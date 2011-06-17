@@ -1,11 +1,14 @@
 #pragma once
 
+#include "CoreBase.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <cstdlib>
 
 using namespace std;
+
+namespace Volt {
 
 enum LogType {
     INFO = 1,
@@ -31,6 +34,8 @@ enum LogType {
 
 #define CHECK_NOTNULL(val) \
     LogStream(#val, __FILE__, __LINE__, val).Stream()
+
+void GetTimestamp (int* hour, int* min, int* sec, long* usec);
 
 class LogStream {
 public:
@@ -93,14 +98,14 @@ public:
             case FATAL: os << "F "; break;
         }
 
-        struct tm *current;
-        time_t now;
+        int hour = 0, min = 0, sec = 0;
+        long usec = 0;
+        GetTimestamp(&hour, &min, &sec, &usec);
 
-        time(&now);
-        current = localtime(&now);
-        os << setfill('0') << setw(2) << current->tm_hour
-           << ":" << setw(2) << current->tm_min
-           << ":" << setw(2) << current->tm_sec;
+        os << setfill('0') << setw(2) << hour
+           << ":" << setw(2) << min
+           << ":" << setw(2) << sec
+           << "." << usec;
         os << " ";
         string fileStr(file);
         size_t index = fileStr.find_last_of("/\\");
@@ -115,3 +120,5 @@ private:
     stringstream os;
     LogType type;
 };
+
+}
