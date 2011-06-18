@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/glog-0.3.1/src/windows&quot;;&quot;$(SolutionDir)../Contrib/gflags-1.5/src/windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/Windows&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/glog-0.3.1/src/windows&quot;;&quot;$(SolutionDir)../Contrib/gflags-1.5/src/windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/Windows&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -148,10 +148,6 @@
 		<Filter
 			Name="Assets"
 			>
-			<File
-				RelativePath="..\Volt\Assets\Asset.cpp"
-				>
-			</File>
 			<File
 				RelativePath="..\Volt\Assets\Asset.h"
 				>
@@ -274,6 +270,10 @@
 			</File>
 			<File
 				RelativePath="..\Volt\Core\CoreBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Core\Logging.h"
 				>
 			</File>
 			<File

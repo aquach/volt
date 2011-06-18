@@ -9,9 +9,17 @@
 #include <utility>
 #include <vector>
 
+#include "CoreBase.h"
+
+#if COMPILER_VCC
+#define WIN32_LEAN_AND_MEAN
+#define NOGDI
+#define NOMINMAX
+#include <windows.h>
+#endif
+
 #include "BBox.h"
 #include "Color.h"
-#include "CoreBase.h"
 #include "Macros.h"
 #include "Math.h"
 #include "Random.h"
@@ -21,10 +29,5 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Logging.h"
-
-#if COMPILER_VCC
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 
 using namespace std;

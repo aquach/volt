@@ -1,6 +1,7 @@
 #include "System.h"
 #include "Core.h"
 #include <string.h>
+
 #if COMPILER_GCC
 #include <unistd.h>
 #include <sys/stat.h>
@@ -9,11 +10,33 @@
 
 namespace Volt {
 
+void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
+#if COMPILER_GCC
+    struct timeval tv;
+    struct timezone tz;
+    gettimeofday(&tv, &tz);
+    struct tm* tm = localtime(&tv.tv_sec);
+
+    *hour = tm->tm_hour;
+    *min = tm->tm_min;
+    *sec = tm->tm_sec;
+    *usec = tv.tv_usec;
+#else
+    SYSTEMTIME lt;
+    GetLocalTime(&lt);
+    
+    *hour = lt.wHour;
+    *min = lt.wMinute;
+    *sec = lt.wSecond;
+    *usec = lt.wMilliseconds * 1000;
+#endif
+}
+
 void SleepMicroseconds (long usecs) {
 #if COMPILER_GCC
     usleep(usecs);
 #else
-    // TODO
+    Sleep(usecs / 1000);
 #endif
 }
 

@@ -7,6 +7,8 @@ using namespace std;
 
 namespace Volt {
 
+void GetTimestamp (int* hour, int* min, int* sec, long* usec);
+
 void SleepMicroseconds (long usecs);
 
 string GetExecutableDirectory (string exePath);

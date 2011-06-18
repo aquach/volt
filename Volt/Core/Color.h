@@ -1,7 +1,6 @@
 #pragma once
 
-namespace Volt
-{
+namespace Volt {
 
 /**
  * Describes a color using 4 floats in 0.0 - 1.0 range.

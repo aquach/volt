@@ -22,8 +22,8 @@ Obj
 .libs
 *.la
 *.pc
-Debug
-Release
+VS2008/Debug
+VS2008/Release
 *.suo
 UpgradeLog*
 *UpgradeReport*
