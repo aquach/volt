@@ -3,3 +3,13 @@ volt
 A really simple 2D game engine in C++, created for educational purposes.
 Might eventually be used to build a cool game. Inspired by many different
 games and game engines.
+
+Features:
+* Window/input management using SDL
+* Sound system with both buffered music and stacked sound effects using OGG, Vorbis, and OpenAL
+* Graphics system using OpenGL
+* Game logic management (Game, Scene, and Entity classes)
+* Reference-counted asset manager (sounds, textures, fonts, shaders)
+* TTF font loading and rendering with full glyph kerning data using stb
+* Reads from a directory as well as from a packed data file (because Leo likes it)
+* Multi-pass graphics filter support via shaders
