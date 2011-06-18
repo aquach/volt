@@ -8,29 +8,29 @@ namespace Volt {
 class Color
 {
 public:
-	Color (const Color &color);
-	Color ();
-	Color (float r, float g, float b);
-	Color (float r, float g, float b, float a);
+    Color (const Color &color);
+    Color ();
+    Color (float r, float g, float b);
+    Color (float r, float g, float b, float a);
 
-	static Color RGB (int r, int g, int b);
+    static Color RGB (int r, int g, int b);
 
-	void Clamp ();
+    void Clamp ();
 
-	float& operator[] (unsigned int i);
-	bool operator!= (const Color& rhs);
+    float& operator[] (unsigned int i);
+    bool operator!= (const Color& rhs);
 
-	float r, g, b, a;
+    float r, g, b, a;
 
-	static Color white;
-	static Color grey;
-	static Color black;
-	static Color red;
-	static Color green;
-	static Color blue;
-	static Color yellow;
-	static Color orange;
-	static Color purple;
+    static Color white;
+    static Color grey;
+    static Color black;
+    static Color red;
+    static Color green;
+    static Color blue;
+    static Color yellow;
+    static Color orange;
+    static Color purple;
 };
 
 Color operator+ (const Color& lhs, const Color& rhs);

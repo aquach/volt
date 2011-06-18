@@ -11,19 +11,19 @@ namespace Volt
  */
 class Transform {
 public:
-	Transform ();
-	Transform (const Transform &transform);
+    Transform ();
+    Transform (const Transform &transform);
 
-	/** Interpolate this Transform from prev and next, based on percent.
-	 *  t goes from 0.0 to 1.0.
-	 */
-	void LerpTransform (Transform *prev, Transform *next, float percent);
+    /** Interpolate this Transform from prev and next, based on percent.
+     *  t goes from 0.0 to 1.0.
+     */
+    void LerpTransform (Transform *prev, Transform *next, float percent);
 
-	/** Retrieves a direction vector based on the rotation value. */
-	Vector2 GetDirectionVector() const;
+    /** Retrieves a direction vector based on the rotation value. */
+    Vector2 GetDirectionVector() const;
 
-	Vector2 position;
-	float rotation;
-	Vector2 scale;
+    Vector2 position;
+    float rotation;
+    Vector2 scale;
 };
 }

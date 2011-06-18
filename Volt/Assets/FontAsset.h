@@ -22,7 +22,7 @@ public:
      *  position after rendering the current quad with the data returned in the
      *  BBoxes. */
     void GetGlyphData (char c, float* x, float* y,
-		       BBox* verts, BBox* texCoords) const;
+               BBox* verts, BBox* texCoords) const;
 
     float GetTextWidth (const string &text);
     float GetTextHeight (const string &text);

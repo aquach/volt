@@ -12,10 +12,10 @@ class Graphics {
 
 public:
     enum BlendType {
-	BLEND_NONE = 0,
-	BLEND_ALPHA,
-	BLEND_ADDITIVE,
-	BLEND_MULTIPLY,
+    BLEND_NONE = 0,
+    BLEND_ALPHA,
+    BLEND_ADDITIVE,
+    BLEND_MULTIPLY,
     };
 
     static void Clear ();
@@ -35,20 +35,20 @@ public:
     static void Scale (const Vector2& pos);
 
     static void RenderQuad (float width,
-			    float height,
-			    const Vector2& textureOffset = Vector2::zero,
-			    const Vector2 &textureScale = Vector2::one,
-			    const Vector2 &position = Vector2::zero);
+                float height,
+                const Vector2& textureOffset = Vector2::zero,
+                const Vector2 &textureScale = Vector2::one,
+                const Vector2 &position = Vector2::zero);
 
     static void RenderQuadCustom (const Vector2& ul,
-				  const Vector2& ur,
-				  const Vector2& lr,
-				  const Vector2& ll,
-				  const Vector2& textureOffset,
-				  const Vector2& textureScale);
+                  const Vector2& ur,
+                  const Vector2& lr,
+                  const Vector2& ll,
+                  const Vector2& textureOffset,
+                  const Vector2& textureScale);
 
     static void RenderText (FontAssetRef font, const string& text,
-			    float x, float y);
+                float x, float y);
 
     static void RenderLineRect (float x, float y, float w, float h);
     static void RenderLineRect (const BBox& box);
