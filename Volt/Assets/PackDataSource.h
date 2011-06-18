@@ -5,7 +5,7 @@
 
 namespace Volt {
 
-const unsigned int PACK_CODE = 0x000fb1d0;
+const uint PACK_CODE = 0x000fb1d0;
 
 /**
  *  Game data in the form of a single packed file.

@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Core/Core.h"
+
 namespace Volt {
 
-unsigned int HashData (void* ptr, int length);
+uint HashData (void* ptr, int length);
 
 }

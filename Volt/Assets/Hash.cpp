@@ -1,5 +1,4 @@
 #include "Hash.h"
-#include "Core/Core.h"
 
 namespace Volt {
 
@@ -7,7 +6,7 @@ static int c_crctab[256];
 static bool initialized = false;
 
 static void InitializeHash () {
-    unsigned int crc, poly;
+    uint crc, poly;
     int i, j;
     poly = 0xEDB88320L;
     for  (i = 0; i < 256; i++) {
@@ -23,14 +22,14 @@ static void InitializeHash () {
     }
 }
 
-unsigned int HashData (void* ptr, int length) {
+uint HashData (void* ptr, int length) {
     if (!initialized) {
         InitializeHash();
         initialized = true;
     }
 
     char* block = (char*)ptr;
-    unsigned int crc = 0xFFFFFFFF;
+    uint crc = 0xFFFFFFFF;
     for (int i = 0; i < length; i++) {
         crc = ((crc >> 8) & 0x00FFFFFF) ^ c_crctab[(crc ^ *block++) & 0xFF];
     }

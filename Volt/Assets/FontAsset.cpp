@@ -83,7 +83,7 @@ float FontAsset::GetTextWidth (const string& text) {
     float width = 0;
     float x;
     float y;
-    for (unsigned int i = 0; i < text.size(); i++) {
+    for (uint i = 0; i < text.size(); i++) {
     BBox verts;
     BBox texCoords;
     GetGlyphData(text[i], &x, &y, &verts, &texCoords);
@@ -95,7 +95,7 @@ float FontAsset::GetTextWidth (const string& text) {
 float FontAsset::GetTextHeight (const string& text) {
     float top = 0;
     float bottom = 0;
-    for (unsigned int i = 0; i < text.size(); i++) {
+    for (uint i = 0; i < text.size(); i++) {
     float x = 0;
     float y = 0;
     BBox verts;

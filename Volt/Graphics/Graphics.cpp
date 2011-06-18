@@ -251,7 +251,7 @@ void Graphics::RenderText (FontAssetRef font, const string& text,
     BindFont(font);
     BBox verts, texCoords;
     glBegin(GL_QUADS);
-    for (unsigned int i = 0; i < text.size(); i++)
+    for (uint i = 0; i < text.size(); i++)
     {
         char c = text[i];
         if ((c >= 32) && (c < 128))

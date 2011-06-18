@@ -14,7 +14,7 @@ GpuProgram::GpuProgram ()
 }
 
 GpuProgram::~GpuProgram () {
-    for (unsigned int i = 0; i < m_shaders.size(); i++) {
+    for (uint i = 0; i < m_shaders.size(); i++) {
         glDetachObjectARB(m_handle, m_shaders[i]->handle());
     }
     glDeleteObjectARB(m_handle);

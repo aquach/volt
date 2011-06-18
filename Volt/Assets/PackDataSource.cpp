@@ -5,9 +5,9 @@
 namespace Volt {
 
 struct PackFileHeader {
-    unsigned int code;
-    unsigned int hash;
-    unsigned int numItems;
+    uint code;
+    uint hash;
+    uint numItems;
 };
 
 PackDataSource::PackDataSource (const string& sourcePath)
@@ -38,9 +38,9 @@ PackDataSource::PackDataSource (const string& sourcePath)
         return;
     }
 
-    unsigned int fileHash = header->hash;
+    uint fileHash = header->hash;
     header->hash = 0;
-    unsigned int hash = HashData(m_data, m_size);
+    uint hash = HashData(m_data, m_size);
     if (fileHash != hash) {
         LOG(ERROR) << "Invalid pack file (hash invalid).";
         delete[] m_data;
@@ -48,7 +48,7 @@ PackDataSource::PackDataSource (const string& sourcePath)
     }
 
     char* filePtr = (char*)(header + 1);
-    for (unsigned int i = 0; i < header->numItems; i++) {
+    for (uint i = 0; i < header->numItems; i++) {
         // Ensure room to read three ints.
         if ((int)(m_size - (filePtr - m_data)) < sizeof(int) * 3) {
             LOG(ERROR) << "Invalid pack file.";
@@ -135,7 +135,7 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
     char* filePtr = (char*)(header + 1);
     vector<int> offsets;
     vector<int> sizes;
-    for (unsigned int i = 0; i < filenames.size(); i++) {
+    for (uint i = 0; i < filenames.size(); i++) {
         packFile.resize(packFile.size() + sizeof(int) * 3);
 
         // Offset.
@@ -159,7 +159,7 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
     }
 
     // Write data.
-    for (unsigned int i = 0; i < filenames.size(); i++) {
+    for (uint i = 0; i < filenames.size(); i++) {
         string fullPath = sourcePath + "/" + filenames[i];
         ifstream file(fullPath.c_str());
         if (!file.is_open()) {
