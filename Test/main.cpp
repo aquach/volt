@@ -91,6 +91,8 @@ public:
 		label3->SetText("LABEL ANCHOR!!!");
 		Add(label3, -1);
 
+        G_AssetManager->ReloadAll();
+
         /*
 		GpuProgram* program = new GpuProgram;
 		program->Attach(G_AssetManager->GetShader("standard.vert", ShaderAsset::SHADER_VERTEX));

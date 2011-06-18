@@ -1,10 +1,8 @@
 #pragma once
 
-namespace Volt
-{
+namespace Volt {
 
-class Random
-{
+class Random {
 public:
     static void Seed ();
     static void Seed (unsigned int seed);

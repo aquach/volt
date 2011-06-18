@@ -2,8 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-namespace Volt
-{
+namespace Volt {
 
 void Random::Seed () {
     srand(static_cast<unsigned int>(time(NULL)));

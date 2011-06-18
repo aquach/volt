@@ -1,8 +1,7 @@
 #include "Transform.h"
 #include "Math.h"
 
-namespace Volt
-{
+namespace Volt {
 
 Transform::Transform()
     : position(Vector2::zero),

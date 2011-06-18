@@ -22,6 +22,7 @@ AssetManager::~AssetManager () {
 }
 
 void AssetManager::ReloadAll () {
+    LOG(INFO) << "Reloading all assets...";
     for (Assets::iterator i = m_assets.begin(); i != m_assets.end(); i++)
         i->second->Reload();
 }
@@ -153,6 +154,7 @@ TextureAssetRef AssetManager::GetTexture (
 }
 
 void AssetManager::GarbageCollect () {
+    LOG(INFO) << "Cleaning in-memory assets...";
     for (Assets::iterator i = m_assets.begin(); i != m_assets.end();) {
         if (i->second->referenceCount() == 0) {
             LOG(INFO) << "Reclaiming " << i->second->path();
