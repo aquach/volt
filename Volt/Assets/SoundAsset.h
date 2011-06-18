@@ -1,12 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
-#include <AL/al.h>
-#include <ogg/ogg.h>
-#include <vorbis/codec.h>
-#include <vorbis/vorbisfile.h>
 #include "Asset.h"
-#include "Vorbis.h"
 
 namespace Volt {
 
@@ -14,47 +9,48 @@ const int NUM_BUFFERS = 2;
 
 class DataItem;
 class SoundManager;
+class SingleSound;
+class MultipleSound;
 
 /* A sound file. */
 class SoundAsset : public Asset {
 public:
+    enum SoundType {
+        SOUND_SINGLE,  // For music: at most one instance can be playing.
+        SOUND_MULTIPLE // For sound effects: multiple instances can be playing.
+    };
+    enum SoundTransition {
+        TRANSITION_NONE,
+        TRANSITION_FADE
+    };
+
     SoundAsset ();
     ~SoundAsset ();
 
-    bool Load (const DataItem& item);
+    bool Load (const DataItem& item, SoundType type, float volume = 1.0);
 
-    void Reload ();
-    void Unload ();
+    virtual void Reload ();
+    virtual void Unload ();
 
     /** Plays the sound file. Returns true if the music is playing or was
-     *  succesfully started. */
-    bool Play ();
+     *  succesfully started. If a SINGLE sound, does nothing if the sound
+     *  is playing. If a MULTIPLE sound, starts playing the sound again. */
+    void Play ();
+    void PlayAt (Vector2 source, float volume);
 
+    /** These only work on SINGLE sounds. */
     bool IsPlaying ();
     void Stop ();
+    void Pause ();
+    bool IsPaused ();
 
-    /** Streams and queues another buffers of data into the source queue when
-     *  a buffer has been processed. When the music data has ended, stops the
-     *  source.
-     */
     void Update ();
 
-    /* TODO: Pause capability, pan capabilities, stack multiple sounds. */
 private:
-    void EmptyBuffers ();
-
-    /** Reads another chunk of the OGG, decompressing it into PCM data and
-     *  loading it into buffer. Returns true if the OGG has data left. */
-    bool Stream (ALuint buffer);
-
-    OggFile m_file;
-    OggVorbis_File m_oggStream;
-    vorbis_info* m_info;
-    vorbis_comment* m_comment;
-
-    ALuint m_buffers[NUM_BUFFERS];
-    ALuint m_source;
-    ALenum m_format;
+    SingleSound* m_single;
+    MultipleSound* m_multiple;
+    float m_volume;
+    SoundType m_type;
 };
 
 }

@@ -66,9 +66,10 @@ public:
 	}
 
 	virtual void OnBegin () {
-		sound = G_AssetManager->GetSound("thunder.ogg");
-		sound2 = G_AssetManager->GetSound("cutscene2.ogg");
+		sound = G_AssetManager->GetSound("bgm.ogg");
+		sound2 = G_AssetManager->GetSound("thunder.ogg", SoundAsset::SOUND_MULTIPLE);
 		sound->Play();
+		sound2->Play();
 
 		entity = new TestEntity;
 		Add(entity);
@@ -112,7 +113,8 @@ public:
 		char buffer[512];
 		sprintf(buffer, "FPS: %.1f", G_Game->fps());
 		label->SetText(buffer);
-		//sound2->Play();
+		if (Random::Percent() < 0.01)
+			sound2->Play();
 	}
 
 	virtual void OnKeyEvent (SDL_KeyboardEvent e) {
@@ -134,13 +136,15 @@ int main (int argc, char** argv) {
 	string exeDir = GetExecutableDirectory(argv[0]);
 	LOG(INFO) << "Executable directory: " << exeDir;
 
-	/*
-	PackDataSource* pack = new PackDataSource(exeDir + "../out.leopak");
 
+	//PackDataSource* pack = new PackDataSource(exeDir + "../out.leopak");
+
+	/*
 	DirectoryDataSource* s = new DirectoryDataSource(exeDir + "../TestData");
 	s->WriteToPackFile("out.leopak");
 	return 0;
-	*/
+	* */
+
 
 	Game* game = new Game("Test Game",
 						  new DirectoryDataSource(exeDir + "../TestData"));

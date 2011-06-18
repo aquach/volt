@@ -6,6 +6,7 @@ namespace Volt {
 
 DirectoryDataSource::DirectoryDataSource (const string& sourcePath)
     : DataSource(sourcePath) {
+    LOG(INFO) << "Loading directory data...";
 }
 
 DirectoryDataSource::~DirectoryDataSource () {
@@ -14,6 +15,7 @@ DirectoryDataSource::~DirectoryDataSource () {
 bool DirectoryDataSource::LoadDataItem (const string& itemPath,
                                         DataItem* item) const {
     CHECK_NOTNULL(item);
+    LOG(INFO) << "Loading " << itemPath << "...";
 
     string path = sourcePath() + "/" + itemPath;
     ifstream file(path.c_str(), ifstream::binary);

@@ -25,7 +25,8 @@ enum LogType {
     LogStream(__FILE__, __LINE__, condition, #condition).Stream()
 
 #define CHECK_OP(a, b, op) \
-    LogStream(__FILE__, __LINE__, (int)(a), (int)(b), (a) op (b), #op).Stream()
+    LogStream(__FILE__, __LINE__, (int)(a), (int)(b), (a) op (b), #op, \
+              #a, #b).Stream()
 
 #define CHECK_EQ(a, b) CHECK_OP(a, b, ==)
 #define CHECK_GT(a, b) CHECK_OP(a, b, >)
@@ -58,13 +59,13 @@ public:
     }
 
     LogStream (const char* file, int lineNumber, int a, int b, bool condition,
-               const char* op) {
+               const char* op, const char* aStr, const char* bStr) {
         this->type = FATAL;
         this->checkCondition = true;
         this->condition = condition;
         if (!condition) {
             SetupHeader(FATAL, file, lineNumber);
-            os << "Check failed: " << a << " " << op << " " << b
+            os << "Check failed: " << aStr << " " << op << " " << bStr
                << " (" << a << " vs. " << b << ") ";
         }
     }

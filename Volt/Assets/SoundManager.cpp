@@ -52,16 +52,22 @@ void SoundManager::CheckErrors () {
         switch (error) {
             case AL_INVALID_NAME:
                 LOG(ERROR) << "OpenAL invalid name.";
+            break;
             case AL_INVALID_ENUM:
                 LOG(ERROR) << "OpenAL invalid enum.";
+            break;
             case AL_INVALID_VALUE:
                 LOG(ERROR) << "OpenAL invalid value.";
+            break;
             case AL_INVALID_OPERATION:
                 LOG(ERROR) << "OpenAL invalid operation.";
+            break;
             case AL_OUT_OF_MEMORY:
                 LOG(ERROR) << "OpenAL out of memory.";
+            break;
             default:
                 LOG(ERROR) << "Unknown OpenAL error.";
+            break;
         }
     }
 }

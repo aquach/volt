@@ -31,7 +31,10 @@ public:
         int textureHeight = 1024);
     ShaderAssetRef GetShader (const string& path,
                               ShaderAsset::ShaderType type);
-    SoundAssetRef GetSound (const string& path);
+    SoundAssetRef GetSound (
+        const string& path,
+        SoundAsset::SoundType type = SoundAsset::SOUND_SINGLE,
+        float globalVolume = 1.0);
 
     void GarbageCollect ();
 

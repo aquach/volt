@@ -14,8 +14,8 @@ public:
 
     bool Load (const DataItem& item, float size);
 
-    void Reload ();
-    void Unload ();
+    virtual void Reload ();
+    virtual void Unload ();
 
     /** Gets the information for where to render the given character. x and y
      *  are the desired location for the texture, and are updated to be the new

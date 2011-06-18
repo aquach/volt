@@ -74,7 +74,7 @@ void FontAsset::Unload () {
     glDeleteTextures(1, (GLuint*)&m_texID);
 
     if (m_fontCData) {
-	free(m_fontCData);
+	delete[] (stbtt_bakedchar*)m_fontCData;
 	m_fontCData = NULL;
     }
 }

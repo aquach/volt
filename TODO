@@ -2,3 +2,4 @@ TODO LIST
 
 * Build on Windows.
 * Change tags to full class with associated type? IntTag, etc?
+* Advanced sound system - fade in/out, positional sound.

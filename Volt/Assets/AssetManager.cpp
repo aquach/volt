@@ -56,7 +56,9 @@ FontAssetRef AssetManager::GetFont (
     return FontAssetRef(font);
 }
 
-SoundAssetRef AssetManager::GetSound (const string& path) {
+SoundAssetRef AssetManager::GetSound (const string& path,
+                                      SoundAsset::SoundType type,
+                                      float globalVolume) {
 
     SoundAssetRef asset = GetAssetByKey<SoundAsset>(path);
     if (asset.HasAsset())
@@ -70,7 +72,7 @@ SoundAssetRef AssetManager::GetSound (const string& path) {
 
     SoundAsset* sound = new SoundAsset();
     sound->m_manager = this;
-    if (!sound->Load(item)) {
+    if (!sound->Load(item, type, globalVolume)) {
         LOG(ERROR) << "Failed to load sound " << path;
         delete sound;
         return NULL;
