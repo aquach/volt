@@ -14,6 +14,7 @@ LIB_DEPS = $(patsubst %.cpp,$(OBJ_DIR)/%.d,$(LIB_SRCS))
 
 INCLUDE_DIR = -I $(SRC_DIR)
 INCLUDE_DIR += -I $(CONTRIB_DIR)
+INCLUDE_DIR += -I $(CONTRIB_DIR)/Box2D_v2.1.2/Box2D
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 

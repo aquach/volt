@@ -5,6 +5,7 @@
 #include "Assets/SoundManager.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Window.h"
+#include "Collider.h"
 #include "Scene.h"
 
 #define MIN_DELTA_TIME (1.0f / 120.0f)
@@ -25,6 +26,10 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
       m_switchToScene(NULL),
       m_assetManager(NULL),
       m_soundManager(NULL) {
+
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position.Set(0, -10);
+    b2World world(b2Vec2(0, -10), true);
 
     Random::Seed();
 
