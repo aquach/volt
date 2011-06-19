@@ -3,6 +3,7 @@
 #include "Core/Core.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Input.h"
+#include "Game.h"
 
 namespace Volt {
 

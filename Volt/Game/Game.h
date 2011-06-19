@@ -8,6 +8,7 @@ namespace Volt {
 class AssetManager;
 class DataSource;
 class Graphics;
+class PhysicsManager;
 class Scene;
 class SoundManager;
 class Window;
@@ -44,11 +45,12 @@ private:
     Scene* m_currentScene;
     Scene* m_switchToScene;
 
-    SoundManager* m_soundManager;
-    Graphics* m_graphics;
-    Window* m_window;
     AssetManager* m_assetManager;
+    Graphics* m_graphics;
+    PhysicsManager* m_physicsManager;
+    SoundManager* m_soundManager;
     Time m_time;
+    Window* m_window;
 
     long m_lastTick;
     float m_ticksPerFrame;
