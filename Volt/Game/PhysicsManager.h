@@ -29,6 +29,8 @@ private:
     Game* m_game;
 
     b2World* m_world;
+    b2ContactListener* m_listener;
+    b2ContactFilter* m_filter;
 
     static PhysicsManager* instance;
 
