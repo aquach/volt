@@ -48,6 +48,8 @@ public:
     virtual bool PreSolve (Entity* other) { return true; }
     virtual bool CanCollideWith (Entity* other) { return true; }
 
+    void RemoveSelf () { m_scene->Remove(this); }
+
 protected:
     b2Body* m_body;
     Transform m_transform;
