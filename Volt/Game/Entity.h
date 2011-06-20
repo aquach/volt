@@ -1,12 +1,12 @@
 #pragma once
 
 #include <set>
+#include <Box2D/Box2D.h>
 #include "Core/Core.h"
 
 /* A thing in the game with game logic. */
 namespace Volt {
 
-class Collider;
 class Graphic;
 class Scene;
 
@@ -19,7 +19,6 @@ public:
     bool IsOnLayer (int layer) const { return m_layer == layer; }
     void SetLayer (int layer);
 
-    void SetCollider (Collider* collider);
     void SetGraphic (Graphic* graphic);
 
     void SetParent (Entity* parent);
@@ -50,6 +49,7 @@ private:
     int m_layer;
     Scene* m_scene;
     Entity* m_parent;
+    b2Body* m_body;
 
     set<string> m_tags;
 

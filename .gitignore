@@ -24,7 +24,6 @@ Obj
 *.pdb
 *.suo
 Thumbs.db
-*.txt
 *unittest
 UpgradeLog*
 *UpgradeReport*

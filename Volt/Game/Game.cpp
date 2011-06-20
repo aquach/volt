@@ -5,7 +5,6 @@
 #include "Assets/SoundManager.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Window.h"
-#include "Collider.h"
 #include "PhysicsManager.h"
 #include "Scene.h"
 
