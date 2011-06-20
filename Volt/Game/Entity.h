@@ -13,7 +13,7 @@ class Scene;
 class Entity {
 public:
     Entity ();
-    virtual ~Entity () { }
+    virtual ~Entity ();
 
     int layer () const { return m_layer; }
     bool IsOnLayer (int layer) const { return m_layer == layer; }
@@ -43,6 +43,7 @@ public:
     virtual void OnAdded () { }
 
     void UpdatePhysics ();
+    b2Body* CreateDynamicBody ();
 
 protected:
     b2Body* m_body;

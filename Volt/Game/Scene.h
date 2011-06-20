@@ -40,6 +40,8 @@ public:
     void AddFilter (Filter* filter, int layer = 0);
     void RemoveFilter (Filter* filter);
 
+    Camera* camera () { return &m_camera; }
+
 private:
     friend class Game;
 

@@ -66,20 +66,16 @@ public:
 		m_transform.position.y = y;
 		m_transform.rotation = 30;
 
-		b2BodyDef def;
-		def.type = b2_dynamicBody;
-		def.position.Set(m_transform.position.x, m_transform.position.y);
-		def.angle = 30 * c_deg2rad;
-		def.angularVelocity = (Random::Percent() - 0.5) * 5;
-		Vector2 dir = Vector2(500, 500) - m_transform.position;
+		float angularVelocity = (Random::Percent() - 0.5) * 5;
+		Vector2 dir = Vector2(10, 8) - m_transform.position;
 		dir.Normalize();
-		def.linearVelocity.Set(dir.x * 50, dir.y * 50);
 
-		def.userData = this;
-		m_body = G_PhysicsManager->world()->CreateBody(&def);
+		CreateDynamicBody();
+		m_body->SetLinearVelocity(b2Vec2(dir.x, dir.y));
+		m_body->SetAngularVelocity(angularVelocity);
 
 		b2PolygonShape shape;
-		shape.SetAsBox(50, 50);
+		shape.SetAsBox(0.5, 0.5);
 		m_body->CreateFixture(&shape, 1);
 	}
 	~PhysicsEntity () { }
@@ -90,7 +86,7 @@ public:
 		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
 		glPushMatrix();
 		Graphics::TransformMatrix(m_transform);
-		Graphics::RenderLineRect(0, 0, 100, 100);
+		Graphics::RenderLineRect(0, 0, 1, 1);
 		glPopMatrix();
 	}
 
@@ -104,6 +100,9 @@ public:
 	TestScene () {
 		font = G_AssetManager->GetFont("Inconsolata.ttf", 20);
 		font2 = G_AssetManager->GetFont("Inconsolata.ttf", 50);
+
+		camera()->transform.scale.Set(50, 50);
+		camera()->transform.position.Set(0, 0);
 	}
 
 	virtual void OnBegin () {
@@ -114,9 +113,9 @@ public:
 		entity = new TestEntity;
 		Add(entity);
 
-		Add(new PhysicsEntity(40, 40));
-		Add(new PhysicsEntity(450, 40));
-		Add(new PhysicsEntity(40, 450));
+		Add(new PhysicsEntity(5, 0));
+		Add(new PhysicsEntity(0, 5));
+		Add(new PhysicsEntity(0, 0));
 
 		label = new Label(font2, 400, 400);
 		label->SetColor(Color::RGB(240, 100, 230));
