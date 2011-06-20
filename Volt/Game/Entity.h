@@ -43,6 +43,10 @@ public:
     virtual void OnAdded () { }
 
     void UpdatePhysics ();
+    virtual void BeginContact (Entity* other) { }
+    virtual void EndContact (Entity* other) { }
+    virtual bool PreSolve (Entity* other) { return true; }
+    virtual bool CanCollideWith (Entity* other) { return true; }
 
 protected:
     b2Body* m_body;
