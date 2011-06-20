@@ -45,6 +45,7 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
 
     m_physicsManager = new PhysicsManager();
     m_physicsManager->m_game = this;
+    PhysicsManager::Register(m_physicsManager);
 
     Game::Register(this);
 }

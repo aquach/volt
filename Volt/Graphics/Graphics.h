@@ -34,6 +34,8 @@ public:
     static void Translate (const Vector2& pos);
     static void Scale (const Vector2& pos);
 
+    static void TransformMatrix (const Transform& transform);
+
     static void RenderQuad (float width,
                             float height,
                             const Vector2& textureOffset = Vector2::zero,

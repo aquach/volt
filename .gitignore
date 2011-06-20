@@ -1,4 +1,5 @@
 *~
+CMakeCache.txt
 *.a
 autom4te.cache
 Build/*

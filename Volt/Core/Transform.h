@@ -2,8 +2,7 @@
 
 #include "Vector2.h"
 
-namespace Volt
-{
+namespace Volt {
 
 /** Describes a transformation in 2D space, via position
  *  (horizontal (x) position, vertical (y) position), rotation (an angle)
@@ -23,7 +22,7 @@ public:
     Vector2 GetDirectionVector() const;
 
     Vector2 position;
-    float rotation;
+    float rotation; // Degrees.
     Vector2 scale;
 };
 }

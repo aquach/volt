@@ -41,15 +41,19 @@ public:
     virtual void Render () = 0;
 
     virtual void OnAdded () { }
+
+    void UpdatePhysics ();
+
+protected:
+    b2Body* m_body;
+    Transform m_transform;
+
 private:
     friend class Scene;
-
-    Transform m_transform;
 
     int m_layer;
     Scene* m_scene;
     Entity* m_parent;
-    b2Body* m_body;
 
     set<string> m_tags;
 

@@ -150,6 +150,12 @@ void Graphics::Scale (const Vector2& scale) {
     glScalef(scale.x, scale.y, 1.0f);
 }
 
+void Graphics::TransformMatrix (const Transform& transform) {
+    glTranslatef(transform.position.x, transform.position.y, 0.0f);
+    glRotatef(transform.rotation, 0.0f, 0.0f, 1.0f);
+    glScalef(transform.scale.x, transform.scale.y, 1.0f);
+}
+
 void Graphics::SetColor (const Color& color) {
     glColor4f(color.r, color.g, color.b, color.a);
 }

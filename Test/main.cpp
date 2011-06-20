@@ -7,6 +7,7 @@
 #include "Volt/Assets/PackDataSource.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
+#include "Volt/Game/PhysicsManager.h"
 #include "Volt/Game/Scene.h"
 #include "Volt/Graphics/Filter.h"
 #include "Volt/Graphics/GpuProgram.h"
@@ -58,6 +59,46 @@ public:
 	FontAssetRef font2;
 };
 
+class PhysicsEntity : public Entity {
+public:
+	PhysicsEntity (float x, float y) {
+		m_transform.position.x = x;
+		m_transform.position.y = y;
+		m_transform.rotation = 30;
+
+		b2BodyDef def;
+		def.type = b2_dynamicBody;
+		def.position.Set(m_transform.position.x, m_transform.position.y);
+		def.angle = 30 * c_deg2rad;
+		def.angularVelocity = (Random::Percent() - 0.5) * 5;
+		Vector2 dir = Vector2(500, 500) - m_transform.position;
+		dir.Normalize();
+		def.linearVelocity.Set(dir.x * 50, dir.y * 50);
+
+		def.userData = this;
+		m_body = G_PhysicsManager->world()->CreateBody(&def);
+
+		b2PolygonShape shape;
+		shape.SetAsBox(50, 50);
+		m_body->CreateFixture(&shape, 1);
+	}
+	~PhysicsEntity () { }
+
+	virtual void Render () {
+		Graphics::SetBlend(Graphics::BLEND_NONE);
+		glLineWidth(2.0f);
+		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+		glPushMatrix();
+		Graphics::TransformMatrix(m_transform);
+		Graphics::RenderLineRect(0, 0, 100, 100);
+		glPopMatrix();
+	}
+
+	virtual void Update () {
+		UpdatePhysics();
+	}
+};
+
 class TestScene : public Scene {
 public:
 	TestScene () {
@@ -69,10 +110,13 @@ public:
 		sound = G_AssetManager->GetSound("bgm.ogg");
 		sound2 = G_AssetManager->GetSound("thunder.ogg", SoundAsset::SOUND_MULTIPLE);
 		sound->Play();
-		sound2->Play();
 
 		entity = new TestEntity;
 		Add(entity);
+
+		Add(new PhysicsEntity(40, 40));
+		Add(new PhysicsEntity(450, 40));
+		Add(new PhysicsEntity(40, 450));
 
 		label = new Label(font2, 400, 400);
 		label->SetColor(Color::RGB(240, 100, 230));
@@ -90,8 +134,6 @@ public:
 		label3->SetColor(Color::RGB(200, 0, 0));
 		label3->SetText("LABEL ANCHOR!!!");
 		Add(label3, -1);
-
-        G_AssetManager->ReloadAll();
 
         /*
 		GpuProgram* program = new GpuProgram;
@@ -115,8 +157,6 @@ public:
 		char buffer[512];
 		sprintf(buffer, "FPS: %.1f", G_Game->fps());
 		label->SetText(buffer);
-		if (Random::Percent() < 0.01)
-			sound2->Play();
 	}
 
 	virtual void OnKeyEvent (SDL_KeyboardEvent e) {
