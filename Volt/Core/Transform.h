@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Vector2.h"
+#include <ostream>
+
+using namespace std;
 
 namespace Volt {
 
@@ -25,4 +28,7 @@ public:
     float rotation; // Degrees.
     Vector2 scale;
 };
+
+ostream& operator<< (ostream& stream, const Transform& other);
+
 }

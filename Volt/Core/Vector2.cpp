@@ -209,4 +209,9 @@ Vector2 operator/ (float lhs, const Vector2 &rhs) {
     return Vector2(lhs / rhs.x, lhs / rhs.y);
 }
 
+ostream& operator<< (ostream& stream, const Vector2& other) {
+    stream << "[" << other.x << ", " << other.y << "]";
+    return stream;
+}
+
 }

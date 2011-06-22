@@ -43,7 +43,8 @@ public:
     virtual void OnAdded () { }
 
     void UpdatePhysics ();
-    b2Body* CreateDynamicBody ();
+    b2Body* CreateBody (b2BodyDef def);
+    b2Body* CreateBody (b2BodyType type);
     virtual void BeginContact (Entity* other) { }
     virtual void EndContact (Entity* other) { }
     virtual bool PreSolve (Entity* other) { return true; }

@@ -7,7 +7,6 @@ namespace Volt {
 Camera::Camera ()
     : m_frontLayer(-100),
       m_backLayer(100) {
-    transform.position = Graphics::GetScreenCenter();
 }
 
 void Camera::ApplyMatrix () const {
