@@ -71,7 +71,7 @@ public:
 		Vector2 dir = Vector2(10, 8) - m_transform.position;
 		dir.Normalize();
 
-		CreateDynamicBody();
+		CreateBody(b2_dynamicBody);
 		m_body->SetLinearVelocity(b2Vec2(dir.x, dir.y));
 		m_body->SetAngularVelocity(angularVelocity);
 

@@ -26,4 +26,10 @@ Vector2 Transform::GetDirectionVector() const {
     return Vector2(sin(rotation * c_deg2rad), -cos(rotation * c_deg2rad));
 }
 
+ostream& operator<< (ostream& stream, const Transform& other) {
+    stream << other.position << " rot " << other.rotation << " * "
+           << other.scale;
+    return stream;
+}
+
 }

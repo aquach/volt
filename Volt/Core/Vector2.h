@@ -1,7 +1,10 @@
 #pragma once
 
-namespace Volt
-{
+#include <ostream>
+
+using namespace std;
+
+namespace Volt {
 
 class Vector2 {
 public:
@@ -69,5 +72,7 @@ Vector2 operator/ (const Vector2& lhs, float rhs);
 Vector2 operator/ (float lhs, const Vector2& rhs);
 
 Vector2 operator* (const Vector2& lhs, const Vector2& rhs);
+
+ostream& operator<< (ostream& stream, const Vector2& other);
 
 }

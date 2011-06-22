@@ -24,6 +24,9 @@ public:
 
     b2World* world () const { return m_world; }
 
+    void SetGravity (Vector2 gravity);
+    Vector2 GetGravity () const;
+
 private:
     friend class Game;
     Game* m_game;

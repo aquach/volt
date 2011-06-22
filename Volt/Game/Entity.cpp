@@ -22,12 +22,12 @@ void Entity::UpdatePhysics () {
         float angle = m_body->GetAngle();
         m_transform.position.Set(pos.x, pos.y);
         m_transform.rotation = angle * c_rad2deg;
+    } else {
+        LOG(WARNING) << "No physics body for entity.";
     }
 }
 
-b2Body* Entity::CreateDynamicBody () {
-    b2BodyDef def;
-    def.type = b2_dynamicBody;
+b2Body* Entity::CreateBody (b2BodyDef def) {
     def.position.Set(m_transform.position.x, m_transform.position.y);
     def.angle = m_transform.rotation * c_deg2rad;
     def.userData = this;
@@ -35,6 +35,12 @@ b2Body* Entity::CreateDynamicBody () {
     m_body = G_PhysicsManager->world()->CreateBody(&def);
 
     return m_body;
+}
+
+b2Body* Entity::CreateBody (b2BodyType type) {
+    b2BodyDef def;
+    def.type = type;
+    return CreateBody(def);
 }
 
 void Entity::RemoveSelf () {

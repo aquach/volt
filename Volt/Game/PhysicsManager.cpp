@@ -89,4 +89,13 @@ void PhysicsManager::Update () {
     m_world->ClearForces();
 }
 
+void PhysicsManager::SetGravity (Vector2 gravity) {
+    m_world->SetGravity(b2Vec2(gravity.x, gravity.y));
+}
+
+Vector2 PhysicsManager::GetGravity () const {
+    b2Vec2 gravity = m_world->GetGravity();
+    return Vector2(gravity.x, gravity.y);
+}
+
 }
