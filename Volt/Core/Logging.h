@@ -94,10 +94,10 @@ public:
 
     void SetupHeader (LogType type, const char* file, int lineNumber) {
         switch (type) {
-            case INFO: os << "I "; break;
-            case WARNING: os << "W "; break;
-            case ERROR: os << "E "; break;
-            case FATAL: os << "F "; break;
+            case INFO: os << "INFO "; break;
+            case WARNING: os << "WARN "; break;
+            case ERROR: os << "ERROR "; break;
+            case FATAL: os << "FATAL "; break;
         }
 
         int hour = 0, min = 0, sec = 0;

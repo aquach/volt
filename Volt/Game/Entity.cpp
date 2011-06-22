@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "PhysicsManager.h"
+#include "Scene.h"
 
 namespace Volt {
 
@@ -34,6 +35,10 @@ b2Body* Entity::CreateDynamicBody () {
     m_body = G_PhysicsManager->world()->CreateBody(&def);
 
     return m_body;
+}
+
+void Entity::RemoveSelf () {
+    m_scene->Remove(this);
 }
 
 }

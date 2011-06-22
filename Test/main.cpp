@@ -6,6 +6,7 @@
 #include "Volt/Assets/DirectoryDataSource.h"
 #include "Volt/Assets/PackDataSource.h"
 #include "Volt/Game/Entity.h"
+#include "Volt/Game/FSM.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Game/Scene.h"
@@ -173,10 +174,34 @@ public:
 	FontAssetRef font2;
 };
 
+class TestState : public FSMState {
+public:
+    virtual void Update () {
+		LOG(INFO) << m_stateName << " UPDATING";
+		TransitionTo("BLARGH");
+	}
+
+    virtual void OnEnter () {
+		LOG(INFO) << m_stateName << " ENTERING";
+	}
+
+    virtual void OnExit () {
+		LOG(INFO) << m_stateName << " EXITING";
+	}
+};
+
 int main (int argc, char** argv) {
 	string exeDir = GetExecutableDirectory(argv[0]);
 	LOG(INFO) << "Executable directory: " << exeDir;
 
+	FSM* m = new FSM;
+	m->AddState(new TestState, "F");
+	m->AddState(new TestState, "BLARGH");
+	m->TransitionTo("F");
+	m->Update();
+	m->Update();
+	m->Update();
+	m->Update();
 
 	//PackDataSource* pack = new PackDataSource(exeDir + "../out.leopak");
 
