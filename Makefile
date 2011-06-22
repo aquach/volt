@@ -4,6 +4,7 @@ BIN_DIR = Build
 SRC_DIR = Volt
 OBJ_DIR = Obj
 TEST_DIR = Test
+APP_DIR = Game
 CONTRIB_DIR = Contrib
 
 LIB := $(OBJ_DIR)/$(LIB).a
@@ -18,7 +19,7 @@ INCLUDE_DIR += -I $(CONTRIB_DIR)/Box2D_v2.1.2/Box2D
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 
-all: dirs test $(LIB)
+all: dirs test app $(LIB)
 
 install-deps:
 	sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libglew1.5-dev \
@@ -46,6 +47,9 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 
 test : $(LIB)
 	cd $(TEST_DIR) && $(MAKE)
+
+app : $(LIB)
+	cd $(APP_DIR) && $(MAKE)
 
 .PHONY : all clean dirs depends
 
