@@ -2,6 +2,7 @@
 #include "Volt/Assets/PackDataSource.h"
 #include "Volt/Game/Game.h"
 #include "Core/Core.h"
+#include "Scenes/GameScene.h"
 #include "Scenes/TitleScene.h"
 
 int main (int argc, char** argv) {
@@ -10,7 +11,7 @@ int main (int argc, char** argv) {
 
 	Volt::Game* game = new Volt::Game("Game",
 		new Volt::DirectoryDataSource(exeDir + "../GameData"));
-	TitleScene* scene = new TitleScene;
+	GameScene* scene = new GameScene;
 	game->SetScene(scene);
 	game->Run();
 

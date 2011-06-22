@@ -10,6 +10,7 @@ void TitleScene::Render () {
 }
 
 void TitleScene::Update () {
+    Scene::Update();
 }
 
 void TitleScene::OnBegin () {
