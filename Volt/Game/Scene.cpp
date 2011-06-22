@@ -33,6 +33,7 @@ void Scene::RemoveAll () {
 
 void Scene::Update () {
     if (!m_isPaused) {
+        m_camera.Update();
         for (Layers::iterator layer = m_layers.begin();
              layer != m_layers.end();
              layer++) {

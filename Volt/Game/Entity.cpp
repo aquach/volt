@@ -20,6 +20,12 @@ void Entity::UpdatePhysics () {
     if (m_body != NULL) {
         b2Vec2 pos = m_body->GetPosition();
         float angle = m_body->GetAngle();
+        Vector2 dir = Vector2(pos.x, pos.y) - m_transform.position;
+        if (dir.LengthSquared() > 0.01) {
+            m_moveDirection = dir;
+            m_moveDirection.Normalize();
+        }
+
         m_transform.position.Set(pos.x, pos.y);
         m_transform.rotation = angle * c_rad2deg;
     } else {
