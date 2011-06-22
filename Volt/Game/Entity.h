@@ -52,9 +52,15 @@ public:
 
     void RemoveSelf ();
 
+    Transform transform () const { return m_transform; }
+    Vector2 position () const { return m_transform.position; }
+    float rotation () const { return m_transform.rotation; }
+
 protected:
     b2Body* m_body;
     Transform m_transform;
+    // Direction of last movement (only works with physics).
+    Vector2 m_moveDirection;
 
 private:
     friend class Scene;

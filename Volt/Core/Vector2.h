@@ -43,6 +43,9 @@ public:
     float Cross (const Vector2& other) const;
     Vector2 Reflect (const Vector2& other) const;
 
+    Vector2 Project (const Vector2& other) const;
+    Vector2 Rotate (float degrees) const;
+
     float GetAngleRadians () const;
     float GetAngleDegrees () const;
 

@@ -100,6 +100,16 @@ Vector2 Vector2::Reflect (const Vector2& a, const Vector2& b) {
     return newVec;
 }
 
+Vector2 Vector2::Project (const Vector2& other) const {
+    return Dot(other) / other.LengthSquared() * other;
+}
+
+Vector2 Vector2::Rotate (float degrees) const {
+    return Vector2(
+        x * cosf(degrees * c_deg2rad) - y * sinf(degrees * c_deg2rad),
+        x * sinf(degrees * c_deg2rad) + y * cosf(degrees * c_deg2rad));
+}
+
 Vector2 Vector2::Reflect (const Vector2& other) const {
     return Vector2::Reflect(*this, other);
 }
