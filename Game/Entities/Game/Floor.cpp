@@ -9,7 +9,7 @@ Floor::Floor () {
     m_body = CreateBody(b2_staticBody);
 
     b2PolygonShape shape;
-    shape.SetAsBox(1.5, 0.25);
+    shape.SetAsBox(1.5, 0.1);
     m_body->CreateFixture(&shape, 1);
 }
 
@@ -25,6 +25,6 @@ void Floor::Render () {
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glPushMatrix();
     Graphics::TransformMatrix(m_transform);
-    Graphics::RenderQuad(3, 0.5);
+    Graphics::RenderQuad(3, 0.2);
     glPopMatrix();
 }

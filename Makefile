@@ -56,6 +56,7 @@ app : $(LIB)
 clean:
 	rm -rf $(APP) Obj
 	cd $(TEST_DIR) && $(MAKE) clean
+	cd $(APP_DIR) && $(MAKE) clean
 
 ifneq "$(MAKECMDGOALS)" "clean"
 -include $(LIB_DEPS)

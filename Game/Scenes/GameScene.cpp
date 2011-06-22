@@ -16,8 +16,9 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player);
-
     Add(new Floor);
+
+    camera()->WatchEntity(m_player);
 }
 
 GameScene::~GameScene () {
@@ -26,11 +27,11 @@ GameScene::~GameScene () {
 /*
 void GameScene::Render () {
 }
+*/
 
 void GameScene::Update () {
     Scene::Update();
 }
-*/
 
 void GameScene::OnBegin () {
 }

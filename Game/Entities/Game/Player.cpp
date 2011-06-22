@@ -8,7 +8,6 @@ Player::Player () {
     def.fixedRotation = true;
     m_body = CreateBody(def);
 
-
     b2PolygonShape shape;
     shape.SetAsBox(1, 1);
     m_body->CreateFixture(&shape, 1);

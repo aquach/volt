@@ -10,7 +10,7 @@ public:
     virtual ~GameScene ();
 
     //virtual void Render ();
-    //virtual void Update ();
+    virtual void Update ();
 
     virtual void OnBegin ();
     virtual void OnEnd ();
