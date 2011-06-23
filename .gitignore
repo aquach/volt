@@ -31,3 +31,5 @@ UpgradeLog*
 *.user
 VS2008/Debug
 VS2008/Release
+BuildLog.htm
+*.intermediate.manifest
