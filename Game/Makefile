@@ -21,6 +21,7 @@ CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 LIBS = -lSDL -lSDL_image -lGL -lGLU -lGLEW -lopenal -logg -lvorbisfile
 
 STATIC_LIBS = $(CONTRIB_DIR)/Box2D_v2.1.2/Box2D/Box2D/libBox2D.a
+STATIC_LIBS += $(CONTRIB_DIR)/json/Obj/libjson.a
 
 APP_OBJS = $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(APP_SRCS))
 APP_DEPS = $(patsubst %.cpp,$(OBJ_DIR)/%.d,$(APP_SRCS))
