@@ -1,7 +1,7 @@
 #include "Volt/Core/Core.h"
 #include <GL/gl.h>
 #include <SDL/SDL.h>
-#include <json/json.h>
+#include "Volt/Assets/json/json.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/Hash.h"
 #include "Volt/Assets/DirectoryDataSource.h"
