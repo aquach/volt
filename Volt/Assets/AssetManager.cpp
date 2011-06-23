@@ -57,6 +57,31 @@ FontAssetRef AssetManager::GetFont (
     return FontAssetRef(font);
 }
 
+DataAssetRef AssetManager::GetData (const string& path) {
+
+    DataAssetRef asset = GetAssetByKey<DataAsset>(path);
+    if (asset.HasAsset())
+        return asset;
+
+    DataItem item;
+    if (!m_dataSource->LoadDataItem(path, &item)) {
+        LOG(ERROR) << "Failed to load data item " << path;
+        return NULL;
+    }
+
+    DataAsset* data = new DataAsset;
+    data->m_manager = this;
+    if (!data->Load(item)) {
+        LOG(ERROR) << "Failed to load data " << path;
+        delete data;
+        return NULL;
+    }
+
+    m_assets[data->assetKey()] = data;
+
+    return DataAssetRef(data);
+}
+
 SoundAssetRef AssetManager::GetSound (const string& path,
                                       SoundAsset::SoundType type,
                                       float globalVolume) {
