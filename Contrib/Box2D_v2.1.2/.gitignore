@@ -1,3 +1,8 @@
 Makefile
 HelloWorld
 Testbed
+*.vcproj
+Debug
+Release
+*.sln
+*.lib

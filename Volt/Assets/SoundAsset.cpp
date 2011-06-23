@@ -293,7 +293,7 @@ private:
 
         while (true) {
             pcmBuffer.resize(pcmBuffer.size() + CHUNK_SIZE);
-            result = ov_read(&m_oggStream, pcmBuffer.data() + readBytes,
+            result = ov_read(&m_oggStream, &pcmBuffer.front() + readBytes,
                              CHUNK_SIZE, OGG_LITTLE_ENDIAN, WORD_SIZE, SIGNED,
                              &section);
             if (result > 0)

@@ -85,8 +85,12 @@ public:
         if (!checkCondition || !condition) {
             os << endl;
             cerr << os.str();
-            if (type == FATAL)
+            if (type == FATAL) {
+                #if COMPILER_VCC
+                    system("PAUSE");
+                #endif
                 exit(1);
+            }
         }
     }
 
