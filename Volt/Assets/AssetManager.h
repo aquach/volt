@@ -2,6 +2,7 @@
 
 #include "Core/Core.h"
 #include "AssetRef.h"
+#include "DataAsset.h"
 #include "FontAsset.h"
 #include "ShaderAsset.h"
 #include "SoundAsset.h"
@@ -11,10 +12,11 @@ namespace Volt {
 
 class DataSource;
 
+typedef AssetRef<DataAsset> DataAssetRef;
 typedef AssetRef<FontAsset> FontAssetRef;
 typedef AssetRef<ShaderAsset> ShaderAssetRef;
-typedef AssetRef<TextureAsset> TextureAssetRef;
 typedef AssetRef<SoundAsset> SoundAssetRef;
+typedef AssetRef<TextureAsset> TextureAssetRef;
 
 /* Manages all assets, including asset loading/reloading. */
 class AssetManager {
@@ -35,6 +37,7 @@ public:
         const string& path,
         SoundAsset::SoundType type = SoundAsset::SOUND_SINGLE,
         float globalVolume = 1.0);
+    DataAssetRef GetData (const string& path);
 
     void GarbageCollect ();
 

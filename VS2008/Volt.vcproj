@@ -165,6 +165,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Volt\Assets\DataAsset.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Assets\DataAsset.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Volt\Assets\DataSource.h"
 				>
 			</File>
@@ -244,6 +252,70 @@
 				RelativePath="..\Volt\Assets\Vorbis.h"
 				>
 			</File>
+			<Filter
+				Name="json"
+				>
+				<File
+					RelativePath="..\Contrib\json\autolink.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\config.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\features.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\forwards.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_batchallocator.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_internalarray.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_internalmap.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_reader.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_value.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_valueiterator.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\json_writer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\reader.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\value.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Contrib\json\writer.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Core"
