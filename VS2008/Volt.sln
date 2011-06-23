@@ -8,6 +8,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoltTest", "VoltTest.vcproj
 		{7C298C26-C291-471A-BAC8-17562715005A} = {7C298C26-C291-471A-BAC8-17562715005A}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game.vcproj", "{A2E4BAE6-C180-4418-A78A-068BF8A21D3F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7C298C26-C291-471A-BAC8-17562715005A} = {7C298C26-C291-471A-BAC8-17562715005A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +27,10 @@ Global
 		{FA3DF59D-8999-4C0F-A3AE-2F5F6B6B44A9}.Debug|Win32.Build.0 = Debug|Win32
 		{FA3DF59D-8999-4C0F-A3AE-2F5F6B6B44A9}.Release|Win32.ActiveCfg = Release|Win32
 		{FA3DF59D-8999-4C0F-A3AE-2F5F6B6B44A9}.Release|Win32.Build.0 = Release|Win32
+		{A2E4BAE6-C180-4418-A78A-068BF8A21D3F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2E4BAE6-C180-4418-A78A-068BF8A21D3F}.Debug|Win32.Build.0 = Debug|Win32
+		{A2E4BAE6-C180-4418-A78A-068BF8A21D3F}.Release|Win32.ActiveCfg = Release|Win32
+		{A2E4BAE6-C180-4418-A78A-068BF8A21D3F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

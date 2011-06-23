@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/Windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/Windows&quot;;&quot;$(SolutionDir)../Contrib/Box2D_v2.1.2/Box2D&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/Windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)../Contrib&quot;;&quot;$(SolutionDir)../Volt&quot;;&quot;$(SolutionDir)../Contrib/Windows&quot;;&quot;$(SolutionDir)../Contrib/Box2D_v2.1.2/Box2D&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -365,11 +365,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Volt\Game\FSM.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Game\FSM.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Volt\Game\Game.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Volt\Game\Game.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Game\PhysicsManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Volt\Game\PhysicsManager.h"
 				>
 			</File>
 			<File
