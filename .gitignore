@@ -31,4 +31,5 @@ UpgradeLog*
 *.user
 VS2008/Debug
 VS2008/Release
-VS2008/Game
+BuildLog.htm
+*.intermediate.manifest

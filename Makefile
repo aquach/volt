@@ -9,6 +9,9 @@ CONTRIB_DIR = Contrib
 
 LIB := $(OBJ_DIR)/$(LIB).a
 
+JSON_DIR = $(CONTRIB_DIR)/json
+LIB_JSON = $(JSON_DIR)/Obj/libjson.a
+
 LIB_SRCS = $(shell cd $(SRC_DIR) && find . -name '*.cpp')
 LIB_OBJS = $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(LIB_SRCS))
 LIB_DEPS = $(patsubst %.cpp,$(OBJ_DIR)/%.d,$(LIB_SRCS))
@@ -32,7 +35,7 @@ $(BIN_DIR) $(OBJ_DIR):
 
 lib : $(LIB)
 
-$(LIB): $(LIB_OBJS)
+$(LIB): $(LIB_OBJS) $(LIB_JSON)
 	ar rcs $@ $^
 
 # Because python is easier than shell seds.
@@ -51,12 +54,16 @@ test : $(LIB)
 app : $(LIB)
 	cd $(APP_DIR) && $(MAKE)
 
+$(LIB_JSON):
+	cd $(JSON_DIR) && $(MAKE)
+
 .PHONY : all clean dirs depends
 
 clean:
 	rm -rf $(APP) Obj
 	cd $(TEST_DIR) && $(MAKE) clean
 	cd $(APP_DIR) && $(MAKE) clean
+	cd $(JSON_DIR) && $(MAKE) clean
 
 ifneq "$(MAKECMDGOALS)" "clean"
 -include $(LIB_DEPS)
