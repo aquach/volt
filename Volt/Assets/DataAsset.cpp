@@ -1,7 +1,7 @@
 #include "ShaderAsset.h"
 #include "AssetManager.h"
 #include "DataSource.h"
-#include "Assets/json/json.h"
+#include <json/json.h>
 
 namespace Volt {
 
