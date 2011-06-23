@@ -127,7 +127,7 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
     packFile.reserve(memSize);
 
     packFile.resize(packFile.size() + sizeof(PackFileHeader));
-    PackFileHeader* header = (PackFileHeader*)packFile.data();
+    PackFileHeader* header = (PackFileHeader*)&packFile.front();
     header->code = PACK_CODE;
     header->numItems = filenames.size();
 
@@ -139,11 +139,11 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
         packFile.resize(packFile.size() + sizeof(int) * 3);
 
         // Offset.
-        offsets.push_back(filePtr - packFile.data());
+        offsets.push_back(filePtr - &packFile.front());
         filePtr += sizeof(int);
 
         // File size.
-        sizes.push_back(filePtr - packFile.data());
+        sizes.push_back(filePtr - &packFile.front());
         filePtr += sizeof(int);
 
         // String size.
@@ -155,7 +155,7 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
         memcpy(filePtr, filenames[i].c_str(), filenames[i].size());
         filePtr += filenames[i].size();
 
-        CHECK_LE(filePtr - packFile.data(), packFile.size());
+        CHECK_LE(filePtr - &packFile.front(), packFile.size());
     }
 
     // Write data.
@@ -173,22 +173,22 @@ void PackDataSource::BuildPackFile (const vector<string>& filenames,
 
         *(int*)&packFile[sizes[i]] = size;
 
-        int index = filePtr - packFile.data();
+        int index = filePtr - &packFile.front();
         packFile.resize(packFile.size() + size);
-        filePtr = packFile.data() + index;
-        CHECK_LE(filePtr - packFile.data() + size, packFile.size());
+        filePtr = &packFile.front() + index;
+        CHECK_LE(filePtr - &packFile.front() + size, packFile.size());
         file.read(filePtr, size);
 
         // Write offset for corresponding header.
-        *(int*)&packFile[offsets[i]] = filePtr - packFile.data();
+        *(int*)&packFile[offsets[i]] = filePtr - &packFile.front();
         filePtr += size;
         file.close();
     }
 
-    header = (PackFileHeader*)packFile.data();
-    header->hash = HashData(packFile.data(), packFile.size());
+    header = (PackFileHeader*)&packFile.front();
+    header->hash = HashData(&packFile.front(), packFile.size());
 
-    out.write(packFile.data(), packFile.size());
+    out.write(&packFile.front(), packFile.size());
     out.close();
     LOG(INFO) << "Wrote pack file (" << packFile.size() << " bytes).";
 }
