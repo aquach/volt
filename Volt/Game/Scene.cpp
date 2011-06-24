@@ -3,6 +3,8 @@
 #include "Entity.h"
 #include "Graphics/Filter.h"
 #include "Graphics/Graphics.h"
+#include "Graphics/OpenGL.h"
+#include "PhysicsManager.h"
 
 namespace Volt {
 
@@ -143,6 +145,14 @@ void Scene::Render () {
             (*currentFilter)->Render();
         }
     }
+
+    G_PhysicsManager->Render();
+
+    glLineWidth(4.0);
+    Graphics::SetColor(Color::red);
+    Graphics::RenderLine(Vector2(0, 0), Vector2(1, 0));
+    Graphics::SetColor(Color::green);
+    Graphics::RenderLine(Vector2(0, 0), Vector2(0, 1));
 
     Graphics::CheckErrors();
 

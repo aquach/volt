@@ -53,11 +53,11 @@ Vector2 Transform::Apply (Vector2 v) const {
     v.x *= scale.x;
     v.y *= scale.y;
     v = v.Rotate(rotation);
-    return v - position;
+    return v + position;
 }
 
 Vector2 Transform::ApplyInverse (Vector2 v) const {
-    v += position;
+    v -= position;
     v = v.Rotate(-rotation);
     v.x /= scale.x;
     v.y /= scale.y;
