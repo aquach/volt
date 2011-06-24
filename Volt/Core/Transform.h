@@ -27,6 +27,12 @@ public:
     Vector2 position;
     float rotation; // Degrees.
     Vector2 scale;
+
+    Vector2 Apply (Vector2 v) const;
+    Vector2 ApplyInverse (Vector2 v) const;
+
+    void Load (const Json::Value& node);
+    void Save (Json::Value& node) const;
 };
 
 ostream& operator<< (ostream& stream, const Transform& other);

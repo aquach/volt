@@ -30,4 +30,6 @@
 #include "Vector3.h"
 #include "Logging.h"
 
+#include <json/json.h>
+
 using namespace std;

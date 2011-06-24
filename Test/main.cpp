@@ -104,12 +104,12 @@ public:
 		font2 = G_AssetManager->GetFont("Inconsolata.ttf", 50);
 
         DataAssetRef data = G_AssetManager->GetData("test.json");
-        Json::Value* root = data->data();
-        const Json::Value v = (*root)["derek"];
+        const Json::Value& root = data->data();
+        const Json::Value v = root["derek"];
         LOG(INFO) << v;
         for (int i = 0; i < v.size(); i++)
             LOG(INFO) << "Item: " << v[i].asInt();
-        int blargh = root->get("blargh", 1).asInt();
+        int blargh = root.get("blargh", 1).asInt();
         LOG(INFO) << "blargh: " << blargh;
 
 		camera()->transform.scale.Set(50, 50);

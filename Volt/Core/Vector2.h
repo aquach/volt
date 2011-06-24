@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+#include <json/json.h>
 
 using namespace std;
 
@@ -63,6 +64,9 @@ public:
     Vector2& operator-= (const Vector2& rhs);
     Vector2& operator*= (float rhs);
     Vector2& operator/= (float rhs);
+
+    void Load (const Json::Value& node);
+    void Save (Json::Value& node) const;
 };
 
 Vector2 operator+ (const Vector2& lhs, const Vector2& rhs);

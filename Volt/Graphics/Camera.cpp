@@ -28,18 +28,11 @@ void Camera::SetLayers (int backLayer, int frontLayer) {
 }
 
 Vector2 Camera::WorldToScreen (Vector2 v) {
-    v = v.Rotate(transform.rotation);
-    v.x *= transform.scale.x;
-    v.y *= transform.scale.y;
-    return v - transform.position;
+    return transform.Apply(v);
 }
 
 Vector2 Camera::ScreenToWorld (Vector2 v) {
-    v += transform.position;
-    v.x /= transform.scale.x;
-    v.y /= transform.scale.y;
-    v = v.Rotate(-transform.rotation);
-    return v;
+    return transform.ApplyInverse(v);
 }
 
 void Camera::Update () {

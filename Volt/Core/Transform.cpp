@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Logging.h"
 #include "Math.h"
 
 namespace Volt {
@@ -30,6 +31,37 @@ ostream& operator<< (ostream& stream, const Transform& other) {
     stream << other.position << " rot " << other.rotation << " * "
            << other.scale;
     return stream;
+}
+
+void Transform::Load (const Json::Value& node) {
+    CHECK(node.isMember("position"));
+    CHECK(node.isMember("rotation"));
+    CHECK(node.isMember("scale"));
+
+    position.Load(node["position"]);
+    rotation = node["rotation"].asDouble();
+    scale.Load(node["scale"]);
+}
+
+void Transform::Save (Json::Value& node) const {
+    position.Save(node["position"]);
+    node["rotation"] = rotation;
+    scale.Save(node["scale"]);
+}
+
+Vector2 Transform::Apply (Vector2 v) const {
+    v.x *= scale.x;
+    v.y *= scale.y;
+    v = v.Rotate(rotation);
+    return v - position;
+}
+
+Vector2 Transform::ApplyInverse (Vector2 v) const {
+    v += position;
+    v = v.Rotate(-rotation);
+    v.x /= scale.x;
+    v.y /= scale.y;
+    return v;
 }
 
 }

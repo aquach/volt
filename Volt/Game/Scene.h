@@ -4,6 +4,7 @@
 #include "Graphics/Camera.h"
 #include "Graphics/Input.h"
 #include "Game.h"
+#include <set>
 
 namespace Volt {
 
@@ -54,8 +55,8 @@ private:
 
     typedef map<int, list<Entity* > > Layers;
     Layers m_layers;
-    list<Entity*> m_entitiesToAdd;
-    list<Entity*> m_entitiesToRemove;
+    set<Entity*> m_entitiesToAdd;
+    set<Entity*> m_entitiesToRemove;
 
     list<Filter*> m_filters;
 

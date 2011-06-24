@@ -44,6 +44,8 @@ public:
     void ReloadAll ();
     void ReloadPath (const Asset* asset, DataItem* item);
 
+    string sourcePath() const;
+
     static void Register (AssetManager* manager) {
         instance = manager;
     }
