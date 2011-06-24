@@ -22,10 +22,12 @@ public:
     virtual void Reload ();
     virtual void Unload ();
 
-    Json::Value* data () const { return m_root; }
+    const Json::Value& data () const { return m_root; }
+
+    static void Save (const Json::Value& root, string filename);
 
 private:
-    Json::Value* m_root;
+    Json::Value m_root;
 };
 
 }

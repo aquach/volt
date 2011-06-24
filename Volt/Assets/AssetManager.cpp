@@ -31,6 +31,10 @@ void AssetManager::ReloadPath (const Asset* asset, DataItem* item) {
     m_dataSource->LoadDataItem(asset->path(), item);
 }
 
+string AssetManager::sourcePath() const {
+    return m_dataSource->sourcePath();
+}
+
 FontAssetRef AssetManager::GetFont (
     const string& path, float size, int textureWidth, int textureHeight) {
 

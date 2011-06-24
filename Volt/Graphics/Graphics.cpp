@@ -208,6 +208,7 @@ Vector2 Graphics::GetScreenCenter() {
     return instance->screenCenter;
 }
 
+/*
 void Graphics::RenderQuadCustom(const Vector2 &ul, const Vector2 &ur, const Vector2 &lr, const Vector2 &ll, const Vector2 &textureOffset, const Vector2 &textureScale) {
     glBegin(GL_QUADS);
         // UL
@@ -227,11 +228,31 @@ void Graphics::RenderQuadCustom(const Vector2 &ul, const Vector2 &ur, const Vect
         glVertex3f(ll.x, ll.y, 0.0f);
     glEnd();
 }
+*/
 
-void Graphics::RenderQuad(float width, float height, const Vector2 &textureOffset, const Vector2 &textureScale, const Vector2 &position)
-{
-    float halfWidth = width*0.5f;
-    float halfHeight = height*0.5f;
+void Graphics::RenderTriangle (float width, float height,
+                               const Vector2& textureOffset,
+                               const Vector2& textureScale,
+                               const Vector2& position) {
+    glBegin(GL_TRIANGLES);
+        glTexCoord2f(textureOffset.x, textureOffset.y);
+        glVertex3f(position.x, position.y, 0.0f);
+
+        glTexCoord2f(textureOffset.x + textureScale.x, textureOffset.y);
+        glVertex3f(position.x + width, position.y, 0.0f);
+
+        glTexCoord2f(textureOffset.x, textureOffset.y + textureScale.y);
+        glVertex3f(position.x, position.y + height, 0.0f);
+    glEnd();
+}
+
+void Graphics::RenderQuad (float width, float height,
+                           const Vector2 &textureOffset,
+                           const Vector2 &textureScale,
+                           const Vector2 &position) {
+
+    float halfWidth = width * 0.5f;
+    float halfHeight = height * 0.5f;
 
     glBegin(GL_QUADS);
         // UL

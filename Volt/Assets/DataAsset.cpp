@@ -2,6 +2,7 @@
 #include "AssetManager.h"
 #include "DataSource.h"
 #include <json/json.h>
+#include <fstream>
 
 namespace Volt {
 
@@ -16,9 +17,12 @@ DataAsset::~DataAsset () {
 bool DataAsset::Load (const DataItem& item) {
     m_path = item.path;
 
-    m_root = new Json::Value;
     Json::Reader reader;
-    return reader.parse(item.data, item.data + item.size, *m_root);
+    bool success = reader.parse(item.data, item.data + item.size, m_root);
+    if (!success) {
+        LOG(ERROR) << "Failed to parse " << item.path << ":\n" << reader.getFormatedErrorMessages();
+    }
+    return success;
 }
 
 void DataAsset::Reload () {
@@ -29,8 +33,18 @@ void DataAsset::Reload () {
 }
 
 void DataAsset::Unload () {
-    delete m_root;
-    m_root = NULL;
+    m_root.clear();
+}
+
+void DataAsset::Save (const Json::Value& root, string filename) {
+    string path = G_AssetManager->sourcePath() + "/" + filename;
+    ofstream out(path.c_str());
+    if (!out.is_open()) {
+        LOG(ERROR) << "Failed to open file " << path;
+    }
+
+    out << root;
+    out.close();
 }
 
 }

@@ -11,6 +11,7 @@ SoundManager::SoundManager ()
       m_context(NULL) {
     LOG(INFO) << "Initializing sound system...";
 
+    /*
     m_device = alcOpenDevice(NULL);
     if (m_device == NULL) {
         LOG(FATAL) << "Failed to initialize sound device.";
@@ -19,6 +20,7 @@ SoundManager::SoundManager ()
 
     m_context = alcCreateContext(m_device, NULL);
     alcMakeContextCurrent(m_context);
+    */
 }
 
 SoundManager::~SoundManager () {

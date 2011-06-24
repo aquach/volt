@@ -1,4 +1,5 @@
 #include "Vector2.h"
+#include "Logging.h"
 #include "Random.h"
 #include "Math.h"
 
@@ -222,6 +223,17 @@ Vector2 operator/ (float lhs, const Vector2 &rhs) {
 ostream& operator<< (ostream& stream, const Vector2& other) {
     stream << "[" << other.x << ", " << other.y << "]";
     return stream;
+}
+
+void Vector2::Load (const Json::Value& node) {
+    CHECK(node.size() == 2);
+    x = node[0u].asDouble();
+    y = node[1u].asDouble();
+}
+
+void Vector2::Save (Json::Value& node) const {
+    node.append(x);
+    node.append(y);
 }
 
 }

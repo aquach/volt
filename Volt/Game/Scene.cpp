@@ -26,8 +26,7 @@ void Scene::RemoveAll () {
          layer != m_layers.end();
          layer++) {
         list<Entity*>& entityList = layer->second;
-        m_entitiesToRemove.insert(m_entitiesToRemove.end(),
-                                  entityList.begin(), entityList.end());
+        m_entitiesToRemove.insert(entityList.begin(), entityList.end());
     }
 }
 
@@ -51,15 +50,15 @@ void Scene::Update () {
 
 void Scene::Add (Entity* entity, int layer) {
     entity->m_layer = layer;
-    m_entitiesToAdd.push_back(entity);
+    m_entitiesToAdd.insert(entity);
 }
 
 void Scene::Remove (Entity* entity) {
-    m_entitiesToRemove.push_back(entity);
+    m_entitiesToRemove.insert(entity);
 }
 
 void Scene::ResolveEntityChanges () {
-    for (list<Entity*>::iterator i = m_entitiesToRemove.begin();
+    for (set<Entity*>::iterator i = m_entitiesToRemove.begin();
          i != m_entitiesToRemove.end(); i++) {
         Entity* entity = *i;
 
@@ -85,7 +84,7 @@ void Scene::ResolveEntityChanges () {
     }
     m_entitiesToRemove.clear();
 
-    for (list<Entity*>::iterator i = m_entitiesToAdd.begin();
+    for (set<Entity*>::iterator i = m_entitiesToAdd.begin();
          i != m_entitiesToAdd.end(); i++) {
         Entity* entity = *i;
 

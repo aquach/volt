@@ -36,6 +36,12 @@ public:
 
     static void TransformMatrix (const Transform& transform);
 
+    static void RenderTriangle (float width,
+                                float height,
+                                const Vector2& textureOffset = Vector2::zero,
+                                const Vector2& textureScale = Vector2::one,
+                                const Vector2& position = Vector2::zero);
+
     static void RenderQuad (float width,
                             float height,
                             const Vector2& textureOffset = Vector2::zero,
