@@ -12,6 +12,7 @@ GameScene::GameScene ()
       m_levelManager(NULL) {
 
     Volt::G_PhysicsManager->SetGravity(Vector2(0, 10));
+    Volt::G_PhysicsManager->SetDebugDraw(true);
 
     camera()->transform.scale.Set(
         WORLD_TO_SCREEN_SCALE,
@@ -19,7 +20,7 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player);
-    Add(new Floor);
+    //Add(new Floor);
 
     m_levelManager = new LevelManager;
     m_levelManager->m_gameScene = this;

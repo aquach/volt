@@ -12,6 +12,7 @@ void Triangle::Update () {
 }
 
 void Triangle::Render () {
+    Graphics::SetColor(Volt::Color::RGB(0, 0, 100));
     glPushMatrix();
     Graphics::TransformMatrix(m_transform);
     Graphics::RenderTriangle(1, 1);
@@ -24,16 +25,15 @@ void Triangle::Load (const Json::Value& node) {
 
     b2BodyDef def;
     def.type = b2_staticBody;
+    def.position = b2Vec2(m_transform.position.x, m_transform.position.y);
+    def.angle = m_transform.rotation * Volt::c_deg2rad;
     m_body = CreateBody(def);
 
     b2PolygonShape shape;
     b2Vec2 vertices[3];
-    Vector2 v1 = m_transform.Apply(Vector2(0, 0));
-    Vector2 v2 = m_transform.Apply(Vector2(1, 0));
-    Vector2 v3 = m_transform.Apply(Vector2(0, 1));
-    vertices[0] = b2Vec2(v1.x, v1.y);
-    vertices[1] = b2Vec2(v2.x, v2.y);
-    vertices[2] = b2Vec2(v3.x, v3.y);
+    vertices[0] = b2Vec2(0, 0);
+    vertices[1] = b2Vec2(m_transform.scale.x, 0);
+    vertices[2] = b2Vec2(0, m_transform.scale.y);
     shape.Set(vertices, 3);
     m_body->CreateFixture(&shape, 1);
 }

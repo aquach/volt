@@ -3,6 +3,8 @@
 #include "Volt/Graphics/OpenGL.h"
 
 Player::Player () {
+    m_transform.position.y -= 10;
+    m_transform.rotation = 33;
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.fixedRotation = true;

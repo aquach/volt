@@ -1,17 +1,25 @@
 {
     "triangles" : [
+    /*
         {
             "transform": {
                 "position": [0, 0],
                 "scale": [5, 4],
                 "rotation": 33
             }
+        },*/
+        {
+            "transform": {
+                "position": [0, 12],
+                "scale": [10, 10],
+                "rotation": 0
+            }
         },
         {
             "transform": {
-                "position": [0, 1],
-                "scale": [10, 1],
-                "rotation": 54
+                "position": [1, 1],
+                "scale": [1, 1],
+                "rotation": 0
             }
         }
     ]
