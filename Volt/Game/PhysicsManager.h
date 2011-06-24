@@ -15,6 +15,7 @@ public:
     ~PhysicsManager ();
 
     void Update ();
+    void Render ();
 
     static void Register (PhysicsManager* manager) { instance = manager; }
     static PhysicsManager* Instance () {
@@ -27,6 +28,8 @@ public:
     void SetGravity (Vector2 gravity);
     Vector2 GetGravity () const;
 
+    void SetDebugDraw (bool enabled);
+
 private:
     friend class Game;
     Game* m_game;
@@ -34,6 +37,7 @@ private:
     b2World* m_world;
     b2ContactListener* m_listener;
     b2ContactFilter* m_filter;
+    b2DebugDraw* m_debugDraw;
 
     static PhysicsManager* instance;
 

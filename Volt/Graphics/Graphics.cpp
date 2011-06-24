@@ -176,14 +176,14 @@ void Graphics::RenderQuad (float w, float h) {
         glTexCoord2f(0, 1);
     glEnd();
 }
-
+*/
 void Graphics::RenderLine (const Vector2& pos1, const Vector2& pos2) {
     glBegin(GL_LINES);
         glVertex3f(pos1.x, pos1.y, 0.0f);
         glVertex3f(pos2.x, pos2.y, 0.0f);
     glEnd();
 }
-*/
+
 void Graphics::RenderLineRect (float x, float y, float w, float h)
 {
     float hw = w*0.5f;

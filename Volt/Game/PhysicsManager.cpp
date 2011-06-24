@@ -1,5 +1,6 @@
 #include "PhysicsManager.h"
 #include "Entity.h"
+#include "Graphics/PhysicsDebugDraw.h"
 
 namespace Volt {
 
@@ -66,7 +67,8 @@ public:
 PhysicsManager::PhysicsManager ()
     : m_world(NULL),
       m_listener(NULL),
-      m_filter(NULL) {
+      m_filter(NULL),
+      m_debugDraw(NULL) {
     b2Vec2 gravity(0.0f, 0.0f);
     bool doSleep = true;
     m_world = new b2World(gravity, doSleep);
@@ -76,6 +78,9 @@ PhysicsManager::PhysicsManager ()
 
     m_filter = new ContactFilter;
     m_world->SetContactFilter(m_filter);
+
+    m_debugDraw = new PhysicsDebugDraw;
+    m_world->SetDebugDraw(m_debugDraw);
 }
 
 PhysicsManager::~PhysicsManager () {
@@ -89,6 +94,10 @@ void PhysicsManager::Update () {
     m_world->ClearForces();
 }
 
+void PhysicsManager::Render () {
+    m_world->DrawDebugData();
+}
+
 void PhysicsManager::SetGravity (Vector2 gravity) {
     m_world->SetGravity(b2Vec2(gravity.x, gravity.y));
 }
@@ -96,6 +105,15 @@ void PhysicsManager::SetGravity (Vector2 gravity) {
 Vector2 PhysicsManager::GetGravity () const {
     b2Vec2 gravity = m_world->GetGravity();
     return Vector2(gravity.x, gravity.y);
+}
+
+void PhysicsManager::SetDebugDraw (bool enabled) {
+    uint32 flags = b2DebugDraw::e_shapeBit + b2DebugDraw::e_centerOfMassBit;/* +
+                   b2DebugDraw::e_aabbBit;*/
+    if (enabled)
+        m_debugDraw->SetFlags(flags);
+    else
+        m_debugDraw->SetFlags(0);
 }
 
 }
