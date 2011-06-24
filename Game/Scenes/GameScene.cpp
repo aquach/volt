@@ -1,12 +1,15 @@
 #include "GameScene.h"
 #include "Entities/Game/Player.h"
 #include "Entities/Game/Floor.h"
+#include "Game/LevelManager.h"
 #include "Volt/Game/PhysicsManager.h"
+#include "Volt/Assets/AssetManager.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
 GameScene::GameScene ()
-    : m_player(NULL) {
+    : m_player(NULL),
+      m_levelManager(NULL) {
 
     Volt::G_PhysicsManager->SetGravity(Vector2(0, 10));
 
@@ -18,10 +21,15 @@ GameScene::GameScene ()
     Add(m_player);
     Add(new Floor);
 
+    m_levelManager = new LevelManager;
+    m_levelManager->m_gameScene = this;
+    m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
+
     camera()->WatchEntity(m_player);
 }
 
 GameScene::~GameScene () {
+    delete m_levelManager;
 }
 
 /*

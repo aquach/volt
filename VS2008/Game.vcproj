@@ -177,6 +177,14 @@
 				Name="Game"
 				>
 				<File
+					RelativePath="..\Game\Entities\Game\Area.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Game\Entities\Game\Area.h"
+					>
+				</File>
+				<File
 					RelativePath="..\Game\Entities\Game\Floor.cpp"
 					>
 				</File>
@@ -185,11 +193,27 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Game\Entities\Game\Light.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Game\Entities\Game\Light.h"
+					>
+				</File>
+				<File
 					RelativePath="..\Game\Entities\Game\Player.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\Game\Entities\Game\Player.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Game\Entities\Game\Triangle.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Game\Entities\Game\Triangle.h"
 					>
 				</File>
 			</Filter>
@@ -219,6 +243,18 @@
 			>
 			<File
 				RelativePath="..\Game\Graphics\Graphics.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Game"
+			>
+			<File
+				RelativePath="..\Game\Game\LevelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Game\Game\LevelManager.h"
 				>
 			</File>
 		</Filter>
