@@ -99,12 +99,11 @@ void PhysicsManager::Render () {
 }
 
 void PhysicsManager::SetGravity (Vector2 gravity) {
-    m_world->SetGravity(b2Vec2(gravity.x, gravity.y));
+    m_world->SetGravity(gravity.ToB2());
 }
 
 Vector2 PhysicsManager::GetGravity () const {
-    b2Vec2 gravity = m_world->GetGravity();
-    return Vector2(gravity.x, gravity.y);
+    return m_world->GetGravity();
 }
 
 void PhysicsManager::SetDebugDraw (bool enabled) {

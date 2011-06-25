@@ -184,8 +184,7 @@ void Graphics::RenderLine (const Vector2& pos1, const Vector2& pos2) {
     glEnd();
 }
 
-void Graphics::RenderLineRect (float x, float y, float w, float h)
-{
+void Graphics::RenderLineRect (float x, float y, float w, float h) {
     float hw = w*0.5f;
     float hh = h*0.5f;
 
@@ -202,6 +201,11 @@ void Graphics::RenderLineRect (float x, float y, float w, float h)
         glVertex3f(x-hw, y+hh, 0.0f);
         glVertex3f(x-hw, y-hh, 0.0f);
     glEnd();
+}
+
+void Graphics::RenderLineRect (const BBox& box) {
+    RenderLineRect(box.min.x, box.min.y,
+                   box.max.x - box.min.x, box.max.y - box.min.y);
 }
 
 Vector2 Graphics::GetScreenCenter() {

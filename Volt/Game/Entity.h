@@ -45,6 +45,7 @@ public:
     void UpdatePhysics ();
     b2Body* CreateBody (b2BodyDef def);
     b2Body* CreateBody (b2BodyType type);
+    b2Body* body () const { return m_body; }
     virtual void BeginContact (Entity* other) { }
     virtual void EndContact (Entity* other) { }
     virtual bool PreSolve (Entity* other) { return true; }

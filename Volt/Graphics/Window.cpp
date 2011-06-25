@@ -92,6 +92,11 @@ int Window::height () const {
     return ((SDL_Surface*)m_screen)->h;
 }
 
+bool Window::IsKeyPressed (SDLKey key) {
+    Uint8* state = SDL_GetKeyState(NULL);
+    return state[key];
+}
+
 void Window::UpdateInput () {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {

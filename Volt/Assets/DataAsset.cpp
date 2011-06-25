@@ -6,8 +6,7 @@
 
 namespace Volt {
 
-DataAsset::DataAsset ()
-    : m_root(NULL) {
+DataAsset::DataAsset () {
 }
 
 DataAsset::~DataAsset () {

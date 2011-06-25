@@ -43,15 +43,16 @@ public:
 
     Camera* camera () { return &m_camera; }
 
+protected:
+    Game* m_game;
+    bool m_isPaused;
+    Camera m_camera;
+
 private:
     friend class Game;
 
     void ResolveEntityChanges ();
     void RemoveAll ();
-
-    bool m_isPaused;
-    Game* m_game;
-    Camera m_camera;
 
     typedef map<int, list<Entity* > > Layers;
     Layers m_layers;

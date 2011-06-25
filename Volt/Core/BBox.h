@@ -24,6 +24,14 @@ public:
           max(other.max) {
     }
 
+    Vector2 center () const {
+        return (min + max) * 0.5f;
+    }
+
+    Vector2 extents () const {
+        return max - min;
+    }
+
     BBox Union (const BBox& other) const;
     BBox Union (const Vector2& point) const;
 
