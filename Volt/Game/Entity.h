@@ -46,8 +46,8 @@ public:
     b2Body* CreateBody (b2BodyDef def);
     b2Body* CreateBody (b2BodyType type);
     b2Body* body () const { return m_body; }
-    virtual void BeginContact (Entity* other) { }
-    virtual void EndContact (Entity* other) { }
+    virtual void BeginContact (Entity* other, b2Contact* contact) { }
+    virtual void EndContact (Entity* other, b2Contact* contact) { }
     virtual bool PreSolve (Entity* other) { return true; }
     virtual bool CanCollideWith (Entity* other) { return true; }
 

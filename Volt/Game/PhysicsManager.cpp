@@ -19,8 +19,8 @@ public:
         CHECK_NOTNULL(entityA);
         CHECK_NOTNULL(entityB);
 
-        entityA->BeginContact(entityB);
-        entityB->BeginContact(entityA);
+        entityA->BeginContact(entityB, contact);
+        entityB->BeginContact(entityA, contact);
     }
 
     virtual void EndContact (b2Contact* contact) {
@@ -31,8 +31,8 @@ public:
         CHECK_NOTNULL(entityA);
         CHECK_NOTNULL(entityB);
 
-        entityA->EndContact(entityB);
-        entityB->EndContact(entityA);
+        entityA->EndContact(entityB, contact);
+        entityB->EndContact(entityA, contact);
     }
 
     virtual void PreSolve (b2Contact* contact, const b2Manifold* oldManifold) {
