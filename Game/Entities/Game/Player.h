@@ -11,10 +11,23 @@ public:
     virtual void Update ();
     virtual void Render ();
 
+    //void OnKeyEvent (SDL_KeyboardEvent event);
+
     //virtual void OnAdded () { }
 
     //virtual void BeginContact (Entity* other) { }
     //virtual void EndContact (Entity* other) { }
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
+
+private:
+    friend class OnGroundQueryCallback;
+
+    b2AABB GetGroundTestAABB ();
+    void OnGroundCheck ();
+
+    bool m_onGround;
+    float m_jumpTimer;
+
+    bool m_debugDraw;
 };

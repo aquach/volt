@@ -1,13 +1,12 @@
 {
     "triangles" : [
-    /*
         {
             "transform": {
-                "position": [0, 0],
-                "scale": [5, 4],
-                "rotation": 33
+                "position": [-1, 1],
+                "scale": [1, 50],
+                "rotation": 180
             }
-        },*/
+        },
         {
             "transform": {
                 "position": [0, 12],
@@ -17,8 +16,8 @@
         },
         {
             "transform": {
-                "position": [1, 1],
-                "scale": [1, 1],
+                "position": [-1, 1],
+                "scale": [50, 1],
                 "rotation": 0
             }
         }

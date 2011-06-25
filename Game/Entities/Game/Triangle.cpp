@@ -35,7 +35,13 @@ void Triangle::Load (const Json::Value& node) {
     vertices[1] = b2Vec2(m_transform.scale.x, 0);
     vertices[2] = b2Vec2(0, m_transform.scale.y);
     shape.Set(vertices, 3);
-    m_body->CreateFixture(&shape, 1);
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &shape;
+    fixtureDef.density = 1.0f;
+    fixtureDef.restitution = 0.0f;
+    fixtureDef.friction = 1.0f;
+    m_body->CreateFixture(&fixtureDef);
 }
 
 void Triangle::Save (Json::Value& node) const {

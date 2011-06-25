@@ -11,7 +11,7 @@ GameScene::GameScene ()
     : m_player(NULL),
       m_levelManager(NULL) {
 
-    Volt::G_PhysicsManager->SetGravity(Vector2(0, 10));
+    Volt::G_PhysicsManager->SetGravity(Vector2(0, 30));
     Volt::G_PhysicsManager->SetDebugDraw(true);
 
     camera()->transform.scale.Set(
@@ -46,5 +46,10 @@ void GameScene::OnBegin () {
 }
 
 void GameScene::OnEnd () {
+}
+
+void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
+    if (event.keysym.sym == SDLK_ESCAPE)
+        m_game->Quit();
 }
 
