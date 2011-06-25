@@ -4,43 +4,24 @@
 #include "Volt/Graphics/OpenGL.h"
 #include "Volt/Graphics/Window.h"
 
-class SurfaceRayCastCallback : public b2RayCastCallback {
-public:
-    SurfaceRayCastCallback (Player* player)
-        : m_player(player),
-          m_body(NULL) { }
-
-    float32 ReportFixture (b2Fixture* fixture, const b2Vec2& point,
-                           const b2Vec2& normal, float32 fraction) {
-        b2Body* body = fixture->GetBody();
-        if (m_player->body() != body && body->GetType() == b2_staticBody) {
-            m_body = body;
-            m_point = point;
-            m_normal = normal;
-            return fraction;
-        }
-        return -1;
-    }
-
-    b2Body* m_body;
-    Vector m_point;
-    Vector m_normal;
-private:
-    Player* m_player;
-};
-
 const float WIDTH = 1.5f;
 const float HEIGHT = 2.0f;
-const float AIR_ACCEL = 0.2f;
+const float AIR_ACCEL = 0.15f;
 const float MOVE_IMPULSE = 3.0f;
 const float MOVE_MAX_VEL = 8.0f;
 const float JUMP_TIME = 0.1f;
 const float JUMP_IMPULSE = 10.0f;
 const float JUMP_MAX_VEL = 10.0f;
 
+enum SideContact {
+    TOP,
+    LEFT,
+    RIGHT,
+    BOTTOM
+};
+
 Player::Player ()
-    : m_onGround(false),
-      m_jumpTimer(0.0f),
+    : m_jumpTimer(0.0f),
       m_debugDraw(true) {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -56,37 +37,24 @@ Player::Player ()
     fixtureDef.restitution = 0.0f;
     fixtureDef.friction = 1.0f;
     m_body->CreateFixture(&fixtureDef);
+
+    memset(m_sideContacts, 0, sizeof(m_sideContacts));
 }
 
 Player::~Player () {
 }
 
-b2AABB Player::GetGroundTestAABB () {
-    b2AABB aabb;
-    aabb.lowerBound = (m_transform.position - Vector2(0.1, 0)).ToB2();
-    aabb.upperBound = (m_transform.position +
-                       Vector2(0.1, HEIGHT * 0.5f - 0.01)).ToB2();
-    return aabb;
-}
-
-void Player::OnGroundCheck () {
-    m_onGround = false;
-    SurfaceRayCastCallback callback(this);
-    b2AABB aabb = GetGroundTestAABB();
-    Volt::G_PhysicsManager->world()->QueryAABB(&callback, aabb);
-    LOG(INFO) << callback.m_body;
-    if (callback.m_body != NULL)
-        m_onGround = true;
+bool Player::IsOnGround () const {
+    return m_sideContacts[BOTTOM] != NULL;
 }
 
 void Player::Update () {
     UpdatePhysics();
-    OnGroundCheck();
 
     Vector2 vel = m_body->GetLinearVelocity();
     if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
         Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
-        float airMult = m_onGround ? 1.0f : AIR_ACCEL;
+        float airMult = IsOnGround() ? 1.0f : AIR_ACCEL;
         int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
         if (vel.x * dir < MOVE_MAX_VEL) {
             float vx = MOVE_IMPULSE * dir * airMult;
@@ -94,7 +62,7 @@ void Player::Update () {
         }
     }
     if (Volt::G_Window->IsKeyPressed(SDLK_z)) {
-        if (m_onGround)
+        if (IsOnGround())
             m_jumpTimer = JUMP_TIME;
         if (m_jumpTimer > 0) {
             m_jumpTimer -= Volt::G_Game->dt();
@@ -108,22 +76,9 @@ void Player::Update () {
 
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
     if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
-        if (!m_onGround) {
-            LOG(INFO) << "POW";
-            SurfaceQueryCallback callback(this);
-            b2AABB aabb;
-            if (m_body->GetLinearVelocity().x > 0) {
-                aabb.lowerBound = (m_transform.position - Vector2(0, 0.01)).ToB2();
-                aabb.upperBound = (m_transform.position +
-                                   Vector2(WIDTH * 0.5f, 0.1)).ToB2();
-            } else {
-                aabb.lowerBound = (m_transform.position -
-                                   Vector2(WIDTH * 0.5f - 0.01, 0.1)).ToB2();
-                aabb.upperBound = (m_transform.position + Vector2(0, 0.01)).ToB2();
-            }
-            Volt::G_PhysicsManager->world()->QueryAABB(&callback, aabb);
-            if (callback.m_body != NULL) {
-                LOG(INFO) << "THING";
+        if (!IsOnGround()) {
+            SideContact type = m_body->GetLinearVelocity().x > 0 ? RIGHT : LEFT;
+            if (m_sideContacts[type] != NULL) {
                 float dir = SIGN(m_body->GetLinearVelocity().x, 1);
                 m_body->ApplyLinearImpulse(b2Vec2(-dir * JUMP_IMPULSE * 5,
                                                   -JUMP_IMPULSE * 5),
@@ -143,10 +98,27 @@ void Player::Render () {
     glPopMatrix();
 
     if (m_debugDraw) {
-        Graphics::SetColor(Volt::Color::white);
-        b2AABB aabb = GetGroundTestAABB();
-        Volt::BBox box(aabb.lowerBound, aabb.upperBound);
-        Graphics::RenderLineRect(box.center().x, box.center().y,
-                                 box.extents().x, box.extents().y);
     }
+}
+
+void Player::BeginContact (Entity* other, b2Contact* contact) {
+    b2WorldManifold manifold;
+    contact->GetWorldManifold(&manifold);
+    Vector2 dir(manifold.normal);
+    if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
+        m_sideContacts[RIGHT] = other->body();
+    } else if (dir.x < 0 && abs(dir.x) > abs(dir.y)) {
+        m_sideContacts[LEFT] = other->body();
+    } else if (dir.y < 0 && abs(dir.y) > abs(dir.x)) {
+        m_sideContacts[TOP] = other->body();
+    } else if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
+        m_sideContacts[BOTTOM] = other->body();
+    }
+}
+
+void Player::EndContact (Entity* other, b2Contact* contact) {
+    for (int i = 0; i < 4; i++)
+        if (m_sideContacts[i] == other->body())
+            m_sideContacts[i] = NULL;
+
 }

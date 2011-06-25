@@ -16,18 +16,15 @@ public:
 
     //virtual void OnAdded () { }
 
-    //virtual void BeginContact (Entity* other) { }
-    //virtual void EndContact (Entity* other) { }
+    virtual void BeginContact (Entity* other, b2Contact* contact);
+    virtual void EndContact (Entity* other, b2Contact* contact);
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
 
+    bool IsOnGround () const;
+
 private:
-    friend class SurfaceRayCallback;
-
-    b2AABB GetGroundTestAABB ();
-    void OnGroundCheck ();
-
-    bool m_onGround;
+    b2Body* m_sideContacts[4];
     float m_jumpTimer;
 
     bool m_debugDraw;
