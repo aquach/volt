@@ -4,7 +4,7 @@
             "transform": {
                 "position": [-1, 1],
                 "scale": [1, 50],
-                "rotation": 180
+                "rotation": 200
             }
         },
         {
@@ -18,7 +18,7 @@
             "transform": {
                 "position": [-1, 1],
                 "scale": [50, 1],
-                "rotation": 0
+                "rotation": 10
             }
         }
     ]

@@ -49,6 +49,7 @@ void GameScene::OnEnd () {
 }
 
 void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
+    m_player->OnKeyEvent(event);
     if (event.keysym.sym == SDLK_ESCAPE)
         m_game->Quit();
 }

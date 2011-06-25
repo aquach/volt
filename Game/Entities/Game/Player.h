@@ -2,6 +2,7 @@
 
 #include "Core/Core.h"
 #include "Volt/Game/Entity.h"
+#include "Volt/Graphics/Input.h"
 
 class Player : public Volt::Entity {
 public:
@@ -11,7 +12,7 @@ public:
     virtual void Update ();
     virtual void Render ();
 
-    //void OnKeyEvent (SDL_KeyboardEvent event);
+    void OnKeyEvent (SDL_KeyboardEvent event);
 
     //virtual void OnAdded () { }
 
@@ -21,7 +22,7 @@ public:
     //virtual bool CanCollideWith (Entity* other) { return true; }
 
 private:
-    friend class OnGroundQueryCallback;
+    friend class SurfaceRayCallback;
 
     b2AABB GetGroundTestAABB ();
     void OnGroundCheck ();
