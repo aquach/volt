@@ -2,7 +2,6 @@
 #include "Logging.h"
 #include "Random.h"
 #include "Math.h"
-
 #include <cmath>
 
 namespace Volt {
@@ -18,12 +17,20 @@ Vector2::Vector2 (const Vector2 &vector2)
     : x(vector2.x), y(vector2.y) {
 }
 
+Vector2::Vector2 (const b2Vec2 &vec2)
+    : x(vec2.x), y(vec2.y) {
+}
+
 Vector2::Vector2 ()
     : x(0.0f), y(0.0f) {
 }
 
 Vector2::Vector2 (float x, float y)
     : x(x), y(y) {
+}
+
+b2Vec2 Vector2::ToB2 () {
+    return b2Vec2(x, y);
 }
 
 void Vector2::Set (float x, float y)

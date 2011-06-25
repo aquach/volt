@@ -23,6 +23,8 @@ public:
     int width () const;
     int height () const;
 
+    bool IsKeyPressed (SDLKey key);
+
     void UpdateInput ();
 
     static void Register (Window* window) { instance = window; }

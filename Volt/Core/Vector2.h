@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include <json/json.h>
+#include <Box2D/Box2D.h>
 
 using namespace std;
 
@@ -19,9 +20,12 @@ public:
     static Vector2 left;
     static Vector2 right;
 
-    Vector2 (const Vector2 &vector2);
+    Vector2 (const Vector2& vector2);
+    Vector2 (const b2Vec2& vec2);
     Vector2 ();
     Vector2 (float x, float y);
+
+    b2Vec2 ToB2 ();
 
     void Set (float x, float y);
     void SetFromAngleDegrees (float angle);
