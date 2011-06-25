@@ -35,7 +35,7 @@ Player::Player ()
     fixtureDef.shape = &shape;
     fixtureDef.density = 1.0f;
     fixtureDef.restitution = 0.0f;
-    fixtureDef.friction = 1.0f;
+    fixtureDef.friction = 0.5f;
     m_body->CreateFixture(&fixtureDef);
 
     memset(m_sideContacts, 0, sizeof(m_sideContacts));
@@ -52,6 +52,7 @@ void Player::Update () {
     UpdatePhysics();
 
     Vector2 vel = m_body->GetLinearVelocity();
+    LOG(INFO) << vel.x;
     if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
         Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
         float airMult = IsOnGround() ? 1.0f : AIR_ACCEL;
@@ -105,14 +106,15 @@ void Player::BeginContact (Entity* other, b2Contact* contact) {
     b2WorldManifold manifold;
     contact->GetWorldManifold(&manifold);
     Vector2 dir(manifold.normal);
-    if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
+    LOG(INFO) << dir;
+    if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
+        m_sideContacts[BOTTOM] = other->body();
+    } else if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
         m_sideContacts[RIGHT] = other->body();
     } else if (dir.x < 0 && abs(dir.x) > abs(dir.y)) {
         m_sideContacts[LEFT] = other->body();
     } else if (dir.y < 0 && abs(dir.y) > abs(dir.x)) {
         m_sideContacts[TOP] = other->body();
-    } else if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
-        m_sideContacts[BOTTOM] = other->body();
     }
 }
 

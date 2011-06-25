@@ -30,10 +30,16 @@ void Triangle::Load (const Json::Value& node) {
     m_body = CreateBody(def);
 
     b2PolygonShape shape;
+    bool flip = m_transform.scale.x * m_transform.scale.y < 0;
     b2Vec2 vertices[3];
     vertices[0] = b2Vec2(0, 0);
-    vertices[1] = b2Vec2(m_transform.scale.x, 0);
-    vertices[2] = b2Vec2(0, m_transform.scale.y);
+    if (flip) {
+        vertices[2] = b2Vec2(m_transform.scale.x, 0);
+        vertices[1] = b2Vec2(0, m_transform.scale.y);
+    } else {
+        vertices[1] = b2Vec2(m_transform.scale.x, 0);
+        vertices[2] = b2Vec2(0, m_transform.scale.y);
+    }
     shape.Set(vertices, 3);
 
     b2FixtureDef fixtureDef;

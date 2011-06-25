@@ -9,8 +9,15 @@
         },
         {
             "transform": {
-                "position": [0, 12],
-                "scale": [10, 10],
+                "position": [20, 0],
+                "scale": [10, 5],
+                "rotation": 180
+            }
+        },
+        {
+            "transform": {
+                "position": [6, -5.5],
+                "scale": [8, 1],
                 "rotation": 0
             }
         },
