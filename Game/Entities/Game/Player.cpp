@@ -2,10 +2,12 @@
 #include "Ladder.h"
 #include "Triangle.h"
 #include "Graphics/Graphics.h"
+#include "Scenes/GameScene.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/OpenGL.h"
 #include "Volt/Graphics/Window.h"
+#include "Volt/GUI/Label.h"
 
 const float WIDTH = 1.5f;
 const float HEIGHT = 2.0f;
@@ -38,6 +40,7 @@ void Player::NormalState::Update ()  {
         }
     }
 
+    // Jumping.
     m_p->UpdateJump();
 }
 
@@ -45,7 +48,7 @@ void Player::NormalState::OnKeyEvent (SDL_KeyboardEvent event) {
     // Climbing ladders.
     if (event.keysym.sym == SDLK_UP || event.keysym.sym == SDLK_DOWN) {
         if (event.type == SDL_KEYDOWN && m_p->m_ladder != NULL) {
-            TransitionTo("LadderState");
+            TransitionTo("Ladder");
         }
     }
 
@@ -104,8 +107,6 @@ void Player::LadderState::Update () {
     if (!canMove) {
         m_p->m_body->SetLinearVelocity(b2Vec2(0, 0));
     }
-
-    m_p->UpdateJump();
 }
 
 void Player::LadderState::OnEnter () {
@@ -121,7 +122,7 @@ void Player::LadderState::OnExit () {
 void Player::LadderState::OnKeyEvent (SDL_KeyboardEvent event) {
     // Getting off ladders.
     if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
-        TransitionTo("NormalState");
+        TransitionTo("Normal");
     }
 }
 
@@ -129,7 +130,8 @@ Player::Player ()
     : m_jumpTimer(0.0f),
       m_debugDraw(true),
       m_ladder(NULL),
-      m_fsm(NULL) {
+      m_fsm(NULL),
+      m_debugLabel(NULL) {
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.fixedRotation = true;
@@ -148,12 +150,27 @@ Player::Player ()
     memset(m_sideContacts, 0, sizeof(m_sideContacts));
 
     m_fsm = new Volt::FSM;
-    m_fsm->AddState(new Player::NormalState(this), "NormalState");
-    m_fsm->AddState(new Player::LadderState(this), "LadderState");
-    m_fsm->TransitionTo("NormalState");
+    m_fsm->AddState(new Player::NormalState(this), "Normal");
+    m_fsm->AddState(new Player::LadderState(this), "Ladder");
+    m_fsm->TransitionTo("Normal");
+
+    if (m_debugDraw) {
+        m_debugLabel = new Volt::Label(DEBUG_FONT_LARGE,
+                                       Volt::G_Window->width(), 0);
+        m_debugLabel->SetAnchor(Volt::Label::ANCHOR_RIGHT,
+                                Volt::Label::ANCHOR_TOP);
+        m_debugLabel->SetColor(Volt::Color::RGB(255, 255, 0));
+    }
 }
 
-Player::~Player () {
+void Player::OnAdded () {
+    scene()->Add(m_debugLabel, -50);
+}
+
+void Player::OnRemoved () {
+    if (m_debugDraw) {
+        scene()->Remove(m_debugLabel);
+    }
 }
 
 bool Player::IsOnGround () const {
@@ -164,6 +181,10 @@ void Player::Update () {
     UpdatePhysics();
 
     m_fsm->Update();
+
+    if (m_debugDraw) {
+        m_debugLabel->SetText(m_fsm->stateName());
+    }
 }
 
 void Player::UpdateJump () {
@@ -197,9 +218,6 @@ void Player::Render () {
     Graphics::TransformMatrix(m_transform);
     Graphics::RenderQuad(WIDTH, HEIGHT);
     glPopMatrix();
-
-    if (m_debugDraw) {
-    }
 }
 
 void Player::BeginContact (Entity* other, b2Contact* contact) {

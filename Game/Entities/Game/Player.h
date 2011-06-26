@@ -5,19 +5,24 @@
 #include "Volt/Game/FSM.h"
 #include "Volt/Graphics/Input.h"
 
+namespace Volt {
+    class Label;
+};
+
 class Ladder;
 
 class Player : public Volt::Entity {
 public:
     Player ();
-    virtual ~Player ();
+    virtual ~Player () { }
 
     virtual void Update ();
     virtual void Render ();
 
     void OnKeyEvent (SDL_KeyboardEvent event);
 
-    //virtual void OnAdded () { }
+    virtual void OnAdded ();
+    virtual void OnRemoved ();
 
     virtual void BeginContact (Entity* other, b2Contact* contact);
     virtual void EndContact (Entity* other, b2Contact* contact);
@@ -68,6 +73,7 @@ private:
     Ladder* m_ladder;
 
     bool m_debugDraw;
+    Volt::Label* m_debugLabel;
 
     DISALLOW_COPY_AND_ASSIGN(Player);
 };
