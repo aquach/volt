@@ -18,7 +18,7 @@ Color::Color (const Color &color)
 }
 
 Color Color::RGB (int r, int g, int b) {
-    return Color((float)r / 255, (float)g / 255, (float)b / 255);
+    return Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f);
 }
 
 Color::Color ()
