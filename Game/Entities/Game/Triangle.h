@@ -21,4 +21,7 @@ public:
     //virtual void EndContact (Entity* other) { }
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
+
+private:
+    DISALLOW_COPY_AND_ASSIGN(Triangle);
 };

@@ -2,6 +2,7 @@
 #include "Ladder.h"
 #include "Triangle.h"
 #include "Graphics/Graphics.h"
+#include "Volt/Game/FSM.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/OpenGL.h"
 #include "Volt/Graphics/Window.h"
@@ -22,11 +23,113 @@ enum SideContact {
     BOTTOM
 };
 
+void Player::NormalState::Update ()  {
+
+    // Left and right movement.
+    Vector2 vel = m_p->m_body->GetLinearVelocity();
+    if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
+        Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
+        float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
+        int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
+        if (vel.x * dir < MOVE_MAX_VEL) {
+            float vx = MOVE_IMPULSE * dir * airMult;
+            m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
+                                       m_p->m_body->GetWorldCenter());
+        }
+    }
+
+    m_p->UpdateJump();
+}
+
+void Player::NormalState::OnKeyEvent (SDL_KeyboardEvent event) {
+    // Climbing ladders.
+    if (event.keysym.sym == SDLK_UP || event.keysym.sym == SDLK_DOWN) {
+        if (event.type == SDL_KEYDOWN && m_p->m_ladder != NULL) {
+            TransitionTo("LadderState");
+        }
+    }
+
+    // Wall jump.
+    if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
+        if (!m_p->IsOnGround()) {
+            SideContact type = m_p->m_body->GetLinearVelocity().x > 0 ?
+                               RIGHT : LEFT;
+            if (m_p->m_sideContacts[type] != NULL) {
+                float dir = SIGN(m_p->m_body->GetLinearVelocity().x, 1);
+                b2Vec2 impulse(-dir * JUMP_IMPULSE * 5, -JUMP_IMPULSE * 5);
+                m_p->m_body->ApplyLinearImpulse(
+                    impulse,
+                    m_p->m_body->GetWorldCenter());
+            }
+        }
+    }
+}
+
+
+void Player::NormalState::OnEnter () {
+}
+
+void Player::NormalState::OnExit () {
+}
+
+void Player::LadderState::Update () {
+    CHECK_NOTNULL(m_p->m_ladder);
+
+    Vector2 vel = m_p->m_body->GetLinearVelocity();
+
+    // Nullify gravity.
+    Vector2 force = Volt::G_PhysicsManager->GetGravity() *
+                    m_p->m_body->GetMass();
+    m_p->m_body->ApplyForce(-force.ToB2(),
+                       m_p->m_body->GetWorldCenter());
+
+    // Movement up and down ladder.
+    bool canMove = false;
+    if (Volt::G_Window->IsKeyPressed(SDLK_UP) ||
+        Volt::G_Window->IsKeyPressed(SDLK_DOWN)) {
+        int dir = Volt::G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
+        if (
+            (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
+            (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
+        ) {
+            canMove = true;
+            if (vel.y * dir < MOVE_MAX_VEL) {
+                float vy = MOVE_IMPULSE * dir;
+                m_p->m_body->ApplyLinearImpulse(b2Vec2(0, vy),
+                                                m_p->m_body->GetWorldCenter());
+            }
+        }
+    }
+
+    if (!canMove) {
+        m_p->m_body->SetLinearVelocity(b2Vec2(0, 0));
+    }
+
+    m_p->UpdateJump();
+}
+
+void Player::LadderState::OnEnter () {
+    // Lock to ladder.
+    b2Vec2 v(m_p->m_ladder->position().x, m_p->position().y);
+    m_p->m_body->SetTransform(v, 0);
+    m_p->m_body->SetLinearVelocity(b2Vec2(0, 0));
+}
+
+void Player::LadderState::OnExit () {
+}
+
+void Player::LadderState::OnKeyEvent (SDL_KeyboardEvent event) {
+    // Getting off ladders.
+    if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
+        TransitionTo("NormalState");
+    }
+}
+
 Player::Player ()
     : m_jumpTimer(0.0f),
       m_debugDraw(true),
       m_ladder(NULL),
-      m_onLadder(false) {
+      m_fsm(NULL) {
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.fixedRotation = true;
@@ -43,6 +146,11 @@ Player::Player ()
     m_body->CreateFixture(&fixtureDef);
 
     memset(m_sideContacts, 0, sizeof(m_sideContacts));
+
+    m_fsm = new Volt::FSM;
+    m_fsm->AddState(new Player::NormalState(this), "NormalState");
+    m_fsm->AddState(new Player::LadderState(this), "LadderState");
+    m_fsm->TransitionTo("NormalState");
 }
 
 Player::~Player () {
@@ -55,37 +163,11 @@ bool Player::IsOnGround () const {
 void Player::Update () {
     UpdatePhysics();
 
+    m_fsm->Update();
+}
+
+void Player::UpdateJump () {
     Vector2 vel = m_body->GetLinearVelocity();
-
-    if (!m_onLadder) {
-        if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
-            Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
-            float airMult = IsOnGround() ? 1.0f : AIR_ACCEL;
-            int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
-            if (vel.x * dir < MOVE_MAX_VEL) {
-                float vx = MOVE_IMPULSE * dir * airMult;
-                m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
-                                           m_body->GetWorldCenter());
-            }
-        }
-    } else {
-        Vector2 force = Volt::G_PhysicsManager->GetGravity() *
-                        m_body->GetMass();
-        m_body->ApplyForce(-force.ToB2(),
-                           m_body->GetWorldCenter());
-        if (Volt::G_Window->IsKeyPressed(SDLK_UP) ||
-            Volt::G_Window->IsKeyPressed(SDLK_DOWN)) {
-            int dir = Volt::G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
-            if (vel.y * dir < MOVE_MAX_VEL) {
-                float vy = MOVE_IMPULSE * dir;
-                m_body->ApplyLinearImpulse(b2Vec2(0, vy),
-                                           m_body->GetWorldCenter());
-            }
-        } else {
-            m_body->SetLinearVelocity(b2Vec2(0, 0));
-        }
-    }
-
     if (Volt::G_Window->IsKeyPressed(SDLK_z)) {
         if (IsOnGround())
             m_jumpTimer = JUMP_TIME;
@@ -101,26 +183,10 @@ void Player::Update () {
 }
 
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
-    if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
-        m_onLadder = false;
-        if (!IsOnGround()) {
-            SideContact type = m_body->GetLinearVelocity().x > 0 ? RIGHT : LEFT;
-            if (m_sideContacts[type] != NULL) {
-                float dir = SIGN(m_body->GetLinearVelocity().x, 1);
-                m_body->ApplyLinearImpulse(b2Vec2(-dir * JUMP_IMPULSE * 5,
-                                                  -JUMP_IMPULSE * 5),
-                                           m_body->GetWorldCenter());
-            }
-        }
-    } else if (event.keysym.sym == SDLK_UP || event.keysym.sym == SDLK_DOWN) {
-        if (event.type == SDL_KEYDOWN && m_ladder != NULL) {
-            m_onLadder = true;
-            m_body->SetTransform(
-                b2Vec2(m_ladder->position().x,
-                       position().y), 0);
-            m_body->SetLinearVelocity(b2Vec2(0, 0));
-        }
-    }
+    Player::PlayerState* state;
+    state = dynamic_cast<Player::PlayerState*>(m_fsm->state());
+    CHECK_NOTNULL(state);
+    state->OnKeyEvent(event);
 }
 
 void Player::Render () {

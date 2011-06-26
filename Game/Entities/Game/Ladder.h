@@ -21,4 +21,12 @@ public:
     //virtual void EndContact (Entity* other, b2Contact* contact);
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
+
+    float topY () const { return m_transform.position.y +
+                                 m_transform.scale.y * 0.5f; }
+    float bottomY () const { return m_transform.position.y -
+                                    m_transform.scale.y * 0.5f; }
+
+private:
+    DISALLOW_COPY_AND_ASSIGN(Ladder);
 };
