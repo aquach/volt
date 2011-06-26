@@ -5,6 +5,9 @@
 namespace Volt {
 
 void Label::Render () {
+    glPushMatrix();
+    glLoadIdentity();
+
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
     Graphics::SetColor(m_color);
 
@@ -22,6 +25,8 @@ void Label::Render () {
         y += m_font->GetTextHeight(m_text) * 0.5f;
 
     Graphics::RenderText(m_font, m_text, x, y);
+
+    glPopMatrix();
 }
 
 }

@@ -279,6 +279,7 @@ void Graphics::RenderQuad (float width, float height,
 
 void Graphics::RenderText (FontAssetRef font, const string& text,
                            float x, float y) {
+    glEnable(GL_BLEND);
     BindFont(font);
     BBox verts, texCoords;
     glBegin(GL_QUADS);

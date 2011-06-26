@@ -80,7 +80,7 @@ void Scene::ResolveEntityChanges () {
             LOG(WARNING) << "Removing entity: Could not find entity "
                          << "in layers map." << endl;
         }
-
+        entity->OnRemoved();
         entity->m_scene = NULL;
         delete entity;
     }

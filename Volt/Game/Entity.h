@@ -41,6 +41,7 @@ public:
     virtual void Render () = 0;
 
     virtual void OnAdded () { }
+    virtual void OnRemoved () { }
 
     void UpdatePhysics ();
     b2Body* CreateBody (b2BodyDef def);

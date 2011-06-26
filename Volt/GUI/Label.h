@@ -22,13 +22,17 @@ public:
           m_y(y),
           m_anchorX(ANCHOR_LEFT),
           m_anchorY(ANCHOR_TOP),
-          m_color(Color::black) {
+          m_color(Color::white) {
     }
 
     AnchorPosition anchorX () const { return m_anchorX; }
     AnchorPosition anchorY () const { return m_anchorY; }
     void SetAnchorX (AnchorPosition p) { m_anchorX = p; }
     void SetAnchorY (AnchorPosition p) { m_anchorY = p; }
+    void SetAnchor (AnchorPosition x, AnchorPosition y) {
+        m_anchorX = x;
+        m_anchorY = y;
+    }
 
     string text () const { return m_text; }
     void SetText (string text) { m_text = text; }
