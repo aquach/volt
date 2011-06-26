@@ -57,6 +57,9 @@ public:
     Vector2 position () const { return m_transform.position; }
     float rotation () const { return m_transform.rotation; }
 
+    virtual void Load (const Json::Value& node) { }
+    virtual void Save (Json::Value& node) const { }
+
 protected:
     b2Body* m_body;
     Transform m_transform;
