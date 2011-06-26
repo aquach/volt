@@ -1,7 +1,7 @@
 #include "LevelManager.h"
-#include "Entities/Game/Area.h"
-#include "Entities/Game/Light.h"
+#include "Entities/Game/Ladder.h"
 #include "Entities/Game/Triangle.h"
+#include "Volt/Game/Entity.h"
 
 LevelManager::LevelManager ()
     : m_levelLoaded(false),
@@ -24,20 +24,26 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     const Json::Value& root = asset->data();
 
     const Json::Value& triangles = root["triangles"];
-    for (int i = 0; i < triangles.size(); i++) {
-        const Json::Value& triNode = triangles[i];
+    for (uint i = 0; i < triangles.size(); i++) {
+        const Json::Value& node = triangles[i];
         Triangle* tri = new Triangle;
-        tri->Load(triNode);
-        m_triangles.insert(tri);
+        tri->Load(node);
+        m_entities.insert(tri);
         m_gameScene->Add(tri);
+    }
+
+    const Json::Value& ladders = root["ladders"];
+    for (uint i = 0; i < ladders.size(); i++) {
+        const Json::Value& node = ladders[i];
+        Ladder* ladder = new Ladder;
+        ladder->Load(node);
+        m_entities.insert(ladder);
+        m_gameScene->Add(ladder);
     }
 }
 
 void LevelManager::UnloadLevel () {
-    for (set<Triangle*>::iterator i = m_triangles.begin(); i != m_triangles.end(); i++)
-        m_gameScene->Remove(*i);
-    for (set<Light*>::iterator i = m_lights.begin(); i != m_lights.end(); i++)
-        m_gameScene->Remove(*i);
-    for (set<Area*>::iterator i = m_areas.begin(); i != m_areas.end(); i++)
+    for (set<Volt::Entity*>::iterator i = m_entities.begin();
+         i != m_entities.end(); i++)
         m_gameScene->Remove(*i);
 }

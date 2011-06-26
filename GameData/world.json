@@ -28,5 +28,14 @@
                 "rotation": 10
             }
         }
+    ],
+    "ladders" : [
+        {
+            "transform": {
+                "position": [5, 0],
+                "scale": [0.5, -20],
+                "rotation": 0
+            }
+        }
     ]
 }

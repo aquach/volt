@@ -4,6 +4,8 @@
 #include "Volt/Game/Entity.h"
 #include "Volt/Graphics/Input.h"
 
+class Ladder;
+
 class Player : public Volt::Entity {
 public:
     Player ();
@@ -26,6 +28,9 @@ public:
 private:
     b2Body* m_sideContacts[4];
     float m_jumpTimer;
+
+    Ladder* m_ladder;
+    bool m_onLadder;
 
     bool m_debugDraw;
 };

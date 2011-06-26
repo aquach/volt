@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Ladder.h"
+#include "Triangle.h"
 #include "Graphics/Graphics.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/OpenGL.h"
@@ -22,7 +24,9 @@ enum SideContact {
 
 Player::Player ()
     : m_jumpTimer(0.0f),
-      m_debugDraw(true) {
+      m_debugDraw(true),
+      m_ladder(NULL),
+      m_onLadder(false) {
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.fixedRotation = true;
@@ -52,19 +56,40 @@ void Player::Update () {
     UpdatePhysics();
 
     Vector2 vel = m_body->GetLinearVelocity();
-    LOG(INFO) << vel.x;
-    if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
-        Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
-        float airMult = IsOnGround() ? 1.0f : AIR_ACCEL;
-        int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
-        if (vel.x * dir < MOVE_MAX_VEL) {
-            float vx = MOVE_IMPULSE * dir * airMult;
-            m_body->ApplyLinearImpulse(b2Vec2(vx, 0), m_body->GetWorldCenter());
+
+    if (!m_onLadder) {
+        if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
+            Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
+            float airMult = IsOnGround() ? 1.0f : AIR_ACCEL;
+            int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
+            if (vel.x * dir < MOVE_MAX_VEL) {
+                float vx = MOVE_IMPULSE * dir * airMult;
+                m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
+                                           m_body->GetWorldCenter());
+            }
+        }
+    } else {
+        Vector2 force = Volt::G_PhysicsManager->GetGravity() *
+                        m_body->GetMass();
+        m_body->ApplyForce(-force.ToB2(),
+                           m_body->GetWorldCenter());
+        if (Volt::G_Window->IsKeyPressed(SDLK_UP) ||
+            Volt::G_Window->IsKeyPressed(SDLK_DOWN)) {
+            int dir = Volt::G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
+            if (vel.y * dir < MOVE_MAX_VEL) {
+                float vy = MOVE_IMPULSE * dir;
+                m_body->ApplyLinearImpulse(b2Vec2(0, vy),
+                                           m_body->GetWorldCenter());
+            }
+        } else {
+            m_body->SetLinearVelocity(b2Vec2(0, 0));
         }
     }
+
     if (Volt::G_Window->IsKeyPressed(SDLK_z)) {
         if (IsOnGround())
             m_jumpTimer = JUMP_TIME;
+
         if (m_jumpTimer > 0) {
             m_jumpTimer -= Volt::G_Game->dt();
             if (vel.y > -JUMP_MAX_VEL) {
@@ -77,6 +102,7 @@ void Player::Update () {
 
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
     if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
+        m_onLadder = false;
         if (!IsOnGround()) {
             SideContact type = m_body->GetLinearVelocity().x > 0 ? RIGHT : LEFT;
             if (m_sideContacts[type] != NULL) {
@@ -85,6 +111,14 @@ void Player::OnKeyEvent (SDL_KeyboardEvent event) {
                                                   -JUMP_IMPULSE * 5),
                                            m_body->GetWorldCenter());
             }
+        }
+    } else if (event.keysym.sym == SDLK_UP || event.keysym.sym == SDLK_DOWN) {
+        if (event.type == SDL_KEYDOWN && m_ladder != NULL) {
+            m_onLadder = true;
+            m_body->SetTransform(
+                b2Vec2(m_ladder->position().x,
+                       position().y), 0);
+            m_body->SetLinearVelocity(b2Vec2(0, 0));
         }
     }
 }
@@ -103,24 +137,34 @@ void Player::Render () {
 }
 
 void Player::BeginContact (Entity* other, b2Contact* contact) {
-    b2WorldManifold manifold;
-    contact->GetWorldManifold(&manifold);
-    Vector2 dir(manifold.normal);
-    LOG(INFO) << dir;
-    if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
-        m_sideContacts[BOTTOM] = other->body();
-    } else if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
-        m_sideContacts[RIGHT] = other->body();
-    } else if (dir.x < 0 && abs(dir.x) > abs(dir.y)) {
-        m_sideContacts[LEFT] = other->body();
-    } else if (dir.y < 0 && abs(dir.y) > abs(dir.x)) {
-        m_sideContacts[TOP] = other->body();
+    Ladder* ladder;
+
+    // Hack to limit scope to just triangles.
+    if (dynamic_cast<Triangle*>(other) != NULL) {
+        b2WorldManifold manifold;
+        contact->GetWorldManifold(&manifold);
+        Vector2 dir(manifold.normal);
+        LOG(INFO) << dir;
+        if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
+            m_sideContacts[BOTTOM] = other->body();
+        } else if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
+            m_sideContacts[RIGHT] = other->body();
+        } else if (dir.x < 0 && abs(dir.x) > abs(dir.y)) {
+            m_sideContacts[LEFT] = other->body();
+        } else if (dir.y < 0 && abs(dir.y) > abs(dir.x)) {
+            m_sideContacts[TOP] = other->body();
+        }
+    } else if ((ladder = dynamic_cast<Ladder*>(other)) != NULL) {
+        m_ladder = ladder;
     }
 }
 
 void Player::EndContact (Entity* other, b2Contact* contact) {
-    for (int i = 0; i < 4; i++)
-        if (m_sideContacts[i] == other->body())
-            m_sideContacts[i] = NULL;
-
+    if (dynamic_cast<Triangle*>(other) != NULL) {
+        for (int i = 0; i < 4; i++)
+            if (m_sideContacts[i] == other->body())
+                m_sideContacts[i] = NULL;
+    } else if (dynamic_cast<Ladder*>(other) != NULL) {
+        m_ladder = NULL;
+    }
 }

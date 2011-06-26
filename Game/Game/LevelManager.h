@@ -5,9 +5,9 @@
 #include "Volt/Assets/AssetManager.h"
 #include "Scenes/GameScene.h"
 
-class Area;
-class Light;
-class Triangle;
+namespace Volt {
+    class Entity;
+}
 
 class LevelManager {
 public:
@@ -24,9 +24,7 @@ private:
     GameScene* m_gameScene;
 
     bool m_levelLoaded;
-    set<Triangle*> m_triangles;
-    set<Light*> m_lights;
-    set<Area*> m_areas;
+    set<Volt::Entity*> m_entities;
 
     DISALLOW_COPY_AND_ASSIGN(LevelManager);
 };

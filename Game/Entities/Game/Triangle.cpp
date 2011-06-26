@@ -25,8 +25,6 @@ void Triangle::Load (const Json::Value& node) {
 
     b2BodyDef def;
     def.type = b2_staticBody;
-    def.position = b2Vec2(m_transform.position.x, m_transform.position.y);
-    def.angle = m_transform.rotation * Volt::c_deg2rad;
     m_body = CreateBody(def);
 
     b2PolygonShape shape;

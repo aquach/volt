@@ -2,14 +2,14 @@
 
 #include "Core/Core.h"
 #include "Volt/Game/Entity.h"
+#include "Volt/Graphics/Input.h"
 
-/* A triangle of the terrain. */
-class Triangle : public Volt::Entity {
+class Ladder : public Volt::Entity {
 public:
-    Triangle ();
-    virtual ~Triangle ();
+    Ladder ();
+    virtual ~Ladder ();
 
-    virtual void Update ();
+    virtual void Update () { }
     virtual void Render ();
 
     virtual void Load (const Json::Value& node);
@@ -17,8 +17,8 @@ public:
 
     //virtual void OnAdded () { }
 
-    //virtual void BeginContact (Entity* other) { }
-    //virtual void EndContact (Entity* other) { }
+    //virtual void BeginContact (Entity* other, b2Contact* contact);
+    //virtual void EndContact (Entity* other, b2Contact* contact);
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
 };
