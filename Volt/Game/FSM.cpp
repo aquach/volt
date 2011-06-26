@@ -60,8 +60,4 @@ void FSM::AddState (FSMState* newState, string stateName) {
     CHECK(result.second) << stateName << " already in the FSM.";
 }
 
-string FSM::GetState () {
-    return m_currentState->m_stateName;
-}
-
 }
