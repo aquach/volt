@@ -43,8 +43,6 @@ public:
     virtual void Update () {}
     virtual void Render ();
 
-    virtual void OnRemoved () { LOG(INFO) << "REMOVED"; }
-
 private:
     FontAssetRef m_font;
     Color m_color;
