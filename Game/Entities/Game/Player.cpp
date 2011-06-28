@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Ladder.h"
 #include "Triangle.h"
+#include "Entities/GUI/HealthBar.h"
+#include "Entities/GUI/PowerBar.h"
 #include "Graphics/Graphics.h"
 #include "Scenes/GameScene.h"
 #include "Volt/Game/FSM.h"
@@ -131,7 +133,13 @@ Player::Player ()
       m_debugDraw(true),
       m_ladder(NULL),
       m_fsm(NULL),
-      m_debugLabel(NULL) {
+      m_debugLabel(NULL),
+      m_healthBar(NULL),
+      m_powerBar(NULL),
+      m_health(21),
+      m_maxHealth(25),
+      m_power(19),
+      m_maxPower(20) {
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.fixedRotation = true;
@@ -161,16 +169,25 @@ Player::Player ()
                                 Volt::Label::ANCHOR_TOP);
         m_debugLabel->SetColor(Volt::Color::RGB(255, 255, 0));
     }
+
+    m_healthBar = new HealthBar(m_health / m_maxHealth, 50 /* Speed */);
+    m_powerBar = new PowerBar(m_power / m_maxPower, 50 /* Speed */);
 }
 
 void Player::OnAdded () {
-    scene()->Add(m_debugLabel, -50);
+    if (m_debugDraw) {
+        scene()->Add(m_debugLabel, -50);
+    }
+    scene()->Add(m_healthBar, -40);
+    scene()->Add(m_powerBar, -40);
 }
 
 void Player::OnRemoved () {
     if (m_debugDraw) {
         scene()->Remove(m_debugLabel);
     }
+    scene()->Remove(m_healthBar);
+    scene()->Remove(m_powerBar);
 }
 
 bool Player::IsOnGround () const {

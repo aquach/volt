@@ -2,8 +2,8 @@
 
 #include "Volt/Game/Scene.h"
 
-class Player;
 class LevelManager;
+class Player;
 
 class GameScene : public Volt::Scene {
 public:
@@ -22,5 +22,6 @@ public:
 
 private:
     Player* m_player;
+
     LevelManager* m_levelManager;
 };

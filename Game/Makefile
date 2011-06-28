@@ -4,6 +4,7 @@ BIN_DIR = ../Build
 SRC_DIR = .
 OBJ_DIR = Obj
 CONTRIB_DIR = ../Contrib
+UTIL_DIR = ../Util
 
 LIBVOLT = ../Obj/libvolt.a
 
@@ -39,6 +40,7 @@ $(APP): $(APP_OBJS) $(LIBVOLT)
 $(APP_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) -MM $(CPPFLAGS) $< > $@
+	@./$(UTIL_DIR)/fix_depends.py $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -50,5 +52,5 @@ clean:
 	rm -rf $(APP) Obj
 
 ifneq "$(MAKECMDGOALS)" "clean"
-	-include $(APP_DEPS)
+-include $(APP_DEPS)
 endif

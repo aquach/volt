@@ -19,7 +19,6 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player);
-    //Add(new Floor);
 
     m_levelManager = new LevelManager;
     m_levelManager->m_gameScene = this;

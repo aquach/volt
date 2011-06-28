@@ -9,7 +9,9 @@ namespace Volt {
     class Label;
 };
 
+class HealthBar;
 class Ladder;
+class PowerBar;
 
 class Player : public Volt::Entity {
 public:
@@ -74,6 +76,14 @@ private:
 
     bool m_debugDraw;
     Volt::Label* m_debugLabel;
+
+    HealthBar* m_healthBar;
+    PowerBar* m_powerBar;
+
+    float m_health;
+    float m_maxHealth;
+    float m_power;
+    float m_maxPower;
 
     DISALLOW_COPY_AND_ASSIGN(Player);
 };
