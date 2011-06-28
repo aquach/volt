@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+'''Appends the path of the filename to the beginning of the contents of the
+   file. When ran on Obj/main.d which starts with "main.o," fixes it to say
+   Obj/main.o.'''
 import os
 import sys
 

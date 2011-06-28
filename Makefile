@@ -41,7 +41,7 @@ $(LIB): $(LIB_OBJS) $(LIB_JSON)
 $(LIB_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) -MM $(CPPFLAGS) $< > $@
-	@./fix_depends.py $@
+	@./Util/fix_depends.py $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
