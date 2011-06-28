@@ -53,4 +53,17 @@ void Entity::RemoveSelf () {
     m_scene->Remove(this);
 }
 
+ostream& operator<< (ostream& stream, const Entity& e) {
+    stream << "Entity [";
+    int size = e.m_tags.size();
+    int count = 0;
+    for (set<string>::iterator i = e.m_tags.begin(); i != e.m_tags.end(); i++) {
+        stream << *i << (count == size - 1 ? "" : ", ");
+        count++;
+    }
+    stream << "] at ";
+    stream << e.m_transform;
+    return stream;
+}
+
 }
