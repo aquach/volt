@@ -60,7 +60,7 @@ void Player::NormalState::OnKeyEvent (SDL_KeyboardEvent event) {
             SideContact type = m_p->m_body->GetLinearVelocity().x > 0 ?
                                RIGHT : LEFT;
             if (m_p->m_sideContacts[type] != NULL) {
-                float dir = SIGN(m_p->m_body->GetLinearVelocity().x, 1);
+                float dir = SIGNOF(m_p->m_body->GetLinearVelocity().x);
                 b2Vec2 impulse(-dir * JUMP_IMPULSE * 5, -JUMP_IMPULSE * 5);
                 m_p->m_body->ApplyLinearImpulse(
                     impulse,
