@@ -5,6 +5,7 @@
 #include "Assets/SoundManager.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Window.h"
+#include "KeyBindings.h"
 #include "PhysicsManager.h"
 #include "Scene.h"
 
@@ -26,7 +27,8 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
       m_switchToScene(NULL),
       m_assetManager(NULL),
       m_soundManager(NULL),
-      m_physicsManager(NULL) {
+      m_physicsManager(NULL),
+      m_bindings(NULL) {
 
     Random::Seed();
 
@@ -47,6 +49,9 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     m_physicsManager->m_game = this;
     PhysicsManager::Register(m_physicsManager);
 
+    m_bindings = new KeyBindings();
+    KeyBindings::Register(m_bindings);
+
     Game::Register(this);
 }
 
@@ -56,6 +61,7 @@ Game::~Game () {
         m_currentScene->OnEnd();
         delete m_currentScene;
     }
+    delete m_bindings;
     delete m_assetManager;
     delete m_soundManager;
     delete m_window;

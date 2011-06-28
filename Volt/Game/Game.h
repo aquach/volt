@@ -8,6 +8,7 @@ namespace Volt {
 class AssetManager;
 class DataSource;
 class Graphics;
+class KeyBindings;
 class PhysicsManager;
 class Scene;
 class SoundManager;
@@ -47,6 +48,7 @@ private:
 
     AssetManager* m_assetManager;
     Graphics* m_graphics;
+    KeyBindings* m_bindings;
     PhysicsManager* m_physicsManager;
     SoundManager* m_soundManager;
     Time m_time;
