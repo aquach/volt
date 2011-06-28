@@ -6,7 +6,10 @@
 
 class HealthBar : public GUIBar {
 public:
-    HealthBar (float value, float speed) : GUIBar(value, speed) { };
+    HealthBar (float value, float speed)
+        : GUIBar(value, speed) {
+        AddTag("HealthBar");
+    };
     virtual ~HealthBar () { }
 
     virtual void Render ();

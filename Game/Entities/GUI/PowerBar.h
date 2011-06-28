@@ -6,10 +6,11 @@
 
 class PowerBar : public GUIBar {
 public:
-    PowerBar (float value, float speed) : GUIBar(value, speed) { };
+    PowerBar (float value, float speed)
+        : GUIBar(value, speed) {
+        AddTag("PowerBar");
+    };
     virtual ~PowerBar () { }
 
     virtual void Render ();
-
-    virtual void OnAdded () { LOG(INFO) << "ADDED"; }
 };

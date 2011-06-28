@@ -140,6 +140,8 @@ Player::Player ()
       m_maxHealth(25),
       m_power(19),
       m_maxPower(20) {
+    AddTag("Player");
+
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.fixedRotation = true;
@@ -165,6 +167,7 @@ Player::Player ()
     if (m_debugDraw) {
         m_debugLabel = new Volt::Label(DEBUG_FONT_LARGE,
                                        Volt::G_Window->width(), 0);
+        m_debugLabel->AddTag("PlayerStateLabel");
         m_debugLabel->SetAnchor(Volt::Label::ANCHOR_RIGHT,
                                 Volt::Label::ANCHOR_TOP);
         m_debugLabel->SetColor(Volt::Color::RGB(255, 255, 0));

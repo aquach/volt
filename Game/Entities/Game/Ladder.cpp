@@ -3,6 +3,7 @@
 #include "Volt/Graphics/OpenGL.h"
 
 Ladder::Ladder () {
+    AddTag("Ladder");
 }
 
 Ladder::~Ladder () {

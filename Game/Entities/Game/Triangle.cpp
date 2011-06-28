@@ -3,6 +3,7 @@
 #include "Volt/Graphics/OpenGL.h"
 
 Triangle::Triangle () {
+    AddTag("Triangle");
 }
 
 Triangle::~Triangle () {
