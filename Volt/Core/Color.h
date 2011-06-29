@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Core.h"
+
 namespace Volt {
 
 /**
@@ -19,6 +21,9 @@ public:
 
     float& operator[] (unsigned int i);
     bool operator!= (const Color& rhs);
+
+    void Load (const Json::Value& node);
+    void Save (Json::Value& node) const;
 
     float r, g, b, a;
 
