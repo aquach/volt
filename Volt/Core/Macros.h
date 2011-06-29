@@ -11,7 +11,7 @@
 /*    CLAMP
         Combines min and max in one macro for convenience.
 */
-#define CLAMP(a, min, max) MIN(MAX(a, max), min)
+#define CLAMP(a, min, max) MIN(MAX(a, min), max)
 
 /* SIGN
         If value is larger than 0, return to.
