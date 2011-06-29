@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Ladder.h"
 #include "Triangle.h"
+#include "Weapon.h"
 #include "Entities/GUI/HealthBar.h"
 #include "Entities/GUI/PowerBar.h"
 #include "Graphics/Graphics.h"
@@ -139,7 +140,8 @@ Player::Player ()
       m_health(21),
       m_maxHealth(25),
       m_power(19),
-      m_maxPower(20) {
+      m_maxPower(20),
+      m_weapon(NULL) {
     AddTag("Player");
 
     b2BodyDef def;
@@ -272,3 +274,10 @@ void Player::EndContact (Entity* other, b2Contact* contact) {
         m_ladder = NULL;
     }
 }
+
+void Player::EquipWeapon (Weapon* weapon) {
+    if (m_weapon != NULL)
+        m_weapon->m_holder = NULL;
+    m_weapon = weapon;
+}
+

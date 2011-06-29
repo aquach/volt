@@ -12,7 +12,9 @@ namespace Volt {
 class HealthBar;
 class Ladder;
 class PowerBar;
+class Weapon;
 
+/* TODO: Generalize Player to Humanoid Entity. */
 class Player : public Volt::Entity {
 public:
     Player ();
@@ -30,6 +32,8 @@ public:
     virtual void EndContact (Entity* other, b2Contact* contact);
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
+
+    void EquipWeapon (Weapon* weapon);
 
     bool IsOnGround () const;
 
@@ -84,6 +88,8 @@ private:
     float m_maxHealth;
     float m_power;
     float m_maxPower;
+
+    Weapon* m_weapon;
 
     DISALLOW_COPY_AND_ASSIGN(Player);
 };

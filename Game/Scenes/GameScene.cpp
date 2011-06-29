@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Entities/Game/Player.h"
 #include "Entities/Game/Projectile.h"
+#include "Entities/Game/Umbrella.h"
 #include "Game/LevelManager.h"
 #include "Entities/Graphics/ParticleSystem.h"
 #include "Volt/Game/PhysicsManager.h"
@@ -21,6 +22,7 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player);
+    m_player->EquipWeapon(new Umbrella);
 
     Add(new Projectile);
     ParticleSystemDef def;
