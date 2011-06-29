@@ -69,6 +69,7 @@ protected:
 
 private:
     friend class Scene;
+    friend ostream& operator<< (ostream& stream, const Entity& e);
 
     int m_layer;
     Scene* m_scene;
@@ -78,5 +79,7 @@ private:
 
     DISALLOW_COPY_AND_ASSIGN(Entity);
 };
+
+ostream& operator<< (ostream& stream, const Entity& e);
 
 }

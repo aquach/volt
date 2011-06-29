@@ -33,6 +33,9 @@ public:
 
     void Load (const Json::Value& node);
     void Save (Json::Value& node) const;
+
+    Vector2 xAxis () const { return Vector2(1, 0).Rotate(rotation); }
+    Vector2 yAxis () const { return Vector2(0, 1).Rotate(rotation); }
 };
 
 ostream& operator<< (ostream& stream, const Transform& other);

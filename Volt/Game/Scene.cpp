@@ -60,8 +60,12 @@ void Scene::Remove (Entity* entity) {
 }
 
 void Scene::ResolveEntityChanges () {
-    for (set<Entity*>::iterator i = m_entitiesToRemove.begin();
-         i != m_entitiesToRemove.end(); i++) {
+    while (true) {
+        // OnRemoved may remove other entities, so don't try to iterate.
+        set<Entity*>::iterator i = m_entitiesToRemove.begin();
+        if (i == m_entitiesToRemove.end())
+            break;
+
         Entity* entity = *i;
 
         Layers::iterator found = m_layers.find(entity->layer());
@@ -72,22 +76,20 @@ void Scene::ResolveEntityChanges () {
                                                    entity);
             if (entityI != entityList.end()) {
                 entityList.erase(entityI);
-            } else {
-                LOG(WARNING) << "Removing entity: Could not find entity "
-                             << "in layers map." << endl;
+                entity->OnRemoved();
+                entity->m_scene = NULL;
+                delete entity;
             }
-        } else {
-            LOG(WARNING) << "Removing entity: Could not find entity "
-                         << "in layers map." << endl;
         }
-        entity->OnRemoved();
-        entity->m_scene = NULL;
-        delete entity;
+        m_entitiesToRemove.erase(i);
     }
     m_entitiesToRemove.clear();
 
-    for (set<Entity*>::iterator i = m_entitiesToAdd.begin();
-         i != m_entitiesToAdd.end(); i++) {
+    while (true) {
+        // OnAdded may added other entities, so don't try to iterate.
+        set<Entity*>::iterator i = m_entitiesToAdd.begin();
+        if (i == m_entitiesToAdd.end())
+            break;
         Entity* entity = *i;
 
         Layers::iterator found = m_layers.find(entity->layer());
@@ -98,9 +100,9 @@ void Scene::ResolveEntityChanges () {
             entityList.push_back(entity);
             m_layers.insert(make_pair(entity->layer(), entityList));
         }
-
         entity->m_scene = this;
         entity->OnAdded();
+        m_entitiesToAdd.erase(i);
     }
 
     m_entitiesToAdd.clear();
