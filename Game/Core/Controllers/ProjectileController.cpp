@@ -15,10 +15,7 @@ void ProjectileController::Update () {
     vel = vel.Rotate(m_entity->rotation());
     m_entity->body()->SetLinearVelocity(vel.ToB2());
 
-    float angle = acos(dir.Dot(m_entity->transform().xAxis()) / dist)
-                  * Volt::c_rad2deg;
-    if (dir.Cross(m_entity->transform().xAxis()) > 0)
-        angle *= -1;
+    float angle = dir.GetAngleDegrees() - m_entity->rotation();
     float currentAngularVel = m_entity->body()->GetAngularVelocity()
                               * Volt::c_rad2deg;
     float angularVel = m_def.rotationP * (

@@ -41,6 +41,8 @@ public:
 
     void Update ();
 
+    void SetTargetPos (Vector2 pos) { m_targetPos = pos; }
+
 private:
     Volt::Entity* m_entity;
     Vector2 m_targetPos;
