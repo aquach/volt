@@ -2,7 +2,6 @@
 
 #include "Core/Core.h"
 #include "Volt/Game/Entity.h"
-#include "Volt/Graphics/Input.h"
 
 class Ladder : public Volt::Entity {
 public:

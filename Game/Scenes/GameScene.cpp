@@ -2,6 +2,7 @@
 #include "Entities/Game/Player.h"
 #include "Entities/Game/Projectile.h"
 #include "Game/LevelManager.h"
+#include "Entities/Graphics/ParticleSystem.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Assets/AssetManager.h"
 
@@ -22,6 +23,8 @@ GameScene::GameScene ()
     Add(m_player);
 
     Add(new Projectile);
+    ParticleSystemDef def;
+    Add(new ParticleSystem(Vector2(3, -3), def));
 
     m_levelManager = new LevelManager;
     m_levelManager->m_gameScene = this;
