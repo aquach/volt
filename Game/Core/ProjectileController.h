@@ -8,12 +8,12 @@ namespace Volt {
 
 struct ProjectileControllerDef {
     ProjectileControllerDef ()
-        : maxLinearSpeed(20),
-          linearP(10),
-          linearD(1),
+        : maxLinearSpeed(5),
+          linearP(1),
+          linearD(0.1),
           maxRotationSpeed(180),
-          rotationP(90),
-          rotationD(10) {
+          rotationP(3),
+          rotationD(0.1) {
     }
 
     float maxLinearSpeed;

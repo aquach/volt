@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Entities/Game/Player.h"
+#include "Entities/Game/Projectile.h"
 #include "Game/LevelManager.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Assets/AssetManager.h"
@@ -19,6 +20,8 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player);
+
+    Add(new Projectile);
 
     m_levelManager = new LevelManager;
     m_levelManager->m_gameScene = this;
