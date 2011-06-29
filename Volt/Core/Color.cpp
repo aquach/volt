@@ -56,6 +56,25 @@ float& Color::operator[] (unsigned int i) {
     }
 }
 
+void Color::Load (const Json::Value& node) {
+    CHECK(node.isMember("r"));
+    CHECK(node.isMember("g"));
+    CHECK(node.isMember("b"));
+    CHECK(node.isMember("a"));
+    r = node["r"].asDouble();
+    g = node["g"].asDouble();
+    b = node["b"].asDouble();
+    a = node["a"].asDouble();
+}
+
+void Color::Save (Json::Value& node) const {
+    node["r"] = r;
+    node["g"] = g;
+    node["b"] = b;
+    node["a"] = a;
+}
+
+
 Color operator+ (const Color& lhs, const Color& rhs) {
     return Color(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a);
 }
