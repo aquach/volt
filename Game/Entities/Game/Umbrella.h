@@ -8,6 +8,13 @@ public:
     Umbrella ();
     virtual ~Umbrella ();
 
+    virtual void OnEquip () { }
+    virtual void OnUnequip () { }
+
+    virtual void Update ();
+    virtual void Render ();
+
     virtual void OnFire ();
-    virtual void OnGuard ();
+    virtual void OnAlternateFire ();
+    virtual void OnAlternateFire2 ();
 };

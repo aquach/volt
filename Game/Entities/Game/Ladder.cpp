@@ -1,6 +1,5 @@
 #include "Ladder.h"
 #include "Graphics/Graphics.h"
-#include "Volt/Graphics/OpenGL.h"
 
 Ladder::Ladder () {
     AddTag("Ladder");

@@ -2,7 +2,6 @@
 #include "Graphics/Graphics.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/Scene.h"
-#include "Volt/Graphics/OpenGL.h"
 
 void ParticleSystemDef::Load (const Json::Value& node) {
     CHECK(node.isMember("particlesPerSecond"));
@@ -98,8 +97,7 @@ void ParticleSystem::Update () {
 }
 
 void ParticleSystem::Render () {
-    for (list<Particle>::iterator i = m_particles.begin();
-         i != m_particles.end(); i++) {
+    FOR_ (list<Particle>::iterator, i, m_particles) {
         Particle* p = &(*i);
         if (!p->active)
             continue;

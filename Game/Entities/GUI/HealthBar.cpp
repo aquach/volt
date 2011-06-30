@@ -1,6 +1,5 @@
 #include "HealthBar.h"
 #include "Graphics/Graphics.h"
-#include "Volt/Graphics/OpenGL.h"
 
 const float WIDTH = 400;
 const float HEIGHT = 20;

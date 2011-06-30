@@ -8,7 +8,6 @@
 #include "Scenes/GameScene.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Game/PhysicsManager.h"
-#include "Volt/Graphics/OpenGL.h"
 #include "Volt/Graphics/Window.h"
 #include "Volt/GUI/Label.h"
 
@@ -177,6 +176,8 @@ Player::Player ()
 
     m_healthBar = new HealthBar(m_health / m_maxHealth, 50 /* Speed */);
     m_powerBar = new PowerBar(m_power / m_maxPower, 50 /* Speed */);
+
+    m_weaponTransform.position.Set(0.4, 0);
 }
 
 void Player::OnAdded () {
@@ -276,8 +277,18 @@ void Player::EndContact (Entity* other, b2Contact* contact) {
 }
 
 void Player::EquipWeapon (Weapon* weapon) {
-    if (m_weapon != NULL)
+    if (m_weapon != NULL) {
+        m_weapon->OnUnequip();
         m_weapon->m_holder = NULL;
+    }
     m_weapon = weapon;
+    m_weapon->m_holder = this;
+    if (m_weapon != NULL)
+        m_weapon->OnEquip();
 }
 
+void Player::InvokeHitListeners (Volt::Entity* agent, float damage) {
+    FOR_(set<PlayerHitListener*>::iterator, i, m_hitListeners) {
+        (*i)->OnHit(agent, damage);
+    }
+}

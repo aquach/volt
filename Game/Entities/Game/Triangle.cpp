@@ -1,6 +1,5 @@
 #include "Triangle.h"
 #include "Graphics/Graphics.h"
-#include "Volt/Graphics/OpenGL.h"
 
 Triangle::Triangle () {
     AddTag("Triangle");

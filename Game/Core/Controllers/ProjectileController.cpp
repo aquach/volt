@@ -17,10 +17,10 @@ void ProjectileController::Update () {
 
     float angle = dir.GetAngleDegrees() - m_entity->rotation();
     float currentAngularVel = m_entity->body()->GetAngularVelocity()
-                              * Volt::c_rad2deg;
+                              * Volt::RAD2DEG;
     float angularVel = m_def.rotationP * (
         angle - m_def.rotationD * currentAngularVel);
     angularVel = CLAMP(angularVel, -m_def.maxRotationSpeed,
                        m_def.maxRotationSpeed);
-    m_entity->body()->SetAngularVelocity(angularVel * Volt::c_deg2rad);
+    m_entity->body()->SetAngularVelocity(angularVel * Volt::DEG2RAD);
 }

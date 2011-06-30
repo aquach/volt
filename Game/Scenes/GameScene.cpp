@@ -22,7 +22,9 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player);
-    m_player->EquipWeapon(new Umbrella);
+    Umbrella* u = new Umbrella;
+    Add(u, -1);
+    m_player->EquipWeapon(u);
 
     Add(new Projectile);
     ParticleSystemDef def;

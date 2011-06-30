@@ -1,7 +1,6 @@
 #include "Projectile.h"
 #include "Core/Controllers/ProjectileController.h"
 #include "Graphics/Graphics.h"
-#include "Volt/Graphics/OpenGL.h"
 
 Projectile::Projectile ()
     : m_controller(NULL) {

@@ -14,6 +14,11 @@ class Ladder;
 class PowerBar;
 class Weapon;
 
+class PlayerHitListener {
+public:
+    virtual void OnHit (Volt::Entity* agent, float damage) = 0;
+};
+
 /* TODO: Generalize Player to Humanoid Entity. */
 class Player : public Volt::Entity {
 public:
@@ -36,6 +41,17 @@ public:
     void EquipWeapon (Weapon* weapon);
 
     bool IsOnGround () const;
+
+    void AddHitListener (PlayerHitListener* listener) {
+        m_hitListeners.insert(listener);
+    }
+    void RemoveHitListener (PlayerHitListener* listener) {
+        m_hitListeners.erase(listener);
+    }
+
+    Volt::Transform weaponTransform () const {
+        return m_transform.Multiply(m_weaponTransform);
+    }
 
 private:
     class PlayerState : public Volt::FSMState {
@@ -69,27 +85,31 @@ private:
         virtual void OnKeyEvent (SDL_KeyboardEvent event);
     };
 
+    /* Physics */
     void UpdateJump ();
 
     Volt::FSM* m_fsm;
-
     b2Body* m_sideContacts[4];
     float m_jumpTimer;
-
     Ladder* m_ladder;
 
-    bool m_debugDraw;
-    Volt::Label* m_debugLabel;
+    /* Animation */
+    Volt::Transform m_weaponTransform;
 
-    HealthBar* m_healthBar;
-    PowerBar* m_powerBar;
-
+    /* Player Attributes */
+    void InvokeHitListeners (Volt::Entity* agent, float damage);
     float m_health;
     float m_maxHealth;
     float m_power;
     float m_maxPower;
-
     Weapon* m_weapon;
+    set<PlayerHitListener*> m_hitListeners;
+
+    /* GUI */
+    bool m_debugDraw;
+    Volt::Label* m_debugLabel;
+    HealthBar* m_healthBar;
+    PowerBar* m_powerBar;
 
     DISALLOW_COPY_AND_ASSIGN(Player);
 };

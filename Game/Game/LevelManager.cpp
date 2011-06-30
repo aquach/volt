@@ -43,7 +43,6 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
 }
 
 void LevelManager::UnloadLevel () {
-    for (set<Volt::Entity*>::iterator i = m_entities.begin();
-         i != m_entities.end(); i++)
+    FOR_ (set<Volt::Entity*>::iterator, i, m_entities)
         m_gameScene->Remove(*i);
 }
