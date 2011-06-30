@@ -14,7 +14,7 @@ namespace Volt {
 class Transform {
 public:
     Transform ();
-    Transform (const Transform &transform);
+    Transform (const Transform& transform);
 
     /** Interpolate this Transform from prev and next, based on percent.
      *  t goes from 0.0 to 1.0.
@@ -36,6 +36,8 @@ public:
 
     Vector2 xAxis () const { return Vector2(1, 0).Rotate(rotation); }
     Vector2 yAxis () const { return Vector2(0, 1).Rotate(rotation); }
+
+    Transform Multiply (const Transform& other) const;
 };
 
 ostream& operator<< (ostream& stream, const Transform& other);

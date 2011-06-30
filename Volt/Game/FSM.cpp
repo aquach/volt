@@ -15,7 +15,7 @@ FSM::FSM ()
     : m_currentState(NULL) { }
 
 FSM::~FSM () {
-    for (States::iterator i = m_states.begin(); i != m_states.end(); i++)
+    FOR_ (States::iterator, i, m_states)
         delete i->second;
     m_states.clear();
 }
