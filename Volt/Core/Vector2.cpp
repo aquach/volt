@@ -39,12 +39,12 @@ void Vector2::Set (float x, float y)
 }
 
 void Vector2::SetFromAngleDegrees (float angle) {
-    x = cos(angle * Volt::c_deg2rad);
-    y = sin(angle * Volt::c_deg2rad);
+    x = cos(angle * Volt::DEG2RAD);
+    y = sin(angle * Volt::DEG2RAD);
 }
 
 Vector2 Vector2::Random () {
-    float rad = (Random::Range(0, 360)) * Volt::c_deg2rad;
+    float rad = (Random::Range(0, 360)) * Volt::DEG2RAD;
     return Vector2(sin(rad), cos(rad));
 }
 
@@ -114,8 +114,8 @@ Vector2 Vector2::Project (const Vector2& other) const {
 
 Vector2 Vector2::Rotate (float degrees) const {
     return Vector2(
-        x * cosf(degrees * c_deg2rad) - y * sinf(degrees * c_deg2rad),
-        x * sinf(degrees * c_deg2rad) + y * cosf(degrees * c_deg2rad));
+        x * cosf(degrees * DEG2RAD) - y * sinf(degrees * DEG2RAD),
+        x * sinf(degrees * DEG2RAD) + y * cosf(degrees * DEG2RAD));
 }
 
 Vector2 Vector2::Reflect (const Vector2& other) const {
@@ -126,13 +126,13 @@ float Vector2::GetAngleRadians () const {
     float angle = atan2(y, x);
     if (angle < 0)
     {
-        angle += 2 * Volt::c_pi;
+        angle += 2 * Volt::PI;
     }
     return angle;
 }
 
 float Vector2::GetAngleDegrees () const {
-    return GetAngleRadians() * Volt::c_rad2deg;
+    return GetAngleRadians() * Volt::RAD2DEG;
 }
 
 Vector2 Vector2::xx () const {

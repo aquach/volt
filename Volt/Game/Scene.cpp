@@ -16,8 +16,7 @@ Scene::~Scene () {
     RemoveAll();
     ResolveEntityChanges();
 
-    for (list<Filter*>::iterator i = m_filters.begin(); i != m_filters.end();
-         i++) {
+    FOR_ (list<Filter*>::iterator, i, m_filters) {
         delete *i;
     }
     m_filters.clear();
@@ -35,9 +34,7 @@ void Scene::RemoveAll () {
 void Scene::Update () {
     if (!m_isPaused) {
         m_camera.Update();
-        for (Layers::iterator layer = m_layers.begin();
-             layer != m_layers.end();
-             layer++) {
+        FOR_ (Layers::iterator, layer, m_layers) {
             list<Entity*>& entityList = layer->second;
             for (list<Entity*>::iterator i = entityList.begin();
                  i != entityList.end();
@@ -131,9 +128,7 @@ void Scene::Render () {
             }
 
             list<Entity*>& entityList = layer->second;
-            for (list<Entity*>::iterator i = entityList.begin();
-                 i != entityList.end();
-                 i++) {
+            FOR_ (list<Entity*>::iterator, i, entityList) {
                 (*i)->Render();
             }
         }

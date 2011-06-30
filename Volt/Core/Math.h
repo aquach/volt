@@ -10,10 +10,10 @@
 
 namespace Volt {
 
-const float c_pi = 3.14159265f;
-const float c_e = 2.71828182845f;
+const float PI = 3.14159265f;
+const float E = 2.71828182845f;
 
-const float c_deg2rad = 3.14159f / 180;
-const float c_rad2deg = 1 / c_deg2rad;
+const float DEG2RAD = 3.14159f / 180;
+const float RAD2DEG = 1 / DEG2RAD;
 
 }

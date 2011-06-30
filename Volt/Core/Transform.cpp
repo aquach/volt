@@ -24,7 +24,7 @@ void Transform::LerpTransform (Transform *prev, Transform *next, float percent)
 }
 
 Vector2 Transform::GetDirectionVector() const {
-    return Vector2(sin(rotation * c_deg2rad), -cos(rotation * c_deg2rad));
+    return Vector2(sin(rotation * DEG2RAD), -cos(rotation * DEG2RAD));
 }
 
 ostream& operator<< (ostream& stream, const Transform& other) {
@@ -62,6 +62,18 @@ Vector2 Transform::ApplyInverse (Vector2 v) const {
     v.x /= scale.x;
     v.y /= scale.y;
     return v;
+}
+
+Transform Transform::Multiply (const Transform& other) const {
+    /* Scaling not supported. It creates transformations not representable by
+       position/rotation/scale. */
+    CHECK(other.scale.x == 1 && other.scale.y == 1);
+    Transform t;
+    Vector2 v = other.position.Rotate(rotation);
+    t.position = position + Vector2(v.x * scale.x, v.y * scale.y);
+    t.rotation = rotation + other.rotation;
+    t.scale = scale;
+    return t;
 }
 
 }

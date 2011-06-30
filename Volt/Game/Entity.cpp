@@ -27,7 +27,7 @@ void Entity::UpdatePhysics () {
         }
 
         m_transform.position.Set(pos.x, pos.y);
-        m_transform.rotation = angle * c_rad2deg;
+        m_transform.rotation = angle * RAD2DEG;
     } else {
         LOG(WARNING) << "No physics body for entity.";
     }
@@ -35,7 +35,7 @@ void Entity::UpdatePhysics () {
 
 b2Body* Entity::CreateBody (b2BodyDef def) {
     def.position.Set(m_transform.position.x, m_transform.position.y);
-    def.angle = m_transform.rotation * c_deg2rad;
+    def.angle = m_transform.rotation * DEG2RAD;
     def.userData = this;
 
     m_body = G_PhysicsManager->world()->CreateBody(&def);
@@ -57,7 +57,7 @@ ostream& operator<< (ostream& stream, const Entity& e) {
     stream << "Entity [";
     int size = e.m_tags.size();
     int count = 0;
-    for (set<string>::iterator i = e.m_tags.begin(); i != e.m_tags.end(); i++) {
+    FOR_ (set<string>::iterator, i, e.m_tags) {
         stream << *i << (count == size - 1 ? "" : ", ");
         count++;
     }

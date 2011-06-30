@@ -44,3 +44,6 @@ typedef unsigned int uint;
 #define DISALLOW_COPY_AND_ASSIGN(TypeName) \
   TypeName(const TypeName&);               \
   void operator=(const TypeName&)
+
+#define FOR_(type, i, container) \
+    for (type i = container.begin(); i != container.end(); i++)
