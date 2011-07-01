@@ -16,6 +16,7 @@ public:
     Color (float r, float g, float b, float a);
 
     static Color RGB (int r, int g, int b);
+    static Color RGBA (int r, int g, int b, int a);
 
     void Clamp ();
 

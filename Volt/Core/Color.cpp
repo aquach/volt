@@ -21,6 +21,11 @@ Color Color::RGB (int r, int g, int b) {
     return Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f);
 }
 
+Color Color::RGBA (int r, int g, int b, int a) {
+    return Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f,
+                 (float)a / 255.0f);
+}
+
 Color::Color ()
     : r(1), g(1), b(1), a(1) {
 
