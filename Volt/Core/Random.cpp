@@ -23,4 +23,9 @@ float Random::Percent () {
 float Random::RangeFloat (float start, float end) {
     return ((((float) rand()) / (float) RAND_MAX) * (end - start)) + start;
 }
+
+bool Random::CoinFlip () {
+    return Percent() >= 0.5;
+}
+
 }
