@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Creature.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Graphics/Input.h"
 
@@ -9,18 +9,9 @@ namespace Volt {
     class Label;
 };
 
-class HealthBar;
 class Ladder;
-class PowerBar;
-class Weapon;
 
-class PlayerHitListener {
-public:
-    virtual void OnHit (Volt::Entity* agent, float damage) = 0;
-};
-
-/* TODO: Generalize Player to Humanoid Entity. */
-class Player : public Volt::Entity {
+class Player : public Creature {
 public:
     Player ();
     virtual ~Player () { }
@@ -38,20 +29,7 @@ public:
     //virtual bool PreSolve (Entity* other) { return true; }
     //virtual bool CanCollideWith (Entity* other) { return true; }
 
-    void EquipWeapon (Weapon* weapon);
-
     bool IsOnGround () const;
-
-    void AddHitListener (PlayerHitListener* listener) {
-        m_hitListeners.insert(listener);
-    }
-    void RemoveHitListener (PlayerHitListener* listener) {
-        m_hitListeners.erase(listener);
-    }
-
-    Volt::Transform weaponTransform () const {
-        return m_transform.Multiply(m_weaponTransform);
-    }
 
 private:
     class PlayerState : public Volt::FSMState {
@@ -94,16 +72,8 @@ private:
     Ladder* m_ladder;
 
     /* Animation */
-    Volt::Transform m_weaponTransform;
 
     /* Player Attributes */
-    void InvokeHitListeners (Volt::Entity* agent, float damage);
-    float m_health;
-    float m_maxHealth;
-    float m_power;
-    float m_maxPower;
-    Weapon* m_weapon;
-    set<PlayerHitListener*> m_hitListeners;
 
     /* GUI */
     bool m_debugDraw;

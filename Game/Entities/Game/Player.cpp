@@ -135,12 +135,7 @@ Player::Player ()
       m_fsm(NULL),
       m_debugLabel(NULL),
       m_healthBar(NULL),
-      m_powerBar(NULL),
-      m_health(21),
-      m_maxHealth(25),
-      m_power(19),
-      m_maxPower(20),
-      m_weapon(NULL) {
+      m_powerBar(NULL) {
     AddTag("Player");
 
     b2BodyDef def;
@@ -273,22 +268,5 @@ void Player::EndContact (Entity* other, b2Contact* contact) {
                 m_sideContacts[i] = NULL;
     } else if (dynamic_cast<Ladder*>(other) != NULL) {
         m_ladder = NULL;
-    }
-}
-
-void Player::EquipWeapon (Weapon* weapon) {
-    if (m_weapon != NULL) {
-        m_weapon->OnUnequip();
-        m_weapon->m_holder = NULL;
-    }
-    m_weapon = weapon;
-    m_weapon->m_holder = this;
-    if (m_weapon != NULL)
-        m_weapon->OnEquip();
-}
-
-void Player::InvokeHitListeners (Volt::Entity* agent, float damage) {
-    FOR_(set<PlayerHitListener*>::iterator, i, m_hitListeners) {
-        (*i)->OnHit(agent, damage);
     }
 }

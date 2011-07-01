@@ -3,7 +3,13 @@
 #include "Core/Core.h"
 #include "Volt/Game/Entity.h"
 
-class Player;
+class Creature;
+
+/* Subclass this to receive callbacks when the weapon strikes a Creature. */
+class WeaponStrikeListener {
+public:
+    virtual void OnStrike (Creature* target, float damage) = 0;
+};
 
 class Weapon : public Volt::Entity {
 public:
@@ -21,12 +27,24 @@ public:
     virtual void OnAlternateFire () {}
     virtual void OnAlternateFire2 () {}
 
+    Creature* holder () const { return m_holder; }
+
+    void AddStrikeListener (WeaponStrikeListener* listener) {
+        m_strikeListeners.insert(listener);
+    }
+    void RemoveStrikeListener (WeaponStrikeListener* listener) {
+        m_strikeListeners.erase(listener);
+    }
+
 protected:
     /* TODO: What happens when m_holder is NULL? */
-    Player* m_holder;
+    Creature* m_holder;
 
 private:
-    friend class Player;
+    friend class Creature;
+
+    void InvokeStrikeListeners (Creature* target, float damage);
+    set<WeaponStrikeListener*> m_strikeListeners;
 
     DISALLOW_COPY_AND_ASSIGN(Weapon);
 };
