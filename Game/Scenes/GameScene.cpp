@@ -2,6 +2,7 @@
 #include "Entities/Game/Player.h"
 #include "Entities/Game/Projectile.h"
 #include "Entities/Game/Umbrella.h"
+#include "Entities/Game/Creatures/Blobby.h"
 #include "Game/LevelManager.h"
 #include "Entities/Graphics/ParticleSystem.h"
 #include "Volt/Game/PhysicsManager.h"
@@ -29,6 +30,10 @@ GameScene::GameScene ()
     Add(new Projectile);
     ParticleSystemDef def;
     Add(new ParticleSystem(Vector2(3, -3), def));
+
+    Blobby* b = new Blobby;
+    b->SetPosition(Vector2(3, -3));
+    Add(b);
 
     m_levelManager = new LevelManager;
     m_levelManager->m_gameScene = this;
