@@ -57,6 +57,11 @@ public:
     Transform transform () const { return m_transform; }
     Vector2 position () const { return m_transform.position; }
     float rotation () const { return m_transform.rotation; }
+    void SetPosition (Vector2 pos) {
+        m_transform.position = pos;
+        if (m_body != NULL)
+            m_body->SetTransform(pos.ToB2(), m_transform.rotation);
+    }
 
     virtual void Load (const Json::Value& node) { }
     virtual void Save (Json::Value& node) const { }
