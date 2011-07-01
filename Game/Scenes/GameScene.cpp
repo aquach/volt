@@ -48,7 +48,9 @@ GameScene::GameScene ()
     MessageBoxDef boxDef;
     boxDef.text = "I'M A TEXT BOX! HOW ARE YOU?";
     MessageBox* box = new MessageBox(boxDef);
+    boxDef.text = "THIS IS THE NEXT MESAG!";
     ShowMessageBox(box);
+    ShowMessageBox(new MessageBox(boxDef));
 
     camera()->WatchEntity(m_player);
 }

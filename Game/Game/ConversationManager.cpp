@@ -2,7 +2,7 @@
 #include "Entities/GUI/MessageBox.h"
 
 ConversationManager::ConversationManager () {
-    m_font = Volt::G_AssetManager->GetFont("Mido.ttf", 16.0);
+    m_font = Volt::G_AssetManager->GetFont("Mido.ttf", 32.0);
 }
 
 /*
@@ -11,10 +11,10 @@ ConversationManager::~ConversationManager () {
 */
 
 void ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
+    if (m_boxes.empty())
+        return;
     MessageBox* box = m_boxes.front();
-    if (box->m_def.canSkip) {
-        // Skip the box.
-    }
+    box->OnKeyEvent(event);
 }
 
 void ConversationManager::Update () {
@@ -26,7 +26,24 @@ void ConversationManager::Update () {
     MessageBox* box = m_boxes.front();
     if (box->scene() == NULL)
         m_gameScene->Add(box);
-    m_gameScene->SetPlayerInputLock(box->m_def.modal);
+        
+    if (box->IsFinished()) {
+        m_gameScene->Remove(box);
+        m_boxes.pop();
+        box = NULL;
+        if (!m_boxes.empty()) {
+            box = m_boxes.front();
+            m_gameScene->Add(box);
+        }
+    }
+
+    if (box != NULL) {
+        m_gameScene->SetPlayerInputLock(box->m_def.modal);
+    } else {
+        /* Keep it locked until the next update so the player can't see the
+         * key that ended this MessageBox. */
+        m_gameScene->SetPlayerInputLock(true);
+    }
 }
 
 
