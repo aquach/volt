@@ -31,14 +31,16 @@ void Player::NormalState::Update ()  {
 
     // Left and right movement.
     Vector2 vel = m_p->m_body->GetLinearVelocity();
-    if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
-        Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
-        float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
-        int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
-        if (vel.x * dir < MOVE_MAX_VEL) {
-            float vx = MOVE_IMPULSE * dir * airMult;
-            m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
-                                       m_p->m_body->GetWorldCenter());
+    if (!m_p->m_inputLock) {
+        if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
+            Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
+            float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
+            int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
+            if (vel.x * dir < MOVE_MAX_VEL) {
+                float vx = MOVE_IMPULSE * dir * airMult;
+                m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
+                                           m_p->m_body->GetWorldCenter());
+            }
         }
     }
 
@@ -90,18 +92,21 @@ void Player::LadderState::Update () {
 
     // Movement up and down ladder.
     bool canMove = false;
-    if (Volt::G_Window->IsKeyPressed(SDLK_UP) ||
-        Volt::G_Window->IsKeyPressed(SDLK_DOWN)) {
-        int dir = Volt::G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
-        if (
-            (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
-            (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
-        ) {
-            canMove = true;
-            if (vel.y * dir < MOVE_MAX_VEL) {
-                float vy = MOVE_IMPULSE * dir;
-                m_p->m_body->ApplyLinearImpulse(b2Vec2(0, vy),
-                                                m_p->m_body->GetWorldCenter());
+    if (!m_p->m_inputLock) {
+        if (Volt::G_Window->IsKeyPressed(SDLK_UP) ||
+            Volt::G_Window->IsKeyPressed(SDLK_DOWN)) {
+            int dir = Volt::G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
+            if (
+                (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
+                (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
+            ) {
+                canMove = true;
+                if (vel.y * dir < MOVE_MAX_VEL) {
+                    float vy = MOVE_IMPULSE * dir;
+                    m_p->m_body->ApplyLinearImpulse(
+                        b2Vec2(0, vy),
+                        m_p->m_body->GetWorldCenter());
+                }
             }
         }
     }
@@ -135,7 +140,8 @@ Player::Player ()
       m_fsm(NULL),
       m_debugLabel(NULL),
       m_healthBar(NULL),
-      m_powerBar(NULL) {
+      m_powerBar(NULL),
+      m_inputLock(false) {
     AddTag("Player");
 
     b2BodyDef def;
@@ -207,7 +213,7 @@ void Player::Update () {
 
 void Player::UpdateJump () {
     Vector2 vel = m_body->GetLinearVelocity();
-    if (Volt::G_Window->IsKeyPressed(SDLK_z)) {
+    if (!m_inputLock && Volt::G_Window->IsKeyPressed(SDLK_z)) {
         if (IsOnGround())
             m_jumpTimer = JUMP_TIME;
 
@@ -222,6 +228,8 @@ void Player::UpdateJump () {
 }
 
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
+    if (m_inputLock)
+        return;
     Player::PlayerState* state;
     state = dynamic_cast<Player::PlayerState*>(m_fsm->state());
     CHECK_NOTNULL(state);

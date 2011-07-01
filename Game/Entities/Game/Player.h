@@ -31,6 +31,8 @@ public:
 
     bool IsOnGround () const;
 
+    void SetInputLock (bool lock) { m_inputLock = lock; }
+
 private:
     class PlayerState : public Volt::FSMState {
     public:
@@ -80,6 +82,7 @@ private:
     Volt::Label* m_debugLabel;
     HealthBar* m_healthBar;
     PowerBar* m_powerBar;
+    bool m_inputLock;
 
     DISALLOW_COPY_AND_ASSIGN(Player);
 };

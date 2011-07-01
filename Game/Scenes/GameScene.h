@@ -2,7 +2,9 @@
 
 #include "Volt/Game/Scene.h"
 
+class ConversationManager;
 class LevelManager;
+class MessageBox;
 class Player;
 
 class GameScene : public Volt::Scene {
@@ -20,8 +22,12 @@ public:
     //virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event);
     //virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event);
 
+    void ShowMessageBox (MessageBox* box);
+    void SetPlayerInputLock (bool lock);
+
 private:
     Player* m_player;
 
     LevelManager* m_levelManager;
+    ConversationManager* m_conversationManager;
 };
