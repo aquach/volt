@@ -3,9 +3,11 @@ LIB = libvolt
 BIN_DIR = Build
 SRC_DIR = Volt
 OBJ_DIR = Obj
+CONTRIB_DIR = Contrib
+
 TEST_DIR = Test
 APP_DIR = Game
-CONTRIB_DIR = Contrib
+EDITOR_DIR = Editor
 
 LIB := $(OBJ_DIR)/$(LIB).a
 
@@ -22,7 +24,7 @@ INCLUDE_DIR += -I $(CONTRIB_DIR)/Box2D_v2.1.2/Box2D
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
 
-all: dirs test app $(LIB)
+all: dirs test app editor $(LIB)
 
 install-deps:
 	sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libglew1.5-dev \
@@ -54,6 +56,9 @@ test : $(LIB)
 app : $(LIB)
 	cd $(APP_DIR) && $(MAKE)
 
+editor : $(LIB)
+	cd $(EDITOR_DIR) && $(MAKE)
+
 $(LIB_JSON):
 	cd $(JSON_DIR) && $(MAKE)
 
@@ -62,6 +67,7 @@ $(LIB_JSON):
 clean:
 	rm -rf $(APP) Obj
 	cd $(TEST_DIR) && $(MAKE) clean
+	cd $(EDITOR_DIR) && $(MAKE) clean
 	cd $(APP_DIR) && $(MAKE) clean
 	cd $(JSON_DIR) && $(MAKE) clean
 
