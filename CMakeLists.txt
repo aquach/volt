@@ -7,14 +7,14 @@ FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_image REQUIRED)
 
-# -lGLEW -lopenal -logg -lvorbisfile -lQtCore -lQtGui -lQtOpenGL
+set(CMAKE_CXX_FLAGS "-g -Wall -Wno-reorder")
 
 SET(LIBBOX2D ${CMAKE_SOURCE_DIR}/Contrib/Box2D_v2.1.2/Box2D/Box2D/libBox2D.a)
 SET(VOLT_DEPENDENCIES SDL SDL_image json GL GLU GLEW openal ogg vorbisfile ${LIBBOX2D})
 
 ADD_CUSTOM_COMMAND(
-    OUTPUT Contrib/Box2D_v2.1.2/Box2D/Box2D/libBox2D.a
-    COMMAND cd Contrib/Box2D_v2.1.2/Box2D/Box2D/ && make
+    OUTPUT ${LIBBOX2D}
+    COMMAND cd ${CMAKE_SOURCE_DIR}/Contrib/Box2D_v2.1.2/Box2D/ && cmake . && make
 )
 ADD_CUSTOM_TARGET(Box2D DEPENDS ${LIBBOX2D})
 
@@ -30,6 +30,7 @@ ADD_LIBRARY(json STATIC ${Json_SOURCES})
 file(GLOB_RECURSE Volt_SOURCES Volt/*.cpp)
 ADD_LIBRARY(volt STATIC ${Volt_SOURCES})
 TARGET_LINK_LIBRARIES(volt ${VOLT_DEPENDENCIES})
+ADD_DEPENDENCIES(volt Box2D)
 
 file(GLOB_RECURSE VoltTest_SOURCES Test/*.cpp)
 ADD_EXECUTABLE(volt_test ${VoltTest_SOURCES})
