@@ -1,9 +1,7 @@
-all: Build/Makefile Volt Build/game Build/editor
+all: Volt Build/game Build/editor
 
-Build/Makefile: CMakeLists.txt
+Volt:
 	@mkdir -p Build && cd Build && cmake ..
-	
-Volt: Build/Makefile
 	@cd Build && $(MAKE)
 
 Build/game:

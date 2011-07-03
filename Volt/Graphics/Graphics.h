@@ -6,7 +6,7 @@
 namespace Volt {
 
 class GpuProgram;
-class Window;
+class Viewport;
 
 class Graphics {
 
@@ -81,7 +81,7 @@ public:
     static void IdentityMatrix ();
     static void DefaultMatrix ();
 
-    Graphics (Window* window);
+    Graphics (Viewport* viewport);
     void Init ();
 
     static void ShowBuffer ();
@@ -95,7 +95,7 @@ private:
     int virtualWidth, virtualHeight;
     Vector2 resolutionScale;
     Vector2 screenCenter;
-    Window* m_window;
+    Viewport* m_viewport;
 };
 
 }

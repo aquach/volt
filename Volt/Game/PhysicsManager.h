@@ -18,10 +18,7 @@ public:
     void Render ();
 
     static void Register (PhysicsManager* manager) { instance = manager; }
-    static PhysicsManager* Instance () {
-        CHECK_NOTNULL(instance);
-        return instance;
-    }
+    static PhysicsManager* Instance () { return instance; }
 
     b2World* world () const { return m_world; }
 

@@ -1,7 +1,7 @@
 #include "MessageBox.h"
 #include "Graphics/Graphics.h"
 #include "Volt/Game/Game.h"
-#include "Volt/Graphics/Window.h"
+#include "Volt/Graphics/Viewport.h"
 
 const float HEIGHT = 250;
 const float MARGIN = 40;
@@ -55,8 +55,8 @@ void MessageBox::Render () {
     glPushMatrix();
     glLoadIdentity();
 
-    float windowWidth = Volt::G_Window->width();
-    float windowHeight = Volt::G_Window->height();
+    float windowWidth = G_Viewport->width();
+    float windowHeight = G_Viewport->height();
     Volt::BBox box(
         Vector2(0, windowHeight - HEIGHT),
         Vector2(windowWidth, windowHeight)

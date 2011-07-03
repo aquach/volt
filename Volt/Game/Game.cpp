@@ -4,7 +4,7 @@
 #include "Assets/DataSource.h"
 #include "Assets/SoundManager.h"
 #include "Graphics/Graphics.h"
-#include "Graphics/Window.h"
+#include "Graphics/SDLWindow.h"
 #include "KeyBindings.h"
 #include "PhysicsManager.h"
 #include "Scene.h"
@@ -32,8 +32,8 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
 
     Random::Seed();
 
-    m_window = new Window(this, name, w, h, fullscreen);
-    Window::Register(m_window);
+    m_window = new SDLWindow(this, name, w, h, fullscreen);
+    Viewport::Register(m_window);
 
     m_graphics = new Graphics(m_window);
     m_graphics->Set2D(w, h);

@@ -8,7 +8,7 @@
 #include "Scenes/GameScene.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Game/PhysicsManager.h"
-#include "Volt/Graphics/Window.h"
+#include "Volt/Graphics/SDLWindow.h"
 #include "Volt/GUI/Label.h"
 
 const float WIDTH = 1.5f;
@@ -32,10 +32,10 @@ void Player::NormalState::Update ()  {
     // Left and right movement.
     Vector2 vel = m_p->m_body->GetLinearVelocity();
     if (!m_p->m_inputLock) {
-        if (Volt::G_Window->IsKeyPressed(SDLK_LEFT) ||
-            Volt::G_Window->IsKeyPressed(SDLK_RIGHT)) {
+        if (G_Window->IsKeyPressed(SDLK_LEFT) ||
+            G_Window->IsKeyPressed(SDLK_RIGHT)) {
             float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
-            int dir = Volt::G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
+            int dir = G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
             if (vel.x * dir < MOVE_MAX_VEL) {
                 float vx = MOVE_IMPULSE * dir * airMult;
                 m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
@@ -93,9 +93,9 @@ void Player::LadderState::Update () {
     // Movement up and down ladder.
     bool canMove = false;
     if (!m_p->m_inputLock) {
-        if (Volt::G_Window->IsKeyPressed(SDLK_UP) ||
-            Volt::G_Window->IsKeyPressed(SDLK_DOWN)) {
-            int dir = Volt::G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
+        if (G_Window->IsKeyPressed(SDLK_UP) ||
+            G_Window->IsKeyPressed(SDLK_DOWN)) {
+            int dir = G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
             if (
                 (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
                 (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
@@ -168,7 +168,7 @@ Player::Player ()
 
     if (m_debugDraw) {
         m_debugLabel = new Volt::Label(DEBUG_FONT_LARGE,
-                                       Volt::G_Window->width(), 0);
+                                       G_Window->width(), 0);
         m_debugLabel->AddTag("PlayerStateLabel");
         m_debugLabel->SetAnchor(Volt::Label::ANCHOR_RIGHT,
                                 Volt::Label::ANCHOR_TOP);
@@ -213,7 +213,7 @@ void Player::Update () {
 
 void Player::UpdateJump () {
     Vector2 vel = m_body->GetLinearVelocity();
-    if (!m_inputLock && Volt::G_Window->IsKeyPressed(SDLK_z)) {
+    if (!m_inputLock && G_Window->IsKeyPressed(SDLK_z)) {
         if (IsOnGround())
             m_jumpTimer = JUMP_TIME;
 

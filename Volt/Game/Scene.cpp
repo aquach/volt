@@ -143,7 +143,8 @@ void Scene::Render () {
         }
     }
 
-    G_PhysicsManager->Render();
+    if (G_PhysicsManager != NULL)
+        G_PhysicsManager->Render();
 
     glLineWidth(4.0);
     Graphics::SetColor(Color::red);

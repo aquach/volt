@@ -12,7 +12,7 @@ class KeyBindings;
 class PhysicsManager;
 class Scene;
 class SoundManager;
-class Window;
+class SDLWindow;
 
 /**
  *  Manages the entire game.
@@ -52,7 +52,7 @@ private:
     PhysicsManager* m_physicsManager;
     SoundManager* m_soundManager;
     Time m_time;
-    Window* m_window;
+    SDLWindow* m_window;
 
     long m_lastTick;
     float m_ticksPerFrame;

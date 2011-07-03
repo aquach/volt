@@ -2,7 +2,7 @@
 #include "OpenGL.h"
 #include "Graphics.h"
 #include "GpuProgram.h"
-#include "Window.h"
+#include "Viewport.h"
 
 namespace Volt {
 
@@ -28,8 +28,8 @@ void Filter::SetUniforms () {
 
 void Filter::Render () {
     glBindTexture(GL_TEXTURE_2D, m_colorMap);
-    glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 0, 0, G_Window->width(),
-                     G_Window->height(), 0);
+    glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 0, 0, G_Viewport->width(),
+                     G_Viewport->height(), 0);
 
     Graphics::Clear();
     Graphics::BindShader(m_program);

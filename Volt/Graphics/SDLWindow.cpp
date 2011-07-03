@@ -1,16 +1,15 @@
-#include "Window.h"
+#include "SDLWindow.h"
 #include "Game/Game.h"
 #include "OpenGL.h"
 
 namespace Volt {
 
-Window* Window::instance = NULL;
-
-Window::Window (Game* game, const string& name, int w, int h, bool fullscreen)
+SDLWindow::SDLWindow (Game* game, const string& name, int w, int h,
+                      bool fullscreen)
     : m_game(game),
       m_screen(NULL) {
 
-    LOG(INFO) << "Initializing window...";
+    LOG(INFO) << "Initializing SDLWindow...";
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         LOG(FATAL) << "Unable to initialize SDL: " << SDL_GetError();
@@ -38,16 +37,16 @@ Window::Window (Game* game, const string& name, int w, int h, bool fullscreen)
     m_screen = screen;
 }
 
-Window::~Window () {
-    LOG(INFO) << "Destroying window...";
+SDLWindow::~SDLWindow () {
+    LOG(INFO) << "Destroying SDLWindow...";
     Close();
 }
 
-void Window::Close () {
+void SDLWindow::Close () {
     SDL_Quit();
 }
 
-void Window::Screenshot (const string& filename) {
+void SDLWindow::Screenshot (const string& filename) {
     SDL_Surface* screen = (SDL_Surface*)m_screen;
 
     SDL_Surface* temp = SDL_CreateRGBSurface(SDL_SWSURFACE,
@@ -84,20 +83,20 @@ void Window::Screenshot (const string& filename) {
     return;
 }
 
-int Window::width () const {
+int SDLWindow::width () const {
     return ((SDL_Surface*)m_screen)->w;
 }
 
-int Window::height () const {
+int SDLWindow::height () const {
     return ((SDL_Surface*)m_screen)->h;
 }
 
-bool Window::IsKeyPressed (SDLKey key) {
+bool SDLWindow::IsKeyPressed (SDLKey key) {
     Uint8* state = SDL_GetKeyState(NULL);
     return state[key];
 }
 
-void Window::UpdateInput () {
+void SDLWindow::UpdateInput () {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {

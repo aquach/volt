@@ -2,15 +2,16 @@
 #include "Assets/AssetManager.h"
 #include "Graphics/GpuProgram.h"
 #include "OpenGL.h"
-#include "Window.h"
+#include "SDLWindow.h"
+#include "Viewport.h"
 
 namespace Volt {
 
 Graphics* Graphics::instance = NULL;
 
-Graphics::Graphics (Window* window)
+Graphics::Graphics (Viewport* viewport)
     : m_program(NULL),
-      m_window(window) {
+      m_viewport(viewport) {
     instance = this;
     currentBlend = BLEND_NONE;
 }
@@ -126,14 +127,14 @@ void Graphics::Set2D (int virtualWidth, int virtualHeight) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glOrtho(0.0f, instance->m_window->width(), instance->m_window->height(),
+    glOrtho(0.0f, instance->m_viewport->width(), instance->m_viewport->height(),
             0.0f, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     instance->resolutionScale = Vector2(
-        float(instance->m_window->width()) / virtualWidth,
-        float(instance->m_window->width()) / virtualWidth);
+        float(instance->m_viewport->width()) / virtualWidth,
+        float(instance->m_viewport->width()) / virtualWidth);
 
     instance->screenCenter = Vector2(virtualWidth / 2, virtualHeight / 2);
 }
@@ -322,7 +323,9 @@ void Graphics::IdentityMatrix () {
 }
 
 void Graphics::ShowBuffer () {
-    SDL_GL_SwapBuffers();
+    // TODO: Kind of a hack..
+    if (dynamic_cast<SDLWindow*>(instance->m_viewport) != NULL)
+        SDL_GL_SwapBuffers();
 }
 
 void Graphics::BindTexture (TextureAssetRef textureAsset) {

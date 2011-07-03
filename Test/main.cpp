@@ -107,7 +107,7 @@ public:
         const Json::Value& root = data->data();
         const Json::Value v = root["derek"];
         LOG(INFO) << v;
-        for (int i = 0; i < v.size(); i++)
+        for (uint i = 0; i < v.size(); i++)
             LOG(INFO) << "Item: " << v[i].asInt();
         int blargh = root.get("blargh", 1).asInt();
         LOG(INFO) << "blargh: " << blargh;
