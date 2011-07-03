@@ -6,10 +6,10 @@ class GLWidget : public QGLWidget {
 
 public:
     GLWidget(QWidget *parent = NULL);
-
+    
 protected:
     void initializeGL();
-    void resizeGL(int w, int h);
+    void resizeGL (int w, int h);
     void paintGL();
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

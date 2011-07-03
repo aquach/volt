@@ -7,6 +7,7 @@ CONTRIB_DIR = ../Contrib
 UTIL_DIR = ../Util
 
 LIBVOLT = ../Obj/libvolt.a
+LIBGAME = ../Game/Obj/libgame.a
 
 APP := $(BIN_DIR)/$(APP)
 
@@ -20,7 +21,7 @@ INCLUDE_DIR += -I $(CONTRIB_DIR)
 INCLUDE_DIR += -I /usr/include/qt4
 
 CPPFLAGS = -g -Wall -Wno-reorder $(INCLUDE_DIR)
-LIBS = -lSDL -lSDL_image -lGL -lGLU -lGLEW -lopenal -logg -lvorbisfile -lqt
+LIBS = -lSDL -lSDL_image -lGL -lGLU -lGLEW -lopenal -logg -lvorbisfile -lQtCore -lQtGui -lQtOpenGL
 
 STATIC_LIBS = $(CONTRIB_DIR)/Box2D_v2.1.2/Box2D/Box2D/libBox2D.a
 STATIC_LIBS += $(CONTRIB_DIR)/json/Obj/libjson.a
@@ -35,8 +36,8 @@ dirs: $(BIN_DIR) $(OBJ_DIR)
 $(BIN_DIR) $(OBJ_DIR):
 	@mkdir -p $@
 
-$(APP): $(APP_OBJS) $(LIBVOLT)
-	$(CXX) $(CPPFLAGS) -o $(APP) $^ $(LIBVOLT) $(LIBS) $(STATIC_LIBS)
+$(APP): $(APP_OBJS) $(LIBVOLT) $(LIBGAME)
+	$(CXX) $(CPPFLAGS) -o $(APP) $^ $(LIBVOLT) $(LIBGAME) $(LIBS) $(STATIC_LIBS)
 
 $(APP_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)

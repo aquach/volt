@@ -33,7 +33,7 @@ void MessageBox::Update () {
 }
 
 bool MessageBox::HasCharactersRemaining () const {
-    return m_currentCharacter < m_def.text.size();
+    return m_currentCharacter < (int)m_def.text.size();
 }
 
 bool MessageBox::IsFinished () const {

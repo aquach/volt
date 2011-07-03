@@ -6,6 +6,7 @@ OBJ_DIR = Obj
 CONTRIB_DIR = ../Contrib
 UTIL_DIR = ../Util
 
+LIBGAME = $(OBJ_DIR)/libgame.a
 LIBVOLT = ../Obj/libvolt.a
 
 APP := $(BIN_DIR)/$(APP)
@@ -34,8 +35,11 @@ dirs: $(BIN_DIR) $(OBJ_DIR)
 $(BIN_DIR) $(OBJ_DIR):
 	@mkdir -p $@
 
-$(APP): $(APP_OBJS) $(LIBVOLT)
-	$(CXX) $(CPPFLAGS) -o $(APP) $^ $(LIBVOLT) $(LIBS) $(STATIC_LIBS)
+$(LIBGAME) : $(APP_OBJS)
+	ar rcs $@ $^
+	
+$(APP): $(LIBGAME) $(LIBVOLT)
+	$(CXX) $(CPPFLAGS) -o $(APP) $^ $(LIBS) $(STATIC_LIBS)
 
 $(APP_DEPS) : $(OBJ_DIR)/%.d : $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
