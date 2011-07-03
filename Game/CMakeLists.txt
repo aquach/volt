@@ -1,0 +1,4 @@
+INCLUDE_DIRECTORIES(. .. ../Volt ../Contrib ../Contrib/Box2D_v2.1.2/Box2D)
+file(GLOB_RECURSE Game_SOURCES *.cpp)
+ADD_EXECUTABLE(game ${Game_SOURCES})
+TARGET_LINK_LIBRARIES(game ${VOLT_DEPENDENCIES} volt)
