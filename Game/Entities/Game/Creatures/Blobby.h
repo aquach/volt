@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Entities/Game/Creature.h"
+#include "Game/Core/Core.h"
+#include "Game/Entities/Game/Creature.h"
 
 class VelocityController;
 

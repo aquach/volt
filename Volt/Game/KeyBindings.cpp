@@ -1,4 +1,4 @@
-#include "KeyBindings.h"
+#include "Volt/Game/KeyBindings.h"
 
 namespace Volt {
 

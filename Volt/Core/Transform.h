@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector2.h"
+#include "Volt/Core/Vector2.h"
 #include <ostream>
 
 using namespace std;

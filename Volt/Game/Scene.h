@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Graphics/Camera.h"
-#include "Graphics/Input.h"
-#include "Game.h"
+#include "Volt/Core/Core.h"
+#include "Volt/Graphics/Camera.h"
+#include "Volt/Graphics/Input.h"
+#include "Volt/Game/Game.h"
 #include <set>
 
 namespace Volt {

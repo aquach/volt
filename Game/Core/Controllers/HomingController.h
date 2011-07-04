@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "ProjectileController.h"
+#include "Game/Core/Core.h"
+#include "Game/Core/Controllers/ProjectileController.h"
 
 namespace Volt {
     class Entity;

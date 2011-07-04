@@ -1,8 +1,8 @@
-#include "Filter.h"
-#include "OpenGL.h"
-#include "Graphics.h"
-#include "GpuProgram.h"
-#include "Viewport.h"
+#include "Volt/Graphics/Filter.h"
+#include "Volt/Graphics/OpenGL.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/GpuProgram.h"
+#include "Volt/Graphics/Viewport.h"
 
 namespace Volt {
 

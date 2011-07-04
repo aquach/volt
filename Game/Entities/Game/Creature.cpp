@@ -1,5 +1,5 @@
-#include "Creature.h"
-#include "Weapon.h"
+#include "Game/Entities/Game/Creature.h"
+#include "Game/Entities/Game/Weapon.h"
 
 Creature::Creature ()
     : m_health(21),

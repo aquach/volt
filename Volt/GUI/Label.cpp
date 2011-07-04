@@ -1,6 +1,6 @@
-#include "Label.h"
-#include "Graphics/Graphics.h"
-#include "Graphics/OpenGL.h"
+#include "Volt/GUI/Label.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/OpenGL.h"
 
 namespace Volt {
 

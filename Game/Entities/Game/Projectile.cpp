@@ -1,6 +1,6 @@
-#include "Projectile.h"
-#include "Core/Controllers/ProjectileController.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/Game/Projectile.h"
+#include "Game/Core/Controllers/ProjectileController.h"
+#include "Game/Graphics/Graphics.h"
 
 Projectile::Projectile ()
     : m_controller(NULL) {

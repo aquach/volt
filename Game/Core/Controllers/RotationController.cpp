@@ -1,4 +1,4 @@
-#include "RotationController.h"
+#include "Game/Core/Controllers/RotationController.h"
 #include "Volt/Game/Entity.h"
 
 void RotationController::Update () {

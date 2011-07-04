@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Volt/Core/Core.h"
 #include <AL/alc.h>
 #include <set>
-#include "AssetManager.h"
+#include "Volt/Assets/AssetManager.h"
 
 namespace Volt {
 

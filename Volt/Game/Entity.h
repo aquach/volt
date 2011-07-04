@@ -2,7 +2,7 @@
 
 #include <set>
 #include <Box2D/Box2D.h>
-#include "Core/Core.h"
+#include "Volt/Core/Core.h"
 
 /* A thing in the game with game logic. */
 namespace Volt {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Asset.h"
+#include "Volt/Core/Core.h"
+#include "Volt/Assets/Asset.h"
 
 namespace Volt {
 

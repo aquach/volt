@@ -2,8 +2,8 @@
 
 //todo: replace list with something more portable
 #include <list>
-#include "Vector2.h"
-#include "Color.h"
+#include "Volt/Core/Vector2.h"
+#include "Volt/Core/Color.h"
 
 namespace Monocle
 {

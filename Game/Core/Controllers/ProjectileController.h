@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Game/Core/Core.h"
 
 namespace Volt {
     class Entity;

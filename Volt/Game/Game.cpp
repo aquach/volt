@@ -1,13 +1,13 @@
-#include "Game.h"
+#include "Volt/Game/Game.h"
 #include <SDL/SDL.h>
-#include "Assets/AssetManager.h"
-#include "Assets/DataSource.h"
-#include "Assets/SoundManager.h"
-#include "Graphics/Graphics.h"
-#include "Graphics/SDLWindow.h"
-#include "KeyBindings.h"
-#include "PhysicsManager.h"
-#include "Scene.h"
+#include "Volt/Assets/AssetManager.h"
+#include "Volt/Assets/DataSource.h"
+#include "Volt/Assets/SoundManager.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/SDLWindow.h"
+#include "Volt/Game/KeyBindings.h"
+#include "Volt/Game/PhysicsManager.h"
+#include "Volt/Game/Scene.h"
 
 #define MIN_DELTA_TIME (1.0f / 120.0f)
 #define MAX_DELTA_TIME (1.0f / 30.0f)

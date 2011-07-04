@@ -1,5 +1,5 @@
-#include "HealthBar.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/GUI/HealthBar.h"
+#include "Game/Graphics/Graphics.h"
 
 const float WIDTH = 400;
 const float HEIGHT = 20;

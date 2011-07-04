@@ -1,5 +1,5 @@
-#include "System.h"
-#include "Core.h"
+#include "Volt/Core/System.h"
+#include "Volt/Core/Core.h"
 #include <string.h>
 
 #if COMPILER_GCC

@@ -1,9 +1,9 @@
-#include "Graphics.h"
-#include "Assets/AssetManager.h"
-#include "Graphics/GpuProgram.h"
-#include "OpenGL.h"
-#include "SDLWindow.h"
-#include "Viewport.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Assets/AssetManager.h"
+#include "Volt/Graphics/GpuProgram.h"
+#include "Volt/Graphics/OpenGL.h"
+#include "Volt/Graphics/SDLWindow.h"
+#include "Volt/Graphics/Viewport.h"
 
 namespace Volt {
 
@@ -23,8 +23,7 @@ void Graphics::Clear () {
 void Graphics::Init () {
     LOG(INFO) << "Initializing graphics...";
     if (GLEW_OK != glewInit()) {
-        LOG(FATAL) << "Failed to initialize glewInit!";
-        exit(1);
+        LOG(ERROR) << "Failed to initialize glewInit!";
     }
 
     glEnable(GL_BLEND);

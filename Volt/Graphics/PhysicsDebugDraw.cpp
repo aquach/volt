@@ -1,6 +1,6 @@
-#include "PhysicsDebugDraw.h"
-#include "Graphics.h"
-#include "OpenGL.h"
+#include "Volt/Graphics/PhysicsDebugDraw.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/OpenGL.h"
 
 namespace Volt {
 

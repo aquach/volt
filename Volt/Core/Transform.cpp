@@ -1,6 +1,6 @@
-#include "Transform.h"
-#include "Logging.h"
-#include "Math.h"
+#include "Volt/Core/Transform.h"
+#include "Volt/Core/Logging.h"
+#include "Volt/Core/Math.h"
 
 namespace Volt {
 

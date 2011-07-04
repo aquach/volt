@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Scenes/GameScene.h"
+#include "Game/Core/Core.h"
+#include "Game/Scenes/GameScene.h"
 #include "Volt/Graphics/Input.h"
 #include "Volt/Assets/AssetManager.h"
 #include <queue>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Core/Core.h"
+#include "Game/Volt/Game/Entity.h"
 
 class Light : public Volt::Entity {
 public:

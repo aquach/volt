@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Game/Core/Core.h"
 #include "Volt/Game/Entity.h"
-#include "GUIBar.h"
+#include "Game/Entities/GUI/GUIBar.h"
 
 class HealthBar : public GUIBar {
 public:

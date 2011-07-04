@@ -36,22 +36,47 @@ ELSEIF(WIN32)
         debug libvorbis_static_d optimized libvorbis_static
         debug libvorbisfile_static_d optimized libvorbisfile_static
         debug Box2D_d optimized Box2D)
-ENDIF()    
+ENDIF()
 
-ADD_SUBDIRECTORY(Game)
-ADD_SUBDIRECTORY(Editor)
+IF(WIN32)
+    ADD_DEFINITIONS(/D NOGDI /D NOMINMAX)
+ENDIF()
 
-# Include dirs for Volt and VoltTest targets.
-INCLUDE_DIRECTORIES(Volt Contrib Contrib/Box2D_v2.1.2/Box2D)    
+INCLUDE_DIRECTORIES(Contrib Contrib/Box2D_v2.1.2/Box2D)    
+
+# JSON
 
 file(GLOB_RECURSE Json_SOURCES Contrib/json/*.cpp)
 ADD_LIBRARY(json STATIC ${Json_SOURCES})
+
+# Volt 
 
 file(GLOB_RECURSE Volt_SOURCES Volt/*.cpp)
 ADD_LIBRARY(volt STATIC ${Volt_SOURCES})
 TARGET_LINK_LIBRARIES(volt ${VOLT_DEPENDENCIES})
 ADD_DEPENDENCIES(volt Box2D)
 
+# Test
+
 file(GLOB_RECURSE VoltTest_SOURCES Test/*.cpp)
 ADD_EXECUTABLE(volt_test ${VoltTest_SOURCES})
 TARGET_LINK_LIBRARIES(volt_test ${VOLT_DEPENDENCIES} volt)
+
+# Game
+
+file(GLOB_RECURSE Game_SOURCES Game/*.cpp)
+ADD_EXECUTABLE(game ${Game_SOURCES})
+TARGET_LINK_LIBRARIES(game ${VOLT_DEPENDENCIES} volt)
+
+# Editor
+
+FIND_PACKAGE(Qt4 REQUIRED)
+SET(QT_USE_QTOPENGL TRUE)
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+
+file(GLOB_RECURSE Editor_SOURCES Editor/*.cpp)
+file(GLOB_RECURSE Editor_HEADERS Editor/*.h)
+QT4_WRAP_CPP(Editor_HEADERS_MOC ${Editor_HEADERS})
+ADD_EXECUTABLE(editor ${Editor_SOURCES} ${Editor_HEADERS_MOC})
+TARGET_LINK_LIBRARIES(editor ${VOLT_DEPENDENCIES} volt ${QT_LIBRARIES})

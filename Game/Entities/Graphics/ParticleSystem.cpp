@@ -1,5 +1,5 @@
-#include "ParticleSystem.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/Graphics/ParticleSystem.h"
+#include "Game/Graphics/Graphics.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/Scene.h"
 

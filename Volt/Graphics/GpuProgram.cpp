@@ -1,5 +1,5 @@
-#include "GpuProgram.h"
-#include "OpenGL.h"
+#include "Volt/Graphics/GpuProgram.h"
+#include "Volt/Graphics/OpenGL.h"
 
 namespace Volt {
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Graphics/Input.h"
-#include "Viewport.h"
+#include "Volt/Core/Core.h"
+#include "Volt/Graphics/Input.h"
+#include "Volt/Graphics/Viewport.h"
 
 namespace Volt {
 

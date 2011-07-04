@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Game/Core/Core.h"
 #include <set>
 #include "Volt/Assets/AssetManager.h"
-#include "Scenes/GameScene.h"
+#include "Game/Scenes/GameScene.h"
 
 namespace Volt {
     class Entity;

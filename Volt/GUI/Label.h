@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Assets/AssetManager.h"
-#include "Game/Entity.h"
+#include "Volt/Core/Core.h"
+#include "Volt/Assets/AssetManager.h"
+#include "Volt/Game/Entity.h"
 
 namespace Volt {
 

@@ -1,6 +1,6 @@
-#include "PhysicsManager.h"
-#include "Entity.h"
-#include "Graphics/PhysicsDebugDraw.h"
+#include "Volt/Game/PhysicsManager.h"
+#include "Volt/Game/Entity.h"
+#include "Volt/Graphics/PhysicsDebugDraw.h"
 
 namespace Volt {
 

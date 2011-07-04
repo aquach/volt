@@ -1,4 +1,4 @@
-#include "ProjectileController.h"
+#include "Game/Core/Controllers/ProjectileController.h"
 #include "Volt/Game/Entity.h"
 
 void ProjectileController::Update () {

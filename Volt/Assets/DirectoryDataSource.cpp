@@ -1,6 +1,6 @@
-#include "DirectoryDataSource.h"
+#include "Volt/Assets/DirectoryDataSource.h"
 #include <fstream>
-#include "PackDataSource.h"
+#include "Volt/Assets/PackDataSource.h"
 
 namespace Volt {
 

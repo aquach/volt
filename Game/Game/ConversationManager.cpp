@@ -1,5 +1,5 @@
-#include "ConversationManager.h"
-#include "Entities/GUI/MessageBox.h"
+#include "Game/Game/ConversationManager.h"
+#include "Game/Entities/GUI/MessageBox.h"
 
 ConversationManager::ConversationManager () {
     m_font = Volt::G_AssetManager->GetFont("Mido.ttf", 32.0);

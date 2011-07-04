@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Volt/Core/Core.h"
 #include <Box2D/Box2D.h>
-#include "Game.h"
+#include "Volt/Game/Game.h"
 
 namespace Volt {
 

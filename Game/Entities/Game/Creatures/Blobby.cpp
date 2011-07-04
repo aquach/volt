@@ -1,6 +1,6 @@
-#include "Blobby.h"
-#include "Core/Controllers/VelocityController.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/Game/Creatures/Blobby.h"
+#include "Game/Core/Controllers/VelocityController.h"
+#include "Game/Graphics/Graphics.h"
 #include "Volt/Game/Game.h"
 
 static const float RADIUS = 0.8;

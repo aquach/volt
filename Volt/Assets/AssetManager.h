@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "AssetRef.h"
-#include "DataAsset.h"
-#include "FontAsset.h"
-#include "ShaderAsset.h"
-#include "SoundAsset.h"
-#include "TextureAsset.h"
+#include "Volt/Core/Core.h"
+#include "Volt/Assets/AssetRef.h"
+#include "Volt/Assets/DataAsset.h"
+#include "Volt/Assets/FontAsset.h"
+#include "Volt/Assets/ShaderAsset.h"
+#include "Volt/Assets/SoundAsset.h"
+#include "Volt/Assets/TextureAsset.h"
 
 namespace Volt {
 

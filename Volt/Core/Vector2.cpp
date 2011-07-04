@@ -1,7 +1,7 @@
-#include "Vector2.h"
-#include "Logging.h"
-#include "Random.h"
-#include "Math.h"
+#include "Volt/Core/Vector2.h"
+#include "Volt/Core/Logging.h"
+#include "Volt/Core/Random.h"
+#include "Volt/Core/Math.h"
 #include <cmath>
 
 namespace Volt {

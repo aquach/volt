@@ -1,5 +1,5 @@
-#include "Ladder.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/Game/Ladder.h"
+#include "Game/Graphics/Graphics.h"
 
 Ladder::Ladder () {
     AddTag("Ladder");

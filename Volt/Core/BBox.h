@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core.h"
-#include "Macros.h"
-#include "Math.h"
-#include "Vector2.h"
+#include "Volt/Core/Core.h"
+#include "Volt/Core/Macros.h"
+#include "Volt/Core/Math.h"
+#include "Volt/Core/Vector2.h"
 
 namespace Volt {
 

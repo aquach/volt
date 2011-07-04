@@ -1,4 +1,4 @@
-#include "EditorScene.h"
+#include "Editor/Editor/EditorScene.h"
 
 EditorScene::EditorScene () {
 }

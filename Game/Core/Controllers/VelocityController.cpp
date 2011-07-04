@@ -1,4 +1,4 @@
-#include "VelocityController.h"
+#include "Game/Core/Controllers/VelocityController.h"
 #include "Volt/Game/Entity.h"
 
 void VelocityController::Update () {

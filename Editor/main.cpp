@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
-#include "Editor/Editor.h"
-#include "Core/Core.h"
+#include "Editor/Editor/Editor.h"
+#include "Editor/Core/Core.h"
 #include "Volt/Assets/DirectoryDataSource.h"
 
 int main(int argc, char *argv[]) {

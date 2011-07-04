@@ -1,4 +1,4 @@
-#include "HomingController.h"
+#include "Game/Core/Controllers/HomingController.h"
 #include "Volt/Game/Entity.h"
 
 void HomingController::Update () {

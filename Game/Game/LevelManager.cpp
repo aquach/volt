@@ -1,6 +1,6 @@
-#include "LevelManager.h"
-#include "Entities/Game/Ladder.h"
-#include "Entities/Game/Triangle.h"
+#include "Game/Game/LevelManager.h"
+#include "Game/Entities/Game/Ladder.h"
+#include "Game/Entities/Game/Triangle.h"
 #include "Volt/Game/Entity.h"
 
 LevelManager::LevelManager ()

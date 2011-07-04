@@ -1,5 +1,5 @@
-#include "MessageBox.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/GUI/MessageBox.h"
+#include "Game/Graphics/Graphics.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Graphics/Viewport.h"
 

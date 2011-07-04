@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(WIN32)
     #define COMPILER_VCC 1
     #define COMPILER_GCC 0
 #elif defined(__GNUC__)

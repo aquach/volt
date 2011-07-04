@@ -1,6 +1,6 @@
-#include "Editor.h"
-#include "EditorScene.h"
-#include "GLWidget.h"
+#include "Editor/Editor/Editor.h"
+#include "Editor/Editor/EditorScene.h"
+#include "Editor/Editor/GLWidget.h"
 #include <QHBoxLayout>
 #include <QMenuBar>
 #include <QPushButton>

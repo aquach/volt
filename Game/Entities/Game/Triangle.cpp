@@ -1,5 +1,5 @@
-#include "Triangle.h"
-#include "Graphics/Graphics.h"
+#include "Game/Entities/Game/Triangle.h"
+#include "Game/Graphics/Graphics.h"
 
 Triangle::Triangle () {
     AddTag("Triangle");

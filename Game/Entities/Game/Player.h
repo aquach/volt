@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Creature.h"
+#include "Game/Core/Core.h"
+#include "Game/Entities/Game/Creature.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Graphics/Input.h"
 

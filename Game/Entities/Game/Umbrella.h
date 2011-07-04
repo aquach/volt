@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.h"
-#include "Weapon.h"
+#include "Game/Core/Core.h"
+#include "Game/Entities/Game/Weapon.h"
 
 class Umbrella : public Weapon {
 public:

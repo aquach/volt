@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Game/Core/Core.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Graphics/Input.h"

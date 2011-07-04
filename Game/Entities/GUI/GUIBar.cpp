@@ -1,4 +1,4 @@
-#include "GUIBar.h"
+#include "Game/Entities/GUI/GUIBar.h"
 #include "Volt/Game/Game.h"
 
 void GUIBar::Update () {

@@ -1,10 +1,10 @@
-#include "Scene.h"
+#include "Volt/Game/Scene.h"
 #include <algorithm>
-#include "Entity.h"
-#include "Graphics/Filter.h"
-#include "Graphics/Graphics.h"
-#include "Graphics/OpenGL.h"
-#include "PhysicsManager.h"
+#include "Volt/Game/Entity.h"
+#include "Volt/Graphics/Filter.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/OpenGL.h"
+#include "Volt/Game/PhysicsManager.h"
 
 namespace Volt {
 

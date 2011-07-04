@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+#include "Game/Scenes/TitleScene.h"
 
 TitleScene::TitleScene () {
 }

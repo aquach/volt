@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CoreBase.h"
-#include "System.h"
+#include "Volt/Core/CoreBase.h"
+#include "Volt/Core/System.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>

@@ -1,7 +1,7 @@
-#include "Camera.h"
-#include "Game/Entity.h"
-#include "Graphics.h"
-#include "OpenGL.h"
+#include "Volt/Graphics/Camera.h"
+#include "Volt/Game/Entity.h"
+#include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/OpenGL.h"
 
 namespace Volt {
 
