@@ -62,11 +62,18 @@ file(GLOB_RECURSE VoltTest_SOURCES Test/*.cpp)
 ADD_EXECUTABLE(volt_test ${VoltTest_SOURCES})
 TARGET_LINK_LIBRARIES(volt_test ${VOLT_DEPENDENCIES} volt)
 
-# Game
+# Game Lib
 
 file(GLOB_RECURSE Game_SOURCES Game/*.cpp)
+LIST(REMOVE_ITEM Game_SOURCES Game/main.cpp)
+ADD_LIBRARY(gamelib ${Game_SOURCES})
+TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
+
+# Game
+
+file(GLOB_RECURSE Game_SOURCES Game/main.cpp)
 ADD_EXECUTABLE(game ${Game_SOURCES})
-TARGET_LINK_LIBRARIES(game ${VOLT_DEPENDENCIES} volt)
+TARGET_LINK_LIBRARIES(game gamelib ${VOLT_DEPENDENCIES} volt)
 
 # Editor
 
@@ -79,4 +86,4 @@ file(GLOB_RECURSE Editor_SOURCES Editor/*.cpp)
 file(GLOB_RECURSE Editor_HEADERS Editor/*.h)
 QT4_WRAP_CPP(Editor_HEADERS_MOC ${Editor_HEADERS})
 ADD_EXECUTABLE(editor ${Editor_SOURCES} ${Editor_HEADERS_MOC})
-TARGET_LINK_LIBRARIES(editor ${VOLT_DEPENDENCIES} volt ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(editor gamelib ${VOLT_DEPENDENCIES} volt ${QT_LIBRARIES})

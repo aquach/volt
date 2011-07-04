@@ -42,10 +42,10 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     m_assetManager = new AssetManager(source);
     AssetManager::Register(m_assetManager);
 
-    m_soundManager = new SoundManager();
+    m_soundManager = new SoundManager;
     SoundManager::Register(m_soundManager);
 
-    m_physicsManager = new PhysicsManager();
+    m_physicsManager = new PhysicsManager;
     m_physicsManager->m_game = this;
     PhysicsManager::Register(m_physicsManager);
 

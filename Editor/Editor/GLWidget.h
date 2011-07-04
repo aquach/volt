@@ -1,3 +1,4 @@
+#include "Game/Graphics/Graphics.h"
 #include <QtOpenGL/QGLWidget>
 #include "Volt/Graphics/Viewport.h"
 
@@ -16,4 +17,5 @@ protected:
     virtual void mousePressEvent (QMouseEvent *event);
     virtual void mouseMoveEvent (QMouseEvent *event);
     virtual void keyPressEvent (QKeyEvent *event);
+    virtual void keyReleaseEvent (QKeyEvent *event);
 };

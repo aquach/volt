@@ -15,7 +15,7 @@ public:
     virtual void OnBegin ();
     virtual void OnEnd ();
 
-    virtual void OnKeyEvent (SDL_KeyboardEvent event);
+    //virtual void OnKeyEvent (SDL_KeyboardEvent event);
     //virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event);
     //virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event);
 

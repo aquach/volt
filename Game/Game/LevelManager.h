@@ -3,7 +3,7 @@
 #include "Game/Core/Core.h"
 #include <set>
 #include "Volt/Assets/AssetManager.h"
-#include "Game/Scenes/GameScene.h"
+#include "Volt/Game/Scene.h"
 
 namespace Volt {
     class Entity;
@@ -21,7 +21,8 @@ public:
 
 private:
     friend class GameScene;
-    GameScene* m_gameScene;
+    friend class EditorScene;
+    Volt::Scene* m_scene;
 
     bool m_levelLoaded;
     set<Volt::Entity*> m_entities;

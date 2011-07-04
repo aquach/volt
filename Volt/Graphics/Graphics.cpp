@@ -120,8 +120,7 @@ void Graphics::Set2D (int virtualWidth, int virtualHeight) {
     instance->virtualWidth = virtualWidth;
     instance->virtualHeight = virtualHeight;
 
-    GLint viewPort[4];
-    glGetIntegerv(GL_VIEWPORT, viewPort);
+    glViewport(0, 0, virtualWidth, virtualHeight);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

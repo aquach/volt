@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Editor/Core/Core.h"
 #include <QMainWindow>
+#include <QtGui>
 
 namespace Volt {
     class AssetManager;
     class DataSource;
     class Graphics;
+    class PhysicsManager;
 }
 
 class EditorScene;
@@ -23,9 +26,13 @@ public:
     void UpdateScene ();
     void RenderScene ();
 
+protected:
+    virtual void keyPressEvent (QKeyEvent *event);
+    
 private:
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
+    Volt::PhysicsManager* m_physicsManager;
     GLWidget* m_viewport;
     
     EditorScene* m_scene;

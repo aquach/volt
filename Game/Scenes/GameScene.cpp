@@ -39,7 +39,7 @@ GameScene::GameScene ()
     Add(b);
 
     m_levelManager = new LevelManager;
-    m_levelManager->m_gameScene = this;
+    m_levelManager->m_scene = this;
     m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
 
     m_conversationManager = new ConversationManager;

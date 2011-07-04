@@ -15,22 +15,10 @@ int GLWidget::height () const {
 }
 
 void GLWidget::initializeGL () {
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_COLOR_MATERIAL);
-    glEnable(GL_BLEND);
-    glEnable(GL_POLYGON_SMOOTH);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(0, 0, 0, 0);
 }
 
 void GLWidget::resizeGL (int w, int h) {
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, w, 0, h); // set origin to bottom left corner
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    Graphics::Set2D(w, h);
 }
 
 void GLWidget::paintGL () {
@@ -44,12 +32,30 @@ void GLWidget::mouseMoveEvent (QMouseEvent *event) {
 }
 
 void GLWidget::keyPressEvent (QKeyEvent* event) {
+    //if (event->isAutoRepeat())
+    //    event->ignore();
+    LOG(INFO) << "EVENT";
     switch(event->key()) {
-    case Qt::Key_Escape:
-        close();
-        break;
-    default:
-        event->ignore();
-        break;
+        case Qt::Key_Left:
+            LOG(INFO) << "HEY";
+            break;
+        default:
+            event->ignore();
+            break;
     }
 }
+
+void GLWidget::keyReleaseEvent (QKeyEvent *event) {
+    if (event->isAutoRepeat())
+        event->ignore();
+        
+    switch(event->key()) {
+        case Qt::Key_Left:
+            LOG(INFO) << "HEY STOP";
+            break;
+        default:
+            event->ignore();
+            break;
+    }
+}
+

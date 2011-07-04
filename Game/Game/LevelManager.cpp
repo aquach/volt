@@ -5,7 +5,7 @@
 
 LevelManager::LevelManager ()
     : m_levelLoaded(false),
-      m_gameScene(NULL) {
+      m_scene(NULL) {
 }
 
 LevelManager::~LevelManager () {
@@ -29,7 +29,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         Triangle* tri = new Triangle;
         tri->Load(node);
         m_entities.insert(tri);
-        m_gameScene->Add(tri);
+        m_scene->Add(tri);
     }
 
     const Json::Value& ladders = root["ladders"];
@@ -38,11 +38,11 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         Ladder* ladder = new Ladder;
         ladder->Load(node);
         m_entities.insert(ladder);
-        m_gameScene->Add(ladder);
+        m_scene->Add(ladder);
     }
 }
 
 void LevelManager::UnloadLevel () {
     FOR_ (set<Volt::Entity*>::iterator, i, m_entities)
-        m_gameScene->Remove(*i);
+        m_scene->Remove(*i);
 }
