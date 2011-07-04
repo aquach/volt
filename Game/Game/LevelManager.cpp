@@ -61,9 +61,11 @@ bool LevelManager::LoadLevelFromFilename (string filename) {
     item.data = data;
 
     Volt::DataAsset asset;
-    asset.Load(item);
+    bool success = asset.Load(item);
+    if (!success)
+        return false;
+
     LoadLevel(Volt::DataAssetRef(&asset));
-    delete[] data;
 
     m_loadedFilename = filename;
 

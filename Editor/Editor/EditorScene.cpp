@@ -17,7 +17,6 @@ EditorScene::EditorScene ()
 
     m_levelManager = new LevelManager;
     m_levelManager->m_scene = this;
-    m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
 }
 
 EditorScene::~EditorScene () {

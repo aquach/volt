@@ -104,16 +104,50 @@ void Editor::keyPressEvent (QKeyEvent *event) {
     }
 }
 
+void Editor::SetTitle (string title) {
+    QString str;
+    str += EDITOR_TITLE;
+    if (title.size() > 0) {
+        str += " (";
+        str += title.c_str();
+        str += ")";
+    }
+    setWindowTitle(str);
+}
+
 void Editor::New () {
+    if (m_scene->m_levelManager->loadedFile() != "") {
+        if (!Close())
+            return;
+    }
+    SetTitle("New Level");
+    OnModified();
 }
 
 void Editor::Open () {
+    if (m_modified) {
+        if (!Close())
+            return;
+    }
+
     QString filename = QFileDialog::getOpenFileName(
         this,
         "Open Level",
         ".",
         "JSON files (*.json)"
     );
+    if (filename == "")
+        return;
+
+    bool success = m_scene->m_levelManager->LoadLevelFromFilename(
+                    filename.toStdString());
+    if (success) {
+        statusBar()->showMessage("Opened level.");
+        ClearModified();
+    } else {
+        QMessageBox::critical(this, " ", "Failed to open file.");
+    }
+    SetTitle(filename.toStdString());
 }
 
 bool Editor::Save () {
@@ -125,8 +159,9 @@ bool Editor::Save () {
                         m_scene->m_levelManager->loadedFile());
     if (success) {
         statusBar()->showMessage("Saved level.");
+        ClearModified();
     } else {
-        QMessageBox::critical(this, "", "Failed to save file.");
+        QMessageBox::critical(this, " ", "Failed to save file.");
     }
     return success;
 }
@@ -139,14 +174,15 @@ bool Editor::SaveAs () {
     bool success = m_scene->m_levelManager->SaveLevel(filename.toStdString());
     if (success) {
         statusBar()->showMessage("Saved level.");
+        ClearModified();
     } else {
-        QMessageBox::critical(this, "", "Failed to save file.");
+        QMessageBox::critical(this, " ", "Failed to save file.");
     }
     return success;
 }
 
 int Editor::CheckModified () {
-    if (!m_modified && m_scene->m_levelManager->loadedFile() != "")
+    if (!m_modified)
         return QMessageBox::Discard;
 
     QMessageBox msgBox;
@@ -160,22 +196,24 @@ int Editor::CheckModified () {
     return msgBox.exec();
 }
 
-void Editor::Close () {
+bool Editor::Close () {
     int ret = CheckModified();
     switch (ret) {
         case QMessageBox::Save:
             if (!Save())
-                return;
+                return false;
         break;
         case QMessageBox::Discard:
         break;
         case QMessageBox::Cancel:
-            return;
+            return false;
         break;
         default:
         break;
     }
     m_scene->m_levelManager->UnloadLevel();
+    SetTitle("");
+    return true;
 }
 
 void Editor::Exit () {

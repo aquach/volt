@@ -33,6 +33,9 @@ public:
     void MoveVertical (int dir);
 
     void OnModified () { m_modified = true; }
+    void ClearModified () { m_modified = false; }
+
+    void SetTitle (string title);
 
 protected:
     virtual void keyPressEvent (QKeyEvent *event);
@@ -42,7 +45,7 @@ private slots:
     void Open ();
     bool Save ();
     bool SaveAs ();
-    void Close ();
+    bool Close ();
     void Exit ();
 
 private:
