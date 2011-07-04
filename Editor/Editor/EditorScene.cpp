@@ -4,7 +4,9 @@
 const float WORLD_TO_SCREEN_SCALE = 30;
 
 EditorScene::EditorScene ()
-    : m_levelManager(NULL) {
+    : m_levelManager(NULL),
+      m_cameraMoveX(0),
+      m_cameraMoveY(0) {
 
     camera()->transform.scale.Set(
         WORLD_TO_SCREEN_SCALE,
@@ -20,6 +22,10 @@ EditorScene::~EditorScene () {
 
 void EditorScene::Update () {
     Scene::Update();
+
+    camera()->transform.position += Vector2(
+        m_cameraMoveX,
+        m_cameraMoveY);
 }
 
 void EditorScene::OnBegin () {

@@ -15,13 +15,21 @@ Editor::Editor (const Volt::DataSource* source)
       m_viewport(NULL) {
     setWindowTitle("Endmill Editor");
     resize(1024, 768);
+    setMinimumSize(1024, 768);
 
+    QAction* action;
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
-    file->addAction("&Open");
-    file->addAction("&Save");
+    action = new QAction("&Open", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(Open()));
+    file->addAction(action);
+    action = new QAction("&Save", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(Save()));
+    file->addAction(action);
     file->addSeparator();
-    file->addAction("&Exit");
+    action = new QAction("&Exit", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(Exit()));
+    file->addAction(action);
     
     m_viewport = new GLWidget;
     m_viewport->makeCurrent();
@@ -50,13 +58,21 @@ Editor::~Editor () {
     delete m_assetManager;
 }
 
+float Editor::dt () {
+    return SECONDS_PER_UPDATE;
+}
+
 void Editor::timerEvent (QTimerEvent* event) {
-    UpdateScene();
+    m_scene->Update();
     m_viewport->update();
 }
 
-void Editor::UpdateScene () {
-    m_scene->Update();
+void Editor::MoveHorizontal (int dir) {
+    m_scene->MoveHorizontal(dir);
+}
+
+void Editor::MoveVertical (int dir) {
+    m_scene->MoveVertical(dir);
 }
 
 void Editor::RenderScene () {
@@ -72,4 +88,20 @@ void Editor::keyPressEvent (QKeyEvent *event) {
             event->ignore();
             break;
     }
+}
+
+void Editor::Open () {
+    QString filename = QFileDialog::getOpenFileName(
+        this,
+        "Open Level",
+        ".",
+        "JSON files (*.json)"
+    );
+}
+
+void Editor::Save () {
+}
+    
+void Editor::Exit () {
+    close();
 }

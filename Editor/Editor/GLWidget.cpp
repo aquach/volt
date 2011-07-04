@@ -25,19 +25,34 @@ void GLWidget::paintGL () {
     dynamic_cast<Editor*>(parent())->RenderScene();
 }
 
-void GLWidget::mousePressEvent (QMouseEvent *event) {
+void GLWidget::enterEvent (QEvent* event) {
+    setFocus();
+}
+
+void GLWidget::mousePressEvent (QMouseEvent* event) {
 
 }
-void GLWidget::mouseMoveEvent (QMouseEvent *event) {
+void GLWidget::mouseMoveEvent (QMouseEvent* event) {
 }
 
 void GLWidget::keyPressEvent (QKeyEvent* event) {
-    //if (event->isAutoRepeat())
-    //    event->ignore();
-    LOG(INFO) << "EVENT";
+    if (event->isAutoRepeat())
+        event->ignore();
+
+    Editor* editor = dynamic_cast<Editor*>(parent());
+    
     switch(event->key()) {
         case Qt::Key_Left:
-            LOG(INFO) << "HEY";
+            editor->MoveHorizontal(-1);
+            break;
+        case Qt::Key_Right:
+            editor->MoveHorizontal(1);
+            break;
+        case Qt::Key_Up:
+            editor->MoveVertical(-1);
+            break;
+        case Qt::Key_Down:
+            editor->MoveVertical(1);
             break;
         default:
             event->ignore();
@@ -45,13 +60,20 @@ void GLWidget::keyPressEvent (QKeyEvent* event) {
     }
 }
 
-void GLWidget::keyReleaseEvent (QKeyEvent *event) {
+void GLWidget::keyReleaseEvent (QKeyEvent* event) {
     if (event->isAutoRepeat())
         event->ignore();
+
+    Editor* editor = dynamic_cast<Editor*>(parent());
         
     switch(event->key()) {
         case Qt::Key_Left:
-            LOG(INFO) << "HEY STOP";
+        case Qt::Key_Right:
+            editor->MoveHorizontal(0);
+            break;
+        case Qt::Key_Up:
+        case Qt::Key_Down:
+            editor->MoveVertical(0);
             break;
         default:
             event->ignore();

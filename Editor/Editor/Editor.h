@@ -23,11 +23,20 @@ public:
 
     virtual void timerEvent (QTimerEvent* event);
 
-    void UpdateScene ();
     void RenderScene ();
+
+    float dt ();
+
+    void MoveHorizontal (int dir);
+    void MoveVertical (int dir);
 
 protected:
     virtual void keyPressEvent (QKeyEvent *event);
+
+private slots:
+    void Open ();
+    void Save (); 
+    void Exit ();
     
 private:
     Volt::AssetManager* m_assetManager;
