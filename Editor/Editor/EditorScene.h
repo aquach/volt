@@ -2,6 +2,7 @@
 
 #include "Volt/Game/Scene.h"
 
+class Editor;
 class LevelManager;
 
 class EditorScene : public Volt::Scene {
@@ -19,6 +20,8 @@ public:
     void MoveVertical (int dir) { m_cameraMoveY = dir; }
 
 private:
+    friend class Editor;
+    Editor* m_editor;
     LevelManager* m_levelManager;
 
     int m_cameraMoveX;

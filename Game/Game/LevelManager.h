@@ -17,7 +17,11 @@ public:
     //void Update ();
 
     void LoadLevel (Volt::DataAssetRef asset);
+    bool LoadLevelFromFilename (string filename);
     void UnloadLevel ();
+    bool SaveLevel (string filename);
+
+    string loadedFile () const { return m_loadedFilename; }
 
 private:
     friend class GameScene;
@@ -26,6 +30,7 @@ private:
 
     bool m_levelLoaded;
     set<Volt::Entity*> m_entities;
+    string m_loadedFilename;
 
     DISALLOW_COPY_AND_ASSIGN(LevelManager);
 };

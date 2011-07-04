@@ -1,10 +1,11 @@
 #include "Editor/Editor/Editor.h"
-#include "Editor/Editor/EditorScene.h"
-#include "Editor/Editor/GLWidget.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Viewport.h"
+#include "Game/Game/LevelManager.h"
+#include "Editor/Editor/EditorScene.h"
+#include "Editor/Editor/GLWidget.h"
 
 const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
 
@@ -13,27 +14,36 @@ Editor::Editor (const Volt::DataSource* source)
       m_graphics(NULL),
       m_physicsManager(NULL),
       m_viewport(NULL) {
-    setWindowTitle("Endmill Editor");
+    setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
 
     QAction* action;
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
+    action = new QAction("&New", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(New()));
+    file->addAction(action);
     action = new QAction("&Open", this);
     connect(action, SIGNAL(triggered()), this, SLOT(Open()));
+    action->setShortcut(tr("Ctrl+O"));
     file->addAction(action);
     action = new QAction("&Save", this);
+    action->setShortcut(tr("Ctrl+S"));
     connect(action, SIGNAL(triggered()), this, SLOT(Save()));
     file->addAction(action);
-    action = new QAction("&Save As", this);
+    action = new QAction("&Save As..", this);
     connect(action, SIGNAL(triggered()), this, SLOT(SaveAs()));
+    file->addAction(action);
+    action = new QAction("&Close", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(Close()));
+    action->setShortcut(tr("Ctrl+W"));
     file->addAction(action);
     file->addSeparator();
     action = new QAction("&Exit", this);
     connect(action, SIGNAL(triggered()), this, SLOT(Exit()));
     file->addAction(action);
-    
+
     m_viewport = new GLWidget;
     m_viewport->makeCurrent();
     setCentralWidget(m_viewport);
@@ -52,6 +62,7 @@ Editor::Editor (const Volt::DataSource* source)
     Volt::PhysicsManager::Register(m_physicsManager);
 
     m_scene = new EditorScene;
+    m_scene->m_editor = this;
 
     startTimer((int)(SECONDS_PER_UPDATE * 1000));
 }
@@ -85,12 +96,15 @@ void Editor::RenderScene () {
 void Editor::keyPressEvent (QKeyEvent *event) {
     switch (event->key()) {
         case Qt::Key_Escape:
-            close();
+            Exit();
             break;
         default:
             event->ignore();
             break;
     }
+}
+
+void Editor::New () {
 }
 
 void Editor::Open () {
@@ -102,9 +116,82 @@ void Editor::Open () {
     );
 }
 
-void Editor::Save () {
+bool Editor::Save () {
+    if (m_scene->m_levelManager->loadedFile() == "") {
+        return SaveAs();
+    }
+
+    bool success = m_scene->m_levelManager->SaveLevel(
+                        m_scene->m_levelManager->loadedFile());
+    if (success) {
+        statusBar()->showMessage("Saved level.");
+    } else {
+        QMessageBox::critical(this, "", "Failed to save file.");
+    }
+    return success;
 }
-    
+
+bool Editor::SaveAs () {
+    QString filename = QFileDialog::getSaveFileName(this, "Save As", ".");
+    if (filename == "")
+        return true;
+
+    bool success = m_scene->m_levelManager->SaveLevel(filename.toStdString());
+    if (success) {
+        statusBar()->showMessage("Saved level.");
+    } else {
+        QMessageBox::critical(this, "", "Failed to save file.");
+    }
+    return success;
+}
+
+int Editor::CheckModified () {
+    if (!m_modified && m_scene->m_levelManager->loadedFile() != "")
+        return QMessageBox::Discard;
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(" ");
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setText("The document has been modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard |
+                              QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Save);
+    return msgBox.exec();
+}
+
+void Editor::Close () {
+    int ret = CheckModified();
+    switch (ret) {
+        case QMessageBox::Save:
+            if (!Save())
+                return;
+        break;
+        case QMessageBox::Discard:
+        break;
+        case QMessageBox::Cancel:
+            return;
+        break;
+        default:
+        break;
+    }
+    m_scene->m_levelManager->UnloadLevel();
+}
+
 void Editor::Exit () {
+    int ret = CheckModified();
+    switch (ret) {
+        case QMessageBox::Save:
+            if (!Save())
+                return;
+        break;
+        case QMessageBox::Discard:
+        break;
+        case QMessageBox::Cancel:
+            return;
+        break;
+        default:
+        break;
+    }
     close();
 }

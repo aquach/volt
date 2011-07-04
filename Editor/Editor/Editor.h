@@ -11,6 +11,8 @@ namespace Volt {
     class PhysicsManager;
 }
 
+extern const char* EDITOR_TITLE;
+
 class EditorScene;
 class GLWidget;
 
@@ -30,20 +32,26 @@ public:
     void MoveHorizontal (int dir);
     void MoveVertical (int dir);
 
+    void OnModified () { m_modified = true; }
+
 protected:
     virtual void keyPressEvent (QKeyEvent *event);
 
 private slots:
+    void New ();
     void Open ();
-    void Save ();
-    void SaveAs (); 
+    bool Save ();
+    bool SaveAs ();
+    void Close ();
     void Exit ();
-    
+
 private:
+    int CheckModified ();
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
     Volt::PhysicsManager* m_physicsManager;
     GLWidget* m_viewport;
-    
+
     EditorScene* m_scene;
+    bool m_modified;
 };
