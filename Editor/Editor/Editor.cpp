@@ -44,6 +44,23 @@ Editor::Editor (const Volt::DataSource* source)
     connect(action, SIGNAL(triggered()), this, SLOT(Exit()));
     file->addAction(action);
 
+    QDockWidget* dock = new QDockWidget("Tools", this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+
+    QWidget* tools = new QWidget;
+    dock->setWidget(tools);
+    QVBoxLayout* layout = new QVBoxLayout;
+    QPushButton* button;
+
+    button = new QPushButton("New Triangle");
+    layout->addWidget(button);
+    button = new QPushButton("Expand Triangle");
+    layout->addWidget(button);
+    layout->insertStretch(25);
+
+    tools->setLayout(layout);
+
     m_viewport = new GLWidget;
     m_viewport->makeCurrent();
     setCentralWidget(m_viewport);
