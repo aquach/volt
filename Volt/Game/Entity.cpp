@@ -57,7 +57,7 @@ ostream& operator<< (ostream& stream, const Entity& e) {
     stream << "Entity [";
     int size = e.m_tags.size();
     int count = 0;
-    FOR_ (set<string>::iterator, i, e.m_tags) {
+    FOR_ (set<string>::const_iterator, i, e.m_tags) {
         stream << *i << (count == size - 1 ? "" : ", ");
         count++;
     }

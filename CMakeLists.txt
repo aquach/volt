@@ -4,29 +4,45 @@ IF(COMMAND cmake_policy)
 ENDIF(COMMAND cmake_policy)
     
 PROJECT(Volt)
-#SET(CMAKE_VERBOSE_MAKEFILE ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
 
-FIND_PACKAGE(OpenGL REQUIRED)
-FIND_PACKAGE(SDL REQUIRED)
-FIND_PACKAGE(SDL_image REQUIRED)
+IF(UNIX)
+    FIND_PACKAGE(OpenGL REQUIRED)
+    FIND_PACKAGE(SDL REQUIRED)
+    FIND_PACKAGE(SDL_image REQUIRED)
+    set(CMAKE_CXX_FLAGS "-g -Wall -Wno-reorder")
+ENDIF() 
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Wno-reorder")
+IF(UNIX)
+    SET(LIBBOX2D ${CMAKE_SOURCE_DIR}/Contrib/Box2D_v2.1.2/Box2D/Box2D/libBox2D.a)
+    ADD_CUSTOM_COMMAND(
+        OUTPUT ${LIBBOX2D}
+        COMMAND cd ${CMAKE_SOURCE_DIR}/Contrib/Box2D_v2.1.2/Box2D/ && cmake . && make
+    )
+    ADD_CUSTOM_TARGET(Box2D DEPENDS ${LIBBOX2D})
+ENDIF()
 
-SET(LIBBOX2D ${CMAKE_SOURCE_DIR}/Contrib/Box2D_v2.1.2/Box2D/Box2D/libBox2D.a)
-SET(VOLT_DEPENDENCIES SDL SDL_image json GL GLU GLEW openal ogg vorbisfile ${LIBBOX2D})
-
-ADD_CUSTOM_COMMAND(
-    OUTPUT ${LIBBOX2D}
-    COMMAND cd ${CMAKE_SOURCE_DIR}/Contrib/Box2D_v2.1.2/Box2D/ && cmake . && make
-)
-ADD_CUSTOM_TARGET(Box2D DEPENDS ${LIBBOX2D})
+IF(WIN32)
+    INCLUDE_DIRECTORIES(Contrib/Windows)
+    LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/Contrib/Windows/lib)
+ENDIF()
+    
+IF(UNIX)    
+    SET(VOLT_DEPENDENCIES SDL SDL_image json GL GLU GLEW openal ogg vorbisfile ${LIBBOX2D})
+ELSEIF(WIN32)
+    SET(VOLT_DEPENDENCIES SDL SDL_image SDLmain json OpenGL32 GLEW32 OpenAL32 glu32
+        debug libogg_static_d optimized libogg_static
+        debug libvorbis_static_d optimized libvorbis_static
+        debug libvorbisfile_static_d optimized libvorbisfile_static
+        debug Box2D_d optimized Box2D)
+ENDIF()    
 
 ADD_SUBDIRECTORY(Game)
-ADD_SUBDIRECTORY(Editor)
+#ADD_SUBDIRECTORY(Editor)
 
 # Include dirs for Volt and VoltTest targets.
-INCLUDE_DIRECTORIES(Volt Contrib Contrib/Box2D_v2.1.2/Box2D)
+INCLUDE_DIRECTORIES(Volt Contrib Contrib/Box2D_v2.1.2/Box2D)    
 
 file(GLOB_RECURSE Json_SOURCES Contrib/json/*.cpp)
 ADD_LIBRARY(json STATIC ${Json_SOURCES})

@@ -17,6 +17,7 @@
 #define NOGDI
 #define NOMINMAX
 #include <windows.h>
+#undef MessageBox
 #endif
 
 #include "BBox.h"
