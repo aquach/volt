@@ -10,7 +10,7 @@ int main (int argc, char** argv) {
 	LOG(INFO) << "Executable directory: " << exeDir;
 
 	Volt::Game* game = new Volt::Game("Game",
-		new Volt::DirectoryDataSource(exeDir + "../GameData"));
+		new Volt::DirectoryDataSource(exeDir + "../../GameData"));
 	GameScene* scene = new GameScene;
 	game->SetScene(scene);
 	game->Run();

@@ -20,6 +20,8 @@
 #undef MessageBox
 #endif
 
+#include <json/json.h>
+
 #include "BBox.h"
 #include "Color.h"
 #include "Macros.h"
@@ -31,7 +33,5 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Logging.h"
-
-#include <json/json.h>
 
 using namespace std;

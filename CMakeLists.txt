@@ -39,7 +39,7 @@ ELSEIF(WIN32)
 ENDIF()    
 
 ADD_SUBDIRECTORY(Game)
-#ADD_SUBDIRECTORY(Editor)
+ADD_SUBDIRECTORY(Editor)
 
 # Include dirs for Volt and VoltTest targets.
 INCLUDE_DIRECTORIES(Volt Contrib Contrib/Box2D_v2.1.2/Box2D)    
