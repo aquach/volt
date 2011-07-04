@@ -35,7 +35,8 @@ protected:
 
 private slots:
     void Open ();
-    void Save (); 
+    void Save ();
+    void SaveAs (); 
     void Exit ();
     
 private:

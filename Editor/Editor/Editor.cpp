@@ -26,6 +26,9 @@ Editor::Editor (const Volt::DataSource* source)
     action = new QAction("&Save", this);
     connect(action, SIGNAL(triggered()), this, SLOT(Save()));
     file->addAction(action);
+    action = new QAction("&Save As", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(SaveAs()));
+    file->addAction(action);
     file->addSeparator();
     action = new QAction("&Exit", this);
     connect(action, SIGNAL(triggered()), this, SLOT(Exit()));
