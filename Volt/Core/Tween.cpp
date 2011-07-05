@@ -85,13 +85,14 @@ template <typename T> Tween<T> Tween<T>::SinInOut (T start, T end,
 }
 
 template <typename T> void CompositeTween<T>::Update (float dt) {
-    m_t += dt;
-    while (m_t >= m_tweens[m_currentTween].m_duration &&
-           m_currentTween < m_tweens.size() - 1) {
+    m_tweens[m_currentTween].Update(dt);
+    while (m_tweens[m_currentTween].m_t >= m_tweens[m_currentTween].m_duration
+           && m_currentTween < m_tweens.size() - 1) {
+        dt -= m_tweens[m_currentTween].m_t -
+              m_tweens[m_currentTween].m_duration;
         m_currentTween++;
-        m_t -= m_tweens[m_currentTween].m_duration;
+        m_tweens[m_currentTween].Update(dt);
     }
-    m_tweens[m_currentTween].Update(m_t);
 }
 
 template <typename T> void CompositeTween<T>::AddTween (Tween<T> tween) {

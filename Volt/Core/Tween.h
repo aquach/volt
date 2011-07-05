@@ -62,7 +62,6 @@ public:
 
 private:
     vector<Tween<T> > m_tweens;
-    float m_t;
     int m_currentTween;
 };
 
