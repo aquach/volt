@@ -51,7 +51,6 @@ private:
 template <typename T> class CompositeTween {
 public:
     CompositeTween () :
-        m_t(0),
         m_currentTween(0) {
     }
     ~CompositeTween ();
