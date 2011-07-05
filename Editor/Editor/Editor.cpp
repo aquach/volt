@@ -45,6 +45,8 @@ Editor::Editor (const Volt::DataSource* source)
     file->addAction(action);
 
     QDockWidget* dock = new QDockWidget("Tools", this);
+    dock->setFeatures(QDockWidget::DockWidgetMovable |
+                      QDockWidget::DockWidgetFloatable);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
