@@ -2,7 +2,6 @@
 
 #include "Editor/Core/Core.h"
 #include <QMainWindow>
-#include <QtGui>
 
 namespace Volt {
     class AssetManager;

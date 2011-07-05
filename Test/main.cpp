@@ -97,6 +97,32 @@ public:
 	}
 };
 
+class TweenEntity : public Entity {
+public:
+    TweenEntity(Tween<float> x, float y)
+        : m_x(x), m_y(y) {
+        m_color = Color::Random();
+    }
+
+    virtual void Update () {
+        m_x.Update(G_Game->dt());
+        m_transform.position.Set(m_x.value(), m_y);
+    }
+
+    virtual void Render () {
+        Graphics::SetBlend(Graphics::BLEND_NONE);
+        Graphics::SetColor(m_color);
+		glPushMatrix();
+		Graphics::TransformMatrix(m_transform);
+		Graphics::RenderQuad(1, 1);
+		glPopMatrix();
+    }
+private:
+    Tween<float> m_x;
+    float m_y;
+    Color m_color;
+};
+
 class TestScene : public Scene {
 public:
 	TestScene () {
@@ -127,6 +153,14 @@ public:
 		Add(new PhysicsEntity(5, 0));
 		Add(new PhysicsEntity(0, 5));
 		Add(new PhysicsEntity(0, 0));
+
+        //Add(new TweenEntity(Tween<float>::Linear(-7, 10, 4), -4));
+        //Add(new TweenEntity(Tween<float>::QuadraticIn(-7, 10, 4), -2));
+        //Add(new TweenEntity(Tween<float>::QuadraticOut(-7, 10, 4), 0));
+        Add(new TweenEntity(Tween<float>::QuadraticInOut(-7, 10, 4), 2));
+        //Add(new TweenEntity(Tween<float>::SinIn(-7, 10, 4), 4));
+        //Add(new TweenEntity(Tween<float>::SinOut(-7, 10, 4), 6));
+        //Add(new TweenEntity(Tween<float>::SinInOut(-7, 10, 4), -5));
 
 		label = new Label(font2, 400, 400);
 		label->SetColor(Color::RGB(240, 100, 230));

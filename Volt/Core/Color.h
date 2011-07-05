@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Volt/Core/Core.h"
+#include <json/json.h>
 
 namespace Volt {
 
@@ -17,6 +17,7 @@ public:
 
     static Color RGB (int r, int g, int b);
     static Color RGBA (int r, int g, int b, int a);
+    static Color Random ();
 
     void Clamp ();
 

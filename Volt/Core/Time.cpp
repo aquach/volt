@@ -1,4 +1,5 @@
 #include "Volt/Core/Time.h"
+#include "Volt/Core/Logging.h"
 
 namespace Volt {
 

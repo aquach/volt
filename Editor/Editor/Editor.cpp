@@ -1,4 +1,5 @@
 #include "Editor/Editor/Editor.h"
+#include <QtGui>
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Graphics.h"

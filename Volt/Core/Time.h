@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Volt/Core/Core.h"
+#include "Volt/Core/CoreBase.h"
 
 #if COMPILER_GCC
     #include <sys/time.h>

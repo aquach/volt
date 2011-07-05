@@ -1,4 +1,6 @@
 #include "Volt/Core/Color.h"
+#include "Volt/Core/Logging.h"
+#include "Volt/Core/Random.h"
 
 namespace Volt
 {
@@ -24,6 +26,10 @@ Color Color::RGB (int r, int g, int b) {
 Color Color::RGBA (int r, int g, int b, int a) {
     return Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f,
                  (float)a / 255.0f);
+}
+
+Color Color::Random () {
+    return Color(Random::Percent(), Random::Percent(), Random::Percent());
 }
 
 Color::Color ()

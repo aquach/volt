@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Volt/Core/Core.h"
 #include "Volt/Core/Macros.h"
 #include "Volt/Core/Math.h"
 #include "Volt/Core/Vector2.h"
