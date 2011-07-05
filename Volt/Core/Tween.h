@@ -1,105 +1,69 @@
 #pragma once
 
-//todo: replace list with something more portable
-#include <list>
-#include "Volt/Core/Vector2.h"
-#include "Volt/Core/Color.h"
+#include <vector>
 
-namespace Monocle
-{
-    enum EaseType
-    {
-        EASE_LINEAR=0,
+using namespace std;
+
+namespace Volt {
+
+template <typename T> class Tween {
+public:
+    void Update (float dt);
+    T value () const;
+
+    static Tween<T> None (T start, T end, float duration);
+    static Tween<T> Linear (T start, T end, float duration);
+    static Tween<T> QuadraticIn (T start, T end, float duration);
+    static Tween<T> QuadraticOut (T start, T end, float duration);
+    static Tween<T> QuadraticInOut (T start, T end, float duration);
+    static Tween<T> SinIn (T start, T end, float duration);
+    static Tween<T> SinOut (T start, T end, float duration);
+    static Tween<T> SinInOut (T start, T end, float duration);
+
+private:
+    friend class CompositeTween;
+
+    enum EaseType {
+        EASE_NONE,
+        EASE_LINEAR,
         EASE_INOUTSIN,
         EASE_INSIN,
         EASE_OUTSIN,
         EASE_INQUAD,
         EASE_OUTQUAD,
-        EASE_INOUTQUAD,
-        EASE_INBOUNCE,
-        EASE_OUTBOUNCE,
-        EASE_INOUTBOUNCE,
-        EASE_MAX
+        EASE_INOUTQUAD
     };
 
-    class Tweener;
+    Tween ()
+        : m_t(0),
+          m_duration(1),
+          m_type(EASE_LINEAR) {
+    }
 
-    class Tween
-    {
-    public:
-        Tween();
+    T m_value;
+    T m_start;
+    T m_end;
+    float m_t;
+    float m_duration;
+    EaseType m_type;
+};
 
-        // float
-        static void To(float *value, const float &end, float time, EaseType easeType);
-        static void FromTo(float *value, const float &start, const float &end, float time, EaseType easeType);
+template <typename T> class CompositeTween {
+public:
+    CompositeTween () :
+        m_t(0),
+        m_currentTween(0) {
+    }
+    ~CompositeTween ();
 
-        // Vector2
-        static void To(Vector2 *value, const Vector2 &end, float time, EaseType easeType);
-        static void FromTo(Vector2 *value, const Vector2 &start, const Vector2 &end, float time, EaseType easeType);
+    void Update (float dt);
+    void AddTween (Tween<T> tween);
+    T value ();
 
-        // Color
-        static void To(Color *value, const Color &end, float time, EaseType easeType);
-        static void FromTo(Color *value, const Color &start, const Color &end, float time, EaseType easeType);
+private:
+    vector<Tween<T> > m_tweens;
+    float m_t;
+    int m_currentTween;
+};
 
-        static void Update();
-        static void Clear();
-        static float Ease(float p, EaseType easeType);
-        static void Remove(Tweener *tweener);
-
-    private:
-        template <typename T, typename N>
-        static void To(T *value, const T &end, float time, EaseType easeType);
-        template <typename T, typename N>
-        static void FromTo(T *value, const T &start, const T &end, float time, EaseType easeType);
-
-        static std::list<Tweener*> tweeners;
-        static std::list<Tweener*> tweenersToRemove;
-    };
-
-    class Tweener
-    {
-    protected:
-        friend class Tween;
-        
-        Tweener(float time, EaseType easeType);
-
-        float timer, time;
-        EaseType easeType;
-
-        void Update();
-        virtual void SetValue(float p)=0;
-    };
-
-    class FloatTweener : public Tweener
-    {
-    private:
-        friend class Tween;
-
-        FloatTweener(float *value, float end, float time, EaseType easeType);
-        void SetValue(float p);
-
-        float *value, start, end;
-    };
-
-    class Vector2Tweener : public Tweener
-    {
-    private:
-        friend class Tween;
-
-        Vector2Tweener(Vector2 *value, Vector2 end, float time, EaseType easeType);
-        void SetValue(float p);
-
-        Vector2 *value, start, end;
-    };
-
-    class ColorTweener : public Tweener
-    {
-    private:
-        friend class Tween;
-
-        ColorTweener(Color *value, Color end, float time, EaseType easeType);
-        void SetValue(float p);
-
-        Color *value, start, end;
-    };
 }
