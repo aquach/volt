@@ -54,12 +54,10 @@ void Editor::PanState::OnViewportMouseMove (QMouseEvent* event) {
 }
 
 void Editor::SelectState::OnEnter () {
-    LOG(INFO) << "ENTER";
-    m_e->m_viewport->setCursor(Qt::CrossCursor);
+    m_e->m_viewport->setCursor(Qt::ArrowCursor);
 }
 
 void Editor::SelectState::OnExit () {
-    m_e->m_viewport->setCursor(Qt::ArrowCursor);
 }
 
 void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
@@ -72,7 +70,9 @@ Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
       m_graphics(NULL),
       m_physicsManager(NULL),
-      m_viewport(NULL) {
+      m_viewport(NULL),
+      m_panState(NULL),
+      m_panning(false) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -166,7 +166,8 @@ Editor::Editor (const Volt::DataSource* source)
     m_scene->m_editor = this;
 
     m_modeFsm = new Volt::FSM;
-    m_modeFsm->AddState(new Editor::PanState(this), "PanMode");
+    m_panState = new Editor::PanState(this);
+    m_modeFsm->AddState(m_panState, "PanMode");
     m_modeFsm->AddState(new Editor::SelectState(this), "SelectMode");
     /*
     m_modeFsm->AddState(new SelectVerticesModeState(this),
@@ -350,12 +351,10 @@ void Editor::SelectMode (int id) {
             m_modeFsm->TransitionTo("PanMode");
         break;
         case MODE_SELECT:
-        m_modeFsm->TransitionTo("SelectMode");
-            m_viewport->setCursor(Qt::ArrowCursor);
+            m_modeFsm->TransitionTo("SelectMode");
         break;
         case MODE_SELECT_VERTICES:
-        m_modeFsm->TransitionTo("SelectVerticesMode");
-            m_viewport->setCursor(Qt::ArrowCursor);
+            m_modeFsm->TransitionTo("SelectVerticesMode");
         break;
         default:
             LOG(ERROR) << "Invalid select mode " << id;
@@ -367,21 +366,41 @@ void Editor::OnViewportMouseRelease (QMouseEvent* event) {
     Editor::ModeState* state;
     state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
     CHECK_NOTNULL(state);
-    state->OnViewportMouseRelease(event);
+    if (event->button() == Qt::MiddleButton) {
+        // Redirect to pan mode.
+        m_panState->OnViewportMouseRelease(event);
+        if (state != m_panState)
+            m_panState->OnExit();
+    } else {
+        state->OnViewportMouseRelease(event);
+    }
 }
 
 void Editor::OnViewportMouseMove (QMouseEvent* event) {
-    Editor::ModeState* state;
-    state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
-    CHECK_NOTNULL(state);
-    state->OnViewportMouseMove(event);
+    if (m_panning) {
+        // Redirect to pan mode.
+        m_panState->OnViewportMouseMove(event);
+    } else {
+        Editor::ModeState* state;
+        state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
+        CHECK_NOTNULL(state);
+        state->OnViewportMouseMove(event);
+    }
 }
 
 void Editor::OnViewportMousePress (QMouseEvent* event) {
     Editor::ModeState* state;
     state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
     CHECK_NOTNULL(state);
-    state->OnViewportMousePress(event);
+    if (event->button() == Qt::MiddleButton) {
+        // Redirect to pan mode. Bit of a hack.
+        if (m_panState != state)
+            m_panState->OnEnter();
+        m_panState->OnViewportMousePress(event);
+        m_panning = true;
+    } else {
+        state->OnViewportMousePress(event);
+    }
 }
 
 void Editor::OnViewportWheel (QWheelEvent* event) {

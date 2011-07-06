@@ -109,4 +109,6 @@ private:
     EditorScene* m_scene;
     bool m_modified;
     Volt::FSM* m_modeFsm;
+    PanState* m_panState;
+    bool m_panning;
 };
