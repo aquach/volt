@@ -10,7 +10,7 @@ namespace Volt {
 class Color
 {
 public:
-    Color (const Color &color);
+    Color (const Color& color);
     Color ();
     Color (float r, float g, float b);
     Color (float r, float g, float b, float a);
