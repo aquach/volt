@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
 	string exeDir = Volt::GetExecutableDirectory(argv[0]);
 	LOG(INFO) << "Executable directory: " << exeDir;
-    
+
     QApplication app(argc, argv);
     Editor editor(new Volt::DirectoryDataSource(exeDir + "../GameData"));
     editor.show();

@@ -10,6 +10,12 @@
 
 const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
 
+enum ModeButtonType {
+    MODE_PAN,
+    MODE_SELECT,
+    MODE_SELECT_VERTICES
+};
+
 Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
       m_graphics(NULL),
@@ -20,6 +26,8 @@ Editor::Editor (const Volt::DataSource* source)
     setMinimumSize(1024, 768);
 
     QAction* action;
+    QPushButton* button;
+
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
     action = new QAction("&New", this);
@@ -45,6 +53,28 @@ Editor::Editor (const Volt::DataSource* source)
     connect(action, SIGNAL(triggered()), this, SLOT(Exit()));
     file->addAction(action);
 
+    QToolBar* toolbar = addToolBar(tr("File"));
+    QButtonGroup* group;
+    group = new QButtonGroup;
+    button = new QPushButton("Pan");
+    button->setCheckable(true);
+    group->addButton(button);
+    group->setId(button, MODE_PAN);
+    toolbar->addWidget(button);
+    button = new QPushButton("Select");
+    button->setCheckable(true);
+    group->addButton(button);
+    group->setId(button, MODE_SELECT);
+    toolbar->addWidget(button);
+    button = new QPushButton("Select Vertices");
+    button->setCheckable(true);
+    group->addButton(button);
+    group->setId(button, MODE_SELECT_VERTICES);
+    toolbar->addWidget(button);
+    connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
+
+    toolbar->addSeparator();
+
     QDockWidget* dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
                       QDockWidget::DockWidgetFloatable);
@@ -54,7 +84,6 @@ Editor::Editor (const Volt::DataSource* source)
     QWidget* tools = new QWidget;
     dock->setWidget(tools);
     QVBoxLayout* layout = new QVBoxLayout;
-    QPushButton* button;
 
     button = new QPushButton("New Triangle");
     layout->addWidget(button);
@@ -252,4 +281,24 @@ void Editor::Exit () {
         break;
     }
     close();
+}
+
+void Editor::SelectMode (int id) {
+    switch (id) {
+        case MODE_PAN:
+            LOG(INFO) << "PAN";
+            m_viewport->setCursor(Qt::OpenHandCursor);
+        break;
+        case MODE_SELECT:
+            LOG(INFO) << "SELECT";
+            m_viewport->setCursor(Qt::ArrowCursor);
+        break;
+        case MODE_SELECT_VERTICES:
+            LOG(INFO) << "SELECT VERTICES";
+            m_viewport->setCursor(Qt::ArrowCursor);
+        break;
+        default:
+            LOG(ERROR) << "Invalid select mode " << id;
+        break;
+    }
 }

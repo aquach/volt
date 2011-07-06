@@ -12,7 +12,8 @@ template <typename T> class CompositeTween;
 template <typename T> class Tween {
 public:
     void Update (float dt);
-    T value () const;
+    T value () const { return m_value; }
+    bool finished () const { return m_t >= m_duration; }
 
     static Tween<T> None (T start, T end, float duration);
     static Tween<T> Linear (T start, T end, float duration);
@@ -113,10 +114,6 @@ template<typename T> void Tween<T>::Update (float dt) {
         default:
         break;
     }
-}
-
-template <typename T> T Tween<T>::value () const {
-    return m_value;
 }
 
 template <typename T> Tween<T> Tween<T>::Linear (T start, T end,

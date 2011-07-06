@@ -46,6 +46,7 @@ private slots:
     bool SaveAs ();
     bool Close ();
     void Exit ();
+    void SelectMode (int id);
 
 private:
     int CheckModified ();
