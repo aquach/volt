@@ -61,6 +61,11 @@ void Editor::SelectState::OnExit () {
 }
 
 void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
+    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
+                    Vector2(event->pos().x(), event->pos().y()));
+    vector<Volt::Entity*> entities;
+    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+    LOG(INFO) << entities.size();
 }
 
 void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {

@@ -177,4 +177,26 @@ void Scene::RemoveFilter (Filter* filter) {
     }
 }
 
+class ListEntitiesQueryCallback : public b2QueryCallback {
+public:
+    bool ReportFixture (b2Fixture* fixture) {
+        Entity* e = (Entity*)fixture->GetBody()->GetUserData();
+        m_entityList.push_back(e);
+        return true;
+    }
+    vector<Entity*> m_entityList;
+};
+
+void Scene::GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities) {
+    ListEntitiesQueryCallback callback;
+    b2AABB aabb;
+    aabb.lowerBound.Set(point.x - 0.1, point.y - 0.1);
+    aabb.upperBound.Set(point.x + 0.1, point.y + 0.1);
+    G_PhysicsManager->world()->QueryAABB(&callback, aabb);
+
+    entities->resize(callback.m_entityList.size());
+    copy(callback.m_entityList.begin(), callback.m_entityList.end(),
+         entities->begin());
+}
+
 }

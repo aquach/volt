@@ -43,6 +43,8 @@ public:
 
     Camera* camera () { return &m_camera; }
 
+    void GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities);
+
 protected:
     Game* m_game;
     bool m_isPaused;
