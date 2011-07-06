@@ -29,10 +29,16 @@ void GLWidget::enterEvent (QEvent* event) {
     setFocus();
 }
 
-void GLWidget::mousePressEvent (QMouseEvent* event) {
-
+void GLWidget::mouseReleaseEvent (QMouseEvent* event) {
+    dynamic_cast<Editor*>(parent())->OnViewportMouseRelease(event);
 }
+
+void GLWidget::mousePressEvent (QMouseEvent* event) {
+    dynamic_cast<Editor*>(parent())->OnViewportMousePress(event);
+}
+
 void GLWidget::mouseMoveEvent (QMouseEvent* event) {
+    dynamic_cast<Editor*>(parent())->OnViewportMouseMove(event);
 }
 
 void GLWidget::keyPressEvent (QKeyEvent* event) {

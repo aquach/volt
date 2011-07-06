@@ -2,6 +2,7 @@
 
 #include "Editor/Core/Core.h"
 #include <QMainWindow>
+#include "Volt/Game/FSM.h"
 
 namespace Volt {
     class AssetManager;
@@ -36,7 +37,15 @@ public:
 
     void SetTitle (string title);
 
+    void OnViewportMouseRelease (QMouseEvent* event);
+    void OnViewportMouseMove (QMouseEvent* event);
+    void OnViewportMousePress (QMouseEvent* event);
+
 protected:
+    //virtual void mouseMoveEvent (QMouseEvent* event);
+    //virtual void mousePressEvent (QMouseEvent* event);
+    //virtual void mouseReleaseEvent (QMouseEvent* event);
+    //virtual void mouseDoubleClickEvent (QMouseEvent* event);
     virtual void keyPressEvent (QKeyEvent *event);
 
 private slots:
@@ -49,6 +58,36 @@ private slots:
     void SelectMode (int id);
 
 private:
+    class ModeState : public Volt::FSMState {
+    public:
+        explicit ModeState (Editor* e)
+            : m_e(e) { }
+        Editor* m_e;
+
+        virtual void OnViewportMouseRelease (QMouseEvent* event) { };
+        virtual void OnViewportMouseMove (QMouseEvent* event) { };
+        virtual void OnViewportMousePress (QMouseEvent* event) { };
+    private:
+        DISALLOW_COPY_AND_ASSIGN(ModeState);
+    };
+
+    class PanState : public ModeState {
+    public:
+        explicit PanState (Editor* e)
+            : ModeState(e),
+              m_dragging(false) { }
+        virtual void OnEnter ();
+        virtual void OnExit ();
+
+        virtual void OnViewportMousePress (QMouseEvent* event);
+        virtual void OnViewportMouseRelease (QMouseEvent* event);
+        virtual void OnViewportMouseMove (QMouseEvent* event);
+
+    private:
+        bool m_dragging;
+        QPoint m_lastPoint;
+    };
+
     int CheckModified ();
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
@@ -57,4 +96,5 @@ private:
 
     EditorScene* m_scene;
     bool m_modified;
+    Volt::FSM* m_modeFsm;
 };

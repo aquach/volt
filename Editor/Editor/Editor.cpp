@@ -16,6 +16,39 @@ enum ModeButtonType {
     MODE_SELECT_VERTICES
 };
 
+void Editor::PanState::OnEnter () {
+    m_e->m_viewport->setCursor(Qt::OpenHandCursor);
+}
+
+void Editor::PanState::OnExit () {
+    m_e->m_viewport->setCursor(Qt::ArrowCursor);
+}
+        
+void Editor::PanState::OnViewportMousePress (QMouseEvent* event) {
+    m_e->m_viewport->setCursor(Qt::ClosedHandCursor);
+    m_dragging = true;
+    m_lastPoint = event->pos();
+    event->accept();
+}
+
+void Editor::PanState::OnViewportMouseRelease (QMouseEvent* event) {
+    m_e->m_viewport->setCursor(Qt::OpenHandCursor);
+    m_dragging = false;
+    event->accept();
+}
+
+void Editor::PanState::OnViewportMouseMove (QMouseEvent* event) {
+    if (m_dragging) {
+        QPoint dp = event->pos() - m_lastPoint;
+        m_lastPoint = event->pos();
+        m_e->m_scene->camera()->transform.position +=
+            Vector2(dp.x(), dp.y()) * -0.025;
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
 Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
       m_graphics(NULL),
@@ -113,6 +146,15 @@ Editor::Editor (const Volt::DataSource* source)
     m_scene = new EditorScene;
     m_scene->m_editor = this;
 
+    m_modeFsm = new Volt::FSM;
+    m_modeFsm->AddState(new Editor::PanState(this), "PanMode");
+    /*
+    m_modeFsm->AddState(new SelectModeState(this), "SelectMode");
+    m_modeFsm->AddState(new SelectVerticesModeState(this),
+                        "SelectVerticesMode");
+    */
+    m_modeFsm->TransitionTo("PanMode");
+    
     startTimer((int)(SECONDS_PER_UPDATE * 1000));
 }
 
@@ -286,15 +328,14 @@ void Editor::Exit () {
 void Editor::SelectMode (int id) {
     switch (id) {
         case MODE_PAN:
-            LOG(INFO) << "PAN";
-            m_viewport->setCursor(Qt::OpenHandCursor);
+            m_modeFsm->TransitionTo("PanMode");
         break;
         case MODE_SELECT:
-            LOG(INFO) << "SELECT";
+        m_modeFsm->TransitionTo("SelectMode");
             m_viewport->setCursor(Qt::ArrowCursor);
         break;
         case MODE_SELECT_VERTICES:
-            LOG(INFO) << "SELECT VERTICES";
+        m_modeFsm->TransitionTo("SelectVerticesMode");
             m_viewport->setCursor(Qt::ArrowCursor);
         break;
         default:
@@ -302,3 +343,25 @@ void Editor::SelectMode (int id) {
         break;
     }
 }
+
+void Editor::OnViewportMouseRelease (QMouseEvent* event) {
+    Editor::ModeState* state;
+    state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
+    CHECK_NOTNULL(state);
+    state->OnViewportMouseRelease(event);
+}
+
+void Editor::OnViewportMouseMove (QMouseEvent* event) {
+    Editor::ModeState* state;
+    state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
+    CHECK_NOTNULL(state);
+    state->OnViewportMouseMove(event);
+}
+
+void Editor::OnViewportMousePress (QMouseEvent* event) {
+    Editor::ModeState* state;
+    state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
+    CHECK_NOTNULL(state);
+    state->OnViewportMousePress(event);
+}
+
