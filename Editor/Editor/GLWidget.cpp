@@ -87,3 +87,6 @@ void GLWidget::keyReleaseEvent (QKeyEvent* event) {
     }
 }
 
+void GLWidget::wheelEvent (QWheelEvent* event) {
+    dynamic_cast<Editor*>(parent())->OnViewportWheel(event);
+}

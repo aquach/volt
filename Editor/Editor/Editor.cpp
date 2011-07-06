@@ -39,16 +39,35 @@ void Editor::PanState::OnViewportMouseRelease (QMouseEvent* event) {
 
 void Editor::PanState::OnViewportMouseMove (QMouseEvent* event) {
     if (m_dragging) {
-        QPoint dp = event->pos() - m_lastPoint;
+        Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
+        Vector2 pos(event->pos().x(), event->pos().y());
         m_lastPoint = event->pos();
-        m_e->m_scene->camera()->transform.position +=
-            Vector2(dp.x(), dp.y()) * -0.025;
+        
+        Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
+        Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
+        Vector2 dp = worldPos - lastPointPos;
+        m_e->m_scene->camera()->transform.position -= dp;
         event->accept();
     } else {
         event->ignore();
     }
 }
 
+void Editor::SelectState::OnEnter () {
+    LOG(INFO) << "ENTER";
+    m_e->m_viewport->setCursor(Qt::CrossCursor);
+}
+
+void Editor::SelectState::OnExit () {
+    m_e->m_viewport->setCursor(Qt::ArrowCursor);
+}
+
+void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
+}
+
+void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
+}
+        
 Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
       m_graphics(NULL),
@@ -148,8 +167,8 @@ Editor::Editor (const Volt::DataSource* source)
 
     m_modeFsm = new Volt::FSM;
     m_modeFsm->AddState(new Editor::PanState(this), "PanMode");
+    m_modeFsm->AddState(new Editor::SelectState(this), "SelectMode");
     /*
-    m_modeFsm->AddState(new SelectModeState(this), "SelectMode");
     m_modeFsm->AddState(new SelectVerticesModeState(this),
                         "SelectVerticesMode");
     */
@@ -365,3 +384,9 @@ void Editor::OnViewportMousePress (QMouseEvent* event) {
     state->OnViewportMousePress(event);
 }
 
+void Editor::OnViewportWheel (QWheelEvent* event) {
+    int numDegrees = event->delta() / 8;
+    int numSteps = numDegrees / 15;
+    m_scene->camera()->transform.scale *= pow(1.2, numSteps);
+    event->accept();
+}

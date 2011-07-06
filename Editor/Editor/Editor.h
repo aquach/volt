@@ -40,6 +40,7 @@ public:
     void OnViewportMouseRelease (QMouseEvent* event);
     void OnViewportMouseMove (QMouseEvent* event);
     void OnViewportMousePress (QMouseEvent* event);
+    void OnViewportWheel (QWheelEvent* event);
 
 protected:
     //virtual void mouseMoveEvent (QMouseEvent* event);
@@ -86,6 +87,17 @@ private:
     private:
         bool m_dragging;
         QPoint m_lastPoint;
+    };
+
+    class SelectState : public ModeState {
+    public:
+        explicit SelectState (Editor* e)
+            : ModeState(e) { }
+        virtual void OnEnter ();
+        virtual void OnExit ();
+
+        virtual void OnViewportMousePress (QMouseEvent* event);
+        virtual void OnViewportMouseMove (QMouseEvent* event);
     };
 
     int CheckModified ();
