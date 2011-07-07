@@ -67,19 +67,38 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
                     Vector2(event->pos().x(), event->pos().y()));
     vector<Volt::Entity*> entities;
     m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
-    if (entities.size() > 0) {
-        Volt::Entity* selectedEntity = entities[0];
-        for (int i = 1; i < entities.size(); i++) {
-            if (entities[i]->layer() < selectedEntity->layer()) {
-                selectedEntity = entities[i];
-            }
+    if (entities.size() == 0) {
+        G_SelectionManager->DeselectAll();
+        return;
+    }
+    
+    Volt::Entity* selectedEntity = entities[0];
+    for (uint i = 1; i < entities.size(); i++) {
+        if (entities[i]->layer() < selectedEntity->layer()) {
+            selectedEntity = entities[i];
         }
+    }
 
+    if (m_e->m_appendMode) {
+        G_SelectionManager->SelectEntity(selectedEntity);
+    } else if (m_e->m_removeMode) {
+        G_SelectionManager->DeselectEntity(selectedEntity);
+    } else {
+        G_SelectionManager->DeselectAll();
         G_SelectionManager->SelectEntity(selectedEntity);
     }
 }
 
 void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
+    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
+                    Vector2(event->pos().x(), event->pos().y()));
+    vector<Volt::Entity*> entities;
+    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+    if (entities.size() > 0) {
+        m_e->m_viewport->setCursor(Qt::CrossCursor);
+    } else {
+        m_e->m_viewport->setCursor(Qt::ArrowCursor);
+    }
 }
 
 void Editor::SelectVerticesState::OnEnter () {
@@ -97,12 +116,14 @@ void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
     vector<Volt::Entity*> entities;
     m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
 
+    /*
     LOG(INFO) << "World pos: " << pos;
     LOG(INFO) << "Where it should be at on the screen: " <<
             m_e->m_scene->camera()->WorldToScreen(pos);
     LOG(INFO) << "Camera at: " << m_e->m_scene->camera()->transform.position;
     LOG(INFO) << "Click at: " << event->pos().x() << " " << event->pos().y();
-
+    */
+    
     if (entities.size() == 0) {
         if (!m_e->m_appendMode)
             G_SelectionManager->DeselectAll();
@@ -110,7 +131,7 @@ void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
     }
 
     Triangle* selectedTriangle = NULL;
-    for (int i = 0; i < entities.size(); i++) {
+    for (uint i = 0; i < entities.size(); i++) {
         Triangle* tri = dynamic_cast<Triangle*>(entities[i]);
         if (tri == NULL)
             continue;
@@ -130,14 +151,11 @@ void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
     int selectedVertex = selectedTriangle->selectedVertex(pos);
     if (selectedVertex != -1) {
         if (m_e->m_appendMode) {
-            if (!G_SelectionManager->IsVertexSelected(selectedTriangle,
-                                                     selectedVertex)) {
-                G_SelectionManager->SelectVertex(selectedTriangle,
-                                                 selectedVertex);
-            } else {
-                G_SelectionManager->DeselectVertex(selectedTriangle,
-                                                   selectedVertex);
-            }
+            G_SelectionManager->SelectVertex(selectedTriangle,
+                                             selectedVertex);
+        } else if (m_e->m_removeMode) {
+            G_SelectionManager->DeselectVertex(selectedTriangle,
+                                   selectedVertex);
         } else {
             G_SelectionManager->DeselectAll();
             G_SelectionManager->SelectVertex(selectedTriangle, selectedVertex);
@@ -156,7 +174,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_panState(NULL),
       m_panning(false),
       m_selectionManager(NULL),
-      m_appendMode(false) {
+      m_appendMode(false),
+      m_removeMode(false) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -456,6 +475,7 @@ void Editor::OnViewportMouseRelease (QMouseEvent* event) {
         m_panState->OnViewportMouseRelease(event);
         if (state != m_panState)
             m_panState->OnExit();
+        m_panning = false;
     } else {
         state->OnViewportMouseRelease(event);
     }

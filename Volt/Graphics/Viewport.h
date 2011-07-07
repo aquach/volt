@@ -18,6 +18,8 @@ public:
     virtual int width () const = 0;
     virtual int height () const = 0;
 
+    virtual void SwapBuffers () = 0;
+
     static void Register (Viewport* viewport) { instance = viewport; }
     static Viewport* Instance () { return instance; }
 

@@ -29,7 +29,7 @@ void Ladder::Load (const Json::Value& node) {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
-    fixtureDef.isSensor = true;
+    //fixtureDef.isSensor = true;
     m_body->CreateFixture(&fixtureDef);
 }
 

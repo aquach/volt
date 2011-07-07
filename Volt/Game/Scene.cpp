@@ -110,6 +110,8 @@ void Scene::Render () {
     Graphics::Clear();
     m_camera.ApplyMatrix();
 
+    OnPreRender();
+
     list<Filter*>::iterator currentFilter = m_filters.begin();
 
     for (Layers::reverse_iterator layer = m_layers.rbegin();
@@ -146,14 +148,10 @@ void Scene::Render () {
     if (G_PhysicsManager != NULL)
         G_PhysicsManager->Render();
 
-    glLineWidth(4.0);
-    Graphics::SetColor(Color::red);
-    Graphics::RenderLine(Vector2(0, 0), Vector2(1, 0));
-    Graphics::SetColor(Color::green);
-    Graphics::RenderLine(Vector2(0, 0), Vector2(0, 1));
+    OnPostRender();
 
+    Graphics::RenderAxes();
     Graphics::CheckErrors();
-
     Graphics::ShowBuffer();
 }
 

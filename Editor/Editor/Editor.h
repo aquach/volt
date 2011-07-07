@@ -44,6 +44,7 @@ public:
     void OnViewportWheel (QWheelEvent* event);
 
     void SetAppendMode (bool mode) { m_appendMode = mode; }
+    void SetRemoveMode (bool mode) { m_removeMode = mode; }
 
 protected:
     //virtual void mouseMoveEvent (QMouseEvent* event);
@@ -127,5 +128,6 @@ private:
     Volt::FSM* m_modeFsm;
     PanState* m_panState;
     bool m_panning;
-    bool m_appendMode; // Append/remove items or reselect new ones?
+    bool m_appendMode; // Append items or reselect new ones?
+    bool m_removeMode; // Remove items or reselect new ones?
 };

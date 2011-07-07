@@ -10,8 +10,9 @@ public:
     EditorScene ();
     virtual ~EditorScene ();
 
-    //virtual void Render ();
     virtual void Update ();
+
+    virtual void OnPostRender ();
 
     virtual void OnBegin ();
     virtual void OnEnd ();

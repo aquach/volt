@@ -63,6 +63,9 @@ void GLWidget::keyPressEvent (QKeyEvent* event) {
         case Qt::Key_Control:
             editor->SetAppendMode(true);
         break;
+        case Qt::Key_Shift:
+            editor->SetRemoveMode(true);
+        break;
         default:
             event->ignore();
             break;
@@ -86,6 +89,9 @@ void GLWidget::keyReleaseEvent (QKeyEvent* event) {
             break;
         case Qt::Key_Control:
             editor->SetAppendMode(false);
+        break;
+        case Qt::Key_Shift:
+            editor->SetRemoveMode(false);
         break;
         default:
             event->ignore();

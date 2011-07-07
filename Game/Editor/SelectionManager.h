@@ -67,6 +67,8 @@ public:
     int numSelectedEntities () const { return m_selectedEntities.size(); }
     int numSelectedVertices () const { return m_selectedVertices.size(); }
 
+    void Render ();
+
 private:
     struct Vertex {
         Triangle* triangle;

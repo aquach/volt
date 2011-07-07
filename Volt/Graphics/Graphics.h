@@ -64,6 +64,8 @@ public:
 
     static void RenderCircle (float radius, int segments = 16);
 
+    static void RenderAxes ();
+
     static void SetBlend (BlendType blend);
 
     static void SetColor (const Color& color);

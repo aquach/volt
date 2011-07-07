@@ -305,6 +305,14 @@ void Graphics::RenderText (FontAssetRef font, const string& text,
     glEnd();
 }
 
+void Graphics::RenderAxes () {
+    glLineWidth(4.0);
+    Graphics::SetColor(Color::red);
+    Graphics::RenderLine(Vector2(0, 0), Vector2(1, 0));
+    Graphics::SetColor(Color::green);
+    Graphics::RenderLine(Vector2(0, 0), Vector2(0, 1));
+}
+
 void Graphics::DefaultMatrix () {
     glLoadIdentity();
     glScalef(instance->resolutionScale.x, instance->resolutionScale.y, 0.0f);
@@ -321,9 +329,7 @@ void Graphics::IdentityMatrix () {
 }
 
 void Graphics::ShowBuffer () {
-    // TODO: Kind of a hack..
-    if (dynamic_cast<SDLWindow*>(instance->m_viewport) != NULL)
-        SDL_GL_SwapBuffers();
+    instance->m_viewport->SwapBuffers();
 }
 
 void Graphics::BindTexture (TextureAssetRef textureAsset) {

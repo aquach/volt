@@ -96,6 +96,10 @@ bool SDLWindow::IsKeyPressed (SDLKey key) {
     return state[key];
 }
 
+void SDLWindow::SwapBuffers () {
+    SDL_GL_SwapBuffers();
+}
+
 void SDLWindow::UpdateInput () {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {

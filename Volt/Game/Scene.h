@@ -24,8 +24,10 @@ public:
     virtual void Render ();
     virtual void Update ();
 
-    virtual void OnBegin () { };
-    virtual void OnEnd () { };
+    virtual void OnBegin () { }
+    virtual void OnEnd () { }
+    virtual void OnPreRender () { }
+    virtual void OnPostRender () { }
 
     void Add (Entity* entity, int layer = 0);
     void Remove (Entity* entity);

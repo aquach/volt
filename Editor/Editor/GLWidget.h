@@ -9,6 +9,8 @@ public:
 
     virtual int width () const;
     virtual int height () const;
+
+    virtual void SwapBuffers () { }
     
 protected:
     virtual void initializeGL ();
