@@ -15,6 +15,7 @@ extern const char* EDITOR_TITLE;
 
 class EditorScene;
 class GLWidget;
+class SelectionManager;
 
 class Editor : public QMainWindow {
     Q_OBJECT;
@@ -41,6 +42,8 @@ public:
     void OnViewportMouseMove (QMouseEvent* event);
     void OnViewportMousePress (QMouseEvent* event);
     void OnViewportWheel (QWheelEvent* event);
+
+    void SetAppendMode (bool mode) { m_appendMode = mode; }
 
 protected:
     //virtual void mouseMoveEvent (QMouseEvent* event);
@@ -100,15 +103,29 @@ private:
         virtual void OnViewportMouseMove (QMouseEvent* event);
     };
 
+    class SelectVerticesState : public ModeState {
+    public:
+        explicit SelectVerticesState (Editor* e)
+            : ModeState(e) { }
+        virtual void OnEnter ();
+        virtual void OnExit ();
+
+        virtual void OnViewportMousePress (QMouseEvent* event);
+        virtual void OnViewportMouseMove (QMouseEvent* event);
+    };
+
     int CheckModified ();
+
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
     Volt::PhysicsManager* m_physicsManager;
     GLWidget* m_viewport;
+    SelectionManager* m_selectionManager;
 
     EditorScene* m_scene;
     bool m_modified;
     Volt::FSM* m_modeFsm;
     PanState* m_panState;
     bool m_panning;
+    bool m_appendMode; // Append/remove items or reselect new ones?
 };

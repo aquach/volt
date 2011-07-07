@@ -5,6 +5,8 @@
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Viewport.h"
 #include "Game/Game/LevelManager.h"
+#include "Game/Editor/SelectionManager.h"
+#include "Game/Entities/Game/Triangle.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
 
@@ -23,7 +25,7 @@ void Editor::PanState::OnEnter () {
 void Editor::PanState::OnExit () {
     m_e->m_viewport->setCursor(Qt::ArrowCursor);
 }
-        
+
 void Editor::PanState::OnViewportMousePress (QMouseEvent* event) {
     m_e->m_viewport->setCursor(Qt::ClosedHandCursor);
     m_dragging = true;
@@ -42,7 +44,7 @@ void Editor::PanState::OnViewportMouseMove (QMouseEvent* event) {
         Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
         Vector2 pos(event->pos().x(), event->pos().y());
         m_lastPoint = event->pos();
-        
+
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
         Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
         Vector2 dp = worldPos - lastPointPos;
@@ -65,19 +67,96 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
                     Vector2(event->pos().x(), event->pos().y()));
     vector<Volt::Entity*> entities;
     m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
-    LOG(INFO) << entities.size();
+    if (entities.size() > 0) {
+        Volt::Entity* selectedEntity = entities[0];
+        for (int i = 1; i < entities.size(); i++) {
+            if (entities[i]->layer() < selectedEntity->layer()) {
+                selectedEntity = entities[i];
+            }
+        }
+
+        G_SelectionManager->SelectEntity(selectedEntity);
+    }
 }
 
 void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
 }
-        
+
+void Editor::SelectVerticesState::OnEnter () {
+    m_e->m_viewport->setCursor(Qt::ArrowCursor);
+    m_e->m_selectionManager->SetShowVertices(true);
+}
+
+void Editor::SelectVerticesState::OnExit () {
+    m_e->m_selectionManager->SetShowVertices(false);
+}
+
+void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
+    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
+                    Vector2(event->pos().x(), event->pos().y()));
+    vector<Volt::Entity*> entities;
+    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+
+    LOG(INFO) << "World pos: " << pos;
+    LOG(INFO) << "Where it should be at on the screen: " <<
+            m_e->m_scene->camera()->WorldToScreen(pos);
+    LOG(INFO) << "Camera at: " << m_e->m_scene->camera()->transform.position;
+    LOG(INFO) << "Click at: " << event->pos().x() << " " << event->pos().y();
+
+    if (entities.size() == 0) {
+        if (!m_e->m_appendMode)
+            G_SelectionManager->DeselectAll();
+        return;
+    }
+
+    Triangle* selectedTriangle = NULL;
+    for (int i = 0; i < entities.size(); i++) {
+        Triangle* tri = dynamic_cast<Triangle*>(entities[i]);
+        if (tri == NULL)
+            continue;
+
+        if (selectedTriangle == NULL ||
+            tri->layer() < selectedTriangle->layer()) {
+            selectedTriangle = tri;
+        }
+    }
+
+    if (selectedTriangle == NULL) {
+        if (!m_e->m_appendMode)
+            G_SelectionManager->DeselectAll();
+        return;
+    }
+
+    int selectedVertex = selectedTriangle->selectedVertex(pos);
+    if (selectedVertex != -1) {
+        if (m_e->m_appendMode) {
+            if (!G_SelectionManager->IsVertexSelected(selectedTriangle,
+                                                     selectedVertex)) {
+                G_SelectionManager->SelectVertex(selectedTriangle,
+                                                 selectedVertex);
+            } else {
+                G_SelectionManager->DeselectVertex(selectedTriangle,
+                                                   selectedVertex);
+            }
+        } else {
+            G_SelectionManager->DeselectAll();
+            G_SelectionManager->SelectVertex(selectedTriangle, selectedVertex);
+        }
+    }
+}
+
+void Editor::SelectVerticesState::OnViewportMouseMove (QMouseEvent* event) {
+}
+
 Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
       m_graphics(NULL),
       m_physicsManager(NULL),
       m_viewport(NULL),
       m_panState(NULL),
-      m_panning(false) {
+      m_panning(false),
+      m_selectionManager(NULL),
+      m_appendMode(false) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -174,12 +253,13 @@ Editor::Editor (const Volt::DataSource* source)
     m_panState = new Editor::PanState(this);
     m_modeFsm->AddState(m_panState, "PanMode");
     m_modeFsm->AddState(new Editor::SelectState(this), "SelectMode");
-    /*
-    m_modeFsm->AddState(new SelectVerticesModeState(this),
+    m_modeFsm->AddState(new Editor::SelectVerticesState(this),
                         "SelectVerticesMode");
-    */
     m_modeFsm->TransitionTo("PanMode");
-    
+
+    m_selectionManager = new SelectionManager;
+    SelectionManager::Register(m_selectionManager);
+
     startTimer((int)(SECONDS_PER_UPDATE * 1000));
 }
 

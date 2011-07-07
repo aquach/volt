@@ -179,16 +179,20 @@ void Scene::RemoveFilter (Filter* filter) {
 
 class ListEntitiesQueryCallback : public b2QueryCallback {
 public:
+    ListEntitiesQueryCallback (Vector2 point) : point(point) { }
     bool ReportFixture (b2Fixture* fixture) {
-        Entity* e = (Entity*)fixture->GetBody()->GetUserData();
-        m_entityList.push_back(e);
+        b2Body* body = fixture->GetBody();
+        Entity* e = (Entity*)body->GetUserData();
+        if (fixture->GetShape()->TestPoint(body->GetTransform(), point.ToB2()))
+            m_entityList.push_back(e);
         return true;
     }
     vector<Entity*> m_entityList;
+    Vector2 point;
 };
 
 void Scene::GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities) {
-    ListEntitiesQueryCallback callback;
+    ListEntitiesQueryCallback callback(point);
     b2AABB aabb;
     aabb.lowerBound.Set(point.x - 0.1, point.y - 0.1);
     aabb.upperBound.Set(point.x + 0.1, point.y + 0.1);

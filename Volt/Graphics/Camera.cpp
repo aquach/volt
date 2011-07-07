@@ -17,9 +17,12 @@ Camera::Camera ()
 void Camera::ApplyMatrix () const {
     glMatrixMode(GL_MODELVIEW);
     Graphics::DefaultMatrix();
+
+    // Opposite from Graphics::TransformMatrix because that's Obj to World
+    // and transform in this case is World to Obj (Screen).
     Graphics::Scale(transform.scale);
-    Graphics::Translate(transform.position * -1.0f);
     glRotatef(transform.rotation, 0, 0, 1);
+    Graphics::Translate(transform.position * -1.0f);
 }
 
 void Camera::SetLayers (int backLayer, int frontLayer) {
@@ -28,11 +31,22 @@ void Camera::SetLayers (int backLayer, int frontLayer) {
 }
 
 Vector2 Camera::WorldToScreen (Vector2 v) {
-    return transform.Apply(v);
+    v -= transform.position;
+    v = v.Rotate(transform.rotation);
+    v.x *= transform.scale.x;
+    v.y *= transform.scale.y;
+    v += Graphics::GetScreenCenter();
+    return v;
 }
 
 Vector2 Camera::ScreenToWorld (Vector2 v) {
-    return transform.ApplyInverse(v);
+    v -= Graphics::GetScreenCenter();
+    v.x /= transform.scale.x;
+    v.y /= transform.scale.y;
+    v = v.Rotate(-transform.rotation);
+    v += transform.position;
+
+    return v;
 }
 
 void Camera::Update () {

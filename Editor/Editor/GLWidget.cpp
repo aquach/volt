@@ -46,7 +46,7 @@ void GLWidget::keyPressEvent (QKeyEvent* event) {
         event->ignore();
 
     Editor* editor = dynamic_cast<Editor*>(parent());
-    
+
     switch(event->key()) {
         case Qt::Key_Left:
             editor->MoveHorizontal(-1);
@@ -60,6 +60,9 @@ void GLWidget::keyPressEvent (QKeyEvent* event) {
         case Qt::Key_Down:
             editor->MoveVertical(1);
             break;
+        case Qt::Key_Control:
+            editor->SetAppendMode(true);
+        break;
         default:
             event->ignore();
             break;
@@ -71,7 +74,7 @@ void GLWidget::keyReleaseEvent (QKeyEvent* event) {
         event->ignore();
 
     Editor* editor = dynamic_cast<Editor*>(parent());
-        
+
     switch(event->key()) {
         case Qt::Key_Left:
         case Qt::Key_Right:
@@ -81,6 +84,9 @@ void GLWidget::keyReleaseEvent (QKeyEvent* event) {
         case Qt::Key_Down:
             editor->MoveVertical(0);
             break;
+        case Qt::Key_Control:
+            editor->SetAppendMode(false);
+        break;
         default:
             event->ignore();
             break;
