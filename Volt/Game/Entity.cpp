@@ -66,4 +66,10 @@ ostream& operator<< (ostream& stream, const Entity& e) {
     return stream;
 }
 
+void Entity::SetPosition (Vector2 pos) {
+    m_transform.position = pos;
+    if (m_body != NULL)
+        m_body->SetTransform(pos.ToB2(), m_transform.rotation * DEG2RAD);
+}
+    
 }
