@@ -15,156 +15,11 @@ const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
 enum ModeButtonType {
     MODE_PAN,
     MODE_SELECT,
-    MODE_SELECT_VERTICES
+    MODE_SELECT_VERTICES,
+    MODE_MOVE,
+    MODE_ROTATE,
+    MODE_SCALE
 };
-
-void Editor::PanState::OnEnter () {
-    m_e->m_viewport->setCursor(Qt::OpenHandCursor);
-}
-
-void Editor::PanState::OnExit () {
-    m_e->m_viewport->setCursor(Qt::ArrowCursor);
-}
-
-void Editor::PanState::OnViewportMousePress (QMouseEvent* event) {
-    m_e->m_viewport->setCursor(Qt::ClosedHandCursor);
-    m_dragging = true;
-    m_lastPoint = event->pos();
-    event->accept();
-}
-
-void Editor::PanState::OnViewportMouseRelease (QMouseEvent* event) {
-    m_e->m_viewport->setCursor(Qt::OpenHandCursor);
-    m_dragging = false;
-    event->accept();
-}
-
-void Editor::PanState::OnViewportMouseMove (QMouseEvent* event) {
-    if (m_dragging) {
-        Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
-        Vector2 pos(event->pos().x(), event->pos().y());
-        m_lastPoint = event->pos();
-
-        Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
-        Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
-        Vector2 dp = worldPos - lastPointPos;
-        m_e->m_scene->camera()->transform.position -= dp;
-        event->accept();
-    } else {
-        event->ignore();
-    }
-}
-
-void Editor::SelectState::OnEnter () {
-    m_e->m_viewport->setCursor(Qt::ArrowCursor);
-}
-
-void Editor::SelectState::OnExit () {
-}
-
-void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
-    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
-                    Vector2(event->pos().x(), event->pos().y()));
-    vector<Volt::Entity*> entities;
-    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
-    if (entities.size() == 0) {
-        G_SelectionManager->DeselectAll();
-        return;
-    }
-    
-    Volt::Entity* selectedEntity = entities[0];
-    for (uint i = 1; i < entities.size(); i++) {
-        if (entities[i]->layer() < selectedEntity->layer()) {
-            selectedEntity = entities[i];
-        }
-    }
-
-    if (m_e->m_appendMode) {
-        G_SelectionManager->SelectEntity(selectedEntity);
-    } else if (m_e->m_removeMode) {
-        G_SelectionManager->DeselectEntity(selectedEntity);
-    } else {
-        G_SelectionManager->DeselectAll();
-        G_SelectionManager->SelectEntity(selectedEntity);
-    }
-}
-
-void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
-    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
-                    Vector2(event->pos().x(), event->pos().y()));
-    vector<Volt::Entity*> entities;
-    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
-    if (entities.size() > 0) {
-        m_e->m_viewport->setCursor(Qt::CrossCursor);
-    } else {
-        m_e->m_viewport->setCursor(Qt::ArrowCursor);
-    }
-}
-
-void Editor::SelectVerticesState::OnEnter () {
-    m_e->m_viewport->setCursor(Qt::ArrowCursor);
-    m_e->m_selectionManager->SetShowVertices(true);
-}
-
-void Editor::SelectVerticesState::OnExit () {
-    m_e->m_selectionManager->SetShowVertices(false);
-}
-
-void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
-    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
-                    Vector2(event->pos().x(), event->pos().y()));
-    vector<Volt::Entity*> entities;
-    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
-
-    /*
-    LOG(INFO) << "World pos: " << pos;
-    LOG(INFO) << "Where it should be at on the screen: " <<
-            m_e->m_scene->camera()->WorldToScreen(pos);
-    LOG(INFO) << "Camera at: " << m_e->m_scene->camera()->transform.position;
-    LOG(INFO) << "Click at: " << event->pos().x() << " " << event->pos().y();
-    */
-    
-    if (entities.size() == 0) {
-        if (!m_e->m_appendMode)
-            G_SelectionManager->DeselectAll();
-        return;
-    }
-
-    Triangle* selectedTriangle = NULL;
-    for (uint i = 0; i < entities.size(); i++) {
-        Triangle* tri = dynamic_cast<Triangle*>(entities[i]);
-        if (tri == NULL)
-            continue;
-
-        if (selectedTriangle == NULL ||
-            tri->layer() < selectedTriangle->layer()) {
-            selectedTriangle = tri;
-        }
-    }
-
-    if (selectedTriangle == NULL) {
-        if (!m_e->m_appendMode)
-            G_SelectionManager->DeselectAll();
-        return;
-    }
-
-    int selectedVertex = selectedTriangle->selectedVertex(pos);
-    if (selectedVertex != -1) {
-        if (m_e->m_appendMode) {
-            G_SelectionManager->SelectVertex(selectedTriangle,
-                                             selectedVertex);
-        } else if (m_e->m_removeMode) {
-            G_SelectionManager->DeselectVertex(selectedTriangle,
-                                   selectedVertex);
-        } else {
-            G_SelectionManager->DeselectAll();
-            G_SelectionManager->SelectVertex(selectedTriangle, selectedVertex);
-        }
-    }
-}
-
-void Editor::SelectVerticesState::OnViewportMouseMove (QMouseEvent* event) {
-}
 
 Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
@@ -226,9 +81,26 @@ Editor::Editor (const Volt::DataSource* source)
     group->addButton(button);
     group->setId(button, MODE_SELECT_VERTICES);
     toolbar->addWidget(button);
-    connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
-
+    
     toolbar->addSeparator();
+    
+    button = new QPushButton("Move");
+    button->setCheckable(true);
+    group->addButton(button);
+    group->setId(button, MODE_MOVE);
+    toolbar->addWidget(button);
+    button = new QPushButton("Rotate");
+    button->setCheckable(true);
+    group->addButton(button);
+    group->setId(button, MODE_ROTATE);
+    toolbar->addWidget(button);
+    button = new QPushButton("Scale");
+    button->setCheckable(true);
+    group->addButton(button);
+    group->setId(button, MODE_SCALE);
+    toolbar->addWidget(button);
+    
+    connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
 
     QDockWidget* dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
@@ -460,6 +332,15 @@ void Editor::SelectMode (int id) {
         case MODE_SELECT_VERTICES:
             m_modeFsm->TransitionTo("SelectVerticesMode");
         break;
+        case MODE_MOVE:
+            m_modeFsm->TransitionTo("MoveMode");
+        break;
+        case MODE_ROTATE:
+            m_modeFsm->TransitionTo("RotateMode");
+        break;
+        case MODE_SCALE:
+            m_modeFsm->TransitionTo("ScaleMode");
+        break;
         default:
             LOG(ERROR) << "Invalid select mode " << id;
         break;
@@ -513,4 +394,52 @@ void Editor::OnViewportWheel (QWheelEvent* event) {
     int numSteps = numDegrees / 15;
     m_scene->camera()->transform.scale *= pow(1.2, numSteps);
     event->accept();
+}
+
+Volt::Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
+    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(screenPos);
+    vector<Volt::Entity*> entities;
+    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+    if (entities.size() == 0)
+        return NULL;
+    
+    Volt::Entity* selectedEntity = entities[0];
+    for (uint i = 1; i < entities.size(); i++) {
+        if (entities[i]->layer() < selectedEntity->layer()) {
+            selectedEntity = entities[i];
+        }
+    }
+
+    return selectedEntity;
+}
+
+Triangle* Editor::GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex) {
+    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
+                    Vector2(event->pos().x(), event->pos().y()));
+    vector<Volt::Entity*> entities;
+    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+
+    if (entities.size() == 0)
+        return NULL;
+        
+    Triangle* selectedTriangle = NULL;
+    for (uint i = 0; i < entities.size(); i++) {
+        Triangle* tri = dynamic_cast<Triangle*>(entities[i]);
+        if (tri == NULL)
+            continue;
+
+        if (selectedTriangle == NULL ||
+            tri->layer() < selectedTriangle->layer()) {
+            selectedTriangle = tri;
+        }
+    }
+
+    if (selectedTriangle == NULL)
+        return NULL;
+
+    *selectedVertex = selectedTriangle->selectedVertex(pos);
+    if (*selectedVertex == -1)
+        return NULL;
+
+    return selectedTriangle;
 }

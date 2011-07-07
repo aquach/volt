@@ -115,7 +115,21 @@ private:
         virtual void OnViewportMouseMove (QMouseEvent* event);
     };
 
+    class MoveState : public ModeState {
+    public:
+        explicit MoveState (Editor* e)
+            : ModeState(e) { }
+        virtual void OnEnter ();
+        virtual void OnExit ();
+
+        virtual void OnViewportMouseRelease (QMouseEvent* event);
+        virtual void OnViewportMousePress (QMouseEvent* event);
+        virtual void OnViewportMouseMove (QMouseEvent* event);
+    };
+
     int CheckModified ();
+    Volt::Entity* GetTopEntityAtPoint (Vector2 screenPos);
+    Triangle* GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex);
 
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
