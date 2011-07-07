@@ -7,6 +7,7 @@
 namespace Volt {
     class AssetManager;
     class DataSource;
+    class Entity;
     class Graphics;
     class PhysicsManager;
 }
@@ -16,6 +17,7 @@ extern const char* EDITOR_TITLE;
 class EditorScene;
 class GLWidget;
 class SelectionManager;
+class Triangle;
 
 class Editor : public QMainWindow {
     Q_OBJECT;
@@ -118,13 +120,18 @@ private:
     class MoveState : public ModeState {
     public:
         explicit MoveState (Editor* e)
-            : ModeState(e) { }
+            : ModeState(e),
+              m_dragging(false) { }
         virtual void OnEnter ();
         virtual void OnExit ();
 
         virtual void OnViewportMouseRelease (QMouseEvent* event);
         virtual void OnViewportMousePress (QMouseEvent* event);
         virtual void OnViewportMouseMove (QMouseEvent* event);
+
+    private:
+        bool m_dragging;
+        QPoint m_lastPoint;
     };
 
     int CheckModified ();

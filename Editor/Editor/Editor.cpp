@@ -146,6 +146,9 @@ Editor::Editor (const Volt::DataSource* source)
     m_modeFsm->AddState(new Editor::SelectState(this), "SelectMode");
     m_modeFsm->AddState(new Editor::SelectVerticesState(this),
                         "SelectVerticesMode");
+    m_modeFsm->AddState(new Editor::MoveState(this), "MoveMode");
+    //m_modeFsm->AddState(new Editor::RotateState(this), "RotateMode");
+    //m_modeFsm->AddState(new Editor::ScaleState(this), "ScaleMode");
     m_modeFsm->TransitionTo("PanMode");
 
     m_selectionManager = new SelectionManager;
@@ -397,9 +400,9 @@ void Editor::OnViewportWheel (QWheelEvent* event) {
 }
 
 Volt::Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
-    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(screenPos);
+    Vector2 pos = m_scene->camera()->ScreenToWorld(screenPos);
     vector<Volt::Entity*> entities;
-    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+    m_scene->GetEntitiesAtPoint(pos, &entities);
     if (entities.size() == 0)
         return NULL;
     
@@ -414,10 +417,9 @@ Volt::Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
 }
 
 Triangle* Editor::GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex) {
-    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
-                    Vector2(event->pos().x(), event->pos().y()));
+    Vector2 pos = m_scene->camera()->ScreenToWorld(screenPos);
     vector<Volt::Entity*> entities;
-    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
+    m_scene->GetEntitiesAtPoint(pos, &entities);
 
     if (entities.size() == 0)
         return NULL;

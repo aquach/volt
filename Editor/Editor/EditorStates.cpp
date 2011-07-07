@@ -50,6 +50,7 @@ void Editor::SelectState::OnExit () {
 }
 
 void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
+    event->accept();
     Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
         Vector2(event->pos().x(), event->pos().y()));
 
@@ -70,11 +71,11 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
 }
 
 void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
-    Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(
-                    Vector2(event->pos().x(), event->pos().y()));
-    vector<Volt::Entity*> entities;
-    m_e->m_scene->GetEntitiesAtPoint(pos, &entities);
-    if (entities.size() > 0) {
+    event->accept();
+    Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+        Vector2(event->pos().x(), event->pos().y()));
+
+    if (selectedEntity != NULL) {
         m_e->m_viewport->setCursor(Qt::CrossCursor);
     } else {
         m_e->m_viewport->setCursor(Qt::ArrowCursor);
@@ -91,6 +92,7 @@ void Editor::SelectVerticesState::OnExit () {
 }
 
 void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
+    event->accept();
     int selectedVertex;
     Triangle* selectedTriangle = m_e->GetTopVertexAtPoint(
         Vector2(event->pos().x(), event->pos().y()), &selectedVertex);
@@ -114,35 +116,53 @@ void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
 }
 
 void Editor::SelectVerticesState::OnViewportMouseMove (QMouseEvent* event) {
+    event->accept();
+    int selectedVertex;
+    Triangle* selectedTriangle = m_e->GetTopVertexAtPoint(
+        Vector2(event->pos().x(), event->pos().y()), &selectedVertex);
+
+    if (selectedTriangle != NULL) {
+        m_e->m_viewport->setCursor(Qt::CrossCursor);
+    } else {
+        m_e->m_viewport->setCursor(Qt::ArrowCursor);
+    }
 }
 
 void Editor::MoveState::OnEnter () {
-    m_e->m_viewport->setCursor(Qt::OpenHandCursor);
-}
-
-void Editor::MoveState::OnExit () {
     m_e->m_viewport->setCursor(Qt::ArrowCursor);
 }
 
+void Editor::MoveState::OnExit () {
+}
+
 void Editor::MoveState::OnViewportMousePress (QMouseEvent* event) {
-    /*
-    m_e->m_viewport->setCursor(Qt::ClosedHandCursor);
+    event->accept();
+    vector<Volt::Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    if (selectedEntities.size() <= 1) {
+        // Allow selection of individuals.
+        Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+            Vector2(event->pos().x(), event->pos().y()));
+
+        G_SelectionManager->DeselectAll();
+        if (selectedEntity != NULL) {
+            selectedEntities.push_back(selectedEntity);
+            G_SelectionManager->SelectEntity(selectedEntity);
+        } else {
+            return;
+        }
+    }
+
     m_dragging = true;
     m_lastPoint = event->pos();
-    event->accept();
-    */
 }
 
 void Editor::MoveState::OnViewportMouseRelease (QMouseEvent* event) {
-    /*
-    m_e->m_viewport->setCursor(Qt::OpenHandCursor);
     m_dragging = false;
     event->accept();
-    */
 }
 
 void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
-    /*
     if (m_dragging) {
         Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
         Vector2 pos(event->pos().x(), event->pos().y());
@@ -151,10 +171,15 @@ void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
         Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
         Vector2 dp = worldPos - lastPointPos;
-        m_e->m_scene->camera()->transform.position -= dp;
+        
+        vector<Volt::Entity*> selectedEntities;
+        G_SelectionManager->GetSelectedEntities(&selectedEntities);
+        FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
+            Volt::Entity* entity = *i;
+            entity->SetPosition(entity->position() + dp);
+        }
         event->accept();
     } else {
         event->ignore();
     }
-    */
 }
