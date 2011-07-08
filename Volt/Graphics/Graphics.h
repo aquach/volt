@@ -62,7 +62,8 @@ public:
     static void RenderLineRect (const BBox& box);
     static void RenderLine (const Vector2& pos1, const Vector2& pos2);
 
-    static void RenderCircle (float radius, int segments = 16);
+    static void RenderLineCircle (float radius, int segments = 32);
+    static void RenderCircle (float radius, int segments = 32);
 
     static void RenderAxes ();
 

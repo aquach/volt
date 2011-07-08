@@ -54,6 +54,8 @@ public:
     float GetAngleRadians () const;
     float GetAngleDegrees () const;
 
+    float AngleTo (Vector2 other) const;
+
     Vector2 xx () const;
     Vector2 yy () const;
     Vector2 yx () const;

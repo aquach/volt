@@ -96,13 +96,13 @@ void Editor::SelectVerticesState::OnViewportMousePress (QMouseEvent* event) {
     int selectedVertex;
     Triangle* selectedTriangle = m_e->GetTopVertexAtPoint(
         Vector2(event->pos().x(), event->pos().y()), &selectedVertex);
-        
+
     if (selectedTriangle == NULL) {
         if (!m_e->m_appendMode && !m_e->m_removeMode)
             G_SelectionManager->DeselectAll();
         return;
     }
-    
+
     if (m_e->m_appendMode) {
         G_SelectionManager->SelectVertex(selectedTriangle,
                                          selectedVertex);
@@ -171,7 +171,7 @@ void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
         Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
         Vector2 dp = worldPos - lastPointPos;
-        
+
         vector<Volt::Entity*> selectedEntities;
         G_SelectionManager->GetSelectedEntities(&selectedEntities);
         FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
@@ -183,3 +183,178 @@ void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
         event->ignore();
     }
 }
+
+void Editor::RotateState::OnEnter () {
+    m_e->m_viewport->setCursor(Qt::ArrowCursor);
+}
+
+void Editor::RotateState::OnExit () {
+}
+
+void Editor::RotateState::OnViewportMousePress (QMouseEvent* event) {
+    event->accept();
+    vector<Volt::Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    if (selectedEntities.size() <= 1) {
+        // Allow selection of individuals.
+        Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+            Vector2(event->pos().x(), event->pos().y()));
+
+        G_SelectionManager->DeselectAll();
+        if (selectedEntity != NULL) {
+            selectedEntities.push_back(selectedEntity);
+            G_SelectionManager->SelectEntity(selectedEntity);
+        } else {
+            return;
+        }
+    }
+
+    m_dragging = true;
+    m_lastPoint = event->pos();
+}
+
+void Editor::RotateState::OnViewportMouseRelease (QMouseEvent* event) {
+    m_dragging = false;
+    event->accept();
+}
+
+void Editor::RotateState::OnViewportMouseMove (QMouseEvent* event) {
+    if (m_dragging) {
+        Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
+        Vector2 pos(event->pos().x(), event->pos().y());
+        m_lastPoint = event->pos();
+
+        Vector2 pivot = GetWorldPivotPoint();
+        Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
+        Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
+        Vector2 dLast = lastPointPos - pivot;
+        Vector2 dPos = worldPos - pivot;
+
+        float angle = dLast.AngleTo(dPos);
+
+        vector<Volt::Entity*> selectedEntities;
+        G_SelectionManager->GetSelectedEntities(&selectedEntities);
+        FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
+            Volt::Entity* entity = *i;
+            entity->SetRotation(entity->rotation() + angle);
+        }
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+Vector2 Editor::RotateState::GetWorldPivotPoint () {
+    vector<Volt::Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+
+    if (selectedEntities.size() == 0)
+        return Vector2();
+
+    Vector2 sum;
+    FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
+        Volt::Entity* entity = *i;
+        sum += entity->position();
+    }
+    return sum / selectedEntities.size();
+}
+
+void Editor::RotateState::Render () {
+    glPushMatrix();
+    glLineWidth(1.0f);
+    Graphics::SetColor(Volt::Color::RGB(200, 200, 200));
+    Graphics::Translate(GetWorldPivotPoint());
+    Graphics::RenderLine(Vector2(-1, 0), Vector2(1, 0));
+    Graphics::RenderLine(Vector2(0, -1), Vector2(0, 1));
+    Graphics::SetColor(Volt::Color::RGB(200, 100, 0));
+    Graphics::RenderLineCircle(4.0f);
+    glPopMatrix();
+}
+
+void Editor::ScaleState::OnEnter () {
+    m_e->m_viewport->setCursor(Qt::ArrowCursor);
+}
+
+void Editor::ScaleState::OnExit () {
+}
+
+void Editor::ScaleState::OnViewportMousePress (QMouseEvent* event) {
+    event->accept();
+    vector<Volt::Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    if (selectedEntities.size() <= 1) {
+        // Allow selection of individuals.
+        Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+            Vector2(event->pos().x(), event->pos().y()));
+
+        G_SelectionManager->DeselectAll();
+        if (selectedEntity != NULL) {
+            selectedEntities.push_back(selectedEntity);
+            G_SelectionManager->SelectEntity(selectedEntity);
+        } else {
+            return;
+        }
+    }
+
+    m_dragging = true;
+    m_lastPoint = event->pos();
+}
+
+void Editor::ScaleState::OnViewportMouseRelease (QMouseEvent* event) {
+    m_dragging = false;
+    event->accept();
+}
+
+void Editor::ScaleState::OnViewportMouseMove (QMouseEvent* event) {
+    if (m_dragging) {
+        Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
+        Vector2 pos(event->pos().x(), event->pos().y());
+        m_lastPoint = event->pos();
+
+        Vector2 pivot = GetWorldPivotPoint();
+        Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
+        Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
+        Vector2 dLast = lastPointPos - pivot;
+        Vector2 dPos = worldPos - pivot;
+
+        float ratio = dPos.LengthSquared() / dLast.LengthSquared();
+
+        vector<Volt::Entity*> selectedEntities;
+        G_SelectionManager->GetSelectedEntities(&selectedEntities);
+        FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
+            Volt::Entity* entity = *i;
+            //entity->SetScale(entity->scale() * ratio);
+        }
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+Vector2 Editor::ScaleState::GetWorldPivotPoint () {
+    vector<Volt::Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+
+    if (selectedEntities.size() == 0)
+        return Vector2();
+
+    Vector2 sum;
+    FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
+        Volt::Entity* entity = *i;
+        sum += entity->position();
+    }
+    return sum / selectedEntities.size();
+}
+
+void Editor::ScaleState::Render () {
+    glPushMatrix();
+    glLineWidth(1.0f);
+    Graphics::SetColor(Volt::Color::RGB(200, 200, 200));
+    Graphics::Translate(GetWorldPivotPoint());
+    Graphics::RenderLine(Vector2(-1, 0), Vector2(1, 0));
+    Graphics::RenderLine(Vector2(0, -1), Vector2(0, 1));
+    Graphics::SetColor(Volt::Color::RGB(100, 200, 0));
+    Graphics::RenderLineCircle(4.0f, 4);
+    glPopMatrix();
+}
+

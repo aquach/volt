@@ -397,4 +397,17 @@ void Graphics::RenderCircle (float radius, int segments) {
 	glEnd();
 }
 
+void Graphics::RenderLineCircle (float radius, int segments) {
+	float increment = 2.0f * Volt::PI / segments;
+	float theta = 0.0f;
+	glBegin(GL_LINE_LOOP);
+	for (int32 i = 0; i < segments; ++i)
+	{
+		Vector2 v = radius * Vector2(cosf(theta), sinf(theta));
+		glVertex2f(v.x, v.y);
+		theta += increment;
+	}
+	glEnd();
+}
+
 }

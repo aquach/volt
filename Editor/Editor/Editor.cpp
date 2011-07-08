@@ -37,6 +37,7 @@ Editor::Editor (const Volt::DataSource* source)
 
     QAction* action;
     QPushButton* button;
+    QShortcut* shortcut;
 
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
@@ -71,35 +72,58 @@ Editor::Editor (const Volt::DataSource* source)
     group->addButton(button);
     group->setId(button, MODE_PAN);
     toolbar->addWidget(button);
+    shortcut = new QShortcut(QKeySequence("1"), this);
+    connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
+
     button = new QPushButton("Select");
     button->setCheckable(true);
     group->addButton(button);
     group->setId(button, MODE_SELECT);
     toolbar->addWidget(button);
+    shortcut = new QShortcut(QKeySequence("2"), this);
+    connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
+
     button = new QPushButton("Select Vertices");
     button->setCheckable(true);
     group->addButton(button);
     group->setId(button, MODE_SELECT_VERTICES);
     toolbar->addWidget(button);
-    
+    shortcut = new QShortcut(QKeySequence("3"), this);
+    connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
+
     toolbar->addSeparator();
-    
+
     button = new QPushButton("Move");
     button->setCheckable(true);
     group->addButton(button);
     group->setId(button, MODE_MOVE);
     toolbar->addWidget(button);
+    shortcut = new QShortcut(QKeySequence("W"), this);
+    connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
+
     button = new QPushButton("Rotate");
     button->setCheckable(true);
     group->addButton(button);
     group->setId(button, MODE_ROTATE);
     toolbar->addWidget(button);
+    shortcut = new QShortcut(QKeySequence("E"), this);
+    connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
+
+    /*
     button = new QPushButton("Scale");
     button->setCheckable(true);
     group->addButton(button);
     group->setId(button, MODE_SCALE);
     toolbar->addWidget(button);
-    
+    shortcut = new QShortcut(QKeySequence("R"), this);
+    connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
+    */
+
+    QCheckBox* checkbox = new QCheckBox("&Global", this);
+    toolbar->addWidget(checkbox);
+
+    toolbar->addSeparator();
+
     connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
 
     QDockWidget* dock = new QDockWidget("Tools", this);
@@ -147,8 +171,8 @@ Editor::Editor (const Volt::DataSource* source)
     m_modeFsm->AddState(new Editor::SelectVerticesState(this),
                         "SelectVerticesMode");
     m_modeFsm->AddState(new Editor::MoveState(this), "MoveMode");
-    //m_modeFsm->AddState(new Editor::RotateState(this), "RotateMode");
-    //m_modeFsm->AddState(new Editor::ScaleState(this), "ScaleMode");
+    m_modeFsm->AddState(new Editor::RotateState(this), "RotateMode");
+    m_modeFsm->AddState(new Editor::ScaleState(this), "ScaleMode");
     m_modeFsm->TransitionTo("PanMode");
 
     m_selectionManager = new SelectionManager;
@@ -181,6 +205,10 @@ void Editor::MoveVertical (int dir) {
 
 void Editor::RenderScene () {
     m_scene->Render();
+    Editor::ModeState* state;
+    state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
+    CHECK_NOTNULL(state);
+    state->Render();
 }
 
 void Editor::keyPressEvent (QKeyEvent *event) {
@@ -405,7 +433,7 @@ Volt::Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
     m_scene->GetEntitiesAtPoint(pos, &entities);
     if (entities.size() == 0)
         return NULL;
-    
+
     Volt::Entity* selectedEntity = entities[0];
     for (uint i = 1; i < entities.size(); i++) {
         if (entities[i]->layer() < selectedEntity->layer()) {
@@ -423,7 +451,7 @@ Triangle* Editor::GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex) {
 
     if (entities.size() == 0)
         return NULL;
-        
+
     Triangle* selectedTriangle = NULL;
     for (uint i = 0; i < entities.size(); i++) {
         Triangle* tri = dynamic_cast<Triangle*>(entities[i]);

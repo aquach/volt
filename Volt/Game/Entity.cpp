@@ -71,5 +71,12 @@ void Entity::SetPosition (Vector2 pos) {
     if (m_body != NULL)
         m_body->SetTransform(pos.ToB2(), m_transform.rotation * DEG2RAD);
 }
-    
+
+void Entity::SetRotation (float rotation) {
+    m_transform.rotation = rotation;
+    if (m_body != NULL)
+        m_body->SetTransform(m_transform.position.ToB2(),
+                             m_transform.rotation * DEG2RAD);
+}
+
 }

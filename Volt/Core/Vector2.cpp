@@ -147,6 +147,13 @@ Vector2 Vector2::yx () const {
     return Vector2(this->y, this->x);
 }
 
+float Vector2::AngleTo (Vector2 other) const {
+    float angle = atan2(other.y, other.x) - atan2(y, x);
+    if (angle < -PI)
+        angle += 2 * PI;
+    return angle * RAD2DEG;
+}
+
 float& Vector2::operator[] (unsigned int i) {
     switch(i) {
         case 0: return x;

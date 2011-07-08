@@ -71,9 +71,11 @@ private:
             : m_e(e) { }
         Editor* m_e;
 
-        virtual void OnViewportMouseRelease (QMouseEvent* event) { };
-        virtual void OnViewportMouseMove (QMouseEvent* event) { };
-        virtual void OnViewportMousePress (QMouseEvent* event) { };
+        virtual void OnViewportMouseRelease (QMouseEvent* event) { }
+        virtual void OnViewportMouseMove (QMouseEvent* event) { }
+        virtual void OnViewportMousePress (QMouseEvent* event) { }
+
+        virtual void Render () { }
     private:
         DISALLOW_COPY_AND_ASSIGN(ModeState);
     };
@@ -129,6 +131,46 @@ private:
         virtual void OnViewportMousePress (QMouseEvent* event);
         virtual void OnViewportMouseMove (QMouseEvent* event);
 
+    private:
+        bool m_dragging;
+        QPoint m_lastPoint;
+    };
+
+    class RotateState : public ModeState {
+    public:
+        explicit RotateState (Editor* e)
+            : ModeState(e),
+              m_dragging(false) { }
+        virtual void OnEnter ();
+        virtual void OnExit ();
+
+        virtual void OnViewportMouseRelease (QMouseEvent* event);
+        virtual void OnViewportMousePress (QMouseEvent* event);
+        virtual void OnViewportMouseMove (QMouseEvent* event);
+
+        virtual void Render ();
+
+        Vector2 GetWorldPivotPoint ();
+    private:
+        bool m_dragging;
+        QPoint m_lastPoint;
+    };
+
+    class ScaleState : public ModeState {
+    public:
+        explicit ScaleState (Editor* e)
+            : ModeState(e),
+              m_dragging(false) { }
+        virtual void OnEnter ();
+        virtual void OnExit ();
+
+        virtual void OnViewportMouseRelease (QMouseEvent* event);
+        virtual void OnViewportMousePress (QMouseEvent* event);
+        virtual void OnViewportMouseMove (QMouseEvent* event);
+
+        virtual void Render ();
+
+        Vector2 GetWorldPivotPoint ();
     private:
         bool m_dragging;
         QPoint m_lastPoint;
