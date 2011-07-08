@@ -525,8 +525,7 @@ Vector2 Editor::SnapToGrid (Vector2 point) {
 }
 
 float Editor::SnapToGrid (float value) {
-    value += m_gridSize / 2;
-    return value - fmodf(value, m_gridSize);
+    return Volt::RoundToNearest(value, m_gridSize);
 }
 
 void Editor::GridChecked (int state) {

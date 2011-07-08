@@ -5,6 +5,8 @@
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
 
+const float ANGLE_SNAP = 5.0f;
+
 void Editor::PanState::OnEnter () {
     m_e->m_viewport->setCursor(Qt::OpenHandCursor);
 }
@@ -154,29 +156,34 @@ void Editor::MoveState::OnViewportMousePress (QMouseEvent* event) {
     }
 
     m_dragging = true;
-    m_lastPoint = event->pos();
+    m_startPoint = Vector2(event->pos().x(), event->pos().y());
+    m_startPoint = m_e->m_scene->camera()->ScreenToWorld(m_startPoint);
+    G_SelectionManager->GetSelectedEntities(&m_selectedEntities);
+    FOR_(vector<Volt::Entity*>::iterator, i, m_selectedEntities) {
+        Volt::Entity* entity = *i;
+        m_startPositions.push_back(entity->position());
+    }
 }
 
 void Editor::MoveState::OnViewportMouseRelease (QMouseEvent* event) {
     m_dragging = false;
     event->accept();
+    m_selectedEntities.clear();
+    m_startPositions.clear();
 }
 
 void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
     if (m_dragging) {
-        Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
         Vector2 pos(event->pos().x(), event->pos().y());
-        m_lastPoint = event->pos();
-
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
-        Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
-        Vector2 dp = worldPos - lastPointPos;
+        Vector2 dp = worldPos - m_startPoint;
 
-        vector<Volt::Entity*> selectedEntities;
-        G_SelectionManager->GetSelectedEntities(&selectedEntities);
-        FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
-            Volt::Entity* entity = *i;
-            entity->SetPosition(entity->position() + dp);
+        for (uint i = 0; i < m_selectedEntities.size(); i++) {
+            Volt::Entity* entity = m_selectedEntities[i];
+            Vector2 newPos = m_startPositions[i] + dp;
+            if (m_e->m_snapOn)
+                newPos = m_e->SnapToGrid(newPos);
+            entity->SetPosition(newPos);
         }
         event->accept();
     } else {
@@ -209,34 +216,39 @@ void Editor::RotateState::OnViewportMousePress (QMouseEvent* event) {
         }
     }
 
+    m_startPoint = Vector2(event->pos().x(), event->pos().y());
+    m_startPoint = m_e->m_scene->camera()->ScreenToWorld(m_startPoint);
+    G_SelectionManager->GetSelectedEntities(&m_selectedEntities);
+    FOR_(vector<Volt::Entity*>::iterator, i, m_selectedEntities) {
+        Volt::Entity* entity = *i;
+        m_startRotations.push_back(entity->rotation());
+    }
     m_dragging = true;
-    m_lastPoint = event->pos();
 }
 
 void Editor::RotateState::OnViewportMouseRelease (QMouseEvent* event) {
+    m_selectedEntities.clear();
+    m_startRotations.clear();
     m_dragging = false;
     event->accept();
 }
 
 void Editor::RotateState::OnViewportMouseMove (QMouseEvent* event) {
     if (m_dragging) {
-        Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
         Vector2 pos(event->pos().x(), event->pos().y());
-        m_lastPoint = event->pos();
-
-        Vector2 pivot = GetWorldPivotPoint();
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
-        Vector2 lastPointPos = m_e->m_scene->camera()->ScreenToWorld(lastPoint);
-        Vector2 dLast = lastPointPos - pivot;
+        Vector2 pivot = GetWorldPivotPoint();
+        Vector2 dStart = m_startPoint - pivot;
         Vector2 dPos = worldPos - pivot;
 
-        float angle = dLast.AngleTo(dPos);
+        float angle = dStart.AngleTo(dPos);
 
-        vector<Volt::Entity*> selectedEntities;
-        G_SelectionManager->GetSelectedEntities(&selectedEntities);
-        FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
-            Volt::Entity* entity = *i;
-            entity->SetRotation(entity->rotation() + angle);
+        for (uint i = 0; i < m_selectedEntities.size(); i++) {
+            Volt::Entity* entity = m_selectedEntities[i];
+            float newRot = m_startRotations[i] + angle;
+            if (m_e->m_snapOn)
+                newRot = Volt::RoundToNearest(newRot, ANGLE_SNAP);
+            entity->SetRotation(newRot);
         }
         event->accept();
     } else {

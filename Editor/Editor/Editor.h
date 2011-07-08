@@ -70,7 +70,7 @@ private slots:
     void SelectMode (int id);
     void GridChecked (int state);
     void GridChanged (double value);
-    void SnapChecked ();
+    void SnapChecked (int state);
 
 private:
     class ModeState : public Volt::FSMState {
@@ -141,7 +141,9 @@ private:
 
     private:
         bool m_dragging;
-        QPoint m_lastPoint;
+        Vector2 m_startPoint;
+        vector<Volt::Entity*> m_selectedEntities;
+        vector<Vector2> m_startPositions;
     };
 
     class RotateState : public ModeState {
@@ -161,7 +163,9 @@ private:
         Vector2 GetWorldPivotPoint ();
     private:
         bool m_dragging;
-        QPoint m_lastPoint;
+        vector<Volt::Entity*> m_selectedEntities;
+        vector<float> m_startRotations;
+        Vector2 m_startPoint;
     };
 
     class ScaleState : public ModeState {
