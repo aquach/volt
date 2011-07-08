@@ -2,13 +2,11 @@
 
 #include "Game/Core/Core.h"
 
-namespace Volt {
-    class Entity;
-}
+class Entity;
 
 class RotationController {
 public:
-    RotationController (Volt::Entity* entity, float targetRotation)
+    RotationController (Entity* entity, float targetRotation)
         : m_entity(entity),
           m_targetRotation(targetRotation),
           m_p(2),
@@ -30,7 +28,7 @@ public:
     float maxSpeed () const { return m_maxSpeed; }
 
 private:
-    Volt::Entity* m_entity;
+    Entity* m_entity;
     float m_targetRotation;
     float m_p;
     float m_d;

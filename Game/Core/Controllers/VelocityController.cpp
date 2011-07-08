@@ -1,5 +1,5 @@
 #include "Game/Core/Controllers/VelocityController.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 void VelocityController::Update () {
     Vector2 dir = m_targetVel - m_entity->body()->GetLinearVelocity();

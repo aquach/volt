@@ -4,10 +4,7 @@
 #include <set>
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/Scene.h"
-
-namespace Volt {
-    class Entity;
-}
+#include "Game/Game/Entity.h"
 
 class LevelManager {
 public:
@@ -29,7 +26,7 @@ private:
     Volt::Scene* m_scene;
 
     bool m_levelLoaded;
-    set<Volt::Entity*> m_entities;
+    set<Entity*> m_entities;
     string m_loadedFilename;
 
     DISALLOW_COPY_AND_ASSIGN(LevelManager);

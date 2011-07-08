@@ -12,6 +12,57 @@
 
 const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
 
+class TestModel : public QAbstractTableModel {
+public:
+     virtual int rowCount (const QModelIndex& parent = QModelIndex()) const {
+         return 1;
+     }
+     virtual int columnCount (const QModelIndex& parent = QModelIndex()) const {
+         return 2;
+     }     
+     virtual QVariant data (const QModelIndex &index, int role) const {
+        if (!index.isValid())
+            return QVariant();
+
+        if (role == Qt::DisplayRole) {
+            if (index.row() == 0 && index.column() == 0)
+                return tr("ITEM");
+            else if (index.row() == 0 && index.column() == 1)
+                return 1;
+        }
+
+        return QVariant();
+     }
+     virtual QVariant headerData (int section, Qt::Orientation orientation,
+                                  int role) const {
+        if (role != Qt::DisplayRole)
+            return QVariant();
+
+        if (orientation != Qt::Horizontal)
+            return QVariant();
+
+        if (section == 0)
+            return "Property";
+        if (section == 1)
+            return "Value";
+        
+    }
+    virtual Qt::ItemFlags flags (const QModelIndex& index) const {
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    }
+    virtual bool setData (const QModelIndex& index, const QVariant& value,
+                          int role) {
+        if (index.isValid() && role == Qt::EditRole) {
+            emit(dataChanged(index, index));
+            return true;
+        }
+        return false;
+    }
+private:
+    
+};
+
+
 enum ModeButtonType {
     MODE_PAN,
     MODE_SELECT,
@@ -42,6 +93,7 @@ Editor::Editor (const Volt::DataSource* source)
     QPushButton* button;
     QShortcut* shortcut;
     QCheckBox* checkbox;
+    QDockWidget* dock;
 
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
@@ -149,7 +201,7 @@ Editor::Editor (const Volt::DataSource* source)
 
     connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
 
-    QDockWidget* dock = new QDockWidget("Tools", this);
+    dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
                       QDockWidget::DockWidgetFloatable);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -166,6 +218,17 @@ Editor::Editor (const Volt::DataSource* source)
     layout->insertStretch(25);
 
     tools->setLayout(layout);
+
+    dock = new QDockWidget("Properties", this);
+    dock->setFeatures(QDockWidget::DockWidgetMovable |
+                      QDockWidget::DockWidgetFloatable);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+
+    QTableView* view = new QTableView;
+    view->setModel(new TestModel);
+    view->horizontalHeader()->setStretchLastSection(true);
+    dock->setWidget(view);
 
     m_viewport = new GLWidget;
     m_viewport->makeCurrent();
@@ -473,7 +536,7 @@ void Editor::OnViewportWheel (QWheelEvent* event) {
     event->accept();
 }
 
-Volt::Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
+Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
     Vector2 pos = m_scene->camera()->ScreenToWorld(screenPos);
     vector<Volt::Entity*> entities;
     m_scene->GetEntitiesAtPoint(pos, &entities);
@@ -487,7 +550,7 @@ Volt::Entity* Editor::GetTopEntityAtPoint (Vector2 screenPos) {
         }
     }
 
-    return selectedEntity;
+    return dynamic_cast<Entity*>(selectedEntity);
 }
 
 Triangle* Editor::GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex) {

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
-class Ladder : public Volt::Entity {
+class Ladder : public Entity {
 public:
     Ladder ();
     virtual ~Ladder ();

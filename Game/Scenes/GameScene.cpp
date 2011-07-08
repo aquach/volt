@@ -1,4 +1,6 @@
 #include "Game/Scenes/GameScene.h"
+#include "Volt/Assets/AssetManager.h"
+#include "Volt/Game/PhysicsManager.h"
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Projectile.h"
 #include "Game/Entities/Game/Creatures/Blobby.h"
@@ -6,9 +8,8 @@
 #include "Game/Entities/Graphics/ParticleSystem.h"
 #include "Game/Entities/GUI/MessageBox.h"
 #include "Game/Game/ConversationManager.h"
+#include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
-#include "Volt/Assets/AssetManager.h"
-#include "Volt/Game/PhysicsManager.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 

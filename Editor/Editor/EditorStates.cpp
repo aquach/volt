@@ -53,7 +53,7 @@ void Editor::SelectState::OnExit () {
 
 void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
     event->accept();
-    Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+    Entity* selectedEntity = m_e->GetTopEntityAtPoint(
         Vector2(event->pos().x(), event->pos().y()));
 
     if (selectedEntity == NULL) {
@@ -74,7 +74,7 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
 
 void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
     event->accept();
-    Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+    Entity* selectedEntity = m_e->GetTopEntityAtPoint(
         Vector2(event->pos().x(), event->pos().y()));
 
     if (selectedEntity != NULL) {
@@ -139,11 +139,11 @@ void Editor::MoveState::OnExit () {
 
 void Editor::MoveState::OnViewportMousePress (QMouseEvent* event) {
     event->accept();
-    vector<Volt::Entity*> selectedEntities;
+    vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
     if (selectedEntities.size() <= 1) {
         // Allow selection of individuals.
-        Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+        Entity* selectedEntity = m_e->GetTopEntityAtPoint(
             Vector2(event->pos().x(), event->pos().y()));
 
         G_SelectionManager->DeselectAll();
@@ -159,8 +159,8 @@ void Editor::MoveState::OnViewportMousePress (QMouseEvent* event) {
     m_startPoint = Vector2(event->pos().x(), event->pos().y());
     m_startPoint = m_e->m_scene->camera()->ScreenToWorld(m_startPoint);
     G_SelectionManager->GetSelectedEntities(&m_selectedEntities);
-    FOR_(vector<Volt::Entity*>::iterator, i, m_selectedEntities) {
-        Volt::Entity* entity = *i;
+    FOR_(vector<Entity*>::iterator, i, m_selectedEntities) {
+        Entity* entity = *i;
         m_startPositions.push_back(entity->position());
     }
 }
@@ -179,7 +179,7 @@ void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
         Vector2 dp = worldPos - m_startPoint;
 
         for (uint i = 0; i < m_selectedEntities.size(); i++) {
-            Volt::Entity* entity = m_selectedEntities[i];
+            Entity* entity = m_selectedEntities[i];
             Vector2 newPos = m_startPositions[i] + dp;
             if (m_e->m_snapOn)
                 newPos = m_e->SnapToGrid(newPos);
@@ -200,11 +200,11 @@ void Editor::RotateState::OnExit () {
 
 void Editor::RotateState::OnViewportMousePress (QMouseEvent* event) {
     event->accept();
-    vector<Volt::Entity*> selectedEntities;
+    vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
     if (selectedEntities.size() <= 1) {
         // Allow selection of individuals.
-        Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+        Entity* selectedEntity = m_e->GetTopEntityAtPoint(
             Vector2(event->pos().x(), event->pos().y()));
 
         G_SelectionManager->DeselectAll();
@@ -219,8 +219,8 @@ void Editor::RotateState::OnViewportMousePress (QMouseEvent* event) {
     m_startPoint = Vector2(event->pos().x(), event->pos().y());
     m_startPoint = m_e->m_scene->camera()->ScreenToWorld(m_startPoint);
     G_SelectionManager->GetSelectedEntities(&m_selectedEntities);
-    FOR_(vector<Volt::Entity*>::iterator, i, m_selectedEntities) {
-        Volt::Entity* entity = *i;
+    FOR_(vector<Entity*>::iterator, i, m_selectedEntities) {
+        Entity* entity = *i;
         m_startRotations.push_back(entity->rotation());
     }
     m_dragging = true;
@@ -244,7 +244,7 @@ void Editor::RotateState::OnViewportMouseMove (QMouseEvent* event) {
         float angle = dStart.AngleTo(dPos);
 
         for (uint i = 0; i < m_selectedEntities.size(); i++) {
-            Volt::Entity* entity = m_selectedEntities[i];
+            Entity* entity = m_selectedEntities[i];
             float newRot = m_startRotations[i] + angle;
             if (m_e->m_snapOn)
                 newRot = Volt::RoundToNearest(newRot, ANGLE_SNAP);
@@ -257,15 +257,15 @@ void Editor::RotateState::OnViewportMouseMove (QMouseEvent* event) {
 }
 
 Vector2 Editor::RotateState::GetWorldPivotPoint () {
-    vector<Volt::Entity*> selectedEntities;
+    vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
 
     if (selectedEntities.size() == 0)
         return Vector2();
 
     Vector2 sum;
-    FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
-        Volt::Entity* entity = *i;
+    FOR_(vector<Entity*>::iterator, i, selectedEntities) {
+        Entity* entity = *i;
         sum += entity->position();
     }
     return sum / selectedEntities.size();
@@ -292,11 +292,11 @@ void Editor::ScaleState::OnExit () {
 
 void Editor::ScaleState::OnViewportMousePress (QMouseEvent* event) {
     event->accept();
-    vector<Volt::Entity*> selectedEntities;
+    vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
     if (selectedEntities.size() <= 1) {
         // Allow selection of individuals.
-        Volt::Entity* selectedEntity = m_e->GetTopEntityAtPoint(
+        Entity* selectedEntity = m_e->GetTopEntityAtPoint(
             Vector2(event->pos().x(), event->pos().y()));
 
         G_SelectionManager->DeselectAll();
@@ -329,12 +329,12 @@ void Editor::ScaleState::OnViewportMouseMove (QMouseEvent* event) {
         Vector2 dLast = lastPointPos - pivot;
         Vector2 dPos = worldPos - pivot;
 
-        float ratio = dPos.LengthSquared() / dLast.LengthSquared();
+        //float ratio = dPos.LengthSquared() / dLast.LengthSquared();
 
-        vector<Volt::Entity*> selectedEntities;
+        vector<Entity*> selectedEntities;
         G_SelectionManager->GetSelectedEntities(&selectedEntities);
-        FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
-            Volt::Entity* entity = *i;
+        FOR_(vector<Entity*>::iterator, i, selectedEntities) {
+            //Entity* entity = *i;
             //entity->SetScale(entity->scale() * ratio);
         }
         event->accept();
@@ -344,15 +344,15 @@ void Editor::ScaleState::OnViewportMouseMove (QMouseEvent* event) {
 }
 
 Vector2 Editor::ScaleState::GetWorldPivotPoint () {
-    vector<Volt::Entity*> selectedEntities;
+    vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
 
     if (selectedEntities.size() == 0)
         return Vector2();
 
     Vector2 sum;
-    FOR_(vector<Volt::Entity*>::iterator, i, selectedEntities) {
-        Volt::Entity* entity = *i;
+    FOR_(vector<Entity*>::iterator, i, selectedEntities) {
+        Entity* entity = *i;
         sum += entity->position();
     }
     return sum / selectedEntities.size();

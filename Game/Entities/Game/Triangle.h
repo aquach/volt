@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 /* A triangle of the terrain. */
-class Triangle : public Volt::Entity {
+class Triangle : public Entity {
 public:
     Triangle ();
     virtual ~Triangle ();

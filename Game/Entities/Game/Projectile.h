@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 class ProjectileController;
 
-class Projectile : public Volt::Entity {
+class Projectile : public Entity {
 public:
     Projectile ();
     virtual ~Projectile ();

@@ -1,5 +1,5 @@
 #include "Game/Core/Controllers/RotationController.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 void RotationController::Update () {
     float angle = m_targetRotation - m_entity->rotation();

@@ -2,9 +2,7 @@
 
 #include "Game/Core/Core.h"
 
-namespace Volt {
-    class Entity;
-}
+class Entity;
 
 struct ProjectileControllerDef {
     ProjectileControllerDef ()
@@ -32,7 +30,7 @@ struct ProjectileControllerDef {
  * projectile. */
 class ProjectileController {
 public:
-    ProjectileController (Volt::Entity* entity, Vector2 targetPos,
+    ProjectileController (Entity* entity, Vector2 targetPos,
                           const ProjectileControllerDef& def)
         : m_targetPos(targetPos),
           m_entity(entity),
@@ -44,7 +42,7 @@ public:
     void SetTargetPos (Vector2 pos) { m_targetPos = pos; }
 
 private:
-    Volt::Entity* m_entity;
+    Entity* m_entity;
     Vector2 m_targetPos;
     ProjectileControllerDef m_def;
 };

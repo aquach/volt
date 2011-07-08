@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 class Creature;
 
@@ -11,7 +11,7 @@ public:
     virtual void OnStrike (Creature* target, float damage) = 0;
 };
 
-class Weapon : public Volt::Entity {
+class Weapon : public Entity {
 public:
     Weapon ()
         : m_holder(NULL) { }

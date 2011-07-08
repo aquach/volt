@@ -3,14 +3,12 @@
 #include "Game/Core/Core.h"
 #include "Game/Core/Controllers/ProjectileController.h"
 
-namespace Volt {
-    class Entity;
-}
+class Entity;
 
 /* Controls an entity's velocity to hit the target entity. */
 class HomingController {
 public:
-    HomingController (Volt::Entity* entity, Volt::Entity* target,
+    HomingController (Entity* entity, Entity* target,
                       const ProjectileControllerDef& def)
         : m_target(target),
           m_projectileController(entity, Vector2::zero, def) {
@@ -20,5 +18,5 @@ public:
 
 private:
     ProjectileController m_projectileController;
-    Volt::Entity* m_target;
+    Entity* m_target;
 };

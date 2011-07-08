@@ -1,5 +1,5 @@
 #include "Game/Core/Controllers/PositionController.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 void PositionController::Update () {
     Vector2 dir = m_targetPos - m_entity->position();

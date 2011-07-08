@@ -1,12 +1,12 @@
 #include "Game/Editor/SelectionManager.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 #include "Game/Graphics/Graphics.h"
 
 SelectionManager* SelectionManager::instance = NULL;
 
 void SelectionManager::Render () {
-    FOR_(set<Volt::Entity*>::iterator, i, m_selectedEntities) {
-        Volt::Entity* entity = *i;
+    FOR_(set<Entity*>::iterator, i, m_selectedEntities) {
+        Entity* entity = *i;
         b2AABB aabb;
         bool first = true;
         b2Fixture* f = entity->body()->GetFixtureList();

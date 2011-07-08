@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 struct Particle {
     Particle ()
@@ -47,7 +47,7 @@ struct ParticleSystemDef {
     virtual void Save (Json::Value& node) const;
 };
 
-class ParticleSystem : public Volt::Entity {
+class ParticleSystem : public Entity {
 public:
     ParticleSystem (Vector2 pos, const ParticleSystemDef& def);
     virtual ~ParticleSystem ();

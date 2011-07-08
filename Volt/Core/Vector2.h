@@ -87,5 +87,5 @@ Vector2 operator/ (float lhs, const Vector2& rhs);
 Vector2 operator* (const Vector2& lhs, const Vector2& rhs);
 
 ostream& operator<< (ostream& stream, const Vector2& other);
-
+istream& operator>> (istream& stream, Vector2& other);
 }

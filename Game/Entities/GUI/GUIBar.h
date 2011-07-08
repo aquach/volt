@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 class Player;
 
-class GUIBar : public Volt::Entity {
+class GUIBar : public Entity {
 public:
     GUIBar (float value, float speed)
         : m_target(value),

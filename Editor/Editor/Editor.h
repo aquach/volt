@@ -7,7 +7,6 @@
 namespace Volt {
     class AssetManager;
     class DataSource;
-    class Entity;
     class Graphics;
     class PhysicsManager;
 }
@@ -15,6 +14,7 @@ namespace Volt {
 extern const char* EDITOR_TITLE;
 
 class EditorScene;
+class Entity;
 class GLWidget;
 class SelectionManager;
 class Triangle;
@@ -142,7 +142,7 @@ private:
     private:
         bool m_dragging;
         Vector2 m_startPoint;
-        vector<Volt::Entity*> m_selectedEntities;
+        vector<Entity*> m_selectedEntities;
         vector<Vector2> m_startPositions;
     };
 
@@ -163,7 +163,7 @@ private:
         Vector2 GetWorldPivotPoint ();
     private:
         bool m_dragging;
-        vector<Volt::Entity*> m_selectedEntities;
+        vector<Entity*> m_selectedEntities;
         vector<float> m_startRotations;
         Vector2 m_startPoint;
     };
@@ -189,7 +189,7 @@ private:
     };
 
     int CheckModified ();
-    Volt::Entity* GetTopEntityAtPoint (Vector2 screenPos);
+    Entity* GetTopEntityAtPoint (Vector2 screenPos);
     Triangle* GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex);
 
     Volt::AssetManager* m_assetManager;

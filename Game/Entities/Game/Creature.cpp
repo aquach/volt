@@ -20,7 +20,7 @@ void Creature::EquipWeapon (Weapon* weapon) {
         m_weapon->OnEquip();
 }
 
-void Creature::InvokeHitListeners (Volt::Entity* agent, float damage) {
+void Creature::InvokeHitListeners (Entity* agent, float damage) {
     FOR_(set<CreatureHitListener*>::iterator, i, m_hitListeners) {
         (*i)->OnHit(agent, damage);
     }

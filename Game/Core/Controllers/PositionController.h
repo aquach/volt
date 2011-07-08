@@ -2,13 +2,10 @@
 
 #include "Game/Core/Core.h"
 
-namespace Volt {
-    class Entity;
-}
-
+class Entity;
 class PositionController {
 public:
-    PositionController (Volt::Entity* entity, Vector2 targetPos)
+    PositionController (Entity* entity, Vector2 targetPos)
         : m_entity(entity),
           m_targetPos(targetPos),
           m_p(2),
@@ -30,7 +27,7 @@ public:
     float maxSpeed () const { return m_maxSpeed; }
 
 private:
-    Volt::Entity* m_entity;
+    Entity* m_entity;
     Vector2 m_targetPos;
     float m_p;
     float m_d;

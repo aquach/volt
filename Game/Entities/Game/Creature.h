@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 class HealthBar;
 class PowerBar;
@@ -10,10 +10,10 @@ class Weapon;
 /* Subclass this to receive callbacks when the Creature takes damage. */
 class CreatureHitListener {
 public:
-    virtual void OnHit (Volt::Entity* agent, float damage) = 0;
+    virtual void OnHit (Entity* agent, float damage) = 0;
 };
 
-class Creature : public Volt::Entity {
+class Creature : public Entity {
 public:
     Creature ();
     virtual ~Creature () { }
@@ -36,7 +36,7 @@ public:
     }
 
 protected:
-    void InvokeHitListeners (Volt::Entity* agent, float damage);
+    void InvokeHitListeners (Entity* agent, float damage);
     float m_health;
     float m_maxHealth;
     float m_power;

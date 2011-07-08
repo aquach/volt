@@ -2,13 +2,11 @@
 
 #include "Game/Core/Core.h"
 
-namespace Volt {
-    class Entity;
-}
+class Entity;
 
 class VelocityController {
 public:
-    VelocityController (Volt::Entity* entity, Vector2 targetVel)
+    VelocityController (Entity* entity, Vector2 targetVel)
         : m_entity(entity),
           m_targetVel(targetVel),
           m_impulse(Vector2(2, 2)) {
@@ -23,7 +21,7 @@ public:
     Vector2 impulse () const { return m_impulse; }
 
 private:
-    Volt::Entity* m_entity;
+    Entity* m_entity;
     Vector2 m_targetVel;
     Vector2 m_impulse;
 };

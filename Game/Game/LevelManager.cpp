@@ -1,7 +1,7 @@
 #include "Game/Game/LevelManager.h"
 #include <fstream>
 #include "Volt/Assets/DataSource.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 #include "Game/Entities/Game/Ladder.h"
 #include "Game/Entities/Game/Triangle.h"
 
@@ -73,7 +73,7 @@ bool LevelManager::LoadLevelFromFilename (string filename) {
 }
 
 void LevelManager::UnloadLevel () {
-    FOR_ (set<Volt::Entity*>::iterator, i, m_entities)
+    FOR_ (set<Entity*>::iterator, i, m_entities)
         m_scene->Remove(*i);
     m_loadedFilename = "";
 }

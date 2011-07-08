@@ -239,6 +239,16 @@ ostream& operator<< (ostream& stream, const Vector2& other) {
     return stream;
 }
 
+istream& operator>> (istream& stream, Vector2& other) {
+    char ch;
+    stream >> ch;
+    stream >> other.x;
+    stream >> ch;
+    stream >> other.y;
+    stream >> ch;
+    return stream;
+}
+
 void Vector2::Load (const Json::Value& node) {
     CHECK(node.size() == 2);
     x = node[0u].asDouble();

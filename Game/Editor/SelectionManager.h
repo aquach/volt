@@ -3,10 +3,7 @@
 #include "Editor/Core/Core.h"
 #include <set>
 
-namespace Volt {
-    class Entity;
-}
-
+class Entity;
 class Triangle;
 
 /**
@@ -25,14 +22,14 @@ public:
         Vertex v = { triangle, vertex };
         return m_selectedVertices.count(v) > 0;
     }
-    bool IsEntitySelected (Volt::Entity* entity) const {
+    bool IsEntitySelected (Entity* entity) const {
         return m_selectedEntities.count(entity) > 0;
     }
 
     bool showVertices () const { return m_showVertices; }
     void SetShowVertices (bool show) { m_showVertices = show; }
 
-    void GetSelectedEntities (vector<Volt::Entity*>* entities) const {
+    void GetSelectedEntities (vector<Entity*>* entities) const {
         entities->resize(m_selectedEntities.size());
         copy(m_selectedEntities.begin(), m_selectedEntities.end(), entities->begin());
     }
@@ -48,7 +45,7 @@ public:
         m_selectedVertices.insert(v);
         m_selectedEntities.clear();
     }
-    void SelectEntity (Volt::Entity* entity) {
+    void SelectEntity (Entity* entity) {
         m_selectedEntities.insert(entity);
         m_selectedVertices.clear();
     }
@@ -56,7 +53,7 @@ public:
         Vertex v = { triangle, vertex };
         m_selectedVertices.erase(v);
     }
-    void DeselectEntity (Volt::Entity* entity) {
+    void DeselectEntity (Entity* entity) {
         m_selectedEntities.erase(entity);
     }
     void DeselectAll () {
@@ -83,7 +80,7 @@ private:
         }
     };
     set<Vertex> m_selectedVertices;
-    set<Volt::Entity*> m_selectedEntities;
+    set<Entity*> m_selectedEntities;
 
     bool m_showVertices;
 

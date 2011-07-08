@@ -2,7 +2,7 @@
 
 #include "Game/Core/Core.h"
 #include "Volt/Assets/AssetManager.h"
-#include "Volt/Game/Entity.h"
+#include "Game/Game/Entity.h"
 #include "Volt/Graphics/Input.h"
 
 struct MessageBoxDef {
@@ -20,7 +20,7 @@ struct MessageBoxDef {
     float pauseDuration;
 };
 
-class MessageBox : public Volt::Entity {
+class MessageBox : public Entity {
 public:
     MessageBox (const MessageBoxDef& def);
     virtual ~MessageBox () { }
