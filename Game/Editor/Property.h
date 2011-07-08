@@ -2,12 +2,16 @@
 
 #include "Game/Core/Core.h"
 
+class Entity;
+
 class Property {
 public:
     Property (string name)
         : m_name(name) { }
     virtual void Save (string input) = 0;
     virtual void Load (string* out) const = 0;
+
+    virtual bool editable () const { return true; }
 
     string name () const { return m_name; }
 protected:
@@ -43,3 +47,16 @@ public:
 private:
     int* m_num;
 };
+
+class LayerProperty : public Property {
+public:
+    LayerProperty (string name, Entity* e)
+        : Property(name), m_entity(e) { }
+    virtual void Save (string input);
+    virtual void Load (string* out) const;
+
+    virtual bool editable () const { return false; }
+private:
+    Entity* m_entity;
+};
+

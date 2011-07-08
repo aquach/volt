@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Volt/Game/Entity.h"
-#include "Game/Editor/Property.h"
+
+class Property;
 
 class Entity : public Volt::Entity {
 public:

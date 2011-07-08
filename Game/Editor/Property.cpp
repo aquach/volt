@@ -1,4 +1,5 @@
 #include "Property.h"
+#include "Game/Game/Entity.h"
 
 void Vector2Property::Save (string input) {
     stringstream stream(input);
@@ -32,3 +33,19 @@ void IntProperty::Load (string* out) const {
     stream << *m_num;
     *out = stream.str();
 }
+
+void LayerProperty::Save (string input) {
+    stringstream stream(input);
+    int layer;
+    stream >> layer;
+    if (stream.fail())
+        return;
+    //m_entity->SetLayer(layer);
+}
+
+void LayerProperty::Load (string* out) const {
+    stringstream stream;
+    stream << m_entity->layer();
+    *out = stream.str();
+}
+

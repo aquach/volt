@@ -14,7 +14,7 @@ QVariant PropertyModel::data (const QModelIndex& index, int role) const {
     if (!index.isValid())
         return QVariant();
 
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if (index.column() == 0) {
             return QString::fromStdString(m_properties[index.row()]->name());
         } else if (index.column() == 1) {
@@ -43,7 +43,14 @@ QVariant PropertyModel::headerData (int section, Qt::Orientation orientation,
 }
 
 Qt::ItemFlags PropertyModel::flags (const QModelIndex& index) const {
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    if (index.column() == 0)
+        return Qt::ItemIsEnabled;
+    Qt::ItemFlags flags = QAbstractTableModel::flags(index);
+    if (m_properties[index.row()]->editable())
+        flags |= Qt::ItemIsEditable;
+    else
+        flags ^= Qt::ItemIsEnabled;
+    return flags;
 }
 
 bool PropertyModel::setData (const QModelIndex& index, const QVariant& value,
