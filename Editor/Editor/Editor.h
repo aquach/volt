@@ -16,6 +16,7 @@ extern const char* EDITOR_TITLE;
 class EditorScene;
 class Entity;
 class GLWidget;
+class PropertyModel;
 class SelectionManager;
 class Triangle;
 
@@ -208,4 +209,5 @@ private:
     float m_gridSize;
     bool m_gridOn;
     bool m_snapOn;
+    PropertyModel* m_propertyModel;
 };

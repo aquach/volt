@@ -4,6 +4,7 @@
 #include "Game/Entities/Game/Triangle.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
+#include "Editor/Editor/PropertyModel.h"
 
 const float ANGLE_SNAP = 5.0f;
 
@@ -69,6 +70,7 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
     } else {
         G_SelectionManager->DeselectAll();
         G_SelectionManager->SelectEntity(selectedEntity);
+        m_e->m_propertyModel->SetEntity(selectedEntity);
     }
 }
 

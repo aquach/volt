@@ -9,59 +9,9 @@
 #include "Game/Entities/Game/Triangle.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
+#include "Editor/Editor/PropertyModel.h"
 
 const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
-
-class TestModel : public QAbstractTableModel {
-public:
-     virtual int rowCount (const QModelIndex& parent = QModelIndex()) const {
-         return 1;
-     }
-     virtual int columnCount (const QModelIndex& parent = QModelIndex()) const {
-         return 2;
-     }     
-     virtual QVariant data (const QModelIndex &index, int role) const {
-        if (!index.isValid())
-            return QVariant();
-
-        if (role == Qt::DisplayRole) {
-            if (index.row() == 0 && index.column() == 0)
-                return tr("ITEM");
-            else if (index.row() == 0 && index.column() == 1)
-                return 1;
-        }
-
-        return QVariant();
-     }
-     virtual QVariant headerData (int section, Qt::Orientation orientation,
-                                  int role) const {
-        if (role != Qt::DisplayRole)
-            return QVariant();
-
-        if (orientation != Qt::Horizontal)
-            return QVariant();
-
-        if (section == 0)
-            return "Property";
-        if (section == 1)
-            return "Value";
-        
-    }
-    virtual Qt::ItemFlags flags (const QModelIndex& index) const {
-        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
-    }
-    virtual bool setData (const QModelIndex& index, const QVariant& value,
-                          int role) {
-        if (index.isValid() && role == Qt::EditRole) {
-            emit(dataChanged(index, index));
-            return true;
-        }
-        return false;
-    }
-private:
-    
-};
-
 
 enum ModeButtonType {
     MODE_PAN,
@@ -84,7 +34,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_removeMode(false),
       m_gridSize(1.0f),
       m_gridOn(true),
-      m_snapOn(false) {
+      m_snapOn(false),
+      m_propertyModel(NULL) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -226,7 +177,8 @@ Editor::Editor (const Volt::DataSource* source)
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
     QTableView* view = new QTableView;
-    view->setModel(new TestModel);
+    m_propertyModel = new PropertyModel;
+    view->setModel(m_propertyModel);
     view->horizontalHeader()->setStretchLastSection(true);
     dock->setWidget(view);
 

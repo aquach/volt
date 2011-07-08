@@ -5,6 +5,6 @@
 
 class Entity : public Volt::Entity {
 public:
-    virtual void GetProperties (vector<Property>* properties) { };
+    virtual void GetProperties (vector<Property*>* properties);
 private:
 };
