@@ -32,7 +32,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_appendMode(false),
       m_removeMode(false),
       m_gridSize(1.0f),
-      m_gridOn(true) {
+      m_gridOn(true),
+      m_snapOn(false) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -126,6 +127,11 @@ Editor::Editor (const Volt::DataSource* source)
     toolbar->addWidget(checkbox);
 
     toolbar->addSeparator();
+
+    checkbox = new QCheckBox("&Snap", this);
+    checkbox->setChecked(m_snapOn);
+    toolbar->addWidget(checkbox);
+    connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(SnapChecked(int)));
 
     checkbox = new QCheckBox("Gri&d", this);
     checkbox->setChecked(m_gridOn);
@@ -531,3 +537,6 @@ void Editor::GridChanged (double value) {
     m_gridSize = value;
 }
 
+void Editor::SnapChecked (int state) {
+    m_snapOn = state == Qt::Checked;
+}

@@ -70,6 +70,7 @@ private slots:
     void SelectMode (int id);
     void GridChecked (int state);
     void GridChanged (double value);
+    void SnapChecked ();
 
 private:
     class ModeState : public Volt::FSMState {
@@ -202,4 +203,5 @@ private:
     bool m_removeMode; // Remove items or reselect new ones?
     float m_gridSize;
     bool m_gridOn;
+    bool m_snapOn;
 };
