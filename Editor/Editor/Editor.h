@@ -28,7 +28,7 @@ public:
 
     virtual void timerEvent (QTimerEvent* event);
 
-    void RenderScene ();
+    void Render ();
 
     float dt ();
 
@@ -48,6 +48,11 @@ public:
     void SetAppendMode (bool mode) { m_appendMode = mode; }
     void SetRemoveMode (bool mode) { m_removeMode = mode; }
 
+    Vector2 SnapToGrid (Vector2 point);
+    float SnapToGrid (float value);
+    void SetGridSize (float size) { m_gridSize = size; }
+    float GridSize () const { return m_gridSize; }
+
 protected:
     //virtual void mouseMoveEvent (QMouseEvent* event);
     //virtual void mousePressEvent (QMouseEvent* event);
@@ -63,6 +68,8 @@ private slots:
     bool Close ();
     void Exit ();
     void SelectMode (int id);
+    void GridChecked (int state);
+    void GridChanged (double value);
 
 private:
     class ModeState : public Volt::FSMState {
@@ -193,4 +200,6 @@ private:
     bool m_panning;
     bool m_appendMode; // Append items or reselect new ones?
     bool m_removeMode; // Remove items or reselect new ones?
+    float m_gridSize;
+    bool m_gridOn;
 };

@@ -22,7 +22,7 @@ void GLWidget::resizeGL (int w, int h) {
 }
 
 void GLWidget::paintGL () {
-    dynamic_cast<Editor*>(parent())->RenderScene();
+    dynamic_cast<Editor*>(parent())->Render();
 }
 
 void GLWidget::enterEvent (QEvent* event) {

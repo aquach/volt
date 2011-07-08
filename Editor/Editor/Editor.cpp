@@ -30,7 +30,9 @@ Editor::Editor (const Volt::DataSource* source)
       m_panning(false),
       m_selectionManager(NULL),
       m_appendMode(false),
-      m_removeMode(false) {
+      m_removeMode(false),
+      m_gridSize(1.0f),
+      m_gridOn(true) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -38,6 +40,7 @@ Editor::Editor (const Volt::DataSource* source)
     QAction* action;
     QPushButton* button;
     QShortcut* shortcut;
+    QCheckBox* checkbox;
 
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
@@ -119,10 +122,24 @@ Editor::Editor (const Volt::DataSource* source)
     connect(shortcut, SIGNAL(activated()), button, SLOT(click()));
     */
 
-    QCheckBox* checkbox = new QCheckBox("&Global", this);
+    checkbox = new QCheckBox("&Global", this);
     toolbar->addWidget(checkbox);
 
     toolbar->addSeparator();
+
+    checkbox = new QCheckBox("Gri&d", this);
+    checkbox->setChecked(m_gridOn);
+    toolbar->addWidget(checkbox);
+    connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(GridChecked(int)));
+
+    QDoubleSpinBox* spinbox = new QDoubleSpinBox(this);
+    spinbox->setMinimum(0.1f);
+    spinbox->setSingleStep(0.1f);
+    spinbox->setDecimals(1);
+    spinbox->setValue(m_gridSize);
+    toolbar->addWidget(spinbox);
+    connect(spinbox, SIGNAL(valueChanged(double)), this,
+            SLOT(GridChanged(double)));
 
     connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
 
@@ -203,8 +220,31 @@ void Editor::MoveVertical (int dir) {
     m_scene->MoveVertical(dir);
 }
 
-void Editor::RenderScene () {
+void Editor::Render () {
     m_scene->Render();
+
+    // Render grid.
+    if (m_gridOn) {
+        Vector2 upperLeft = m_scene->camera()->ScreenToWorld(Vector2(0, 0));
+        Vector2 lowerRight = m_scene->camera()->ScreenToWorld(
+            Vector2(m_viewport->width(), m_viewport->height()));
+
+        glLineWidth(1.0f);
+        Graphics::SetBlend(Graphics::BLEND_ALPHA);
+        Graphics::SetColor(Volt::Color::RGBA(200, 200, 200, 100));
+        for (float px = upperLeft.x; px < lowerRight.x; px += m_gridSize) {
+            float lx = SnapToGrid(px);
+            Graphics::RenderLine(Vector2(lx, upperLeft.y),
+                                 Vector2(lx, lowerRight.y));
+        }
+        for (float py = upperLeft.y; py < lowerRight.y; py += m_gridSize) {
+            float ly = SnapToGrid(py);
+            Graphics::RenderLine(Vector2(upperLeft.x, ly),
+                                 Vector2(lowerRight.x, ly));
+        }
+    }
+
+    // Render GUI elements that the mode might want drawn.
     Editor::ModeState* state;
     state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
     CHECK_NOTNULL(state);
@@ -473,3 +513,21 @@ Triangle* Editor::GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex) {
 
     return selectedTriangle;
 }
+
+Vector2 Editor::SnapToGrid (Vector2 point) {
+    return Vector2(SnapToGrid(point.x), SnapToGrid(point.y));
+}
+
+float Editor::SnapToGrid (float value) {
+    value += m_gridSize / 2;
+    return value - fmodf(value, m_gridSize);
+}
+
+void Editor::GridChecked (int state) {
+    m_gridOn = state == Qt::Checked;
+}
+
+void Editor::GridChanged (double value) {
+    m_gridSize = value;
+}
+
