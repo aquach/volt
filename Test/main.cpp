@@ -6,6 +6,7 @@
 #include "Volt/Assets/Hash.h"
 #include "Volt/Assets/DirectoryDataSource.h"
 #include "Volt/Assets/PackDataSource.h"
+#include "Volt/Core/Tween.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Game/Game.h"
