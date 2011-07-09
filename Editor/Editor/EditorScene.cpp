@@ -12,6 +12,8 @@ EditorScene::EditorScene ()
       m_cameraMoveX(0),
       m_cameraMoveY(0) {
 
+    m_isEditor = true;
+
     camera()->transform.scale.Set(
         WORLD_TO_SCREEN_SCALE,
         WORLD_TO_SCREEN_SCALE);

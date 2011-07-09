@@ -51,6 +51,7 @@ protected:
     Game* m_game;
     bool m_isPaused;
     Camera m_camera;
+    bool m_isEditor;
 
 private:
     friend class Game;

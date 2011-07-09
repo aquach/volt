@@ -53,10 +53,7 @@ void Triangle::Render () {
     glPopMatrix();
 }
 
-void Triangle::Load (const Json::Value& node) {
-    CHECK(node.isMember("transform"));
-    m_transform.Load(node["transform"]);
-
+void Triangle::CreatePhysicsBody () {
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -82,6 +79,17 @@ void Triangle::Load (const Json::Value& node) {
     m_body->CreateFixture(&fixtureDef);
 }
 
+void Triangle::Load (const Json::Value& node) {
+    CHECK(node.isMember("transform"));
+    m_transform.Load(node["transform"]);
+    CreatePhysicsBody();
+}
+
 void Triangle::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
+}
+
+void Triangle::OnScaleChanged () {
+    DestroyBody();
+    CreatePhysicsBody();
 }

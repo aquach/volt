@@ -14,8 +14,10 @@ public:
 
     virtual void Load (const Json::Value& node);
     virtual void Save (Json::Value& node) const;
-    
+
     int selectedVertex (Vector2 worldPoint) const;
+
+    virtual void OnScaleChanged ();
 
     //virtual void OnAdded () { }
 
@@ -25,5 +27,7 @@ public:
     //virtual bool CanCollideWith (Entity* other) { return true; }
 
 private:
+    void CreatePhysicsBody ();
+
     DISALLOW_COPY_AND_ASSIGN(Triangle);
 };

@@ -79,4 +79,17 @@ void Entity::SetRotation (float rotation) {
                              m_transform.rotation * DEG2RAD);
 }
 
+void Entity::DestroyBody () {
+    G_PhysicsManager->world()->DestroyBody(m_body);
+    m_body = NULL;
+}
+
+void Entity::SetScale (Vector2 scale) {
+    m_transform.scale = scale;
+    OnScaleChanged();
+}
+
+void Entity::SetLayer (int layer) {
+}
+
 }

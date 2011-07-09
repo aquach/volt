@@ -46,6 +46,7 @@ public:
     void UpdatePhysics ();
     b2Body* CreateBody (b2BodyDef def);
     b2Body* CreateBody (b2BodyType type);
+    void DestroyBody ();
     b2Body* body () const { return m_body; }
     virtual void BeginContact (Entity* other, b2Contact* contact) { }
     virtual void EndContact (Entity* other, b2Contact* contact) { }
@@ -59,9 +60,10 @@ public:
     void SetPosition (Vector2 pos);
     float rotation () const { return m_transform.rotation; }
     void SetRotation (float rotation);
-    //Vector2 scale () const { return m_transform.scale; }
-    //void SetScale (Vector2 scale);
+    Vector2 scale () const { return m_transform.scale; }
+    void SetScale (Vector2 scale);
 
+    virtual void OnScaleChanged () { }
 
     virtual void Load (const Json::Value& node) { }
     virtual void Save (Json::Value& node) const { }

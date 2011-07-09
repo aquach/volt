@@ -48,9 +48,9 @@ private:
     int* m_num;
 };
 
-class LayerProperty : public Property {
+class EntityLayerProperty : public Property {
 public:
-    LayerProperty (string name, Entity* e)
+    EntityLayerProperty (string name, Entity* e)
         : Property(name), m_entity(e) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -60,3 +60,38 @@ private:
     Entity* m_entity;
 };
 
+class EntityPositionProperty : public Property {
+public:
+    EntityPositionProperty (string name, Entity* e)
+        : Property(name), m_entity(e) { }
+    virtual void Save (string input);
+    virtual void Load (string* out) const;
+
+    virtual bool editable () const { return true; }
+private:
+    Entity* m_entity;
+};
+
+class EntityRotationProperty : public Property {
+public:
+    EntityRotationProperty (string name, Entity* e)
+        : Property(name), m_entity(e) { }
+    virtual void Save (string input);
+    virtual void Load (string* out) const;
+
+    virtual bool editable () const { return true; }
+private:
+    Entity* m_entity;
+};
+
+class EntityScaleProperty : public Property {
+public:
+    EntityScaleProperty (string name, Entity* e)
+        : Property(name), m_entity(e) { }
+    virtual void Save (string input);
+    virtual void Load (string* out) const;
+
+    virtual bool editable () const { return true; }
+private:
+    Entity* m_entity;
+};

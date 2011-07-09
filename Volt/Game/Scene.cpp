@@ -9,7 +9,8 @@
 namespace Volt {
 
 Scene::Scene ()
-    : m_isPaused(false) {
+    : m_isPaused(false),
+      m_isEditor(false) {
 }
 
 Scene::~Scene () {
