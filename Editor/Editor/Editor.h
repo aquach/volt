@@ -68,6 +68,7 @@ private slots:
     bool SaveAs ();
     bool Close ();
     void Exit ();
+    void Clone ();
     void SelectMode (int id);
     void GridChecked (int state);
     void GridChanged (double value);

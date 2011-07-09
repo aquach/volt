@@ -31,6 +31,7 @@ public:
 
     void Add (Entity* entity, int layer = 0);
     void Remove (Entity* entity);
+    void OnEntityLayerChange (Entity* entity, int oldLayer, int newLayer);
 
     virtual void OnKeyEvent (SDL_KeyboardEvent event) { }
     virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event) { }
@@ -46,6 +47,9 @@ public:
     Camera* camera () { return &m_camera; }
 
     void GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities);
+
+    /* Returns a map from layers to the number of entities on that layer. */
+    void GetLayerEntityCounts (map<int, int>* mapOut);
 
 protected:
     Game* m_game;

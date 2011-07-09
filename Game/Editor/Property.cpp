@@ -40,7 +40,7 @@ void EntityLayerProperty::Save (string input) {
     stream >> layer;
     if (stream.fail())
         return;
-    //m_entity->SetLayer(layer);
+    m_entity->SetLayer(layer);
 }
 
 void EntityLayerProperty::Load (string* out) const {

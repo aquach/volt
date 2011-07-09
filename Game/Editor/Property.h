@@ -55,7 +55,7 @@ public:
     virtual void Save (string input);
     virtual void Load (string* out) const;
 
-    virtual bool editable () const { return false; }
+    virtual bool editable () const { return true; }
 private:
     Entity* m_entity;
 };

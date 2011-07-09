@@ -24,9 +24,7 @@ Scene::~Scene () {
 }
 
 void Scene::RemoveAll () {
-    for (Layers::iterator layer = m_layers.begin();
-         layer != m_layers.end();
-         layer++) {
+    FOR_(Layers::iterator, layer, m_layers) {
         list<Entity*>& entityList = layer->second;
         m_entitiesToRemove.insert(entityList.begin(), entityList.end());
     }
@@ -200,6 +198,42 @@ void Scene::GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities) {
     entities->resize(callback.m_entityList.size());
     copy(callback.m_entityList.begin(), callback.m_entityList.end(),
          entities->begin());
+}
+
+void Scene::OnEntityLayerChange (Entity* entity, int oldLayer, int newLayer) {
+    Layers::iterator found;
+    found = m_layers.find(oldLayer);
+    bool wasFound = false;
+    if (found != m_layers.end()) {
+        list<Entity*>& entityList = found->second;
+        list<Entity*>::iterator entityI = find(entityList.begin(),
+                                               entityList.end(),
+                                               entity);
+        if (entityI != entityList.end()) {
+            entityList.erase(entityI);
+            wasFound = true;
+        }
+    }
+
+    if (!wasFound) {
+        LOG(ERROR) << "Could not find entity " << *entity << " in old layer "
+                   << oldLayer << ".";
+    }
+
+    found = m_layers.find(newLayer);
+    if (found != m_layers.end()) {
+        found->second.push_back(entity);
+    } else {
+        list<Entity*> entityList;
+        entityList.push_back(entity);
+        m_layers.insert(make_pair(newLayer, entityList));
+    }
+}
+
+void Scene::GetLayerEntityCounts (map<int, int>* mapOut) {
+    FOR_(Layers::iterator, layer, m_layers) {
+        (*mapOut)[layer->first] = layer->second.size();
+    }
 }
 
 }

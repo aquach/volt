@@ -90,6 +90,11 @@ void Entity::SetScale (Vector2 scale) {
 }
 
 void Entity::SetLayer (int layer) {
+    int oldLayer = m_layer;
+    m_layer = layer;
+    if (m_scene == NULL)
+        return;
+    m_scene->OnEntityLayerChange(this, oldLayer, m_layer);
 }
 
 }

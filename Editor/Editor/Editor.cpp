@@ -62,7 +62,7 @@ Editor::Editor (const Volt::DataSource* source)
     action = new QAction("&Save As..", this);
     connect(action, SIGNAL(triggered()), this, SLOT(SaveAs()));
     file->addAction(action);
-    action = new QAction("&Close", this);
+    action = new QAction("Close", this);
     connect(action, SIGNAL(triggered()), this, SLOT(Close()));
     action->setShortcut(tr("Ctrl+W"));
     file->addAction(action);
@@ -71,7 +71,13 @@ Editor::Editor (const Volt::DataSource* source)
     connect(action, SIGNAL(triggered()), this, SLOT(Exit()));
     file->addAction(action);
 
-    QToolBar* toolbar = addToolBar(tr("File"));
+    QMenu* edit = menu->addMenu("&Edit");
+    action = new QAction("Clone", this);
+    action->setShortcut(tr("Ctrl+D"));
+    connect(action, SIGNAL(triggered()), this, SLOT(Clone()));
+    edit->addAction(action);
+
+    QToolBar* toolbar = addToolBar(tr("Modes"));
     QButtonGroup* group;
     group = new QButtonGroup;
     button = new QPushButton("Pan");
@@ -554,4 +560,7 @@ void Editor::GridChanged (double value) {
 
 void Editor::SnapChecked (int state) {
     m_snapOn = state == Qt::Checked;
+}
+
+void Editor::Clone () {
 }
