@@ -6,7 +6,6 @@ namespace Volt {
 
 void PhysicsDebugDraw::DrawPolygon (const b2Vec2* vertices, int32 vertexCount,
                                     const b2Color& color) {
-    glDisable(GL_BLEND);
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_LINE_LOOP);
 	for (int32 i = 0; i < vertexCount; ++i) {
@@ -26,7 +25,6 @@ void PhysicsDebugDraw::DrawSolidPolygon (const b2Vec2* vertices,
 		glVertex2f(vertices[i].x, vertices[i].y);
 	}
 	glEnd();
-	glDisable(GL_BLEND);
 
 	glColor4f(color.r, color.g, color.b, 1.0f);
 	glBegin(GL_LINE_LOOP);
@@ -81,7 +79,6 @@ void PhysicsDebugDraw::DrawSegment (const b2Vec2& p1, const b2Vec2& p2,
 }
 
 void PhysicsDebugDraw::DrawTransform (const b2Transform& xf) {
-    glDisable(GL_BLEND);
 	b2Vec2 p1 = xf.position, p2;
 	const float32 k_axisScale = 0.4f;
 	glBegin(GL_LINES);

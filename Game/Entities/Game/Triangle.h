@@ -19,13 +19,6 @@ public:
 
     virtual void OnScaleChanged ();
 
-    //virtual void OnAdded () { }
-
-    //virtual void BeginContact (Entity* other) { }
-    //virtual void EndContact (Entity* other) { }
-    //virtual bool PreSolve (Entity* other) { return true; }
-    //virtual bool CanCollideWith (Entity* other) { return true; }
-
 private:
     void CreatePhysicsBody ();
 

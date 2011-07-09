@@ -14,12 +14,7 @@ public:
     virtual void Load (const Json::Value& node);
     virtual void Save (Json::Value& node) const;
 
-    //virtual void OnAdded () { }
-
-    //virtual void BeginContact (Entity* other, b2Contact* contact);
-    //virtual void EndContact (Entity* other, b2Contact* contact);
-    //virtual bool PreSolve (Entity* other) { return true; }
-    //virtual bool CanCollideWith (Entity* other) { return true; }
+    virtual void OnScaleChanged ();
 
     float topY () const { return m_transform.position.y +
                                  m_transform.scale.y * 0.5f; }
@@ -27,5 +22,7 @@ public:
                                     m_transform.scale.y * 0.5f; }
 
 private:
+    void CreatePhysicsBody ();
+
     DISALLOW_COPY_AND_ASSIGN(Ladder);
 };

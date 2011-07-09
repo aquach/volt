@@ -16,10 +16,7 @@ void Ladder::Render () {
     glPopMatrix();
 }
 
-void Ladder::Load (const Json::Value& node) {
-    CHECK(node.isMember("transform"));
-    m_transform.Load(node["transform"]);
-
+void Ladder::CreatePhysicsBody () {
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -29,10 +26,21 @@ void Ladder::Load (const Json::Value& node) {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
-    //fixtureDef.isSensor = true;
+    fixtureDef.isSensor = true;
     m_body->CreateFixture(&fixtureDef);
+}
+
+void Ladder::Load (const Json::Value& node) {
+    CHECK(node.isMember("transform"));
+    m_transform.Load(node["transform"]);
+    CreatePhysicsBody();
 }
 
 void Ladder::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
+}
+
+void Ladder::OnScaleChanged () {
+    DestroyBody();
+    CreatePhysicsBody();
 }

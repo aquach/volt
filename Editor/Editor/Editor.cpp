@@ -197,6 +197,7 @@ Editor::Editor (const Volt::DataSource* source)
     Volt::AssetManager::Register(m_assetManager);
 
     m_physicsManager = new Volt::PhysicsManager;
+    m_physicsManager->SetDebugDraw(true);
     Volt::PhysicsManager::Register(m_physicsManager);
 
     m_scene = new EditorScene;
