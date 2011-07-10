@@ -9,6 +9,9 @@ public:
     Triangle ();
     virtual ~Triangle ();
 
+    virtual Triangle* Clone () const;
+    void CopyFrom (const Triangle* other);
+
     virtual void Update ();
     virtual void Render ();
 

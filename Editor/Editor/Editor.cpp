@@ -586,6 +586,12 @@ void Editor::SnapChecked (int state) {
 }
 
 void Editor::Clone () {
+    vector<Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    FOR_(vector<Entity*>::iterator, i, selectedEntities) {
+        Entity* entity = *i;
+        m_scene->Add(entity->Clone(), entity->layer());
+    }
 }
 
 void Editor::AddRecentDocument (string filename) {

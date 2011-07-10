@@ -93,3 +93,16 @@ void Triangle::OnScaleChanged () {
     DestroyBody();
     CreatePhysicsBody();
 }
+
+Triangle* Triangle::Clone () const {
+    Triangle* newTriangle = new Triangle;
+    newTriangle->CopyFrom(this);
+    return newTriangle;
+}
+
+void Triangle::CopyFrom (const Triangle* other) {
+    Entity::CopyFrom(other);
+    DestroyBody();
+    CreatePhysicsBody();
+}
+

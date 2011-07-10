@@ -80,8 +80,10 @@ void Entity::SetRotation (float rotation) {
 }
 
 void Entity::DestroyBody () {
-    G_PhysicsManager->world()->DestroyBody(m_body);
-    m_body = NULL;
+    if (m_body != NULL) {
+        G_PhysicsManager->world()->DestroyBody(m_body);
+        m_body = NULL;
+    }
 }
 
 void Entity::SetScale (Vector2 scale) {
@@ -95,6 +97,10 @@ void Entity::SetLayer (int layer) {
     if (m_scene == NULL)
         return;
     m_scene->OnEntityLayerChange(this, oldLayer, m_layer);
+}
+
+void Entity::CopyFrom (const Entity* other) {
+    m_transform = other->m_transform;
 }
 
 }
