@@ -17,6 +17,7 @@ class EditorScene;
 class Entity;
 class GLWidget;
 class PropertyModel;
+class QSettings;
 class SelectionManager;
 class Triangle;
 
@@ -73,6 +74,7 @@ private slots:
     void GridChecked (int state);
     void GridChanged (double value);
     void SnapChecked (int state);
+    void OpenRecent ();
 
 private:
     class ModeState : public Volt::FSMState {
@@ -190,6 +192,10 @@ private:
         QPoint m_lastPoint;
     };
 
+    void AddRecentDocument (string filename);
+    void LoadRecentDocuments ();
+    void OpenFile (string filename);
+
     int CheckModified ();
     Entity* GetTopEntityAtPoint (Vector2 screenPos);
     Triangle* GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex);
@@ -211,4 +217,7 @@ private:
     bool m_gridOn;
     bool m_snapOn;
     PropertyModel* m_propertyModel;
+    vector<QAction*> m_recentActions;
+    QSettings* m_settings;
+    QAction* m_recentFileSeparator;
 };

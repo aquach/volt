@@ -12,6 +12,7 @@
 #include "Editor/Editor/PropertyModel.h"
 
 const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
+const int MAX_RECENT_DOCUMENTS = 10;
 
 enum ModeButtonType {
     MODE_PAN,
@@ -35,10 +36,14 @@ Editor::Editor (const Volt::DataSource* source)
       m_gridSize(1.0f),
       m_gridOn(true),
       m_snapOn(false),
-      m_propertyModel(NULL) {
+      m_propertyModel(NULL),
+      m_settings(NULL),
+      m_recentFileSeparator(NULL) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
+
+    m_settings = new QSettings;
 
     QAction* action;
     QPushButton* button;
@@ -62,6 +67,19 @@ Editor::Editor (const Volt::DataSource* source)
     action = new QAction("&Save As..", this);
     connect(action, SIGNAL(triggered()), this, SLOT(SaveAs()));
     file->addAction(action);
+
+    file->addSeparator();
+
+    for (int i = 0; i < MAX_RECENT_DOCUMENTS; i++) {
+        action = new QAction("", this);
+        connect(action, SIGNAL(triggered()), this, SLOT(OpenRecent()));
+        file->addAction(action);
+        m_recentActions.push_back(action);
+    }
+    m_recentFileSeparator = file->addSeparator();
+
+    LoadRecentDocuments();
+
     action = new QAction("Close", this);
     connect(action, SIGNAL(triggered()), this, SLOT(Close()));
     action->setShortcut(tr("Ctrl+W"));
@@ -325,15 +343,20 @@ void Editor::Open () {
     if (filename == "")
         return;
 
+    OpenFile(filename.toStdString());
+}
+
+void Editor::OpenFile (string filename) {
     bool success = m_scene->m_levelManager->LoadLevelFromFilename(
-                    filename.toStdString());
+                    filename);
     if (success) {
+        AddRecentDocument(filename);
         statusBar()->showMessage("Opened level.");
         ClearModified();
     } else {
         QMessageBox::critical(this, " ", "Failed to open file.");
     }
-    SetTitle(filename.toStdString());
+    SetTitle(filename);
 }
 
 bool Editor::Save () {
@@ -563,4 +586,34 @@ void Editor::SnapChecked (int state) {
 }
 
 void Editor::Clone () {
+}
+
+void Editor::AddRecentDocument (string filename) {
+    QStringList files = m_settings->value("recentFileList").toStringList();
+    files.removeAll(QString::fromStdString(filename));
+    files.prepend(QString::fromStdString(filename));
+    m_settings->setValue("recentFileList", files);
+    LoadRecentDocuments();
+}
+
+void Editor::LoadRecentDocuments () {
+    QStringList files = m_settings->value("recentFileList").toStringList();
+    int numFiles = MIN(files.size(), MAX_RECENT_DOCUMENTS);
+    for (int i = 0; i < numFiles; i++) {
+        QString text = tr("&%1 %2").arg(i + 1)
+                       .arg(QFileInfo(files[i]).fileName());
+        m_recentActions[i]->setText(text);
+        m_recentActions[i]->setData(QFileInfo(files[i]).absoluteFilePath());
+        m_recentActions[i]->setVisible(true);
+    }
+    for (int i = numFiles; i < MAX_RECENT_DOCUMENTS; i++)
+        m_recentActions[i]->setVisible(false);
+
+    m_recentFileSeparator->setVisible(numFiles > 0);
+}
+
+void Editor::OpenRecent () {
+    QAction* action = qobject_cast<QAction*>(sender());
+    CHECK_NOTNULL(action);
+    OpenFile(action->data().toString().toStdString());
 }
