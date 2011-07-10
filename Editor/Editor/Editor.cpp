@@ -90,6 +90,10 @@ Editor::Editor (const Volt::DataSource* source)
     file->addAction(action);
 
     QMenu* edit = menu->addMenu("&Edit");
+   action = new QAction("Select All", this);
+    action->setShortcut(tr("Ctrl+A"));
+    connect(action, SIGNAL(triggered()), this, SLOT(SelectAll()));
+    edit->addAction(action);
     action = new QAction("Clone", this);
     action->setShortcut(tr("Ctrl+D"));
     connect(action, SIGNAL(triggered()), this, SLOT(Clone()));
@@ -588,9 +592,15 @@ void Editor::SnapChecked (int state) {
 void Editor::Clone () {
     vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    G_SelectionManager->DeselectAll();
     FOR_(vector<Entity*>::iterator, i, selectedEntities) {
         Entity* entity = *i;
-        m_scene->Add(entity->Clone(), entity->layer());
+        Volt::Entity* cloned = entity->Clone();
+        if (cloned != NULL) {
+            m_scene->Add(cloned, entity->layer());
+            if (Entity* e = dynamic_cast<Entity*>(cloned))
+                G_SelectionManager->SelectEntity(e);
+        }
     }
 }
 
@@ -622,4 +632,15 @@ void Editor::OpenRecent () {
     QAction* action = qobject_cast<QAction*>(sender());
     CHECK_NOTNULL(action);
     OpenFile(action->data().toString().toStdString());
+}
+
+void Editor::SelectAll () {
+    Volt::Scene::Layers entitiesByLayer = m_scene->GetEntities();
+        FOR_ (Volt::Scene::Layers::iterator, layer, entitiesByLayer) {
+            FOR_(list<Volt::Entity*>::iterator, i, layer->second) {
+                Entity* e = dynamic_cast<Entity*>(*i);
+                if (e != NULL)
+                    G_SelectionManager->SelectEntity(e);
+            }
+        }
 }

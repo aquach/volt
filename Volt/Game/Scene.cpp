@@ -34,10 +34,7 @@ void Scene::Update () {
     if (!m_isPaused) {
         m_camera.Update();
         FOR_ (Layers::iterator, layer, m_layers) {
-            list<Entity*>& entityList = layer->second;
-            for (list<Entity*>::iterator i = entityList.begin();
-                 i != entityList.end();
-                 i++) {
+            FOR_(list<Entity*>::iterator, i, layer->second) {
                 (*i)->Update();
             }
         }

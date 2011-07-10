@@ -18,6 +18,8 @@ class Game;
  */
 class Scene {
 public:
+    typedef map<int, list<Entity* > > Layers;
+
     Scene ();
     virtual ~Scene ();
 
@@ -51,6 +53,8 @@ public:
     /* Returns a map from layers to the number of entities on that layer. */
     void GetLayerEntityCounts (map<int, int>* mapOut);
 
+    Layers GetEntities () const { return m_layers; }
+
 protected:
     Game* m_game;
     bool m_isPaused;
@@ -63,7 +67,6 @@ private:
     void ResolveEntityChanges ();
     void RemoveAll ();
 
-    typedef map<int, list<Entity* > > Layers;
     Layers m_layers;
     set<Entity*> m_entitiesToAdd;
     set<Entity*> m_entitiesToRemove;

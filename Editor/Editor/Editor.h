@@ -75,6 +75,7 @@ private slots:
     void GridChanged (double value);
     void SnapChecked (int state);
     void OpenRecent ();
+    void SelectAll ();
 
 private:
     class ModeState : public Volt::FSMState {
