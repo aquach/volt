@@ -19,9 +19,9 @@ public:
 
     virtual void OnScaleChanged ();
 
-    float topY () const { return m_transform.position.y +
+    float topY () const { return m_transform.position.y -
                                  m_transform.scale.y * 0.5f; }
-    float bottomY () const { return m_transform.position.y -
+    float bottomY () const { return m_transform.position.y +
                                     m_transform.scale.y * 0.5f; }
 
 private:
