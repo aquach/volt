@@ -303,6 +303,7 @@ void Graphics::RenderText (FontAssetRef font, const string& text,
         }
     }
     glEnd();
+    BindFont(NULL);
 }
 
 void Graphics::RenderAxes () {

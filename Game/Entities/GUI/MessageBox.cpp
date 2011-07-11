@@ -21,7 +21,7 @@ void MessageBox::Skip () {
         m_textStream << m_def.text[m_currentCharacter++];
     }
 }
-    
+
 void MessageBox::Update () {
     if (HasCharactersRemaining()) {
         m_nextCharTimer -= Volt::G_Game->dt();
@@ -63,14 +63,15 @@ void MessageBox::Render () {
     );
     box = box.Expand(-MARGIN);
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::SetColor(Volt::Color::RGBA(150, 150, 200, 70));
+    Graphics::SetColor(Volt::Color::RGBA(200, 200, 255, 85));
     Graphics::Translate(box.center());
     Graphics::RenderQuad(box.extents().x, box.extents().y);
     glLoadIdentity();
-    
+
     Volt::BBox textBox = box.Expand(-TEXT_MARGIN);
     Graphics::SetColor(Volt::Color::RGB(0, 0, 0));
-    Graphics::RenderText(m_font, m_textStream.str(), textBox.min.x, textBox.min.y);
+    Graphics::RenderText(m_font, m_textStream.str(), textBox.min.x,
+                         textBox.min.y);
 
     glPopMatrix();
 }
