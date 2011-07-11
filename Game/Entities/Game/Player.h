@@ -24,10 +24,8 @@ public:
     virtual void OnAdded ();
     virtual void OnRemoved ();
 
-    virtual void BeginContact (Entity* other, b2Contact* contact);
-    virtual void EndContact (Entity* other, b2Contact* contact);
-    //virtual bool PreSolve (Entity* other) { return true; }
-    //virtual bool CanCollideWith (Entity* other) { return true; }
+    virtual void BeginContact (Volt::Entity* other, b2Contact* contact);
+    virtual void EndContact (Volt::Entity* other, b2Contact* contact);
 
     bool IsOnGround () const;
 

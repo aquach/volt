@@ -259,7 +259,7 @@ void Player::Render () {
     glPopMatrix();
 }
 
-void Player::BeginContact (Entity* other, b2Contact* contact) {
+void Player::BeginContact (Volt::Entity* other, b2Contact* contact) {
     Ladder* ladder;
 
     // Hack to limit scope to just triangles.
@@ -282,7 +282,7 @@ void Player::BeginContact (Entity* other, b2Contact* contact) {
     }
 }
 
-void Player::EndContact (Entity* other, b2Contact* contact) {
+void Player::EndContact (Volt::Entity* other, b2Contact* contact) {
     if (dynamic_cast<Triangle*>(other) != NULL) {
         for (int i = 0; i < 4; i++)
             if (m_sideContacts[i] == other->body())
