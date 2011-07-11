@@ -8,6 +8,9 @@ public:
     Ladder ();
     virtual ~Ladder ();
 
+    virtual Ladder* Clone () const;
+    void CopyFrom (const Ladder* other);
+
     virtual void Update () { }
     virtual void Render ();
 

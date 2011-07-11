@@ -1,22 +1,22 @@
-#include "Game/Entities/Game/Ladder.h"
+#include "Game/Entities/Game/SavePoint.h"
 #include "Game/Graphics/Graphics.h"
 
-Ladder::Ladder () {
-    AddTag("Ladder");
+SavePoint::SavePoint () {
+    AddTag("SavePoint");
 }
 
-Ladder::~Ladder () {
+SavePoint::~SavePoint () {
 }
 
-void Ladder::Render () {
-    Graphics::SetColor(Volt::Color::RGB(0, 100, 0));
+void SavePoint::Render () {
+    Graphics::SetColor(Volt::Color::RGB(150, 0, 150));
     glPushMatrix();
     Graphics::TransformMatrix(m_transform);
     Graphics::RenderQuad(1, 1);
     glPopMatrix();
 }
 
-void Ladder::CreatePhysicsBody () {
+void SavePoint::CreatePhysicsBody () {
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -30,28 +30,28 @@ void Ladder::CreatePhysicsBody () {
     m_body->CreateFixture(&fixtureDef);
 }
 
-void Ladder::Load (const Json::Value& node) {
+void SavePoint::Load (const Json::Value& node) {
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
-void Ladder::Save (Json::Value& node) const {
+void SavePoint::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
 }
 
-void Ladder::OnScaleChanged () {
+void SavePoint::OnScaleChanged () {
     DestroyBody();
     CreatePhysicsBody();
 }
 
-Ladder* Ladder::Clone () const {
-    Ladder* newLadder = new Ladder;
-    newLadder->CopyFrom(this);
-    return newLadder;
+SavePoint* SavePoint::Clone () const {
+    SavePoint* newSavePoint = new SavePoint;
+    newSavePoint->CopyFrom(this);
+    return newSavePoint;
 }
 
-void Ladder::CopyFrom (const Ladder* other) {
+void SavePoint::CopyFrom (const SavePoint* other) {
     Entity::CopyFrom(other);
     DestroyBody();
     CreatePhysicsBody();
