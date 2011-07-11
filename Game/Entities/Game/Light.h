@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Game/Game/Game/Entity.h"
+#include "Game/Game/Entity.h"
 
 class Light : public Entity {
 public:

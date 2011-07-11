@@ -76,6 +76,7 @@ private slots:
     void SnapChecked (int state);
     void OpenRecent ();
     void SelectAll ();
+    void Create (QString entityName);
 
 private:
     class ModeState : public Volt::FSMState {

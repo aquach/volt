@@ -1,11 +1,15 @@
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Graphics/Graphics.h"
 #include "Game/Editor/SelectionManager.h"
+#include "Game/Editor/EntityFactory.h"
+
+REGISTER_ENTITY_(Triangle);
 
 const float SELECT_SLACK = 0.3;
 
 Triangle::Triangle () {
     AddTag("Triangle");
+    CreatePhysicsBody();
 }
 
 Triangle::~Triangle () {
@@ -54,6 +58,7 @@ void Triangle::Render () {
 }
 
 void Triangle::CreatePhysicsBody () {
+    DestroyBody();
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -90,7 +95,6 @@ void Triangle::Save (Json::Value& node) const {
 }
 
 void Triangle::OnScaleChanged () {
-    DestroyBody();
     CreatePhysicsBody();
 }
 
@@ -102,7 +106,6 @@ Triangle* Triangle::Clone () const {
 
 void Triangle::CopyFrom (const Triangle* other) {
     Entity::CopyFrom(other);
-    DestroyBody();
     CreatePhysicsBody();
 }
 

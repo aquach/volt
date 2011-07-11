@@ -1,8 +1,12 @@
 #include "Game/Entities/Game/Sign.h"
 #include "Game/Graphics/Graphics.h"
+#include "Game/Editor/EntityFactory.h"
+
+REGISTER_ENTITY_(Sign);
 
 Sign::Sign () {
     AddTag("Sign");
+    CreatePhysicsBody();
 }
 
 Sign::~Sign () {
@@ -17,6 +21,7 @@ void Sign::Render () {
 }
 
 void Sign::CreatePhysicsBody () {
+    DestroyBody();
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -41,7 +46,6 @@ void Sign::Save (Json::Value& node) const {
 }
 
 void Sign::OnScaleChanged () {
-    DestroyBody();
     CreatePhysicsBody();
 }
 
@@ -53,7 +57,6 @@ Sign* Sign::Clone () const {
 
 void Sign::CopyFrom (const Sign* other) {
     Entity::CopyFrom(other);
-    DestroyBody();
     CreatePhysicsBody();
 }
 

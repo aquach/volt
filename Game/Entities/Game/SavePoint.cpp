@@ -1,5 +1,8 @@
 #include "Game/Entities/Game/SavePoint.h"
 #include "Game/Graphics/Graphics.h"
+#include "Game/Editor/EntityFactory.h"
+
+REGISTER_ENTITY_(SavePoint);
 
 SavePoint::SavePoint () {
     AddTag("SavePoint");

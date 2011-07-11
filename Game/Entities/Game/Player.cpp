@@ -10,6 +10,7 @@
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/SDLWindow.h"
 #include "Volt/GUI/Label.h"
+#include "Game/Editor/EntityFactory.h"
 
 const float WIDTH = 1.5f;
 const float HEIGHT = 2.0f;

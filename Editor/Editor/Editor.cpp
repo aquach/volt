@@ -5,6 +5,7 @@
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Viewport.h"
 #include "Game/Game/LevelManager.h"
+#include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/SelectionManager.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Editor/Editor/EditorScene.h"
@@ -90,7 +91,7 @@ Editor::Editor (const Volt::DataSource* source)
     file->addAction(action);
 
     QMenu* edit = menu->addMenu("&Edit");
-   action = new QAction("Select All", this);
+    action = new QAction("Select All", this);
     action->setShortcut(tr("Ctrl+A"));
     connect(action, SIGNAL(triggered()), this, SLOT(SelectAll()));
     edit->addAction(action);
@@ -179,6 +180,22 @@ Editor::Editor (const Volt::DataSource* source)
             SLOT(GridChanged(double)));
 
     connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
+
+    toolbar->addSeparator();
+
+    QLabel* label = new QLabel(this);
+    label->setText("Create");
+    label->setMargin(5);
+    toolbar->addWidget(label);
+
+    QComboBox* combo = new QComboBox(this);
+    vector<string> entityTypes;
+    EntityFactory::GetEntityTypes(&entityTypes);
+    for (uint i = 0; i < entityTypes.size(); i++)
+        combo->addItem(QString::fromStdString(entityTypes[i]));
+    toolbar->addWidget(combo);
+    connect(combo, SIGNAL(currentIndexChanged(QString)), this,
+            SLOT(Create(QString)));
 
     dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
@@ -643,4 +660,9 @@ void Editor::SelectAll () {
                     G_SelectionManager->SelectEntity(e);
             }
         }
+}
+
+void Editor::Create (QString entityName) {
+    Entity* e = EntityFactory::Create(entityName.toStdString());
+    m_scene->Add(e);
 }

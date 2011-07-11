@@ -1,8 +1,12 @@
 #include "Game/Entities/Game/Ladder.h"
 #include "Game/Graphics/Graphics.h"
+#include "Game/Editor/EntityFactory.h"
+
+REGISTER_ENTITY_(Ladder);
 
 Ladder::Ladder () {
     AddTag("Ladder");
+    CreatePhysicsBody();
 }
 
 Ladder::~Ladder () {
@@ -17,6 +21,7 @@ void Ladder::Render () {
 }
 
 void Ladder::CreatePhysicsBody () {
+    DestroyBody();
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -41,7 +46,6 @@ void Ladder::Save (Json::Value& node) const {
 }
 
 void Ladder::OnScaleChanged () {
-    DestroyBody();
     CreatePhysicsBody();
 }
 
@@ -53,6 +57,5 @@ Ladder* Ladder::Clone () const {
 
 void Ladder::CopyFrom (const Ladder* other) {
     Entity::CopyFrom(other);
-    DestroyBody();
     CreatePhysicsBody();
 }
