@@ -56,6 +56,19 @@ void Player::NormalState::OnKeyEvent (SDL_KeyboardEvent event) {
         }
     }
 
+    // Accessing things.
+    if (event.keysym.sym == SDLK_UP) {
+        if (event.type == SDL_KEYDOWN) {
+            vector<Volt::Entity*> entities;
+            m_p->scene()->GetEntitiesAtPoint(m_p->position(), &entities);
+            for (uint i = 0; i < entities.size(); i++) {
+                if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
+                    e->OnAccessed(m_p);
+                }
+            }
+        }
+    }
+
     // Wall jump.
     if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
         if (!m_p->IsOnGround()) {

@@ -3,6 +3,7 @@
 #include "Volt/Assets/DataSource.h"
 #include "Game/Game/Entity.h"
 #include "Game/Entities/Game/Ladder.h"
+#include "Game/Entities/Game/Sign.h"
 #include "Game/Entities/Game/Triangle.h"
 
 LevelManager::LevelManager ()
@@ -25,6 +26,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
 
     const Json::Value& root = asset->data();
 
+    // TODO: More generic way.
     const Json::Value& triangles = root["triangles"];
     for (uint i = 0; i < triangles.size(); i++) {
         const Json::Value& node = triangles[i];
@@ -41,6 +43,15 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         ladder->Load(node);
         m_entities.insert(ladder);
         m_scene->Add(ladder);
+    }
+
+    const Json::Value& signs = root["signs"];
+    for (uint i = 0; i < signs.size(); i++) {
+        const Json::Value& node = signs[i];
+        Sign* sign = new Sign;
+        sign->Load(node);
+        m_entities.insert(sign);
+        m_scene->Add(sign);
     }
 }
 
