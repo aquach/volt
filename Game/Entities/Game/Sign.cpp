@@ -1,22 +1,22 @@
-#include "Game/Entities/Game/SavePoint.h"
+#include "Game/Entities/Game/Sign.h"
 #include "Game/Graphics/Graphics.h"
 
-SavePoint::SavePoint () {
-    AddTag("SavePoint");
+Sign::Sign () {
+    AddTag("Sign");
 }
 
-SavePoint::~SavePoint () {
+Sign::~Sign () {
 }
 
-void SavePoint::Render () {
-    Graphics::SetColor(Volt::Color::RGB(150, 0, 150));
+void Sign::Render () {
+    Graphics::SetColor(Volt::Color::RGB(200, 0, 0));
     glPushMatrix();
     Graphics::TransformMatrix(m_transform);
     Graphics::RenderQuad(1, 1);
     glPopMatrix();
 }
 
-void SavePoint::CreatePhysicsBody () {
+void Sign::CreatePhysicsBody () {
     b2BodyDef def;
     def.type = b2_staticBody;
     m_body = CreateBody(def);
@@ -30,33 +30,35 @@ void SavePoint::CreatePhysicsBody () {
     m_body->CreateFixture(&fixtureDef);
 }
 
-void SavePoint::Load (const Json::Value& node) {
+void Sign::Load (const Json::Value& node) {
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
-void SavePoint::Save (Json::Value& node) const {
+void Sign::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
 }
 
-void SavePoint::OnScaleChanged () {
+void Sign::OnScaleChanged () {
     DestroyBody();
     CreatePhysicsBody();
 }
 
-SavePoint* SavePoint::Clone () const {
-    SavePoint* newSavePoint = new SavePoint;
-    newSavePoint->CopyFrom(this);
-    return newSavePoint;
+Sign* Sign::Clone () const {
+    Sign* newSign = new Sign;
+    newSign->CopyFrom(this);
+    return newSign;
 }
 
-void SavePoint::CopyFrom (const SavePoint* other) {
+void Sign::CopyFrom (const Sign* other) {
     Entity::CopyFrom(other);
     DestroyBody();
     CreatePhysicsBody();
 }
 
-void SavePoint::OnAccessed (Entity* accessor) {
-    // TODO: Save dialog.
+void Sign::OnAccessed (Entity* accessor) {
+    // Make text!!
+    // TODO: Maybe give Entities a AccessListener interface to register
+    // arbitrary access listeners. Also need to make Player trigger Accesses.
 }

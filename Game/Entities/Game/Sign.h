@@ -3,13 +3,13 @@
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
 
-class SavePoint : public Entity {
+class Sign : public Entity {
 public:
-    SavePoint ();
-    virtual ~SavePoint ();
+    Sign ();
+    virtual ~Sign ();
 
-    virtual SavePoint* Clone () const;
-    void CopyFrom (const SavePoint* other);
+    virtual Sign* Clone () const;
+    void CopyFrom (const Sign* other);
 
     virtual void Update () { }
     virtual void Render ();
@@ -24,5 +24,5 @@ public:
 private:
     void CreatePhysicsBody ();
 
-    DISALLOW_COPY_AND_ASSIGN(SavePoint);
+    DISALLOW_COPY_AND_ASSIGN(Sign);
 };
