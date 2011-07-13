@@ -1,7 +1,6 @@
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Graphics/Graphics.h"
 #include "Game/Editor/SelectionManager.h"
-#include "Game/Editor/EntityFactory.h"
 
 REGISTER_ENTITY_(Triangle);
 
@@ -85,12 +84,14 @@ void Triangle::CreatePhysicsBody () {
 }
 
 void Triangle::Load (const Json::Value& node) {
+    CHECK(node["type"].asString() == "Triangle");
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
 void Triangle::Save (Json::Value& node) const {
+    node["type"] = "Triangle";
     m_transform.Save(node["transform"]);
 }
 

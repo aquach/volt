@@ -5,7 +5,7 @@ EntityFactory::Types* EntityFactory::s_types = NULL;
 
 Entity* EntityFactory::Create (string name) {
     EntityFactory::Types::iterator iter = s_types->find(name);
-    CHECK(iter != s_types->end());
+    CHECK(iter != s_types->end()) << "Invalid entity type " << name;
     return iter->second();
 }
 

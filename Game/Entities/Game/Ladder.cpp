@@ -1,6 +1,5 @@
 #include "Game/Entities/Game/Ladder.h"
 #include "Game/Graphics/Graphics.h"
-#include "Game/Editor/EntityFactory.h"
 
 REGISTER_ENTITY_(Ladder);
 
@@ -36,12 +35,14 @@ void Ladder::CreatePhysicsBody () {
 }
 
 void Ladder::Load (const Json::Value& node) {
+    CHECK(node["type"].asString() == "Ladder");
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
 void Ladder::Save (Json::Value& node) const {
+    node["type"] = "Ladder";
     m_transform.Save(node["transform"]);
 }
 

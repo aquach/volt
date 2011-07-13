@@ -2,6 +2,7 @@
 #include "Game/Game/LevelManager.h"
 #include "Game/Editor/SelectionManager.h"
 #include "Editor/Editor/Editor.h"
+#include "Game/Entities/Game/Ladder.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 const char* EDITOR_TITLE = "Endmill Editor";
@@ -11,6 +12,8 @@ EditorScene::EditorScene ()
       m_editor(NULL),
       m_cameraMoveX(0),
       m_cameraMoveY(0) {
+
+    void* a = (void*)&Ladder::LadderRegister;
 
     m_isEditor = true;
 

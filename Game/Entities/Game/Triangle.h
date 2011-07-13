@@ -2,6 +2,7 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
+#include "Game/Editor/EntityFactory.h"
 
 /* A triangle of the terrain. */
 class Triangle : public Entity {
@@ -24,6 +25,8 @@ public:
 
 private:
     void CreatePhysicsBody ();
+
+    DECLARE_ENTITY_(Triangle);
 
     DISALLOW_COPY_AND_ASSIGN(Triangle);
 };

@@ -2,6 +2,7 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
+#include "Game/Editor/EntityFactory.h"
 
 class Sign : public Entity {
 public:
@@ -24,5 +25,7 @@ public:
 private:
     void CreatePhysicsBody ();
 
+    DECLARE_ENTITY_(Sign);
+    
     DISALLOW_COPY_AND_ASSIGN(Sign);
 };

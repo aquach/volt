@@ -233,4 +233,13 @@ void Scene::GetLayerEntityCounts (map<int, int>* mapOut) {
     }
 }
 
+void Scene::GetEntities (vector<Entity*>* entities) {
+    vector<Entity*>::iterator iter = entities->begin();
+    entities->resize(0);
+    FOR_(Layers::iterator, layer, m_layers) {
+        entities->resize(entities->size() + layer->second.size());
+        iter = copy(layer->second.begin(), layer->second.end(), iter);
+    }
+}
+
 }

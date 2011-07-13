@@ -1,50 +1,50 @@
-{
-    "triangles" : [
-        {
-            "transform": {
-                "position": [-1, 1],
-                "scale": [1, 50],
-                "rotation": 200
-            }
-        },
-        {
-            "transform": {
-                "position": [20, 0],
-                "scale": [10, 5],
-                "rotation": 180
-            }
-        },
-        {
-            "transform": {
-                "position": [6, -5.5],
-                "scale": [8, 1],
-                "rotation": 0
-            }
-        },
-        {
-            "transform": {
-                "position": [-1, 1],
-                "scale": [20, 1],
-                "rotation": 10
-            }
+[
+    {
+        "type": "Triangle",
+        "transform": {
+            "position": [-1, 1],
+            "scale": [1, 50],
+            "rotation": 200
         }
-    ],
-    "ladders" : [
-        {
-            "transform": {
-                "position": [5, 0],
-                "scale": [0.5, 20],
-                "rotation": 0
-            }
+    },
+    {
+        "type": "Triangle",
+        "transform": {
+            "position": [20, 0],
+            "scale": [10, 5],
+            "rotation": 180
         }
-    ],
-    "signs" : [
-        {
-            "transform": {
-                "position": [7, 0],
-                "scale": [1, 1],
-                "rotation": 0
-            }
+    },
+    {
+        "type": "Triangle",
+        "transform": {
+            "position": [6, -5.5],
+            "scale": [8, 1],
+            "rotation": 0
         }
-    ]
-}
+    },
+    {
+        "type": "Triangle",
+        "transform": {
+            "position": [-1, 1],
+            "scale": [20, 1],
+            "rotation": 10
+        }
+    },
+    {
+        "type": "Ladder",
+        "transform": {
+            "position": [5, 0],
+            "scale": [0.5, 20],
+            "rotation": 0
+        }
+    }/*,
+    {
+        "type": "Sign",
+        "transform": {
+            "position": [7, 0],
+            "scale": [1, 1],
+            "rotation": 0
+        }
+    }*/
+]

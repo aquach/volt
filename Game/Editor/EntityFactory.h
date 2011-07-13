@@ -32,11 +32,12 @@ template<typename T> class EntityRegister : public EntityFactory {
 public:
     explicit EntityRegister (const string& name) {
         GetTypeMap()->insert(make_pair(name, &createEntity<T>));
+        LOG(INFO) << name;
     }
 };
 
-/* There may be an issue where the linker doesn't recognize that it needs to
- * invoke the constructors of variables in compilation units it realizes are
- * not necessary to link the program. */
+#define DECLARE_ENTITY_(TYPE) \
+    static EntityRegister<TYPE> TYPE##Register;
+    
 #define REGISTER_ENTITY_(TYPE) \
-    static EntityRegister<TYPE> TYPE##Register(#TYPE);
+    EntityRegister<TYPE> TYPE::TYPE##Register(#TYPE);

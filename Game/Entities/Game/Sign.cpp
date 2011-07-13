@@ -1,6 +1,5 @@
 #include "Game/Entities/Game/Sign.h"
 #include "Game/Graphics/Graphics.h"
-#include "Game/Editor/EntityFactory.h"
 
 REGISTER_ENTITY_(Sign);
 
@@ -36,12 +35,14 @@ void Sign::CreatePhysicsBody () {
 }
 
 void Sign::Load (const Json::Value& node) {
+    CHECK(node["type"].asString() == "Sign");
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
 void Sign::Save (Json::Value& node) const {
+    node["type"] = "Sign";
     m_transform.Save(node["transform"]);
 }
 

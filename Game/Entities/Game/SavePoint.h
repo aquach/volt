@@ -2,6 +2,7 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
+#include "Game/Editor/EntityFactory.h"
 
 class SavePoint : public Entity {
 public:
@@ -24,5 +25,6 @@ public:
 private:
     void CreatePhysicsBody ();
 
+    DECLARE_ENTITY_(SavePoint);
     DISALLOW_COPY_AND_ASSIGN(SavePoint);
 };

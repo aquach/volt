@@ -2,9 +2,12 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
+#include "Game/Editor/EntityFactory.h"
 
 class Ladder : public Entity {
 public:
+    DECLARE_ENTITY_(Ladder);
+    
     Ladder ();
     virtual ~Ladder ();
 
