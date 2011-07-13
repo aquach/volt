@@ -39,7 +39,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_snapOn(false),
       m_propertyModel(NULL),
       m_settings(NULL),
-      m_recentFileSeparator(NULL) {
+      m_recentFileSeparator(NULL),
+      m_modifiedLabel(NULL) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -225,7 +226,8 @@ Editor::Editor (const Volt::DataSource* source)
     m_propertyModel = new PropertyModel;
     view->setModel(m_propertyModel);
     view->horizontalHeader()->setStretchLastSection(true);
-    connect(view, SIGNAL(activated()), this, SLOT(PropertyActivated()));
+    connect(view, SIGNAL(activated(QModelIndex)), this,
+            SLOT(PropertyActivated()));
     dock->setWidget(view);
 
     m_viewport = new GLWidget;
@@ -234,6 +236,8 @@ Editor::Editor (const Volt::DataSource* source)
     Volt::Viewport::Register(m_viewport);
 
     statusBar()->showMessage("Ready");
+    m_modifiedLabel = new QLabel("");
+    statusBar()->addPermanentWidget(m_modifiedLabel);
 
     m_graphics = new Volt::Graphics(m_viewport);
     m_graphics->Set2D(m_viewport->width(), m_viewport->height());
@@ -444,7 +448,9 @@ bool Editor::Close () {
     }
     G_SelectionManager->DeselectAll();
     m_scene->m_levelManager->UnloadLevel();
+    m_scene->RemoveAll();
     SetTitle("");
+    ClearModified();
     return true;
 }
 
@@ -677,3 +683,14 @@ void Editor::Create (QString entityName) {
 void Editor::PropertyActivated () {
     OnModified();
 }
+
+void Editor::OnModified () {
+    m_modified = true;
+    m_modifiedLabel->setText("Modified");
+}
+
+void Editor::ClearModified () {
+    m_modified = false;
+    m_modifiedLabel->setText("");
+}
+

@@ -33,6 +33,7 @@ public:
 
     void Add (Entity* entity, int layer = 0);
     void Remove (Entity* entity);
+    void RemoveAll ();
     void OnEntityLayerChange (Entity* entity, int oldLayer, int newLayer);
 
     virtual void OnKeyEvent (SDL_KeyboardEvent event) { }
@@ -66,7 +67,6 @@ private:
     friend class Game;
 
     void ResolveEntityChanges ();
-    void RemoveAll ();
 
     Layers m_layers;
     set<Entity*> m_entitiesToAdd;

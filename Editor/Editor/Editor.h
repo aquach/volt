@@ -17,6 +17,7 @@ class EditorScene;
 class Entity;
 class GLWidget;
 class PropertyModel;
+class QLabel;
 class QSettings;
 class SelectionManager;
 class Triangle;
@@ -37,8 +38,8 @@ public:
     void MoveHorizontal (int dir);
     void MoveVertical (int dir);
 
-    void OnModified () { m_modified = true; }
-    void ClearModified () { m_modified = false; }
+    void OnModified ();
+    void ClearModified ();
 
     void SetTitle (string title);
 
@@ -224,4 +225,5 @@ private:
     vector<QAction*> m_recentActions;
     QSettings* m_settings;
     QAction* m_recentFileSeparator;
+    QLabel* m_modifiedLabel;
 };

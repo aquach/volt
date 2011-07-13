@@ -175,8 +175,8 @@ void Editor::MoveState::OnViewportMouseRelease (QMouseEvent* event) {
 }
 
 void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
-    m_e->OnModified();
     if (m_dragging) {
+        m_e->OnModified();
         Vector2 pos(event->pos().x(), event->pos().y());
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
         Vector2 dp = worldPos - m_startPoint;
@@ -237,8 +237,8 @@ void Editor::RotateState::OnViewportMouseRelease (QMouseEvent* event) {
 }
 
 void Editor::RotateState::OnViewportMouseMove (QMouseEvent* event) {
-    m_e->OnModified();
     if (m_dragging) {
+        m_e->OnModified();
         Vector2 pos(event->pos().x(), event->pos().y());
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
         Vector2 pivot = GetWorldPivotPoint();
@@ -322,8 +322,8 @@ void Editor::ScaleState::OnViewportMouseRelease (QMouseEvent* event) {
 }
 
 void Editor::ScaleState::OnViewportMouseMove (QMouseEvent* event) {
-    m_e->OnModified();
     if (m_dragging) {
+        m_e->OnModified();
         Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
         Vector2 pos(event->pos().x(), event->pos().y());
         m_lastPoint = event->pos();
