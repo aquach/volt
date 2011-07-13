@@ -212,6 +212,8 @@ private:
     Entity* GetTopEntityAtPoint (Vector2 screenPos);
     Triangle* GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex);
 
+    void Autosave ();
+
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
     Volt::PhysicsManager* m_physicsManager;
@@ -234,4 +236,6 @@ private:
     QSettings* m_settings;
     QAction* m_recentFileSeparator;
     QLabel* m_modifiedLabel;
+    int m_autosaveTimer;
+    int m_updateTimer;
 };

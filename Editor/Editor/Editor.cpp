@@ -13,7 +13,10 @@
 #include "Editor/Editor/PropertyModel.h"
 
 const float SECONDS_PER_UPDATE = 1.0 / 30.0f;
+const int SECONDS_PER_AUTOSAVE = 60 * 5;
 const int MAX_RECENT_DOCUMENTS = 10;
+
+const char* LEVEL_EXTENSION = ".json";
 
 enum ModeButtonType {
     MODE_PAN,
@@ -40,7 +43,9 @@ Editor::Editor (const Volt::DataSource* source)
       m_propertyModel(NULL),
       m_settings(NULL),
       m_recentFileSeparator(NULL),
-      m_modifiedLabel(NULL) {
+      m_modifiedLabel(NULL),
+      m_updateTimer(0),
+      m_autosaveTimer(0) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -267,7 +272,8 @@ Editor::Editor (const Volt::DataSource* source)
     m_selectionManager = new SelectionManager;
     SelectionManager::Register(m_selectionManager);
 
-    startTimer((int)(SECONDS_PER_UPDATE * 1000));
+    m_updateTimer = startTimer((int)(SECONDS_PER_UPDATE * 1000));
+    m_autosaveTimer = startTimer((int)(SECONDS_PER_AUTOSAVE * 1000));
 }
 
 Editor::~Editor () {
@@ -280,8 +286,12 @@ float Editor::dt () {
 }
 
 void Editor::timerEvent (QTimerEvent* event) {
-    m_scene->Update();
-    m_viewport->update();
+    if (event->timerId() == m_updateTimer) {
+        m_scene->Update();
+        m_viewport->update();
+    } else if (event->timerId() == m_autosaveTimer) {
+        Autosave();
+    }
 }
 
 void Editor::MoveHorizontal (int dir) {
@@ -405,11 +415,15 @@ bool Editor::SaveAs () {
     if (filename == "")
         return true;
 
+    if (!filename.contains('.'))
+        filename += LEVEL_EXTENSION;
+
     bool success = m_scene->m_levelManager->SaveLevel(filename.toStdString());
     if (success) {
         statusBar()->showMessage("Saved level.");
         ClearModified();
         AddRecentDocument(filename.toStdString());
+        SetTitle(filename.toStdString());
     } else {
         QMessageBox::critical(this, " ", "Failed to save file.");
     }
@@ -692,5 +706,36 @@ void Editor::OnModified () {
 void Editor::ClearModified () {
     m_modified = false;
     m_modifiedLabel->setText("");
+}
+
+void Editor::Autosave () {
+    string loadedFile = m_scene->m_levelManager->loadedFile();
+    if (m_modified && loadedFile != "") {
+        QString name = QString::fromStdString(loadedFile);
+        if (!name.endsWith(LEVEL_EXTENSION))
+            name += LEVEL_EXTENSION;
+
+        int backup = 1;
+        QString filename;
+        while (true) {
+            filename = name;
+            filename = filename.replace(".",
+                                        QString("_autobak_%1.").arg(backup));
+            if (!QFileInfo(filename).exists())
+                break;
+            backup++;
+        }
+        bool success = m_scene->m_levelManager->SaveLevel(
+                            filename.toStdString());
+        if (success) {
+            LOG(INFO) << "Autosaved level " << filename.toStdString();
+            statusBar()->showMessage(
+                QString("Autosaved level %1.").arg(filename));
+        } else {
+            LOG(ERROR) << "Failed to autosave level " << filename.toStdString();
+            QMessageBox::critical(this, " ",
+                QString("Failed to autosave file %1.").arg(filename));
+        }
+    }
 }
 

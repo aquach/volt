@@ -86,5 +86,7 @@ bool LevelManager::SaveLevel (string filename) {
     }
 
     file << root;
+    file.close();
+
     return true;
 }
