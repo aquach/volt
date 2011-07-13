@@ -13,8 +13,6 @@ EditorScene::EditorScene ()
       m_cameraMoveX(0),
       m_cameraMoveY(0) {
 
-    void* a = (void*)&Ladder::LadderRegister;
-
     m_isEditor = true;
 
     camera()->transform.scale.Set(

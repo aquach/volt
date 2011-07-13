@@ -54,7 +54,7 @@ public:
     void GetLayerEntityCounts (map<int, int>* mapOut);
 
     Layers GetEntities () const { return m_layers; }
-    void GetEntities (vector<Entity*>* entities);
+    void GetEntities (vector<Entity*>* entities) const;
 
 protected:
     Game* m_game;

@@ -6,6 +6,8 @@
 
 class Sign : public Entity {
 public:
+    DECLARE_ENTITY_(Sign);
+
     Sign ();
     virtual ~Sign ();
 
@@ -25,7 +27,5 @@ public:
 private:
     void CreatePhysicsBody ();
 
-    DECLARE_ENTITY_(Sign);
-    
     DISALLOW_COPY_AND_ASSIGN(Sign);
 };

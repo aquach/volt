@@ -6,6 +6,8 @@
 
 class SavePoint : public Entity {
 public:
+    DECLARE_ENTITY_(SavePoint);
+
     SavePoint ();
     virtual ~SavePoint ();
 
@@ -25,6 +27,5 @@ public:
 private:
     void CreatePhysicsBody ();
 
-    DECLARE_ENTITY_(SavePoint);
     DISALLOW_COPY_AND_ASSIGN(SavePoint);
 };

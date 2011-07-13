@@ -175,6 +175,7 @@ void Editor::MoveState::OnViewportMouseRelease (QMouseEvent* event) {
 }
 
 void Editor::MoveState::OnViewportMouseMove (QMouseEvent* event) {
+    m_e->OnModified();
     if (m_dragging) {
         Vector2 pos(event->pos().x(), event->pos().y());
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
@@ -236,6 +237,7 @@ void Editor::RotateState::OnViewportMouseRelease (QMouseEvent* event) {
 }
 
 void Editor::RotateState::OnViewportMouseMove (QMouseEvent* event) {
+    m_e->OnModified();
     if (m_dragging) {
         Vector2 pos(event->pos().x(), event->pos().y());
         Vector2 worldPos = m_e->m_scene->camera()->ScreenToWorld(pos);
@@ -320,6 +322,7 @@ void Editor::ScaleState::OnViewportMouseRelease (QMouseEvent* event) {
 }
 
 void Editor::ScaleState::OnViewportMouseMove (QMouseEvent* event) {
+    m_e->OnModified();
     if (m_dragging) {
         Vector2 lastPoint(m_lastPoint.x(), m_lastPoint.y());
         Vector2 pos(event->pos().x(), event->pos().y());

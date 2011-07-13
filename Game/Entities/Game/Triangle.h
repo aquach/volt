@@ -7,6 +7,8 @@
 /* A triangle of the terrain. */
 class Triangle : public Entity {
 public:
+    DECLARE_ENTITY_(Triangle);
+
     Triangle ();
     virtual ~Triangle ();
 
@@ -25,8 +27,6 @@ public:
 
 private:
     void CreatePhysicsBody ();
-
-    DECLARE_ENTITY_(Triangle);
 
     DISALLOW_COPY_AND_ASSIGN(Triangle);
 };

@@ -3,9 +3,7 @@
 #include "Volt/Assets/DataSource.h"
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
-#include "Game/Entities/Game/Ladder.h"
-#include "Game/Entities/Game/Sign.h"
-#include "Game/Entities/Game/Triangle.h"
+#include "Game/Editor/EditorEntities.h"
 
 LevelManager::LevelManager ()
     : m_levelLoaded(false),

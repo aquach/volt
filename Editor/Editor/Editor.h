@@ -77,6 +77,7 @@ private slots:
     void OpenRecent ();
     void SelectAll ();
     void Create (QString entityName);
+    void PropertyActivated ();
 
 private:
     class ModeState : public Volt::FSMState {
@@ -208,6 +209,7 @@ private:
     GLWidget* m_viewport;
     SelectionManager* m_selectionManager;
 
+    string m_title;
     EditorScene* m_scene;
     bool m_modified;
     Volt::FSM* m_modeFsm;

@@ -225,6 +225,7 @@ Editor::Editor (const Volt::DataSource* source)
     m_propertyModel = new PropertyModel;
     view->setModel(m_propertyModel);
     view->horizontalHeader()->setStretchLastSection(true);
+    connect(view, SIGNAL(activated()), this, SLOT(PropertyActivated()));
     dock->setWidget(view);
 
     m_viewport = new GLWidget;
@@ -330,6 +331,7 @@ void Editor::keyPressEvent (QKeyEvent *event) {
 }
 
 void Editor::SetTitle (string title) {
+    m_title = title;
     QString str;
     str += EDITOR_TITLE;
     if (title.size() > 0) {
@@ -350,10 +352,8 @@ void Editor::New () {
 }
 
 void Editor::Open () {
-    if (m_modified) {
-        if (!Close())
-            return;
-    }
+    if (!Close())
+        return;
 
     QString filename = QFileDialog::getOpenFileName(
         this,
@@ -374,10 +374,10 @@ void Editor::OpenFile (string filename) {
         AddRecentDocument(filename);
         statusBar()->showMessage("Opened level.");
         ClearModified();
+        SetTitle(filename);
     } else {
         QMessageBox::critical(this, " ", "Failed to open file.");
     }
-    SetTitle(filename);
 }
 
 bool Editor::Save () {
@@ -405,6 +405,7 @@ bool Editor::SaveAs () {
     if (success) {
         statusBar()->showMessage("Saved level.");
         ClearModified();
+        AddRecentDocument(filename.toStdString());
     } else {
         QMessageBox::critical(this, " ", "Failed to save file.");
     }
@@ -441,6 +442,7 @@ bool Editor::Close () {
         default:
         break;
     }
+    G_SelectionManager->DeselectAll();
     m_scene->m_levelManager->UnloadLevel();
     SetTitle("");
     return true;
@@ -607,6 +609,7 @@ void Editor::SnapChecked (int state) {
 }
 
 void Editor::Clone () {
+    OnModified();
     vector<Entity*> selectedEntities;
     G_SelectionManager->GetSelectedEntities(&selectedEntities);
     G_SelectionManager->DeselectAll();
@@ -646,6 +649,9 @@ void Editor::LoadRecentDocuments () {
 }
 
 void Editor::OpenRecent () {
+    if (!Close())
+        return;
+
     QAction* action = qobject_cast<QAction*>(sender());
     CHECK_NOTNULL(action);
     OpenFile(action->data().toString().toStdString());
@@ -663,6 +669,11 @@ void Editor::SelectAll () {
 }
 
 void Editor::Create (QString entityName) {
+    OnModified();
     Entity* e = EntityFactory::Create(entityName.toStdString());
     m_scene->Add(e);
+}
+
+void Editor::PropertyActivated () {
+    OnModified();
 }

@@ -32,12 +32,20 @@ template<typename T> class EntityRegister : public EntityFactory {
 public:
     explicit EntityRegister (const string& name) {
         GetTypeMap()->insert(make_pair(name, &createEntity<T>));
-        LOG(INFO) << name;
     }
 };
 
+// For .h.
 #define DECLARE_ENTITY_(TYPE) \
     static EntityRegister<TYPE> TYPE##Register;
-    
+
+// For .cpp.
 #define REGISTER_ENTITY_(TYPE) \
     EntityRegister<TYPE> TYPE::TYPE##Register(#TYPE);
+
+/* Somewhere to make the linker include the object file. There may be an
+   issue where the linker doesn't recognize that it needs to invoke the
+   constructors of variables in compilation units it realizes are not
+   necessary to link the program. */
+#define REFERENCE_ENTITY_(TYPE) \
+    void* TYPE##Ref = (void*)&TYPE::TYPE##Register;
