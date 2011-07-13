@@ -85,6 +85,25 @@ void Color::Save (Json::Value& node) const {
     node["a"] = a;
 }
 
+ostream& operator<< (ostream& stream, const Color& c) {
+    stream << c.r << ", " << c.g << ", " << c.b << ", " << c.a;
+    return stream;
+}
+
+istream& operator>> (istream& stream, Color& c) {
+    char ch;
+    Color temp;
+    stream >> temp.r;
+    stream >> ch;
+    stream >> temp.g;
+    stream >> ch;
+    stream >> temp.b;
+    stream >> ch;
+    stream >> temp.a;
+    if (!stream.fail())
+        c = temp;
+    return stream;
+}
 
 Color operator+ (const Color& lhs, const Color& rhs) {
     return Color(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a);

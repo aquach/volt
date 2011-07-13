@@ -19,6 +19,7 @@ class GLWidget;
 class PropertyModel;
 class QLabel;
 class QSettings;
+class QTableView;
 class SelectionManager;
 class Triangle;
 
@@ -238,4 +239,5 @@ private:
     QLabel* m_modifiedLabel;
     int m_autosaveTimer;
     int m_updateTimer;
+    QTableView* m_properties;
 };

@@ -20,6 +20,7 @@ public:
     ~AssetRef () { Free(); }
 
     T* operator->() { return m_asset; }
+    const T* operator->() const { return m_asset; }
 
     bool HasAsset () const { return m_asset != NULL; }
 

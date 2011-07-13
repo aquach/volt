@@ -3,6 +3,7 @@
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
+#include "Volt/Assets/AssetManager.h"
 
 /* A triangle of the terrain. */
 class Triangle : public Entity {
@@ -25,8 +26,13 @@ public:
 
     virtual void OnScaleChanged ();
 
+    virtual void GetProperties (vector<Property*>* properties);
+
 private:
     void CreatePhysicsBody ();
+    Volt::Color m_vertexColors[3];
+    Vector2 m_textureCoords[3];
+    Volt::TextureAssetRef m_texture;
 
     DISALLOW_COPY_AND_ASSIGN(Triangle);
 };

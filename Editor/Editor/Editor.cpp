@@ -45,7 +45,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_recentFileSeparator(NULL),
       m_modifiedLabel(NULL),
       m_updateTimer(0),
-      m_autosaveTimer(0) {
+      m_autosaveTimer(0),
+      m_properties(NULL) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -227,13 +228,11 @@ Editor::Editor (const Volt::DataSource* source)
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
-    QTableView* view = new QTableView;
+    m_properties = new QTableView;
     m_propertyModel = new PropertyModel;
-    view->setModel(m_propertyModel);
-    view->horizontalHeader()->setStretchLastSection(true);
-    connect(view, SIGNAL(activated(QModelIndex)), this,
-            SLOT(PropertyActivated()));
-    dock->setWidget(view);
+    m_properties->setModel(m_propertyModel);
+    m_properties->horizontalHeader()->setStretchLastSection(true);
+    dock->setWidget(m_properties);
 
     m_viewport = new GLWidget;
     m_viewport->makeCurrent();
@@ -695,6 +694,7 @@ void Editor::Create (QString entityName) {
 }
 
 void Editor::PropertyActivated () {
+    m_properties->resizeColumnsToContents();
     OnModified();
 }
 

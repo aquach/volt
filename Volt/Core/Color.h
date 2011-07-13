@@ -1,6 +1,9 @@
 #pragma once
 
 #include <json/json.h>
+#include <ostream>
+
+using namespace std;
 
 namespace Volt {
 
@@ -45,5 +48,8 @@ Color operator- (const Color& lhs, const Color& rhs);
 Color operator* (float lhs, const Color& rhs);
 Color operator* (const Color& lhs, float rhs);
 Color operator/ (const Color& lhs, float rhs);
+
+ostream& operator<< (ostream& stream, const Color& c);
+istream& operator>> (istream& stream, Color& c);
 
 }

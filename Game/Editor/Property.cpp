@@ -93,3 +93,22 @@ void EntityScaleProperty::Load (string* out) const {
     stream << m_entity->scale();
     *out = stream.str();
 }
+
+void StringProperty::Save (string input) {
+    *m_str = input;
+}
+
+void StringProperty::Load (string* out) const {
+    *out = *m_str;
+}
+
+void ColorProperty::Save (string input) {
+    stringstream stream(input);
+    stream >> *m_color;
+}
+
+void ColorProperty::Load (string* out) const {
+    stringstream stream;
+    stream << *m_color;
+    *out = stream.str();
+}

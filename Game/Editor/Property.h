@@ -48,6 +48,26 @@ private:
     int* m_num;
 };
 
+class ColorProperty : public Property {
+public:
+    ColorProperty (string name, Volt::Color* color)
+        : Property(name), m_color(color) { }
+    virtual void Save (string input);
+    virtual void Load (string* out) const;
+private:
+    Volt::Color* m_color;
+};
+
+class StringProperty : public Property {
+public:
+    StringProperty (string name, string* str)
+        : Property(name), m_str(str) { }
+    virtual void Save (string input);
+    virtual void Load (string* out) const;
+private:
+    string* m_str;
+};
+
 class EntityLayerProperty : public Property {
 public:
     EntityLayerProperty (string name, Entity* e)
