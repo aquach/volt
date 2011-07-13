@@ -173,23 +173,51 @@ void Scene::RemoveFilter (Filter* filter) {
 
 class ListEntitiesQueryCallback : public b2QueryCallback {
 public:
-    ListEntitiesQueryCallback (Vector2 point) : point(point) { }
+    ListEntitiesQueryCallback (Vector2 upperLeft, Vector2 lowerRight)
+        : upperLeft(upperLeft),
+          lowerRight(lowerRight) { }
+
     bool ReportFixture (b2Fixture* fixture) {
         b2Body* body = fixture->GetBody();
         Entity* e = (Entity*)body->GetUserData();
-        if (fixture->GetShape()->TestPoint(body->GetTransform(), point.ToB2()))
+        bool isInBox = false;
+        for (float x = upperLeft.x; x < lowerRight.x; x += 0.3) {
+            for (float y = upperLeft.y; y < lowerRight.y; y += 0.3) {
+                if (fixture->GetShape()->TestPoint(body->GetTransform(),
+                                                   b2Vec2(x, y))) {
+                    isInBox = true;
+                    break;
+                }
+            }
+        }
+
+        if (isInBox)
             m_entityList.push_back(e);
         return true;
     }
     vector<Entity*> m_entityList;
-    Vector2 point;
+    Vector2 upperLeft;
+    Vector2 lowerRight;
 };
 
 void Scene::GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities) {
-    ListEntitiesQueryCallback callback(point);
+    GetEntitiesInArea(point - Vector2(0.1, 0.1), point + Vector2(0.1, 0.1),
+                      entities);
+}
+
+void Scene::GetEntitiesInArea (Vector2 point1, Vector2 point2,
+                               vector<Entity*>* entities) {
+    float ux = MIN(point1.x, point2.x);
+    float uy = MIN(point1.y, point2.y);
+    float lx = MAX(point1.x, point2.x);
+    float ly = MAX(point1.y, point2.y);
+    point1.Set(ux, uy);
+    point2.Set(lx, ly);
+
+    ListEntitiesQueryCallback callback(point1, point2);
     b2AABB aabb;
-    aabb.lowerBound.Set(point.x - 0.1, point.y - 0.1);
-    aabb.upperBound.Set(point.x + 0.1, point.y + 0.1);
+    aabb.lowerBound.Set(point1.x, point1.y);
+    aabb.upperBound.Set(point2.x, point2.y);
     G_PhysicsManager->world()->QueryAABB(&callback, aabb);
 
     entities->resize(callback.m_entityList.size());

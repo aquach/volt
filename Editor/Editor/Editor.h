@@ -116,12 +116,20 @@ private:
     class SelectState : public ModeState {
     public:
         explicit SelectState (Editor* e)
-            : ModeState(e) { }
+            : ModeState(e),
+              m_dragging(false) { }
         virtual void OnEnter ();
         virtual void OnExit ();
 
         virtual void OnViewportMousePress (QMouseEvent* event);
         virtual void OnViewportMouseMove (QMouseEvent* event);
+        virtual void OnViewportMouseRelease (QMouseEvent* event);
+
+        virtual void Render ();
+    private:
+        bool m_dragging;
+        Vector2 m_startPos;
+        Vector2 m_currentPos;
     };
 
     class SelectVerticesState : public ModeState {

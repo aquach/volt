@@ -50,6 +50,8 @@ public:
     Camera* camera () { return &m_camera; }
 
     void GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities);
+    void GetEntitiesInArea (Vector2 point1, Vector2 point2,
+                            vector<Entity*>* entities);
 
     /* Returns a map from layers to the number of entities on that layer. */
     void GetLayerEntityCounts (map<int, int>* mapOut);

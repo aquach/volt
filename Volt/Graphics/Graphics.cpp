@@ -202,8 +202,13 @@ void Graphics::RenderLineRect (float x, float y, float w, float h) {
     glEnd();
 }
 
+void Graphics::RenderLineRect (Vector2 pos1, Vector2 pos2) {
+    BBox b(pos1, pos2);
+    RenderLineRect(b);
+}
+
 void Graphics::RenderLineRect (const BBox& box) {
-    RenderLineRect(box.min.x, box.min.y,
+    RenderLineRect(box.center().x, box.center().y,
                    box.max.x - box.min.x, box.max.y - box.min.y);
 }
 

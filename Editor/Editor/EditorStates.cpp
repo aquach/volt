@@ -52,14 +52,22 @@ void Editor::SelectState::OnEnter () {
 void Editor::SelectState::OnExit () {
 }
 
+void Editor::SelectState::OnViewportMouseRelease (QMouseEvent* event) {
+    m_dragging = false;
+}
+
 void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
     event->accept();
-    Entity* selectedEntity = m_e->GetTopEntityAtPoint(
-        Vector2(event->pos().x(), event->pos().y()));
+    Vector2 screenPos(event->pos().x(), event->pos().y());
+    Entity* selectedEntity = m_e->GetTopEntityAtPoint(screenPos);
 
     if (selectedEntity == NULL) {
-        if (!m_e->m_appendMode && !m_e->m_removeMode)
+        if (!m_e->m_appendMode && !m_e->m_removeMode) {
+            m_dragging = true;
+            m_startPos = m_e->m_scene->camera()->ScreenToWorld(screenPos);
+            m_currentPos = m_startPos;
             G_SelectionManager->DeselectAll();
+        }
         return;
     }
 
@@ -76,13 +84,33 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
 
 void Editor::SelectState::OnViewportMouseMove (QMouseEvent* event) {
     event->accept();
-    Entity* selectedEntity = m_e->GetTopEntityAtPoint(
-        Vector2(event->pos().x(), event->pos().y()));
-
-    if (selectedEntity != NULL) {
-        m_e->m_viewport->setCursor(Qt::CrossCursor);
+    Vector2 screenPos(event->pos().x(), event->pos().y());
+    if (m_dragging) {
+        Vector2 pos = m_e->m_scene->camera()->ScreenToWorld(screenPos);
+        m_currentPos = pos;
+        vector<Volt::Entity*> entities;
+        m_e->m_scene->GetEntitiesInArea(pos, m_startPos, &entities);
+        for (uint i = 0; i < entities.size(); i++) {
+            if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
+                G_SelectionManager->SelectEntity(e);
+            }
+        }
     } else {
-        m_e->m_viewport->setCursor(Qt::ArrowCursor);
+        Entity* selectedEntity = m_e->GetTopEntityAtPoint(screenPos);
+
+        if (selectedEntity != NULL) {
+            m_e->m_viewport->setCursor(Qt::CrossCursor);
+        } else {
+            m_e->m_viewport->setCursor(Qt::ArrowCursor);
+        }
+    }
+}
+
+void Editor::SelectState::Render () {
+    if (m_dragging) {
+        glLineWidth(1.0f);
+        Graphics::SetColor(Volt::Color::white);
+        Graphics::RenderLineRect(m_startPos, m_currentPos);
     }
 }
 
