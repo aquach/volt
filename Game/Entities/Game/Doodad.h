@@ -5,11 +5,7 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Volt/Assets/AssetManager.h"
 
-struct DoodadBrush {
-    Vector2 m_textureCoords[4];
-    Volt::TextureAssetRef m_texture;
-    Vector2 m_size;
-};
+struct DoodadBrush;
 
 /* A stamp-like tile thing to be arranged in the world for decorative purposes.
  */
@@ -31,6 +27,10 @@ public:
 
     virtual void OnScaleChanged ();
     virtual void GetProperties (vector<Property*>* properties);
+
+    void SetBrush (DoodadBrush* brush) { m_brush = brush; }
+    void SetTint (Volt::Color tint) { m_tint = tint; }
+    Volt::Color tint () const { return m_tint; }
 
 private:
     void CreatePhysicsBody ();

@@ -2,6 +2,7 @@
 
 #include "Volt/Game/Scene.h"
 
+class DoodadManager;
 class Editor;
 class LevelManager;
 
@@ -24,6 +25,7 @@ private:
     friend class Editor;
     Editor* m_editor;
     LevelManager* m_levelManager;
+    DoodadManager* m_doodadManager;
 
     int m_cameraMoveX;
     int m_cameraMoveY;

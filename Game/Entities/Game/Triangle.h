@@ -8,6 +8,8 @@
 /* A triangle of the terrain. */
 class Triangle : public Entity {
 public:
+	static const int NUM_VERTS = 3;
+
     DECLARE_ENTITY_(Triangle);
 
     Triangle ();
@@ -30,8 +32,8 @@ public:
 
 private:
     void CreatePhysicsBody ();
-    Volt::Color m_vertexColors[3];
-    Vector2 m_textureCoords[3];
+    Volt::Color m_vertexColors[NUM_VERTS];
+    Vector2 m_textureCoords[NUM_VERTS];
     Volt::TextureAssetRef m_texture;
 
     DISALLOW_COPY_AND_ASSIGN(Triangle);

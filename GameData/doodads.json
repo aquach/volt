@@ -1,0 +1,14 @@
+[
+	{
+		"id": 1, 
+		"name": "Test Doodad",
+		"texture": "hoers.jpg",
+		"textureCoords": [
+			[0, 0],
+			[1, 0],
+			[1, 1],
+			[0, 1]
+		],
+		"size": [3, 4]
+	}
+]

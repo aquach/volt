@@ -1,19 +1,21 @@
 #include "Game/Scenes/GameScene.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
-#include "Game/Entities/Game/Player.h"
-#include "Game/Game/ConversationManager.h"
-#include "Game/Game/Entity.h"
-#include "Game/Entities/Game/Umbrella.h"
-#include "Game/Game/LevelManager.h"
 #include "Game/Editor/EntityFactory.h"
+#include "Game/Entities/Game/Player.h"
+#include "Game/Entities/Game/Umbrella.h"
+#include "Game/Game/ConversationManager.h"
+#include "Game/Game/DoodadManager.h"
+#include "Game/Game/Entity.h"
+#include "Game/Game/LevelManager.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
 GameScene::GameScene ()
     : m_player(NULL),
       m_levelManager(NULL),
-      m_conversationManager(NULL)
+      m_conversationManager(NULL),
+      m_doodadManager(NULL)
        {
 
     Volt::G_PhysicsManager->SetGravity(Vector2(0, 30));
@@ -33,6 +35,10 @@ GameScene::GameScene ()
     m_levelManager->m_scene = this;
     m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
 
+    m_doodadManager = new DoodadManager;
+    m_doodadManager->m_scene = this;
+    m_doodadManager->LoadDoodadBrushes(Volt::G_AssetManager->GetData("doodads.json"));
+
     m_conversationManager = new ConversationManager;
     m_conversationManager->m_gameScene = this;
 
@@ -40,6 +46,7 @@ GameScene::GameScene ()
 }
 
 GameScene::~GameScene () {
+    delete m_doodadManager;
     delete m_levelManager;
     delete m_conversationManager;
 }

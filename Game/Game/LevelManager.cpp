@@ -24,9 +24,11 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         UnloadLevel();
 
     const Json::Value& root = asset->data();
+    CHECK(root.isMember("entities"));
 
-    for (uint i = 0; i < root.size(); i++) {
-        const Json::Value& node = root[i];
+    m_levelName = root.get("name", "").asString();
+    for (uint i = 0; i < root["entities"].size(); i++) {
+        const Json::Value& node = root["entities"][i];
         CHECK(node.isMember("type"));
         Entity* e = EntityFactory::Create(node["type"].asString());
         e->Load(node);

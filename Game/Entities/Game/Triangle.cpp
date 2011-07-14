@@ -45,7 +45,7 @@ void Triangle::Render () {
         glShadeModel(GL_SMOOTH);
 
     glBegin(GL_TRIANGLES);
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < NUM_VERTS; i++) {
         if (m_texture.HasAsset())
             glTexCoord2f(m_textureCoords[i].x, m_textureCoords[i].y);
         else
@@ -62,7 +62,7 @@ void Triangle::Render () {
     if (G_SelectionManager != NULL) {
         // Render selected vertices if necessary.
         if (G_SelectionManager->showVertices()) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < NUM_VERTS; i++) {
                 if (G_SelectionManager->IsVertexSelected(this, i)) {
                     Graphics::SetColor(Volt::Color::RGB(200, 0, 0));
                 } else {
@@ -90,7 +90,7 @@ void Triangle::CreatePhysicsBody () {
 
     b2PolygonShape shape;
     bool flip = m_transform.scale.x * m_transform.scale.y < 0;
-    b2Vec2 vertices[3];
+    b2Vec2 vertices[NUM_VERTS];
     vertices[0] = b2Vec2(0, 0);
     if (flip) {
         vertices[2] = b2Vec2(m_transform.scale.x, 0);
@@ -99,7 +99,7 @@ void Triangle::CreatePhysicsBody () {
         vertices[1] = b2Vec2(m_transform.scale.x, 0);
         vertices[2] = b2Vec2(0, m_transform.scale.y);
     }
-    shape.Set(vertices, 3);
+    shape.Set(vertices, NUM_VERTS);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
@@ -116,12 +116,12 @@ void Triangle::Load (const Json::Value& node) {
     CreatePhysicsBody();
 
     if (node.isMember("vertexColors")) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < NUM_VERTS; i++) {
             m_vertexColors[i].Load(node["vertexColors"][i]);
         }
     }
     if (node.isMember("textureCoords")) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < NUM_VERTS; i++) {
             m_textureCoords[i].Load(node["textureCoords"][i]);
         }
     }
@@ -134,12 +134,12 @@ void Triangle::Save (Json::Value& node) const {
     node["type"] = "Triangle";
     m_transform.Save(node["transform"]);
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < NUM_VERTS; i++) {
         Json::Value v;
         m_vertexColors[i].Save(v);
         node["vertexColors"].append(v);
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < NUM_VERTS; i++) {
         Json::Value v;
         m_textureCoords[i].Save(v);
         node["textureCoords"].append(v);
@@ -159,6 +159,9 @@ Triangle* Triangle::Clone () const {
 
 void Triangle::CopyFrom (const Triangle* other) {
     Entity::CopyFrom(other);
+    m_texture = other->m_texture;
+    copy(other->m_textureCoords, other->m_textureCoords + NUM_VERTS, m_textureCoords);
+    copy(other->m_vertexColors, other->m_vertexColors + NUM_VERTS, m_vertexColors);
     CreatePhysicsBody();
 }
 

@@ -19,6 +19,7 @@ public:
     bool SaveLevel (string filename);
 
     string loadedFile () const { return m_loadedFilename; }
+    string levelName () const { return m_levelName; }
 
 private:
     friend class GameScene;
@@ -28,6 +29,7 @@ private:
     bool m_levelLoaded;
     set<Entity*> m_entities;
     string m_loadedFilename;
+    string m_levelName;
 
     DISALLOW_COPY_AND_ASSIGN(LevelManager);
 };

@@ -3,6 +3,7 @@
 #include "Volt/Game/Scene.h"
 
 class ConversationManager;
+class DoodadManager;
 class LevelManager;
 class MessageBox;
 class Player;
@@ -30,4 +31,5 @@ private:
 
     LevelManager* m_levelManager;
     ConversationManager* m_conversationManager;
+    DoodadManager* m_doodadManager;
 };
