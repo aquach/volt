@@ -2,6 +2,7 @@
 #include <SDL/SDL_image.h>
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/DataSource.h"
+#include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/OpenGL.h"
 
 namespace Volt {
@@ -12,6 +13,9 @@ TextureAsset::~TextureAsset () {
 
 bool TextureAsset::Load (const DataItem& item, FilterType filterType,
                          bool repeatX, bool repeatY) {
+    CHECK(Graphics::initialized())
+        << "Graphics must be initialized before loading textures.";
+        
     SDL_RWops* rw = SDL_RWFromMem(item.data, item.size);
     SDL_Surface* tex = IMG_Load_RW(rw, 1);
     if (tex == NULL) {

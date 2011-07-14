@@ -13,7 +13,7 @@ struct DoodadBrush {
 
 	int id;
     Vector2 textureCoords[4];
-    Volt::TextureAssetRef texture;
+    string texture;
     Vector2 size;
     string name;
 

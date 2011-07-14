@@ -1,6 +1,7 @@
 #include "Volt/Assets/FontAsset.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/DataSource.h"
+#include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/OpenGL.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
@@ -29,6 +30,9 @@ FontAsset::~FontAsset () {
 }
 
 bool FontAsset::Load (const DataItem& item, float size) {
+    CHECK(Graphics::initialized())
+        << "Graphics must be initialized before loading font.";
+        
     m_size = size;
     m_path = item.path;
 

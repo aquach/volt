@@ -9,7 +9,7 @@ void DoodadBrush::Load (const Json::Value& node) {
 
 	name = node.get("name", "").asString();
 	id = node["id"].asInt();
-    texture = Volt::G_AssetManager->GetTexture(node["texture"].asString());
+    texture = node["texture"].asString();
 	for (int i = 0; i < 4; i++) {
 		textureCoords[i].Load(node["textureCoords"][i]);
 	}
@@ -19,7 +19,7 @@ void DoodadBrush::Load (const Json::Value& node) {
 void DoodadBrush::Save (Json::Value& node) const {
 	node["id"] = id;
 	node["name"] = name;
-	node["texture"] = texture->path();
+	node["texture"] = texture;
 	for (int i = 0; i < 4; i++) {
 		Json::Value node;
 		textureCoords[i].Save(node);

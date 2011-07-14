@@ -10,9 +10,6 @@ Doodad::Doodad ()
 	: m_brush(NULL) {
     AddTag("Doodad");
     CreatePhysicsBody();
-
-    // Default to no tint.
-    m_tint.a = 0;
 }
 
 Doodad::~Doodad () {
@@ -23,6 +20,7 @@ void Doodad::Update () {
 
 void Doodad::SetBrush (DoodadBrush* brush) {
     m_brush = brush;
+    m_texture = Volt::G_AssetManager->GetTexture(m_brush->texture);
     CreatePhysicsBody();
 }
 
@@ -34,9 +32,10 @@ void Doodad::Render () {
     Graphics::TransformMatrix(m_transform);
     Graphics::Scale(m_brush->size);
     Graphics::Translate(Vector2(-0.5, -0.5));
-    Graphics::BindTexture(m_brush->texture);
+
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::SetColor(Volt::Color::RGBA(128, 128, 128, 128));
+    Graphics::BindTexture(m_texture);
+    Graphics::SetColor(m_tint);
 
     glBegin(GL_QUADS);
     for (int i = 0; i < 4; i++) {

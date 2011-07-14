@@ -91,9 +91,12 @@ public:
     static void ShowBuffer ();
     static void CheckErrors ();
 
+    static bool initialized ();
+
 private:
     static Graphics* instance;
 
+    bool m_initialized;
     BlendType currentBlend;
     GpuProgram* m_program;
     int virtualWidth, virtualHeight;

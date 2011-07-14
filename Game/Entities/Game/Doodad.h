@@ -37,6 +37,7 @@ private:
 
     DoodadBrush* m_brush;
     Volt::Color m_tint;
+    Volt::TextureAssetRef m_texture;
 
     DISALLOW_COPY_AND_ASSIGN(Doodad);
 };

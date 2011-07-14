@@ -30,15 +30,15 @@ GameScene::GameScene ()
     Add(u, -1);
     m_player->EquipWeapon(u);
 
-    m_levelManager = new LevelManager;
-    m_levelManager->m_scene = this;
-    m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
-
     m_doodadManager = new DoodadManager;
     m_doodadManager->m_scene = this;
     m_doodadManager->LoadDoodadBrushes(
         Volt::G_AssetManager->GetData("doodads.json"));
     DoodadManager::Register(m_doodadManager);
+
+    m_levelManager = new LevelManager;
+    m_levelManager->m_scene = this;
+    m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
 
     m_conversationManager = new ConversationManager;
     m_conversationManager->m_gameScene = this;
@@ -47,9 +47,9 @@ GameScene::GameScene ()
 }
 
 GameScene::~GameScene () {
-    delete m_doodadManager;
-    delete m_levelManager;
     delete m_conversationManager;
+    delete m_levelManager;
+    delete m_doodadManager;
 }
 
 /*

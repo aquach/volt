@@ -11,7 +11,8 @@ Graphics* Graphics::instance = NULL;
 
 Graphics::Graphics (Viewport* viewport)
     : m_program(NULL),
-      m_viewport(viewport) {
+      m_viewport(viewport),
+      m_initialized(false) {
     instance = this;
     currentBlend = BLEND_NONE;
 }
@@ -38,6 +39,9 @@ void Graphics::Init () {
     //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    m_initialized = true;
+    
     ShowBuffer();
 }
 
@@ -414,6 +418,10 @@ void Graphics::RenderLineCircle (float radius, int segments) {
 		theta += increment;
 	}
 	glEnd();
+}
+
+bool Graphics::initialized () {
+    return instance != NULL && instance->m_initialized;
 }
 
 }
