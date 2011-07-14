@@ -43,14 +43,14 @@ void Triangle::Render () {
         Graphics::BindTexture(m_texture);
     else
         glShadeModel(GL_SMOOTH);
-        
+
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < 3; i++) {
         if (m_texture.HasAsset())
             glTexCoord2f(m_textureCoords[i].x, m_textureCoords[i].y);
         else
             Graphics::SetColor(m_vertexColors[i]);
-        
+
         switch (i) {
             case 0: glVertex2f(0, 0); break;
             case 1: glVertex2i(1, 0); break;
@@ -58,7 +58,7 @@ void Triangle::Render () {
         }
     }
     glEnd();
-    
+
     if (G_SelectionManager != NULL) {
         // Render selected vertices if necessary.
         if (G_SelectionManager->showVertices()) {
@@ -164,14 +164,20 @@ void Triangle::CopyFrom (const Triangle* other) {
 
 void Triangle::GetProperties (vector<Property*>* properties) {
     Entity::GetProperties(properties);
-    
-    properties->push_back(new ColorProperty("Vertex 1 Color", &m_vertexColors[0]));
-    properties->push_back(new ColorProperty("Vertex 2 Color", &m_vertexColors[1]));
-    properties->push_back(new ColorProperty("Vertex 3 Color", &m_vertexColors[2]));
+
+    properties->push_back(
+        new ColorProperty("Vertex 1 Color", &m_vertexColors[0]));
+    properties->push_back(
+        new ColorProperty("Vertex 2 Color", &m_vertexColors[1]));
+    properties->push_back(
+        new ColorProperty("Vertex 3 Color", &m_vertexColors[2]));
     //properties->push_back(new StringProperty("Texture", &m_texture));
-    properties->push_back(new Vector2Property("Vertex 1 Texture Coord", &m_textureCoords[0]));
-    properties->push_back(new Vector2Property("Vertex 2 Texture Coord", &m_textureCoords[1]));
-    properties->push_back(new Vector2Property("Vertex 3 Texture Coord", &m_textureCoords[2]));
+    properties->push_back(
+        new Vector2Property("Vertex 1 Texture Coord", &m_textureCoords[0]));
+    properties->push_back(
+        new Vector2Property("Vertex 2 Texture Coord", &m_textureCoords[1]));
+    properties->push_back(
+        new Vector2Property("Vertex 3 Texture Coord", &m_textureCoords[2]));
 }
 
 
