@@ -5,6 +5,7 @@
 SelectionManager* SelectionManager::instance = NULL;
 
 void SelectionManager::Render () {
+    Graphics::BindTexture(NULL);
     FOR_(set<Entity*>::iterator, i, m_selectedEntities) {
         Entity* entity = *i;
         b2AABB aabb;
@@ -32,7 +33,7 @@ void SelectionManager::Render () {
         Graphics::SetColor(Volt::Color::RGBA(200, 0, 0, 64));
         Graphics::RenderQuad(extents.x, extents.y);
         Graphics::SetBlend(Graphics::BLEND_NONE);
-        Graphics::SetColor(Volt::Color::RGB(128, 128, 128));
+        Graphics::SetColor(Volt::Color::RGB(200, 200, 200));
         Graphics::RenderLineRect(0, 0, extents.x, extents.y);
         glPopMatrix();
     }

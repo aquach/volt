@@ -77,15 +77,19 @@ bool LevelManager::SaveLevel (string filename) {
         return false;
 
     Json::Value root;
+    Json::Value entitiesode;
     vector<Volt::Entity*> entities;
     m_scene->GetEntities(&entities);
     for (uint i = 0; i < entities.size(); i++) {
         if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
             Json::Value value;
             e->Save(value);
-            root.append(value);
+            entitiesode.append(value);
         }
     }
+
+    root["entities"] = entitiesode;
+    root["name"] = m_levelName;
 
     file << root;
     file.close();

@@ -4,9 +4,11 @@
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Viewport.h"
+#include "Game/Game/DoodadManager.h"
 #include "Game/Game/LevelManager.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/SelectionManager.h"
+#include "Game/Entities/Game/Doodad.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
@@ -37,7 +39,7 @@ Editor::Editor (const Volt::DataSource* source)
       m_selectionManager(NULL),
       m_appendMode(false),
       m_removeMode(false),
-      m_gridSize(1.0f),
+      m_gridSize(0.5f),
       m_gridOn(true),
       m_snapOn(false),
       m_propertyModel(NULL),
@@ -48,16 +50,27 @@ Editor::Editor (const Volt::DataSource* source)
       m_autosaveTimer(0),
       m_properties(NULL) {
     setWindowTitle(EDITOR_TITLE);
-    resize(1024, 768);
-    setMinimumSize(1024, 768);
+    resize(1280, 768);
+    setMinimumSize(1280, 768);
 
     m_settings = new QSettings;
+
+    m_assetManager = new Volt::AssetManager(source);
+    Volt::AssetManager::Register(m_assetManager);
+
+    m_physicsManager = new Volt::PhysicsManager;
+    m_physicsManager->SetDebugDraw(true);
+    Volt::PhysicsManager::Register(m_physicsManager);
+    
+    m_scene = new EditorScene;
+    m_scene->m_editor = this;
 
     QAction* action;
     QPushButton* button;
     QShortcut* shortcut;
     QCheckBox* checkbox;
     QDockWidget* dock;
+    QComboBox* combo;
 
     QMenuBar* menu = menuBar();
     QMenu* file = menu->addMenu("&File");
@@ -107,6 +120,18 @@ Editor::Editor (const Volt::DataSource* source)
     connect(action, SIGNAL(triggered()), this, SLOT(Clone()));
     edit->addAction(action);
 
+    QMenu* level = menu->addMenu("&Level");
+    action = new QAction("Change &Level Name..", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(ChangeLevelName()));
+    level->addAction(action);
+
+    QMenu* editor = menu->addMenu("&Editor");
+    action = new QAction("Debug Draw", this);
+    action->setCheckable(true);
+    action->setChecked(true);
+    connect(action, SIGNAL(changed()), this, SLOT(ChangeDebugDraw()));
+    editor->addAction(action);
+    
     QToolBar* toolbar = addToolBar(tr("Modes"));
     QButtonGroup* group;
     group = new QButtonGroup;
@@ -195,14 +220,23 @@ Editor::Editor (const Volt::DataSource* source)
     label->setMargin(5);
     toolbar->addWidget(label);
 
-    QComboBox* combo = new QComboBox(this);
+    combo = new QComboBox(this);
     vector<string> entityTypes;
     EntityFactory::GetEntityTypes(&entityTypes);
     for (uint i = 0; i < entityTypes.size(); i++)
         combo->addItem(QString::fromStdString(entityTypes[i]));
     toolbar->addWidget(combo);
-    connect(combo, SIGNAL(currentIndexChanged(QString)), this,
+    connect(combo, SIGNAL(activated(QString)), this,
             SLOT(Create(QString)));
+
+    combo = new QComboBox(this);
+    vector<DoodadBrush*> brushes;
+    G_DoodadManager->GetDoodadBrushes(&brushes);
+    for (uint i = 0; i < brushes.size(); i++)
+        combo->addItem(QString::fromStdString(brushes[i]->name));
+    toolbar->addWidget(combo);
+    connect(combo, SIGNAL(activated(int)), this,
+            SLOT(CreateDoodad(int)));
 
     dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
@@ -214,8 +248,6 @@ Editor::Editor (const Volt::DataSource* source)
     dock->setWidget(tools);
     QVBoxLayout* layout = new QVBoxLayout;
 
-    button = new QPushButton("New Triangle");
-    layout->addWidget(button);
     button = new QPushButton("Expand Triangle");
     layout->addWidget(button);
     layout->insertStretch(25);
@@ -249,16 +281,6 @@ Editor::Editor (const Volt::DataSource* source)
     m_graphics->Set2D(m_viewport->width(), m_viewport->height());
     m_graphics->Init();
 
-    m_assetManager = new Volt::AssetManager(source);
-    Volt::AssetManager::Register(m_assetManager);
-
-    m_physicsManager = new Volt::PhysicsManager;
-    m_physicsManager->SetDebugDraw(true);
-    Volt::PhysicsManager::Register(m_physicsManager);
-
-    m_scene = new EditorScene;
-    m_scene->m_editor = this;
-
     m_modeFsm = new Volt::FSM;
     m_panState = new Editor::PanState(this);
     m_modeFsm->AddState(m_panState, "PanMode");
@@ -278,6 +300,7 @@ Editor::Editor (const Volt::DataSource* source)
 }
 
 Editor::~Editor () {
+    delete m_scene;
     delete m_graphics;
     delete m_assetManager;
 }
@@ -362,7 +385,7 @@ void Editor::New () {
         if (!Close())
             return;
     }
-    SetTitle("New Level");
+    UpdateTitle();
     OnModified();
 }
 
@@ -389,7 +412,7 @@ void Editor::OpenFile (string filename) {
         AddRecentDocument(filename);
         statusBar()->showMessage("Opened level.");
         ClearModified();
-        SetTitle(filename);
+        UpdateTitle();
     } else {
         QMessageBox::critical(this, " ", "Failed to open file.");
     }
@@ -424,7 +447,7 @@ bool Editor::SaveAs () {
         statusBar()->showMessage("Saved level.");
         ClearModified();
         AddRecentDocument(filename.toStdString());
-        SetTitle(filename.toStdString());
+        UpdateTitle();
     } else {
         QMessageBox::critical(this, " ", "Failed to save file.");
     }
@@ -464,7 +487,7 @@ bool Editor::Close () {
     G_SelectionManager->DeselectAll();
     m_scene->m_levelManager->UnloadLevel();
     m_scene->RemoveAll();
-    SetTitle("");
+    UpdateTitle();
     ClearModified();
     return true;
 }
@@ -693,6 +716,7 @@ void Editor::Create (QString entityName) {
     OnModified();
     Entity* e = EntityFactory::Create(entityName.toStdString());
     m_scene->Add(e);
+    OnModified();
 }
 
 void Editor::PropertyActivated (const QModelIndex& index) {
@@ -740,3 +764,44 @@ void Editor::Autosave () {
     }
 }
 
+void Editor::CreateDoodad (int index) {
+    // TODO: Inefficient.
+    vector<DoodadBrush*> brushes;
+    G_DoodadManager->GetDoodadBrushes(&brushes);
+    Doodad* d = new Doodad;
+    d->SetBrush(G_DoodadManager->GetDoodadBrush(brushes[index]->id));
+    m_scene->Add(d);
+    OnModified();
+}
+
+void Editor::ChangeLevelName () {
+    bool ok;
+    QString text = QInputDialog::getText(
+        this,
+        tr("Change Level Name"),
+        tr("Level Name"),
+        QLineEdit::Normal,
+        QString::fromStdString(m_scene->m_levelManager->levelName()),
+        &ok);
+        
+    if (ok && !text.isEmpty()) {
+        m_scene->m_levelManager->SetLevelName(text.toStdString());
+        OnModified();
+        UpdateTitle();
+    }
+}
+
+void Editor::UpdateTitle () {
+    string filename = m_scene->m_levelManager->loadedFile();
+    if (filename != "") {
+        SetTitle(filename + " - " +
+                 m_scene->m_levelManager->levelName());
+    } else {
+        SetTitle("");
+    }
+}
+
+void Editor::ChangeDebugDraw () {
+    QAction* action = qobject_cast<QAction*>(sender());
+    m_physicsManager->SetDebugDraw(action->isChecked());
+}

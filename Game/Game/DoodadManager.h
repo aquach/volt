@@ -32,7 +32,7 @@ public:
     void LoadDoodadBrushes (Volt::DataAssetRef brushes);
 
     DoodadBrush* GetDoodadBrush (int id);
-    void GetBrushes (vector<DoodadBrush*>* brushes);
+    void GetDoodadBrushes (vector<DoodadBrush*>* brushes);
 
 private:
     friend class GameScene;

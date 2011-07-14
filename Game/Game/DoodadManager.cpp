@@ -53,7 +53,7 @@ DoodadBrush* DoodadManager::GetDoodadBrush (int id) {
 	return iter->second;
 }
 
-void DoodadManager::GetBrushes (vector<DoodadBrush*>* brushes) {
+void DoodadManager::GetDoodadBrushes (vector<DoodadBrush*>* brushes) {
     FOR_(Brushes::iterator, i, m_brushes) {
         brushes->push_back(i->second);
     }

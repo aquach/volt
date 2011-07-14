@@ -81,6 +81,9 @@ private slots:
     void SelectAll ();
     void Create (QString entityName);
     void PropertyActivated (const QModelIndex& index);
+    void CreateDoodad (int index);
+    void ChangeLevelName ();
+    void ChangeDebugDraw ();
 
 private:
     class ModeState : public Volt::FSMState {
@@ -209,6 +212,7 @@ private:
     void AddRecentDocument (string filename);
     void LoadRecentDocuments ();
     void OpenFile (string filename);
+    void UpdateTitle ();
 
     int CheckModified ();
     Entity* GetTopEntityAtPoint (Vector2 screenPos);

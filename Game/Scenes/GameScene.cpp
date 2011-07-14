@@ -15,8 +15,7 @@ GameScene::GameScene ()
     : m_player(NULL),
       m_levelManager(NULL),
       m_conversationManager(NULL),
-      m_doodadManager(NULL)
-       {
+      m_doodadManager(NULL) {
 
     Volt::G_PhysicsManager->SetGravity(Vector2(0, 30));
     Volt::G_PhysicsManager->SetDebugDraw(true);
@@ -37,7 +36,9 @@ GameScene::GameScene ()
 
     m_doodadManager = new DoodadManager;
     m_doodadManager->m_scene = this;
-    m_doodadManager->LoadDoodadBrushes(Volt::G_AssetManager->GetData("doodads.json"));
+    m_doodadManager->LoadDoodadBrushes(
+        Volt::G_AssetManager->GetData("doodads.json"));
+    DoodadManager::Register(m_doodadManager);
 
     m_conversationManager = new ConversationManager;
     m_conversationManager->m_gameScene = this;

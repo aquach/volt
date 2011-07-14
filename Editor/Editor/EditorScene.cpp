@@ -26,7 +26,9 @@ EditorScene::EditorScene ()
 
     m_doodadManager = new DoodadManager;
     m_doodadManager->m_scene = this;
-    m_doodadManager->LoadDoodadBrushes(Volt::G_AssetManager->GetData("doodads.json"));
+    m_doodadManager->LoadDoodadBrushes(
+        Volt::G_AssetManager->GetData("doodads.json"));
+    DoodadManager::Register(m_doodadManager);
 }
 
 EditorScene::~EditorScene () {

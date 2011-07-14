@@ -28,7 +28,7 @@ public:
     virtual void OnScaleChanged ();
     virtual void GetProperties (vector<Property*>* properties);
 
-    void SetBrush (DoodadBrush* brush) { m_brush = brush; }
+    void SetBrush (DoodadBrush* brush);
     void SetTint (Volt::Color tint) { m_tint = tint; }
     Volt::Color tint () const { return m_tint; }
 

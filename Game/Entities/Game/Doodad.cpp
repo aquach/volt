@@ -10,6 +10,9 @@ Doodad::Doodad ()
 	: m_brush(NULL) {
     AddTag("Doodad");
     CreatePhysicsBody();
+
+    // Default to no tint.
+    m_tint.a = 0;
 }
 
 Doodad::~Doodad () {
@@ -18,25 +21,35 @@ Doodad::~Doodad () {
 void Doodad::Update () {
 }
 
+void Doodad::SetBrush (DoodadBrush* brush) {
+    m_brush = brush;
+    CreatePhysicsBody();
+}
+
 void Doodad::Render () {
 	if (m_brush == NULL)
 		return;
 
     glPushMatrix();
     Graphics::TransformMatrix(m_transform);
+    Graphics::Scale(m_brush->size);
+    Graphics::Translate(Vector2(-0.5, -0.5));
     Graphics::BindTexture(m_brush->texture);
+    Graphics::SetBlend(Graphics::BLEND_ALPHA);
+    Graphics::SetColor(Volt::Color::RGBA(128, 128, 128, 128));
 
     glBegin(GL_QUADS);
     for (int i = 0; i < 4; i++) {
 		glTexCoord2f(m_brush->textureCoords[i].x, m_brush->textureCoords[i].y);
         switch (i) {
-            case 0: glVertex2f(0, 0); break;
+            case 0: glVertex2i(0, 0); break;
             case 1: glVertex2i(1, 0); break;
             case 2: glVertex2i(1, 1); break;
             case 3: glVertex2i(0, 1); break;
         }
     }
     glEnd();
+    Graphics::BindTexture(NULL);
     glPopMatrix();
 }
 
@@ -66,15 +79,21 @@ void Doodad::Load (const Json::Value& node) {
     CHECK(node["type"].asString() == "Doodad");
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
-    CreatePhysicsBody();
     if (node.isMember("tint"))
         m_tint.Load(node["tint"]);
+
+    if (node.isMember("brush")) {
+        m_brush = G_DoodadManager->GetDoodadBrush(node["brush"].asInt());
+    }
+    CreatePhysicsBody();
 }
 
 void Doodad::Save (Json::Value& node) const {
     node["type"] = "Doodad";
     m_transform.Save(node["transform"]);
     m_tint.Save(node["tint"]);
+    if (m_brush != NULL)
+        node["brush"] = m_brush->id;
 }
 
 void Doodad::OnScaleChanged () {
@@ -97,6 +116,7 @@ void Doodad::GetProperties (vector<Property*>* properties) {
     Entity::GetProperties(properties);
     //properties->push_back(
     //    new DoodadBrushProperty("Doodad Brush", this));
+    properties->push_back(new ColorProperty("Tint", &m_tint));
 }
 
 

@@ -20,6 +20,7 @@ public:
 
     string loadedFile () const { return m_loadedFilename; }
     string levelName () const { return m_levelName; }
+    void SetLevelName (string name) { m_levelName = name; }
 
 private:
     friend class GameScene;
