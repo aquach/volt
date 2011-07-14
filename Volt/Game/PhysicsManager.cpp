@@ -68,7 +68,8 @@ PhysicsManager::PhysicsManager ()
     : m_world(NULL),
       m_listener(NULL),
       m_filter(NULL),
-      m_debugDraw(NULL) {
+      m_debugDraw(NULL),
+      m_debugDrawEnabled(false) {
     b2Vec2 gravity(0.0f, 0.0f);
     bool doSleep = true;
     m_world = new b2World(gravity, doSleep);
@@ -109,10 +110,17 @@ Vector2 PhysicsManager::GetGravity () const {
 void PhysicsManager::SetDebugDraw (bool enabled) {
     uint32 flags = b2DebugDraw::e_shapeBit + b2DebugDraw::e_centerOfMassBit;/* +
                    b2DebugDraw::e_aabbBit;*/
-    if (enabled)
+    if (enabled) {
+        m_debugDrawEnabled = true;
         m_debugDraw->SetFlags(flags);
-    else
+    } else {
+        m_debugDrawEnabled = false;
         m_debugDraw->SetFlags(0);
+    }
+}
+
+void PhysicsManager::ToggleDebugDraw () {
+    SetDebugDraw(!m_debugDrawEnabled);
 }
 
 }

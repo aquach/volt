@@ -82,9 +82,10 @@ void Doodad::Load (const Json::Value& node) {
         m_tint.Load(node["tint"]);
 
     if (node.isMember("brush")) {
-        m_brush = G_DoodadManager->GetDoodadBrush(node["brush"].asInt());
+        SetBrush(G_DoodadManager->GetDoodadBrush(node["brush"].asInt()));
+    } else {
+        CreatePhysicsBody();
     }
-    CreatePhysicsBody();
 }
 
 void Doodad::Save (Json::Value& node) const {

@@ -75,8 +75,18 @@ void GameScene::SetPlayerInputLock (bool lock) {
 void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
     m_conversationManager->OnKeyEvent(event);
     m_player->OnKeyEvent(event);
-    if (event.keysym.sym == SDLK_ESCAPE)
-        m_game->Quit();
+    if (event.type == SDL_KEYDOWN) {
+        switch (event.keysym.sym) {
+            case SDLK_ESCAPE:
+                m_game->Quit();
+            break;
+            case SDLK_F1:
+                Volt::G_PhysicsManager->ToggleDebugDraw();
+            break;
+            default:
+            break;
+        }
+    }
 }
 
 void GameScene::ShowMessageBox (MessageBox* box) {

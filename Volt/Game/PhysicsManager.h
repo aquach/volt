@@ -26,6 +26,7 @@ public:
     Vector2 GetGravity () const;
 
     void SetDebugDraw (bool enabled);
+    void ToggleDebugDraw ();
 
 private:
     friend class Game;
@@ -35,6 +36,7 @@ private:
     b2ContactListener* m_listener;
     b2ContactFilter* m_filter;
     b2DebugDraw* m_debugDraw;
+    bool m_debugDrawEnabled;
 
     static PhysicsManager* instance;
 
