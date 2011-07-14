@@ -19,7 +19,8 @@ QVariant PropertyModel::data (const QModelIndex& index, int role) const {
             return QString::fromStdString(m_properties[index.row()]->name());
         } else if (index.column() == 1) {
             string value;
-            m_properties[index.row()]->Load(&value);
+            Property* property = m_properties[index.row()];
+            property->Load(&value);
             return QString::fromStdString(value);
         }
     }
@@ -72,4 +73,21 @@ void PropertyModel::SetEntity (Entity* e) {
     if (m_entity != NULL)
         m_entity->GetProperties(&m_properties);
     emit(layoutChanged());
+}
+
+void PropertyModel::OnPropertyActivated (const QModelIndex& index) {
+    if (index.isValid()) {
+        Property* property = m_properties[index.row()];
+        if (ColorProperty* colorProp = dynamic_cast<ColorProperty*>(property)) {
+            Volt::Color current = colorProp->value();
+            QColor c = QColorDialog::getColor(
+                        QColor::fromRgbF(current.r, current.g, current.b, current.a),
+                        NULL,
+                        "",
+                        QColorDialog::ShowAlphaChannel);
+            colorProp->Set(Volt::Color::RGBA(c.red(), c.green(), c.blue(),
+                                             c.alpha()));
+            emit(layoutChanged());
+        }
+    }
 }

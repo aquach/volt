@@ -17,6 +17,7 @@ public:
     virtual bool setData (const QModelIndex& index, const QVariant& value,
                           int role);
     void SetEntity (Entity* e);
+    void OnPropertyActivated (const QModelIndex& index);
 private:
     Entity* m_entity;
     vector<Property*> m_properties;

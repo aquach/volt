@@ -232,6 +232,8 @@ Editor::Editor (const Volt::DataSource* source)
     m_propertyModel = new PropertyModel;
     m_properties->setModel(m_propertyModel);
     m_properties->horizontalHeader()->setStretchLastSection(true);
+    connect(m_properties, SIGNAL(clicked(QModelIndex)), this,
+            SLOT(PropertyActivated(QModelIndex)));
     dock->setWidget(m_properties);
 
     m_viewport = new GLWidget;
@@ -693,9 +695,8 @@ void Editor::Create (QString entityName) {
     m_scene->Add(e);
 }
 
-void Editor::PropertyActivated () {
-    m_properties->resizeColumnsToContents();
-    OnModified();
+void Editor::PropertyActivated (const QModelIndex& index) {
+    m_propertyModel->OnPropertyActivated(index);
 }
 
 void Editor::OnModified () {

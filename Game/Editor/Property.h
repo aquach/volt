@@ -54,6 +54,8 @@ public:
         : Property(name), m_color(color) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
+    void Set (Volt::Color c) { *m_color = c; }
+    Volt::Color value () const { return *m_color; }
 private:
     Volt::Color* m_color;
 };

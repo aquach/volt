@@ -79,7 +79,8 @@ void Editor::SelectState::OnViewportMousePress (QMouseEvent* event) {
         G_SelectionManager->DeselectAll();
         G_SelectionManager->SelectEntity(selectedEntity);
         m_e->m_propertyModel->SetEntity(selectedEntity);
-        m_e->PropertyActivated();
+        m_e->m_properties->resizeColumnsToContents();
+        m_e->OnModified();
     }
 }
 

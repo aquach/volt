@@ -18,6 +18,7 @@ class Entity;
 class GLWidget;
 class PropertyModel;
 class QLabel;
+class QModelIndex;
 class QSettings;
 class QTableView;
 class SelectionManager;
@@ -79,7 +80,7 @@ private slots:
     void OpenRecent ();
     void SelectAll ();
     void Create (QString entityName);
-    void PropertyActivated ();
+    void PropertyActivated (const QModelIndex& index);
 
 private:
     class ModeState : public Volt::FSMState {
