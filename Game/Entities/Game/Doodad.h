@@ -11,8 +11,6 @@ struct DoodadBrush;
  */
 class Doodad : public Entity {
 public:
-    DECLARE_ENTITY_(Doodad);
-
     Doodad ();
     virtual ~Doodad ();
 

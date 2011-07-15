@@ -64,6 +64,7 @@ protected:
     //virtual void mouseReleaseEvent (QMouseEvent* event);
     //virtual void mouseDoubleClickEvent (QMouseEvent* event);
     virtual void keyPressEvent (QKeyEvent *event);
+    virtual void closeEvent (QCloseEvent* event);
 
 private slots:
     void New ();
@@ -213,6 +214,8 @@ private:
     void LoadRecentDocuments ();
     void OpenFile (string filename);
     void UpdateTitle ();
+
+    void Delete ();
 
     int CheckModified ();
     Entity* GetTopEntityAtPoint (Vector2 screenPos);

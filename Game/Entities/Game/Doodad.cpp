@@ -4,8 +4,6 @@
 #include "Game/Editor/Property.h"
 #include "Game/Editor/SelectionManager.h"
 
-REGISTER_ENTITY_(Doodad);
-
 Doodad::Doodad ()
 	: m_brush(NULL) {
     AddTag("Doodad");

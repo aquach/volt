@@ -50,8 +50,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_autosaveTimer(0),
       m_properties(NULL) {
     setWindowTitle(EDITOR_TITLE);
-    resize(1280, 768);
-    setMinimumSize(1280, 768);
+    resize(1024, 768);
+    setMinimumSize(1024, 768);
 
     m_settings = new QSettings;
 
@@ -215,29 +215,6 @@ Editor::Editor (const Volt::DataSource* source)
 
     toolbar->addSeparator();
 
-    QLabel* label = new QLabel(this);
-    label->setText("Create");
-    label->setMargin(5);
-    toolbar->addWidget(label);
-
-    combo = new QComboBox(this);
-    vector<string> entityTypes;
-    EntityFactory::GetEntityTypes(&entityTypes);
-    for (uint i = 0; i < entityTypes.size(); i++)
-        combo->addItem(QString::fromStdString(entityTypes[i]));
-    toolbar->addWidget(combo);
-    connect(combo, SIGNAL(activated(QString)), this,
-            SLOT(Create(QString)));
-
-    combo = new QComboBox(this);
-    vector<DoodadBrush*> brushes;
-    G_DoodadManager->GetDoodadBrushes(&brushes);
-    for (uint i = 0; i < brushes.size(); i++)
-        combo->addItem(QString::fromStdString(brushes[i]->name));
-    toolbar->addWidget(combo);
-    connect(combo, SIGNAL(activated(int)), this,
-            SLOT(CreateDoodad(int)));
-
     dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
                       QDockWidget::DockWidgetFloatable);
@@ -248,6 +225,29 @@ Editor::Editor (const Volt::DataSource* source)
     dock->setWidget(tools);
     QVBoxLayout* layout = new QVBoxLayout;
 
+    QGroupBox* createGroup = new QGroupBox("Create");
+    QGridLayout* groupLayout = new QGridLayout;
+    combo = new QComboBox(this);
+    vector<string> entityTypes;
+    EntityFactory::GetEntityTypes(&entityTypes);
+    for (uint i = 0; i < entityTypes.size(); i++)
+        combo->addItem(QString::fromStdString(entityTypes[i]));
+    groupLayout->addWidget(combo, 0, 0);
+    connect(combo, SIGNAL(activated(QString)), this,
+            SLOT(Create(QString)));
+
+    combo = new QComboBox(this);
+    vector<DoodadBrush*> brushes;
+    G_DoodadManager->GetDoodadBrushes(&brushes);
+    for (uint i = 0; i < brushes.size(); i++)
+        combo->addItem(QString::fromStdString(brushes[i]->name));
+    groupLayout->addWidget(combo, 0, 1);
+    connect(combo, SIGNAL(activated(int)), this,
+            SLOT(CreateDoodad(int)));
+    createGroup->setLayout(groupLayout);
+    
+    layout->addWidget(createGroup);
+            
     button = new QPushButton("Expand Triangle");
     layout->addWidget(button);
     layout->insertStretch(25);
@@ -362,6 +362,9 @@ void Editor::keyPressEvent (QKeyEvent *event) {
         case Qt::Key_Escape:
             Exit();
             break;
+        case Qt::Key_Delete:
+            Delete();
+        break;
         default:
             event->ignore();
             break;
@@ -493,20 +496,6 @@ bool Editor::Close () {
 }
 
 void Editor::Exit () {
-    int ret = CheckModified();
-    switch (ret) {
-        case QMessageBox::Save:
-            if (!Save())
-                return;
-        break;
-        case QMessageBox::Discard:
-        break;
-        case QMessageBox::Cancel:
-            return;
-        break;
-        default:
-        break;
-    }
     close();
 }
 
@@ -801,7 +790,40 @@ void Editor::UpdateTitle () {
     }
 }
 
+void Editor::closeEvent (QCloseEvent* event) {
+    int ret = CheckModified();
+    switch (ret) {
+        case QMessageBox::Save:
+            if (!Save()) {
+                event->ignore();
+                return;
+            }
+        break;
+        case QMessageBox::Discard:
+        break;
+        case QMessageBox::Cancel:
+            event->ignore();
+            return;
+        break;
+        default:
+        break;
+    }
+    event->accept();
+}
+
 void Editor::ChangeDebugDraw () {
     QAction* action = qobject_cast<QAction*>(sender());
     m_physicsManager->SetDebugDraw(action->isChecked());
+}
+
+void Editor::Delete () {
+    vector<Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    if (selectedEntities.size() == 0)
+        return;
+    G_SelectionManager->DeselectAll();
+    OnModified();
+    for (uint i = 0; i < selectedEntities.size(); i++) {
+        m_scene->Remove(selectedEntities[i]);
+    }
 }
