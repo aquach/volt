@@ -1,6 +1,6 @@
 [
 	{
-		"id": 1, 
+		"id": 1,
 		"name": "Test Doodad",
 		"texture": "hoers.jpg",
 		"textureCoords": [
@@ -10,5 +10,29 @@
 			[0, 1]
 		],
 		"size": [3, 4]
+	},
+	{
+		"id": 2,
+		"name": "Test Doodad 2",
+		"texture": "logo2.png",
+		"textureCoords": [
+			[0, 0],
+			[1, 0],
+			[1, 1],
+			[0, 1]
+		],
+		"size": [4, 0]
+	},
+	{
+		"id": 3,
+		"name": "Test Doodad 5",
+		"texture": "magneton_avatar.png",
+		"textureCoords": [
+			[0, 0],
+			[1, 0],
+			[1, 1],
+			[0, 1]
+		],
+		"size": [4, 0]
 	}
 ]

@@ -29,11 +29,13 @@ public:
     void SetBrush (DoodadBrush* brush);
     void SetTint (Volt::Color tint) { m_tint = tint; }
     Volt::Color tint () const { return m_tint; }
+    int brushId () const { return m_brushId; }
 
 private:
     void CreatePhysicsBody ();
 
     DoodadBrush* m_brush;
+    int m_brushId;
     Volt::Color m_tint;
     Volt::TextureAssetRef m_texture;
 

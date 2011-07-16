@@ -17,6 +17,7 @@ class EditorScene;
 class Entity;
 class GLWidget;
 class PropertyModel;
+class QComboBox;
 class QLabel;
 class QModelIndex;
 class QSettings;
@@ -85,6 +86,7 @@ private slots:
     void CreateDoodad (int index);
     void ChangeLevelName ();
     void ChangeDebugDraw ();
+    void ReloadBrushes ();
 
 private:
     class ModeState : public Volt::FSMState {
@@ -222,6 +224,7 @@ private:
     Triangle* GetTopVertexAtPoint (Vector2 screenPos, int* selectedVertex);
 
     void Autosave ();
+    void LoadBrushes ();
 
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
@@ -248,4 +251,5 @@ private:
     int m_autosaveTimer;
     int m_updateTimer;
     QTableView* m_properties;
+    QComboBox* m_brushesCombo;
 };

@@ -5,7 +5,8 @@
 #include "Game/Editor/SelectionManager.h"
 
 Doodad::Doodad ()
-	: m_brush(NULL) {
+	: m_brush(NULL),
+      m_brushId(-1) {
     AddTag("Doodad");
     CreatePhysicsBody();
 }
@@ -18,6 +19,7 @@ void Doodad::Update () {
 
 void Doodad::SetBrush (DoodadBrush* brush) {
     m_brush = brush;
+    m_brushId = brush->id;
     m_texture = Volt::G_AssetManager->GetTexture(m_brush->texture);
     CreatePhysicsBody();
 }
@@ -28,7 +30,7 @@ void Doodad::Render () {
 
     glPushMatrix();
     Graphics::TransformMatrix(m_transform);
-    Graphics::Scale(m_brush->size);
+    Graphics::Scale(m_brush->scale());
     Graphics::Translate(Vector2(-0.5, -0.5));
 
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
@@ -60,8 +62,8 @@ void Doodad::CreatePhysicsBody () {
     float sx = 1;
     float sy = 1;
     if (m_brush != NULL) {
-		sx = m_brush->size.x;
-		sy = m_brush->size.y;
+		sx = m_brush->width();
+		sy = m_brush->height();
 	}
     shape.SetAsBox(sx * m_transform.scale.x * 0.5f,
     			   sy * m_transform.scale.y * 0.5f);
@@ -80,7 +82,8 @@ void Doodad::Load (const Json::Value& node) {
         m_tint.Load(node["tint"]);
 
     if (node.isMember("brush")) {
-        SetBrush(G_DoodadManager->GetDoodadBrush(node["brush"].asInt()));
+        int brushId = node["brush"].asInt();
+        SetBrush(G_DoodadManager->GetDoodadBrush(brushId));
     } else {
         CreatePhysicsBody();
     }
@@ -91,7 +94,7 @@ void Doodad::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
     m_tint.Save(node["tint"]);
     if (m_brush != NULL)
-        node["brush"] = m_brush->id;
+        node["brush"] = m_brushId;
 }
 
 void Doodad::OnScaleChanged () {

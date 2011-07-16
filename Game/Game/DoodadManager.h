@@ -17,6 +17,10 @@ struct DoodadBrush {
     Vector2 size;
     string name;
 
+    float width () const;
+    float height () const;
+    Vector2 scale () const { return Vector2(width(), height()); }
+
     void Load (const Json::Value& node);
     void Save (Json::Value& node) const;
 };
@@ -30,9 +34,12 @@ public:
     static DoodadManager* Instance () { return instance; }
 
     void LoadDoodadBrushes (Volt::DataAssetRef brushes);
+    void UnloadBrushes ();
 
     DoodadBrush* GetDoodadBrush (int id);
     void GetDoodadBrushes (vector<DoodadBrush*>* brushes);
+
+    void ReloadBrushes ();
 
 private:
     friend class GameScene;
@@ -41,6 +48,7 @@ private:
 
     typedef map<int, DoodadBrush*> Brushes;
     Brushes m_brushes;
+    Volt::DataAssetRef m_brushDataRef;
 
     static DoodadManager* instance;
 

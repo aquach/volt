@@ -48,7 +48,8 @@ Editor::Editor (const Volt::DataSource* source)
       m_modifiedLabel(NULL),
       m_updateTimer(0),
       m_autosaveTimer(0),
-      m_properties(NULL) {
+      m_properties(NULL),
+      m_brushesCombo(NULL) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
@@ -61,7 +62,7 @@ Editor::Editor (const Volt::DataSource* source)
     m_physicsManager = new Volt::PhysicsManager;
     m_physicsManager->SetDebugDraw(true);
     Volt::PhysicsManager::Register(m_physicsManager);
-    
+
     m_scene = new EditorScene;
     m_scene->m_editor = this;
 
@@ -131,7 +132,10 @@ Editor::Editor (const Volt::DataSource* source)
     action->setChecked(true);
     connect(action, SIGNAL(changed()), this, SLOT(ChangeDebugDraw()));
     editor->addAction(action);
-    
+    action = new QAction("Reload Brushes", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(ReloadBrushes()));
+    editor->addAction(action);
+
     QToolBar* toolbar = addToolBar(tr("Modes"));
     QButtonGroup* group;
     group = new QButtonGroup;
@@ -213,8 +217,6 @@ Editor::Editor (const Volt::DataSource* source)
 
     connect(group, SIGNAL(buttonClicked(int)), this, SLOT(SelectMode(int)));
 
-    toolbar->addSeparator();
-
     dock = new QDockWidget("Tools", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
                       QDockWidget::DockWidgetFloatable);
@@ -236,18 +238,15 @@ Editor::Editor (const Volt::DataSource* source)
     connect(combo, SIGNAL(activated(QString)), this,
             SLOT(Create(QString)));
 
-    combo = new QComboBox(this);
-    vector<DoodadBrush*> brushes;
-    G_DoodadManager->GetDoodadBrushes(&brushes);
-    for (uint i = 0; i < brushes.size(); i++)
-        combo->addItem(QString::fromStdString(brushes[i]->name));
-    groupLayout->addWidget(combo, 0, 1);
-    connect(combo, SIGNAL(activated(int)), this,
+    m_brushesCombo = new QComboBox(this);
+    LoadBrushes();
+    groupLayout->addWidget(m_brushesCombo, 0, 1);
+    connect(m_brushesCombo, SIGNAL(activated(int)), this,
             SLOT(CreateDoodad(int)));
     createGroup->setLayout(groupLayout);
-    
+
     layout->addWidget(createGroup);
-            
+
     button = new QPushButton("Expand Triangle");
     layout->addWidget(button);
     layout->insertStretch(25);
@@ -297,6 +296,19 @@ Editor::Editor (const Volt::DataSource* source)
 
     m_updateTimer = startTimer((int)(SECONDS_PER_UPDATE * 1000));
     m_autosaveTimer = startTimer((int)(SECONDS_PER_AUTOSAVE * 1000));
+}
+
+void Editor::LoadBrushes () {
+    m_brushesCombo->clear();
+    vector<DoodadBrush*> brushes;
+    G_DoodadManager->GetDoodadBrushes(&brushes);
+    for (uint i = 0; i < brushes.size(); i++)
+        m_brushesCombo->addItem(QString::fromStdString(brushes[i]->name));
+}
+
+void Editor::ReloadBrushes () {
+    G_DoodadManager->ReloadBrushes();
+    LoadBrushes();
 }
 
 Editor::~Editor () {
@@ -772,7 +784,7 @@ void Editor::ChangeLevelName () {
         QLineEdit::Normal,
         QString::fromStdString(m_scene->m_levelManager->levelName()),
         &ok);
-        
+
     if (ok && !text.isEmpty()) {
         m_scene->m_levelManager->SetLevelName(text.toStdString());
         OnModified();
