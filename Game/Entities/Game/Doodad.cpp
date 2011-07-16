@@ -2,7 +2,8 @@
 #include "Game/Game/DoodadManager.h"
 #include "Game/Graphics/Graphics.h"
 #include "Game/Editor/Property.h"
-#include "Game/Editor/SelectionManager.h"
+
+REGISTER_ENTITY_(Doodad);
 
 Doodad::Doodad ()
 	: m_brush(NULL),

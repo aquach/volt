@@ -2,19 +2,30 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
+#include "Game/Editor/EntityFactory.h"
 
 class Light : public Entity {
 public:
+    DECLARE_ENTITY_(Light);
+
     Light ();
     virtual ~Light ();
+
+    virtual Light* Clone () const;
+    void CopyFrom (const Light* other);
 
     virtual void Update ();
     virtual void Render ();
 
-    //virtual void OnAdded () { }
+    virtual void Load (const Json::Value& node);
+    virtual void Save (Json::Value& node) const;
 
-    //virtual void BeginContact (Entity* other) { }
-    //virtual void EndContact (Entity* other) { }
-    //virtual bool PreSolve (Entity* other) { return true; }
-    //virtual bool CanCollideWith (Entity* other) { return true; }
+    virtual void OnScaleChanged ();
+    virtual void GetProperties (vector<Property*>* properties);
+
+private:
+    void CreatePhysicsBody ();
+
+    Volt::Color m_color;
+    float m_intensity;
 };
