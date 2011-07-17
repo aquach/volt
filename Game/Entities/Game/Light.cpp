@@ -5,8 +5,9 @@
 
 REGISTER_ENTITY_(Light);
 
-const int TEXTURE_WIDTH = 512;
-const int TEXTURE_HEIGHT = 512;
+const int TEXTURE_WIDTH = 1024;
+const int TEXTURE_HEIGHT = 1024;
+const float LIGHT_LENGTH = 15;
 
 GLuint MakeTexture () {
     GLuint texture;
@@ -59,9 +60,18 @@ Light::Light ()
 
     m_distanceTexture = MakeTexture();
 
+    glGenTextures(1, &m_lightTexture);
+    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 2 /* 2 pixel width */,
+                 TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+    // TODO: Rename.
     m_program = new Volt::GpuProgram;
     m_program->Attach(
         Volt::G_AssetManager->GetShader(
@@ -77,11 +87,29 @@ Light::Light ()
     m_program2->Attach(
         Volt::G_AssetManager->GetShader(
             "parabolic.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+
+    m_program3 = new Volt::GpuProgram;
+    m_program3->Attach(
+        Volt::G_AssetManager->GetShader(
+            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+    m_program3->Attach(
+        Volt::G_AssetManager->GetShader(
+            "reduce.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+
+    m_program4 = new Volt::GpuProgram;
+    m_program4->Attach(
+        Volt::G_AssetManager->GetShader(
+            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+    m_program4->Attach(
+        Volt::G_AssetManager->GetShader(
+            "light.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 
 Light::~Light () {
     delete m_program;
     delete m_program2;
+    delete m_program3;
+    delete m_program4;
 }
 
 void Light::Update () {
@@ -143,15 +171,22 @@ void Light::Render () {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    Graphics::Translate(Vector2(TEXTURE_WIDTH, TEXTURE_HEIGHT) / 2);
-    glScalef(50, 50, 1);
+    gluOrtho2D(0, 1, 0, 1);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    Graphics::Translate(Vector2(0.5, 0.5));
+    glScalef(0.5f / LIGHT_LENGTH, 0.5f / LIGHT_LENGTH, 1);
     Graphics::Translate(-position());
 
     vector<Volt::Entity*> entities;
-    scene()->GetEntitiesInArea (position() - Vector2(5, 5),
-                                position() + Vector2(5, 5),
+    Vector2 field = Vector2(LIGHT_LENGTH, LIGHT_LENGTH);
+    scene()->GetEntitiesInArea (position() - field,
+                                position() + field,
                                 &entities);
     for (uint i = 0; i < entities.size(); i++) {
         if (dynamic_cast<Light*>(entities[i]))
@@ -160,8 +195,12 @@ void Light::Render () {
     }
     glPopMatrix();
 
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
 
-    // Render distance map
+
+    // Render distance map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_distanceTexture, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
@@ -185,21 +224,51 @@ void Light::Render () {
     Graphics::SetShaderValue("distanceMap", 0);
     RenderPass();
 
-    Graphics::BindShader(NULL);
+    // Render final light map.
+    glViewport(0, 0, 2, TEXTURE_HEIGHT);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, m_lightTexture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                           GL_TEXTURE_2D, 0, 0);
+    CheckFramebufferStatus();
+
+    Graphics::BindShader(m_program3);
+    glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
+    Graphics::SetShaderValue("parabolicMap", 0);
+    GLint loc = glGetUniformLocation(m_program3->handle(), "pixelSize");
+    glUniform2f(loc, 1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
+    RenderPass();
 
     glPopAttrib();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+    // Render light!!
+    glPushMatrix();
+    Graphics::BindShader(m_program4);
+    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
+    Graphics::SetShaderValue("lightMap", 0);
+    Graphics::Translate(position());
+    Graphics::RenderQuad(LIGHT_LENGTH * 2, LIGHT_LENGTH * 2);
+
+    Graphics::BindShader(NULL);
+    glPopMatrix();
+
+    // TODO: Use RG + BA to double float precision.
+
+    /*
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
     Graphics::RenderQuad(5, 5);
-    glPopMatrix();
 
-    glPushMatrix();
     Graphics::Translate(Vector2(5, 0));
     glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
     Graphics::RenderQuad(5, 5);
+
+    Graphics::Translate(Vector2(5, 0));
+    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
+    Graphics::RenderQuad(5, 5);
     glPopMatrix();
+    */
 }
 
 void Light::CreatePhysicsBody () {

@@ -40,7 +40,9 @@ private:
     GLuint m_shadowTexture;
     GLuint m_distanceTexture;
     GLuint m_parabolicTexture;
+    GLuint m_lightTexture;
     Volt::GpuProgram* m_program;
     Volt::GpuProgram* m_program2;
     Volt::GpuProgram* m_program3;
+    Volt::GpuProgram* m_program4;
 };
