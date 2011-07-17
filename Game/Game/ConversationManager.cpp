@@ -1,5 +1,6 @@
 #include "Game/Game/ConversationManager.h"
 #include "Game/Entities/GUI/MessageBox.h"
+#include "Game/Scenes/GameScene.h"
 
 ConversationManager::ConversationManager () {
     m_font = Volt::G_AssetManager->GetFont("Mido.ttf", 32.0);
@@ -19,14 +20,14 @@ void ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
 
 void ConversationManager::Update () {
     m_gameScene->SetPlayerInputLock(false);
-    
+
     if (m_boxes.empty())
         return;
 
     MessageBox* box = m_boxes.front();
     if (box->scene() == NULL)
         m_gameScene->Add(box);
-        
+
     if (box->IsFinished()) {
         m_gameScene->Remove(box);
         m_boxes.pop();

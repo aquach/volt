@@ -4,6 +4,8 @@
 
 namespace Volt {
 
+set<GpuProgram*> GpuProgram::s_programs;
+
 GpuProgram::GpuProgram ()
     : m_linked(false) {
     if (glCreateProgramObjectARB == NULL) {
@@ -12,13 +14,15 @@ GpuProgram::GpuProgram ()
     }
 
     m_handle = glCreateProgramObjectARB();
+    s_programs.insert(this);
 }
 
 GpuProgram::~GpuProgram () {
-    Unload();
+    UnloadShaders();
+    s_programs.erase(this);
 }
 
-void GpuProgram::Unload () {
+void GpuProgram::UnloadShaders () {
     for (uint i = 0; i < m_shaders.size(); i++) {;
         glDetachObjectARB(m_handle, m_shaders[i]->handle());
     }
@@ -31,13 +35,9 @@ void GpuProgram::Attach (ShaderAssetRef shader) {
     m_linked = false;
 }
 
-void GpuProgram::Reload () {
-    // TODO: Unload all gpu programs, reload shaders, then reload all
-    // gpu programs.
-    Unload();
+void GpuProgram::ReloadShaders () {
     m_handle = glCreateProgramObjectARB();
     for (uint i = 0; i < m_shaders.size(); i++) {
-        m_shaders[i]->Reload();
         glAttachObjectARB(m_handle, m_shaders[i]->handle());
     }
     m_linked = false;
@@ -69,5 +69,17 @@ bool GpuProgram::Link () {
     m_linked = true;
     return true;
 }
+
+void GpuProgram::UnloadAllShaders () {
+    FOR_(set<GpuProgram*>::iterator, i, s_programs)
+        (*i)->UnloadShaders();
+}
+
+void GpuProgram::ReloadAllShaders () {
+    FOR_(set<GpuProgram*>::iterator, i, s_programs)
+        (*i)->ReloadShaders();
+}
+
+
 
 }

@@ -3,6 +3,7 @@
 #include "Game/Entities/Game/Ladder.h"
 #include "Game/Game/DoodadManager.h"
 #include "Game/Game/LevelManager.h"
+#include "Game/Game/LightManager.h"
 #include "Editor/Editor/Editor.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
@@ -29,11 +30,16 @@ EditorScene::EditorScene ()
     m_doodadManager->LoadDoodadBrushes(
         Volt::G_AssetManager->GetData("doodads.json"));
     DoodadManager::Register(m_doodadManager);
+
+    m_lightManager = new LightManager;
+    m_lightManager->m_scene = this;
+    LightManager::Register(m_lightManager);
 }
 
 EditorScene::~EditorScene () {
     delete m_doodadManager;
     delete m_levelManager;
+    delete m_lightManager;
 }
 
 void EditorScene::Update () {

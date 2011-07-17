@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Game/Scenes/GameScene.h"
 #include "Volt/Graphics/Input.h"
 #include "Volt/Assets/AssetManager.h"
 #include <queue>
 
+class GameScene;
 class MessageBox;
 
 class ConversationManager {

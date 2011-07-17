@@ -5,6 +5,7 @@
 class ConversationManager;
 class DoodadManager;
 class LevelManager;
+class LightManager;
 class MessageBox;
 class Player;
 
@@ -30,6 +31,7 @@ private:
     Player* m_player;
 
     LevelManager* m_levelManager;
+    LightManager* m_lightManager;
     ConversationManager* m_conversationManager;
     DoodadManager* m_doodadManager;
 };

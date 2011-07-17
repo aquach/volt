@@ -9,6 +9,7 @@
 #include "Game/Game/DoodadManager.h"
 #include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
+#include "Game/Game/LightManager.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
@@ -44,6 +45,10 @@ GameScene::GameScene ()
     m_conversationManager = new ConversationManager;
     m_conversationManager->m_gameScene = this;
 
+    m_lightManager = new LightManager;
+    m_lightManager->m_scene = this;
+    LightManager::Register(m_lightManager);
+
     camera()->WatchEntity(m_player);
 }
 
@@ -51,6 +56,7 @@ GameScene::~GameScene () {
     delete m_conversationManager;
     delete m_levelManager;
     delete m_doodadManager;
+    delete m_lightManager;
 }
 
 void GameScene::Update () {
@@ -79,16 +85,9 @@ void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
             case SDLK_F1:
                 Volt::G_PhysicsManager->ToggleDebugDraw();
             break;
-            case SDLK_r:
-                // Reload all lights' shaders.
-                {
-                    vector<Volt::Entity*> entities;
-                    GetEntities(&entities);
-                    for (uint i = 0; i < entities.size(); i++) {
-                        if (Light* l = dynamic_cast<Light*>(entities[i]))
-                            l->ReloadShader();
-                    }
-                }
+            case SDLK_F2:
+                // Reload all shaders.
+                Volt::G_AssetManager->ReloadShaders();
             break;
             default:
             break;

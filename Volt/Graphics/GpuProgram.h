@@ -2,6 +2,7 @@
 
 #include "Volt/Core/Core.h"
 #include "Volt/Assets/AssetManager.h"
+#include <set>
 
 namespace Volt {
 
@@ -18,13 +19,20 @@ public:
 
     bool IsLinked () const { return m_linked; }
 
-    void Reload ();
-    void Unload ();
+    /* Unload shaders, but do not clear the shaders list. */
+    void UnloadShaders ();
+    void ReloadShaders ();
 
+    static void UnloadAllShaders ();
+    static void ReloadAllShaders ();
 private:
+    static set<GpuProgram*> s_programs;
+
     vector<ShaderAssetRef> m_shaders;
     int m_handle;
     bool m_linked;
+
+    DISALLOW_COPY_AND_ASSIGN(GpuProgram);
 };
 
 }

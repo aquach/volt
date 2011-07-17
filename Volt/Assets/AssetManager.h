@@ -42,6 +42,7 @@ public:
     void GarbageCollect ();
 
     void ReloadAll ();
+    void ReloadShaders ();
     void ReloadPath (const Asset* asset, DataItem* item);
 
     string sourcePath() const;

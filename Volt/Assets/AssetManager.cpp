@@ -1,6 +1,7 @@
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/DataSource.h"
 #include "Volt/Assets/TextureAsset.h"
+#include "Volt/Graphics/GpuProgram.h"
 
 namespace Volt {
 
@@ -180,6 +181,16 @@ TextureAssetRef AssetManager::GetTexture (
     m_assets[texture->assetKey()] = texture;
 
     return TextureAssetRef(texture);
+}
+
+void AssetManager::ReloadShaders () {
+    GpuProgram::UnloadAllShaders();
+    FOR_(Assets::iterator, i, m_assets) {
+        if (ShaderAsset* s = dynamic_cast<ShaderAsset*>(i->second)) {
+            s->Reload();
+        }
+    }
+    GpuProgram::ReloadAllShaders();
 }
 
 void AssetManager::GarbageCollect () {

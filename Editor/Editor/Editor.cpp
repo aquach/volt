@@ -64,6 +64,15 @@ Editor::Editor (const Volt::DataSource* source)
     m_physicsManager->SetDebugDraw(true);
     Volt::PhysicsManager::Register(m_physicsManager);
 
+    m_viewport = new GLWidget;
+    m_viewport->makeCurrent();
+    setCentralWidget(m_viewport);
+    Volt::Viewport::Register(m_viewport);
+
+    m_graphics = new Volt::Graphics(m_viewport);
+    m_graphics->Set2D(m_viewport->width(), m_viewport->height());
+    m_graphics->Init();
+
     m_scene = new EditorScene;
     m_scene->m_editor = this;
 
@@ -131,6 +140,7 @@ Editor::Editor (const Volt::DataSource* source)
     action = new QAction("Debug Draw", this);
     action->setCheckable(true);
     action->setChecked(true);
+    action->setShortcut(tr("F1"));
     connect(action, SIGNAL(changed()), this, SLOT(ChangeDebugDraw()));
     editor->addAction(action);
     action = new QAction("Reload Brushes", this);
@@ -268,18 +278,9 @@ Editor::Editor (const Volt::DataSource* source)
             SLOT(PropertyActivated(QModelIndex)));
     dock->setWidget(m_properties);
 
-    m_viewport = new GLWidget;
-    m_viewport->makeCurrent();
-    setCentralWidget(m_viewport);
-    Volt::Viewport::Register(m_viewport);
-
     statusBar()->showMessage("Ready");
     m_modifiedLabel = new QLabel("");
     statusBar()->addPermanentWidget(m_modifiedLabel);
-
-    m_graphics = new Volt::Graphics(m_viewport);
-    m_graphics->Set2D(m_viewport->width(), m_viewport->height());
-    m_graphics->Init();
 
     m_modeFsm = new Volt::FSM;
     m_panState = new Editor::PanState(this);
@@ -378,16 +379,9 @@ void Editor::keyPressEvent (QKeyEvent *event) {
         case Qt::Key_Delete:
             Delete();
         break;
-        case Qt::Key_R:
-            // Reload all lights' shaders. TODO: Facility to reload all shaders.
-            {
-                vector<Volt::Entity*> entities;
-                m_scene->GetEntities(&entities);
-                for (uint i = 0; i < entities.size(); i++) {
-                    if (Light* l = dynamic_cast<Light*>(entities[i]))
-                        l->ReloadShader();
-                }
-            }
+        case Qt::Key_F2:
+            // Reload all shaders.
+            Volt::G_AssetManager->ReloadShaders();
         break;
         default:
             event->ignore();

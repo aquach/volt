@@ -1,0 +1,44 @@
+#pragma once
+
+#include "Game/Core/Core.h"
+#include "Game/Graphics/Graphics.h"
+
+namespace Volt {
+    class GpuProgram;
+    class Scene;
+}
+
+class Light;
+
+class LightManager {
+public:
+    LightManager ();
+    ~LightManager ();
+
+    static void Register (LightManager* manager) { instance = manager; }
+    static LightManager* Instance () { return instance; }
+
+    void RenderLight (Light* light);
+
+private:
+    friend class GameScene;
+    friend class EditorScene;
+    Volt::Scene* m_scene;
+
+    GLuint m_fbo;
+    GLuint m_dummyTexture;
+    GLuint m_shadowTexture;
+    GLuint m_distanceTexture;
+    GLuint m_parabolicTexture;
+    GLuint m_lightTexture;
+    Volt::GpuProgram* m_shadowShader;
+    Volt::GpuProgram* m_parabolicShader;
+    Volt::GpuProgram* m_reduceShader;
+    Volt::GpuProgram* m_lightShader;
+
+    static LightManager* instance;
+
+    DISALLOW_COPY_AND_ASSIGN(LightManager);
+};
+
+#define G_LightManager LightManager::Instance()

@@ -5,6 +5,7 @@
 class DoodadManager;
 class Editor;
 class LevelManager;
+class LightManager;
 
 class EditorScene : public Volt::Scene {
 public:
@@ -25,6 +26,7 @@ private:
     friend class Editor;
     Editor* m_editor;
     LevelManager* m_levelManager;
+    LightManager* m_lightManager;
     DoodadManager* m_doodadManager;
 
     int m_cameraMoveX;
