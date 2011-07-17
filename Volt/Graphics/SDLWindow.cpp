@@ -79,8 +79,6 @@ void SDLWindow::Screenshot (const string& filename) {
 
     SDL_SaveBMP(temp, filename.c_str());
     SDL_FreeSurface(temp);
-
-    return;
 }
 
 int SDLWindow::width () const {

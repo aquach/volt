@@ -34,14 +34,14 @@ void Graphics::Init () {
     //glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClearDepth(1.0f);
-    glDisable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_LEQUAL);
-    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_initialized = true;
-    
+
     ShowBuffer();
 }
 
@@ -422,6 +422,39 @@ void Graphics::RenderLineCircle (float radius, int segments) {
 
 bool Graphics::initialized () {
     return instance != NULL && instance->m_initialized;
+}
+
+void Graphics::SaveTextureToFile (int glId, string filename) {
+    int width;
+    int height;
+    glBindTexture(GL_TEXTURE_2D, glId);
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+    if (width == 0 && height == 0) {
+        LOG(WARNING) << "Texture to be saved doesn't exist or is 0 by 0.";
+        return;
+    }
+
+
+    SDL_Surface* temp = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 24,
+        #if SDL_BYTEORDER == SDL_LIL_ENDIAN
+            0x000000FF, 0x0000FF00, 0x00FF0000, 0
+        #else
+            0x00FF0000, 0x0000FF00, 0x000000FF, 0
+        #endif
+    );
+
+    unsigned char* pixels = (unsigned char*)malloc(3 * width * height);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+    for (int i = 0; i < height; i++)
+        memcpy(((char *)temp->pixels) + temp->pitch * i,
+               pixels + 3 * width * (height - i - 1),
+               width * 3);
+    free(pixels);
+
+    SDL_SaveBMP(temp, filename.c_str());
+    SDL_FreeSurface(temp);
 }
 
 }

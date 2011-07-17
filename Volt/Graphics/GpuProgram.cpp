@@ -1,5 +1,6 @@
 #include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/OpenGL.h"
+#include "Volt/Graphics/Graphics.h"
 
 namespace Volt {
 
@@ -14,7 +15,11 @@ GpuProgram::GpuProgram ()
 }
 
 GpuProgram::~GpuProgram () {
-    for (uint i = 0; i < m_shaders.size(); i++) {
+    Unload();
+}
+
+void GpuProgram::Unload () {
+    for (uint i = 0; i < m_shaders.size(); i++) {;
         glDetachObjectARB(m_handle, m_shaders[i]->handle());
     }
     glDeleteObjectARB(m_handle);
@@ -23,6 +28,18 @@ GpuProgram::~GpuProgram () {
 void GpuProgram::Attach (ShaderAssetRef shader) {
     m_shaders.push_back(shader);
     glAttachObjectARB(m_handle, shader->handle());
+    m_linked = false;
+}
+
+void GpuProgram::Reload () {
+    // TODO: Unload all gpu programs, reload shaders, then reload all
+    // gpu programs.
+    Unload();
+    m_handle = glCreateProgramObjectARB();
+    for (uint i = 0; i < m_shaders.size(); i++) {
+        m_shaders[i]->Reload();
+        glAttachObjectARB(m_handle, m_shaders[i]->handle());
+    }
     m_linked = false;
 }
 

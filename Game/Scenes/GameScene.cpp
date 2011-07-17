@@ -2,6 +2,7 @@
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Game/Editor/EntityFactory.h"
+#include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Umbrella.h"
 #include "Game/Game/ConversationManager.h"
@@ -52,11 +53,6 @@ GameScene::~GameScene () {
     delete m_doodadManager;
 }
 
-/*
-void GameScene::Render () {
-}
-*/
-
 void GameScene::Update () {
     Scene::Update();
     m_conversationManager->Update();
@@ -82,6 +78,17 @@ void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
             break;
             case SDLK_F1:
                 Volt::G_PhysicsManager->ToggleDebugDraw();
+            break;
+            case SDLK_r:
+                // Reload all lights' shaders.
+                {
+                    vector<Volt::Entity*> entities;
+                    GetEntities(&entities);
+                    for (uint i = 0; i < entities.size(); i++) {
+                        if (Light* l = dynamic_cast<Light*>(entities[i]))
+                            l->ReloadShader();
+                    }
+                }
             break;
             default:
             break;

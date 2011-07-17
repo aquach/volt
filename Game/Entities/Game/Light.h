@@ -1,8 +1,13 @@
 #pragma once
 
 #include "Game/Core/Core.h"
-#include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
+#include "Game/Game/Entity.h"
+#include "Game/Graphics/Graphics.h"
+
+namespace Volt {
+    class GpuProgram;
+}
 
 class Light : public Entity {
 public:
@@ -23,9 +28,19 @@ public:
     virtual void OnScaleChanged ();
     virtual void GetProperties (vector<Property*>* properties);
 
+    void ReloadShader ();
+
 private:
     void CreatePhysicsBody ();
 
     Volt::Color m_color;
     float m_intensity;
+    GLuint m_fbo;
+    GLuint m_dummyTexture;
+    GLuint m_shadowTexture;
+    GLuint m_distanceTexture;
+    GLuint m_parabolicTexture;
+    Volt::GpuProgram* m_program;
+    Volt::GpuProgram* m_program2;
+    Volt::GpuProgram* m_program3;
 };

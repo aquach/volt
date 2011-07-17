@@ -93,6 +93,8 @@ public:
 
     static bool initialized ();
 
+    static void SaveTextureToFile (int glTextureId, string filename);
+
 private:
     static Graphics* instance;
 

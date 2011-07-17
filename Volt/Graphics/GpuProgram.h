@@ -18,6 +18,9 @@ public:
 
     bool IsLinked () const { return m_linked; }
 
+    void Reload ();
+    void Unload ();
+
 private:
     vector<ShaderAssetRef> m_shaders;
     int m_handle;

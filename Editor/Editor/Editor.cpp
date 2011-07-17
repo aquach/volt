@@ -9,6 +9,7 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/SelectionManager.h"
 #include "Game/Entities/Game/Doodad.h"
+#include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
@@ -377,9 +378,20 @@ void Editor::keyPressEvent (QKeyEvent *event) {
         case Qt::Key_Delete:
             Delete();
         break;
+        case Qt::Key_R:
+            // Reload all lights' shaders. TODO: Facility to reload all shaders.
+            {
+                vector<Volt::Entity*> entities;
+                m_scene->GetEntities(&entities);
+                for (uint i = 0; i < entities.size(); i++) {
+                    if (Light* l = dynamic_cast<Light*>(entities[i]))
+                        l->ReloadShader();
+                }
+            }
+        break;
         default:
             event->ignore();
-            break;
+        break;
     }
 }
 
