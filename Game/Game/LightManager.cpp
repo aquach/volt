@@ -219,16 +219,15 @@ void LightManager::RenderLight (Light* light) {
 
     vector<Volt::Entity*> entities;
     Vector2 field = Vector2(lightLength, lightLength);
-    m_scene->GetEntitiesInArea (light->position() - field,
-                                light->position() + field,
-                                &entities);
+    m_scene->GetEntitiesInArea(light->position() - field,
+                               light->position() + field,
+                               &entities);
     for (uint i = 0; i < entities.size(); i++) {
         if (dynamic_cast<Light*>(entities[i]))
             continue;
         entities[i]->Render();
     }
     glPopMatrix();
-
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -248,8 +247,6 @@ void LightManager::RenderLight (Light* light) {
     // Render parabolic map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_parabolicTexture, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                           GL_TEXTURE_2D, 0, 0);
     CheckFramebufferStatus();
 
     Graphics::BindShader(m_parabolicShader);
@@ -261,8 +258,6 @@ void LightManager::RenderLight (Light* light) {
     glViewport(0, 0, 2, TEXTURE_HEIGHT);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_shadowTexture, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                           GL_TEXTURE_2D, 0, 0);
     CheckFramebufferStatus();
 
     Graphics::BindShader(m_reduceShader);

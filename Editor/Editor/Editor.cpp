@@ -279,7 +279,9 @@ Editor::Editor (const Volt::DataSource* source)
     dock->setWidget(m_properties);
 
     statusBar()->showMessage("Ready");
+    m_fpsLabel = new QLabel("");
     m_modifiedLabel = new QLabel("");
+    statusBar()->addPermanentWidget(m_fpsLabel);
     statusBar()->addPermanentWidget(m_modifiedLabel);
 
     m_modeFsm = new Volt::FSM;
@@ -341,6 +343,9 @@ void Editor::MoveVertical (int dir) {
 }
 
 void Editor::Render () {
+    QTime t;
+    t.start();
+
     m_scene->Render();
 
     // Render grid.
@@ -369,6 +374,12 @@ void Editor::Render () {
     state = dynamic_cast<Editor::ModeState*>(m_modeFsm->state());
     CHECK_NOTNULL(state);
     state->Render();
+
+    if (t.elapsed() > 0) {
+        m_fpsLabel->setText(tr("FPS: %1").arg((int)(1000.0f / t.elapsed())));
+    } else {
+        m_fpsLabel->setText("");
+    }
 }
 
 void Editor::keyPressEvent (QKeyEvent *event) {

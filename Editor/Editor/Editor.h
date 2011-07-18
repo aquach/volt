@@ -248,6 +248,7 @@ private:
     QSettings* m_settings;
     QAction* m_recentFileSeparator;
     QLabel* m_modifiedLabel;
+    QLabel* m_fpsLabel;
     int m_autosaveTimer;
     int m_updateTimer;
     QTableView* m_properties;
