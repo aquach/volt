@@ -4,6 +4,8 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Game/Entity.h"
 
+/* A light that can cast colored light with attenuation and in a particular
+ * direction. */
 class Light : public Entity {
 public:
     DECLARE_ENTITY_(Light);
@@ -25,10 +27,12 @@ public:
 
     Volt::Color color () const { return m_color; }
     float maxDistance () const { return m_maxDistance; }
+    float coneAngle () const { return m_coneAngle; }
 
 private:
     void CreatePhysicsBody ();
 
     Volt::Color m_color;
     float m_maxDistance;
+    float m_coneAngle;
 };

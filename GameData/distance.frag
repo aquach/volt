@@ -5,6 +5,12 @@ void main() {
     vec4 shadowMapColor = texture2D(shadowMap, texCoords);
 
     // For non-white pixels, compute distance from light.
-    float distance = shadowMapColor.r < 0.9f ? length(texCoords - 0.5f) : 1.0f;
-    gl_FragColor = vec4(distance, 0, 0, 1);
+    if (shadowMapColor.r > 0.9f) {
+        gl_FragColor = vec4(1, 0, 0, 1);
+        return;
+    }
+    vec2 dir = texCoords - 0.5f;
+    float dist = length(dir);
+
+    gl_FragColor = vec4(dist, 0, 0, 1);
 }

@@ -1,5 +1,7 @@
 uniform sampler2D lightMap;
 uniform vec4 color;
+uniform float coneAngle; // Width of the cone of light that the light emits.
+uniform vec2 lightDir; // Direction that the light shines in.
 
 float GetLightMapDistanceH(vec2 texCoords) {
     float u = texCoords.x;
@@ -12,7 +14,7 @@ float GetLightMapDistanceH(vec2 texCoords) {
 
     vec2 newCoords = vec2(texCoords.x, v0);
     // Horizontal info was stored in the R component.
-    return tex2D(lightMap, newCoords).r;
+    return texture2D(lightMap, newCoords).r;
 }
 
 float GetLightMapDistanceV(vec2 texCoords) {
@@ -26,16 +28,24 @@ float GetLightMapDistanceV(vec2 texCoords) {
 
     vec2 newCoords = vec2(texCoords.y, v0);
     // Vertical info was stored in the Green component.
-    return tex2D(lightMap, newCoords).g;
+    return texture2D(lightMap, newCoords).g;
 }
+
+float DEG2RAD = 3.1415 / 180;
 
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
-    float distance = length(texCoords - 0.5f);
+    vec2 dir = texCoords - 0.5f;
+    float distance = length(dir);
 
     // Convert to [-1, 1].
     float x = 2.0f * (texCoords.x - 0.5f);
     float y = 2.0f * (texCoords.y - 0.5f);
+
+    float cutoff = coneAngle * DEG2RAD / 2 + 0.001f;
+    if (acos(dot(dir / distance, lightDir)) > cutoff) {
+        discard;
+    }
 
     float lightMapDistance;
     if (abs(y) < abs(x)) {

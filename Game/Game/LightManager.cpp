@@ -5,9 +5,11 @@
 
 const int TEXTURE_WIDTH = 1024;
 const int TEXTURE_HEIGHT = 1024;
-//const float LIGHT_LENGTH = 15;
 
 LightManager* LightManager::instance = NULL;
+
+// TODO: Lights add their light together, but how does this interact
+// with lighting the background?
 
 // Constructs a color texture.
 GLuint MakeTexture () {
@@ -154,7 +156,6 @@ LightManager::~LightManager () {
 }
 
 void LightManager::RenderLight (Light* light) {
-    GLint loc;
     float lightLength = light->maxDistance();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
@@ -233,8 +234,8 @@ void LightManager::RenderLight (Light* light) {
     Graphics::BindShader(m_reduceShader);
     glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
     Graphics::SetShaderValue("parabolicMap", 0);
-    loc = glGetUniformLocation(m_reduceShader->handle(), "pixelSize");
-    glUniform2f(loc, 1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
+    Vector2 pixelSize(1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
+    Graphics::SetShaderValue("pixelSize", pixelSize);
     RenderPass();
 
     glPopAttrib();
@@ -242,19 +243,20 @@ void LightManager::RenderLight (Light* light) {
 
     // Render light!!
     glPushMatrix();
+    Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
     Graphics::BindShader(m_lightShader);
     glBindTexture(GL_TEXTURE_2D, m_lightTexture);
     Graphics::SetShaderValue("lightMap", 0);
     Graphics::SetShaderValue("color", light->color());
-    //Graphics::SetShaderValue("maxDistance", light->maxDistance());
+    Graphics::SetShaderValue("coneAngle", light->coneAngle());
+    Graphics::SetShaderValue("lightDir", light->transform().yAxis());
     Graphics::Translate(light->position());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
     Graphics::BindShader(NULL);
     glPopMatrix();
 
-    // TODO: Use RG + BA to double float precision.
-
+    Graphics::SetBlend(Graphics::BLEND_NONE);
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
     Graphics::RenderQuad(5, 5);
@@ -268,11 +270,4 @@ void LightManager::RenderLight (Light* light) {
     Graphics::RenderQuad(5, 5);
     glPopMatrix();
 
-    /*glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
-    float* pixels = new float[TEXTURE_WIDTH * TEXTURE_HEIGHT];
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_RED, GL_FLOAT, pixels);
-    for (int i = 0; i < TEXTURE_WIDTH * TEXTURE_HEIGHT; i += 300)
-        LOG(INFO) << pixels[i];
-    CHECK(false);
-    */
 }

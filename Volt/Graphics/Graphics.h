@@ -30,6 +30,7 @@ public:
     static void SetShaderValue (const char* valueName, int value);
     static void SetShaderValue (const char* valueName, float value);
     static void SetShaderValue (const char* valueName, Color value);
+    static void SetShaderValue (const char* valueName, Vector2 value);
     static int GetUniformLocation (const char* s);
 
     static void Translate (const Vector2& pos);

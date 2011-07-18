@@ -6,7 +6,8 @@ REGISTER_ENTITY_(Light);
 
 Light::Light ()
 	: m_color(Volt::Color::white),
-      m_maxDistance(5.0f) {
+      m_maxDistance(5.0f),
+      m_coneAngle(360.0f) {
     AddTag("Light");
     CreatePhysicsBody();
 }
@@ -77,6 +78,7 @@ void Light::GetProperties (vector<Property*>* properties) {
     Entity::GetProperties(properties);
     properties->push_back(new ColorProperty("Color", &m_color));
     properties->push_back(new FloatProperty("Max Distance", &m_maxDistance));
+    properties->push_back(new FloatProperty("Cone Angle", &m_coneAngle));
 }
 
 
