@@ -1,8 +1,8 @@
-uniform sampler2D shadowMap;
+uniform sampler2D depthMap;
 
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
-    vec4 shadowMapColor = texture2D(shadowMap, texCoords);
+    vec4 shadowMapColor = texture2D(depthMap, texCoords);
 
     // For non-white pixels, compute distance from light.
     if (shadowMapColor.r > 0.9f) {

@@ -27,14 +27,16 @@ private:
 
     GLuint m_fbo;
     GLuint m_dummyTexture;
-    GLuint m_shadowTexture;
+    GLuint m_depthTexture;
     GLuint m_distanceTexture;
     GLuint m_parabolicTexture;
+    GLuint m_shadowTexture;
     GLuint m_lightTexture;
     Volt::GpuProgram* m_shadowShader;
     Volt::GpuProgram* m_parabolicShader;
     Volt::GpuProgram* m_reduceShader;
     Volt::GpuProgram* m_lightShader;
+    Volt::GpuProgram* m_blurShader;
 
     static LightManager* instance;
 
