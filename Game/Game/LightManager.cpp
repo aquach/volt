@@ -219,6 +219,9 @@ void LightManager::RenderLight (Light* light) {
 
     vector<Volt::Entity*> entities;
     Vector2 field = Vector2(lightLength, lightLength);
+    // TODO: Fetching entities every render is expensive.
+    // Cache these or have a isStatic flag for only casting shadows on
+    // static entities?
     m_scene->GetEntitiesInArea(light->position() - field,
                                light->position() + field,
                                &entities);
@@ -303,4 +306,6 @@ void LightManager::RenderLight (Light* light) {
 
         glPopMatrix();
     }
+
+    Graphics::BindTexture(NULL);
 }

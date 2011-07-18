@@ -6,8 +6,6 @@ namespace Volt {
 
 void PhysicsDebugDraw::DrawPolygon (const b2Vec2* vertices, int32 vertexCount,
                                     const b2Color& color) {
-	Graphics::BindTexture(NULL);
-
     glLineWidth(1.0f);
 	glColor4f(color.r, color.g, color.b, 1.0f);
 	glBegin(GL_LINE_LOOP);
@@ -20,8 +18,6 @@ void PhysicsDebugDraw::DrawPolygon (const b2Vec2* vertices, int32 vertexCount,
 void PhysicsDebugDraw::DrawSolidPolygon (const b2Vec2* vertices,
                                          int32 vertexCount,
                                          const b2Color& color) {
-	Graphics::BindTexture(NULL);
-
     glLineWidth(1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -31,6 +27,7 @@ void PhysicsDebugDraw::DrawSolidPolygon (const b2Vec2* vertices,
 		glVertex2f(vertices[i].x, vertices[i].y);
 	}
 	glEnd();
+    glDisable(GL_BLEND);
 
 	glColor4f(color.r, color.g, color.b, 1.0f);
 	glBegin(GL_LINE_LOOP);
@@ -42,7 +39,6 @@ void PhysicsDebugDraw::DrawSolidPolygon (const b2Vec2* vertices,
 
 void PhysicsDebugDraw::DrawCircle (const b2Vec2& center, float32 radius,
                                    const b2Color& color) {
-	Graphics::BindTexture(NULL);
     glLineWidth(1.0f);
 	const float32 k_segments = 16.0f;
 	const float32 k_increment = 2.0f * b2_pi / k_segments;
@@ -60,8 +56,6 @@ void PhysicsDebugDraw::DrawCircle (const b2Vec2& center, float32 radius,
 void PhysicsDebugDraw::DrawSolidCircle (const b2Vec2& center, float32 radius,
                                         const b2Vec2& axis,
                                         const b2Color& color) {
-	Graphics::BindTexture(NULL);
-
 	const float32 k_segments = 16.0f;
 	const float32 k_increment = 2.0f * b2_pi / k_segments;
 	float32 theta = 0.0f;
@@ -76,11 +70,11 @@ void PhysicsDebugDraw::DrawSolidCircle (const b2Vec2& center, float32 radius,
 		theta += k_increment;
 	}
 	glEnd();
+    glDisable(GL_BLEND);
 }
 
 void PhysicsDebugDraw::DrawSegment (const b2Vec2& p1, const b2Vec2& p2,
                                     const b2Color& color) {
-	Graphics::BindTexture(NULL);
     glLineWidth(1.0f);
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_LINES);
@@ -90,7 +84,6 @@ void PhysicsDebugDraw::DrawSegment (const b2Vec2& p1, const b2Vec2& p2,
 }
 
 void PhysicsDebugDraw::DrawTransform (const b2Transform& xf) {
-	Graphics::BindTexture(NULL);
     glLineWidth(1.0f);
 	b2Vec2 p1 = xf.position, p2;
 	const float32 k_axisScale = 0.4f;
@@ -111,8 +104,6 @@ void PhysicsDebugDraw::DrawTransform (const b2Transform& xf) {
 
 void PhysicsDebugDraw::DrawPoint (const b2Vec2& p, float32 size,
                                   const b2Color& color) {
-	Graphics::BindTexture(NULL);
-
 	glPointSize(size);
 	glBegin(GL_POINTS);
 	glColor3f(color.r, color.g, color.b);
@@ -125,8 +116,6 @@ void PhysicsDebugDraw::DrawString (int x, int y, const char* string, ...) {
 }
 
 void PhysicsDebugDraw::DrawAABB (b2AABB* aabb, const b2Color& c) {
-	Graphics::BindTexture(NULL);
-
     glLineWidth(1.0f);
 	glColor3f(c.r, c.g, c.b);
 	glBegin(GL_LINE_LOOP);

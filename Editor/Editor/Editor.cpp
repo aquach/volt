@@ -367,6 +367,7 @@ void Editor::Render () {
             Graphics::RenderLine(Vector2(upperLeft.x, ly),
                                  Vector2(lowerRight.x, ly));
         }
+        Graphics::SetBlend(Graphics::BLEND_NONE);
     }
 
     // Render GUI elements that the mode might want drawn.

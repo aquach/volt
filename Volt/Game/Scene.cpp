@@ -128,6 +128,10 @@ void Scene::Render () {
             list<Entity*>& entityList = layer->second;
             FOR_ (list<Entity*>::iterator, i, entityList) {
                 (*i)->Render();
+                #if DEBUG
+                    Graphics::CheckErrors();
+                    Graphics::CheckState();
+                #endif
             }
         }
     }
@@ -146,8 +150,11 @@ void Scene::Render () {
 
     OnPostRender();
 
+#if DEBUG
     Graphics::RenderAxes();
     Graphics::CheckErrors();
+    Graphics::CheckState();
+#endif
     Graphics::ShowBuffer();
 }
 

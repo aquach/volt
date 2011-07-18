@@ -87,3 +87,10 @@ file(GLOB_RECURSE Editor_HEADERS Editor/*.h)
 QT4_WRAP_CPP(Editor_HEADERS_MOC ${Editor_HEADERS})
 ADD_EXECUTABLE(editor ${Editor_SOURCES} ${Editor_HEADERS_MOC})
 TARGET_LINK_LIBRARIES(editor gamelib ${VOLT_DEPENDENCIES} volt ${QT_LIBRARIES})
+
+# Benchmarks
+
+SET(source Benchmarks/pushAttrib.cpp)
+SET_SOURCE_FILES_PROPERTIES(${source} PROPERTIES COMPILE_FLAGS -O2)
+ADD_EXECUTABLE(benchmark_pushAttrib ${source})
+TARGET_LINK_LIBRARIES(benchmark_pushAttrib SDL GL volt)

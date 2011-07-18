@@ -7,6 +7,18 @@
 
 namespace Volt {
 
+#define STRENUM(e) e, (int)#e
+
+/* Checks that GL state is maintained.
+ * Format: enum, string, number of values, (values that glGet(enum) should be).
+ */
+static int checks[] = {
+    STRENUM(GL_BLEND), 1, 0,
+    STRENUM(GL_TEXTURE_BINDING_2D), 1, 0
+};
+
+#undef STRENUM
+
 Graphics* Graphics::instance = NULL;
 
 Graphics::Graphics (Viewport* viewport)
@@ -27,16 +39,14 @@ void Graphics::Init () {
         LOG(ERROR) << "Failed to initialize glewInit!";
     }
 
-    glEnable(GL_BLEND);
-    glDisable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
     glCullFace(GL_BACK);
-    //glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -126,15 +136,18 @@ void Graphics::SetBlend (BlendType blend)
     if (blend != instance->currentBlend) {
         switch (blend) {
             case BLEND_NONE:
-                glBlendFunc(GL_ONE, GL_ZERO);
+                glDisable(GL_BLEND);
                 break;
             case BLEND_ALPHA:
+                glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
                 break;
             case BLEND_ADDITIVE:
+                glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 break;
             case BLEND_MULTIPLY:
+                glEnable(GL_BLEND);
                 glBlendFunc(GL_ZERO, GL_SRC_COLOR);
                 break;
         }
@@ -395,6 +408,26 @@ void Graphics::CheckErrors () {
         LOG(ERROR) << "OpenGL Error: " << gluErrorString(error);
 }
 
+void Graphics::CheckState () {
+    int i = 0;
+    int numChecks = sizeof(checks) / sizeof(int);
+    while (i < numChecks) {
+        GLenum e = (GLenum)checks[i];
+        int numValues = checks[i + 2];
+        float values[4];
+        glGetFloatv(e, values);
+        for (int v = 0; v < numValues; v++) {
+            if (abs(values[v] - checks[i + 3 + v]) > 0.01)
+                LOG(WARNING) << "Clean state check failed on "
+                             << (const char*)checks[i + 1] << ", "
+                             << "is " << values[v] << ", should be "
+                             << checks[i + 3 + v];
+        }
+        
+        i += numValues + 3;
+    }
+}
+
 /*
 void Graphics::BeginLine() {
     glBegin(GL_LINES);
@@ -447,6 +480,7 @@ bool Graphics::initialized () {
 }
 
 void Graphics::SaveTextureToFile (int glId, string filename) {
+    glPushAttrib(GL_ENABLE_BIT | GL_TEXTURE_BIT);
     int width;
     int height;
     glBindTexture(GL_TEXTURE_2D, glId);
@@ -454,6 +488,7 @@ void Graphics::SaveTextureToFile (int glId, string filename) {
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
     if (width == 0 && height == 0) {
         LOG(WARNING) << "Texture to be saved doesn't exist or is 0 by 0.";
+        glPopAttrib();
         return;
     }
 
@@ -477,6 +512,7 @@ void Graphics::SaveTextureToFile (int glId, string filename) {
 
     SDL_SaveBMP(temp, filename.c_str());
     SDL_FreeSurface(temp);
+    glPopAttrib();
 }
 
 }

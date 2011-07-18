@@ -50,6 +50,7 @@ void Doodad::Render () {
     }
     glEnd();
     Graphics::BindTexture(NULL);
+    Graphics::SetBlend(Graphics::BLEND_NONE);
     glPopMatrix();
 }
 

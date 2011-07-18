@@ -93,6 +93,9 @@ public:
     static void ShowBuffer ();
     static void CheckErrors ();
 
+    /* Ensure certain assumptions about GL state are met. */
+    static void CheckState ();
+
     static bool initialized ();
 
     static void SaveTextureToFile (int glTextureId, string filename);

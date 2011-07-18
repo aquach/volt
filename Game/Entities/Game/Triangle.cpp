@@ -41,8 +41,6 @@ void Triangle::Render () {
     Graphics::TransformMatrix(m_transform);
     if (m_texture.HasAsset())
         Graphics::BindTexture(m_texture);
-    else
-        glShadeModel(GL_SMOOTH);
 
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < NUM_VERTS; i++) {
@@ -58,17 +56,18 @@ void Triangle::Render () {
         }
     }
     glEnd();
+    Graphics::BindTexture(NULL);
 
     if (G_SelectionManager != NULL) {
         // Render selected vertices if necessary.
         if (G_SelectionManager->showVertices()) {
+            glPointSize(6.0f);
             for (int i = 0; i < NUM_VERTS; i++) {
                 if (G_SelectionManager->IsVertexSelected(this, i)) {
                     Graphics::SetColor(Volt::Color::RGB(200, 0, 0));
                 } else {
                     Graphics::SetColor(Volt::Color::RGB(50, 50, 250));
                 }
-                glPointSize(6.0f);
                 glBegin(GL_POINTS);
                 switch (i) {
                     case 0: glVertex2i(0, 0); break;
