@@ -31,7 +31,7 @@ float GetLightMapDistanceV(vec2 texCoords) {
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
     float distance = length(texCoords - 0.5f);
-    distance -= 0.005f;
+    //distance -= 0.005f;
 
     // Convert to [-1, 1].
     float x = 2.0f * (texCoords.x - 0.5f);

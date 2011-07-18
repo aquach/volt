@@ -5,7 +5,7 @@
 
 const int TEXTURE_WIDTH = 1024;
 const int TEXTURE_HEIGHT = 1024;
-const float LIGHT_LENGTH = 5;
+const float LIGHT_LENGTH = 15;
 
 LightManager* LightManager::instance = NULL;
 
@@ -18,7 +18,7 @@ GLuint MakeTexture () {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TEXTURE_WIDTH, TEXTURE_HEIGHT,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, TEXTURE_WIDTH, TEXTURE_HEIGHT,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     return texture;
 }
@@ -104,7 +104,7 @@ LightManager::LightManager () {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 2 /* 2 pixel width */,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, 2 /* 2 pixel width */,
                  TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -250,7 +250,6 @@ void LightManager::RenderLight (Light* light) {
 
     // TODO: Use RG + BA to double float precision.
 
-    /*
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
     Graphics::RenderQuad(5, 5);
@@ -263,5 +262,12 @@ void LightManager::RenderLight (Light* light) {
     glBindTexture(GL_TEXTURE_2D, m_lightTexture);
     Graphics::RenderQuad(5, 5);
     glPopMatrix();
+
+    /*glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
+    float* pixels = new float[TEXTURE_WIDTH * TEXTURE_HEIGHT];
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RED, GL_FLOAT, pixels);
+    for (int i = 0; i < TEXTURE_WIDTH * TEXTURE_HEIGHT; i += 300)
+        LOG(INFO) << pixels[i];
+    CHECK(false);
     */
 }
