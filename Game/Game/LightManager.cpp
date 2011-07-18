@@ -5,7 +5,7 @@
 
 const int TEXTURE_WIDTH = 1024;
 const int TEXTURE_HEIGHT = 1024;
-const float LIGHT_LENGTH = 15;
+//const float LIGHT_LENGTH = 15;
 
 LightManager* LightManager::instance = NULL;
 
@@ -154,6 +154,9 @@ LightManager::~LightManager () {
 }
 
 void LightManager::RenderLight (Light* light) {
+    GLint loc;
+    float lightLength = light->maxDistance();
+
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
     glPushAttrib(GL_VIEWPORT_BIT);
     glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
@@ -176,11 +179,11 @@ void LightManager::RenderLight (Light* light) {
     glPushMatrix();
     glLoadIdentity();
     Graphics::Translate(Vector2(0.5, 0.5));
-    glScalef(0.5f / LIGHT_LENGTH, 0.5f / LIGHT_LENGTH, 1);
+    glScalef(0.5f / lightLength, 0.5f / lightLength, 1);
     Graphics::Translate(-light->position());
 
     vector<Volt::Entity*> entities;
-    Vector2 field = Vector2(LIGHT_LENGTH, LIGHT_LENGTH);
+    Vector2 field = Vector2(lightLength, lightLength);
     m_scene->GetEntitiesInArea (light->position() - field,
                                 light->position() + field,
                                 &entities);
@@ -230,7 +233,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::BindShader(m_reduceShader);
     glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
     Graphics::SetShaderValue("parabolicMap", 0);
-    GLint loc = glGetUniformLocation(m_reduceShader->handle(), "pixelSize");
+    loc = glGetUniformLocation(m_reduceShader->handle(), "pixelSize");
     glUniform2f(loc, 1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
     RenderPass();
 
@@ -242,8 +245,10 @@ void LightManager::RenderLight (Light* light) {
     Graphics::BindShader(m_lightShader);
     glBindTexture(GL_TEXTURE_2D, m_lightTexture);
     Graphics::SetShaderValue("lightMap", 0);
+    Graphics::SetShaderValue("color", light->color());
+    //Graphics::SetShaderValue("maxDistance", light->maxDistance());
     Graphics::Translate(light->position());
-    Graphics::RenderQuad(LIGHT_LENGTH * 2, LIGHT_LENGTH * 2);
+    Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
     Graphics::BindShader(NULL);
     glPopMatrix();

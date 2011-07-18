@@ -6,7 +6,7 @@ REGISTER_ENTITY_(Light);
 
 Light::Light ()
 	: m_color(Volt::Color::white),
-      m_intensity(1.0f) {
+      m_maxDistance(5.0f) {
     AddTag("Light");
     CreatePhysicsBody();
 }
@@ -41,11 +41,11 @@ void Light::Load (const Json::Value& node) {
     CHECK(node["type"].asString() == "Light");
     CHECK(node.isMember("transform"));
     CHECK(node.isMember("color"));
-    CHECK(node.isMember("intensity"));
+    CHECK(node.isMember("maxDistance"));
 
     m_transform.Load(node["transform"]);
     m_color.Load(node["color"]);
-    m_intensity = node["intensity"].asDouble();
+    m_maxDistance = node["maxDistance"].asDouble();
     CreatePhysicsBody();
 }
 
@@ -53,7 +53,7 @@ void Light::Save (Json::Value& node) const {
     node["type"] = "Light";
     m_transform.Save(node["transform"]);
     m_color.Save(node["color"]);
-    node["intensity"] = m_intensity;
+    node["maxDistance"] = m_maxDistance;
 }
 
 void Light::OnScaleChanged () {
@@ -68,7 +68,7 @@ Light* Light::Clone () const {
 
 void Light::CopyFrom (const Light* other) {
     Entity::CopyFrom(other);
-    m_intensity = other->m_intensity;
+    m_maxDistance = other->m_maxDistance;
     m_color = other->m_color;
     CreatePhysicsBody();
 }
@@ -76,7 +76,7 @@ void Light::CopyFrom (const Light* other) {
 void Light::GetProperties (vector<Property*>* properties) {
     Entity::GetProperties(properties);
     properties->push_back(new ColorProperty("Color", &m_color));
-    properties->push_back(new FloatProperty("Intensity", &m_intensity));
+    properties->push_back(new FloatProperty("Max Distance", &m_maxDistance));
 }
 
 

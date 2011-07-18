@@ -1,4 +1,5 @@
 uniform sampler2D lightMap;
+uniform vec4 color;
 
 float GetLightMapDistanceH(vec2 texCoords) {
     float u = texCoords.x;
@@ -31,7 +32,6 @@ float GetLightMapDistanceV(vec2 texCoords) {
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
     float distance = length(texCoords - 0.5f);
-    //distance -= 0.005f;
 
     // Convert to [-1, 1].
     float x = 2.0f * (texCoords.x - 0.5f);
@@ -45,8 +45,8 @@ void main() {
     }
 
     if (distance < lightMapDistance) {
-        vec4 result = vec4(1.0f - distance * distance);
-        result.a = 1.0f;
+        vec4 result = color;
+        result.a *= 1.0 - distance * distance * 4;
         gl_FragColor = result;
     } else {
         discard;

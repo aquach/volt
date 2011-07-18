@@ -2,6 +2,8 @@ uniform sampler2D parabolicMap;
 uniform vec2 pixelSize;
 
 void main() {
+    // Reduce the left and right halves of the texture into a single column
+    // with the pixel value being the closest occluder's distance.
     vec2 texCoords = gl_TexCoord[0].st;
     vec2 minDist;
     if (texCoords.x < 0.4f) {

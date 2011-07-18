@@ -77,6 +77,17 @@ int Graphics::GetUniformLocation (const char* s) {
     return 0;
 }
 
+void Graphics::SetShaderValue (const char* valueName, Color value) {
+    if (instance->m_program != NULL) {
+        GLuint location = GetUniformLocation(valueName);
+        if ((int)location == -1) {
+            LOG(WARNING) << "Could not get location of uniform "
+                         << valueName;
+        }
+        glUniform4fARB(location, value.r, value.g, value.b, value.a);
+    }
+}
+
 void Graphics::SetShaderValue (const char* valueName, float value) {
     if (instance->m_program != NULL) {
         GLuint location = GetUniformLocation(valueName);

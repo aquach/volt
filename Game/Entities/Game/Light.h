@@ -23,9 +23,12 @@ public:
     virtual void OnScaleChanged ();
     virtual void GetProperties (vector<Property*>* properties);
 
+    Volt::Color color () const { return m_color; }
+    float maxDistance () const { return m_maxDistance; }
+
 private:
     void CreatePhysicsBody ();
 
     Volt::Color m_color;
-    float m_intensity;
+    float m_maxDistance;
 };
