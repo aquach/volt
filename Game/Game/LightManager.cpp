@@ -75,7 +75,8 @@ LightManager::LightManager ()
       m_parabolicShader(NULL),
       m_reduceShader(NULL),
       m_lightShader(NULL),
-      m_blurShader(NULL) {
+      m_blurShader(NULL),
+      m_debugDraw(false) {
     CHECK(Graphics::initialized());
 
     glGenFramebuffers(1, &m_fbo);
@@ -181,9 +182,10 @@ LightManager::~LightManager () {
     delete m_parabolicShader;
     delete m_shadowShader;
     delete m_blurShader;
-    GLuint textures[5] = { m_dummyTexture, m_depthTexture, m_distanceTexture,
-                           m_parabolicTexture, m_shadowTexture };
-    glDeleteTextures(5, textures);
+    GLuint textures[] = { m_dummyTexture, m_depthTexture, m_distanceTexture,
+                          m_parabolicTexture, m_shadowTexture,
+                          m_lightTexture };
+    glDeleteTextures(sizeof(textures) / sizeof(GLuint), textures);
     glDeleteFramebuffers(1, &m_fbo);
 }
 
@@ -270,33 +272,18 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("pixelSize", pixelSize);
     RenderPass();
 
-    // Render shadow.
-    glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_lightTexture, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                           GL_TEXTURE_2D, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    CheckFramebufferStatus();
-
-    Graphics::BindShader(m_lightShader);
-    glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
-    Graphics::SetShaderValue("shadowMap", 0);
-    Graphics::SetShaderValue("color", light->color());
-    Graphics::SetShaderValue("coneAngle", light->coneAngle());
-    Graphics::SetShaderValue("lightDir", light->transform().yAxis());
-    RenderPass();
-
     // Render final image.
     glPopAttrib();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glPushMatrix();
     Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
-    Graphics::BindShader(m_blurShader);
-    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
-    Graphics::SetShaderValue("lightMap", 0);
-    Graphics::SetShaderValue("pixelSize", pixelSize);
+    Graphics::BindShader(m_lightShader);
+    glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
+    Graphics::SetShaderValue("shadowMap", 0);
+    Graphics::SetShaderValue("color", light->color());
+    Graphics::SetShaderValue("coneAngle", light->coneAngle());
+    Graphics::SetShaderValue("lightDir", light->transform().yAxis());
     Graphics::Translate(light->position());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
@@ -304,22 +291,21 @@ void LightManager::RenderLight (Light* light) {
     glPopMatrix();
 
     Graphics::SetBlend(Graphics::BLEND_NONE);
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
-    Graphics::RenderQuad(5, 5);
 
-    Graphics::Translate(Vector2(5, 0));
-    glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
-    Graphics::RenderQuad(5, 5);
+    if (m_debugDraw) {
+        glPushMatrix();
+        Graphics::Translate(light->position() + Vector2(1, 0));
+        glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
+        Graphics::RenderQuad(2, 2);
 
-    Graphics::Translate(Vector2(5, 0));
-    glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
-    Graphics::RenderQuad(5, 5);
+        Graphics::Translate(Vector2(2, 0));
+        glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
+        Graphics::RenderQuad(2, 2);
 
-    Graphics::Translate(Vector2(5, 0));
-    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
-    Graphics::RenderQuad(5, 5);
+        Graphics::Translate(Vector2(2, 0));
+        glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
+        Graphics::RenderQuad(2, 2);
 
-    glPopMatrix();
-
+        glPopMatrix();
+    }
 }

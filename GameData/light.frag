@@ -55,8 +55,9 @@ void main() {
     }
 
     if (distance < lightMapDistance) {
-        vec4 result = color;
-        result.a *= 1.0 - distance * distance * 4;
+        float mult = 1.0 - distance * distance * 4;
+        vec4 result = color * mult;
+        //result.a *= ;
         gl_FragColor = result;
     } else {
         discard;

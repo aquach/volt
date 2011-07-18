@@ -71,6 +71,7 @@ void Light::CopyFrom (const Light* other) {
     Entity::CopyFrom(other);
     m_maxDistance = other->m_maxDistance;
     m_color = other->m_color;
+    m_coneAngle = other->m_coneAngle;
     CreatePhysicsBody();
 }
 

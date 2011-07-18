@@ -20,10 +20,14 @@ public:
 
     void RenderLight (Light* light);
 
+    void SetDebugDraw (bool enabled ) { m_debugDraw = enabled; }
+
 private:
     friend class GameScene;
     friend class EditorScene;
     Volt::Scene* m_scene;
+
+    bool m_debugDraw;
 
     GLuint m_fbo;
     GLuint m_dummyTexture;
