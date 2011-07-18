@@ -29,6 +29,8 @@ public:
     bool IsKeyPressed (SDLKey key);
     void UpdateInput ();
 
+    void SetTitle (string title);
+
 private:
     Game* m_game;
     void* m_screen;

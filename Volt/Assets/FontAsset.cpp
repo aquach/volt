@@ -64,6 +64,10 @@ bool FontAsset::Load (const DataItem& item, float size) {
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    LOG(INFO) << m_texID;
+
     return true;
 }
 

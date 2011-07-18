@@ -15,6 +15,7 @@ Filter::Filter (GpuProgram* program) :
     glBindTexture(GL_TEXTURE_2D, m_colorMap);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Filter::~Filter () {
@@ -61,8 +62,11 @@ void Filter::Render () {
 
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+    
+    glMatrixMode(GL_MODELVIEW);
 
     Graphics::BindShader(NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 }

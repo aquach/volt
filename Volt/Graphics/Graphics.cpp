@@ -14,7 +14,9 @@ namespace Volt {
  */
 static int checks[] = {
     STRENUM(GL_BLEND), 1, 0,
-    STRENUM(GL_TEXTURE_BINDING_2D), 1, 0
+    STRENUM(GL_TEXTURE_2D), 1, 1,
+    STRENUM(GL_TEXTURE_BINDING_2D), 1, 0,
+    STRENUM(GL_MATRIX_MODE), 1, GL_MODELVIEW
 };
 
 #undef STRENUM
@@ -40,6 +42,7 @@ void Graphics::Init () {
     }
 
     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_LIGHTING);
     glCullFace(GL_BACK);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -322,7 +325,7 @@ void Graphics::RenderQuad (float width, float height,
 
 void Graphics::RenderText (FontAssetRef font, const string& text,
                            float x, float y) {
-    glEnable(GL_BLEND);
+    SetBlend(Graphics::BLEND_ALPHA);
     BindFont(font);
     BBox verts, texCoords;
     glBegin(GL_QUADS);
@@ -347,6 +350,7 @@ void Graphics::RenderText (FontAssetRef font, const string& text,
         }
     }
     glEnd();
+    SetBlend(Graphics::BLEND_NONE);
     BindFont(NULL);
 }
 
@@ -414,10 +418,10 @@ void Graphics::CheckState () {
     while (i < numChecks) {
         GLenum e = (GLenum)checks[i];
         int numValues = checks[i + 2];
-        float values[4];
-        glGetFloatv(e, values);
+        int values[4];
+        glGetIntegerv(e, values);
         for (int v = 0; v < numValues; v++) {
-            if (abs(values[v] - checks[i + 3 + v]) > 0.01)
+            if (values[v] != checks[i + 3 + v])
                 LOG(WARNING) << "Clean state check failed on "
                              << (const char*)checks[i + 1] << ", "
                              << "is " << values[v] << ", should be "
@@ -480,7 +484,6 @@ bool Graphics::initialized () {
 }
 
 void Graphics::SaveTextureToFile (int glId, string filename) {
-    glPushAttrib(GL_ENABLE_BIT | GL_TEXTURE_BIT);
     int width;
     int height;
     glBindTexture(GL_TEXTURE_2D, glId);
@@ -512,7 +515,7 @@ void Graphics::SaveTextureToFile (int glId, string filename) {
 
     SDL_SaveBMP(temp, filename.c_str());
     SDL_FreeSurface(temp);
-    glPopAttrib();
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 }

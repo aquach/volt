@@ -251,7 +251,6 @@ void Player::OnKeyEvent (SDL_KeyboardEvent event) {
 }
 
 void Player::Render () {
-    Graphics::SetBlend(Graphics::BLEND_NONE);
     glLineWidth(2.0f);
     glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
     glPushMatrix();

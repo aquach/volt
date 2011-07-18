@@ -53,6 +53,11 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
     KeyBindings::Register(m_bindings);
 
     Game::Register(this);
+
+    #if DEBUG
+        Graphics::CheckErrors();
+        Graphics::CheckState();
+    #endif
 }
 
 Game::~Game () {
@@ -112,6 +117,10 @@ void Game::Run () {
             m_currentScene->m_game = this;
             m_currentScene->OnBegin();
         }
+
+        char buffer[64];
+        sprintf(buffer, "%s - %d FPS", m_name.c_str(), (int)fps());
+        m_window->SetTitle(buffer);
 
         m_lastTick = tick;
     }

@@ -77,6 +77,8 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
     SDL_FreeSurface(newSurface);
     SDL_FreeSurface(tex);
 
+    LOG(INFO) << m_texId;
+
     return true;
 }
 

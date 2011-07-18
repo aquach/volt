@@ -46,6 +46,10 @@ void SDLWindow::Close () {
     SDL_Quit();
 }
 
+void SDLWindow::SetTitle (string title) {
+    SDL_WM_SetCaption(title.c_str(), NULL);
+}
+
 void SDLWindow::Screenshot (const string& filename) {
     SDL_Surface* screen = (SDL_Surface*)m_screen;
 
