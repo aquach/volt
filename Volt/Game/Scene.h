@@ -11,6 +11,7 @@ namespace Volt {
 class Entity;
 class Filter;
 class Game;
+class SceneHook;
 
 /**
  *  A scene of the game. Scenes can be startup screens, level screens, gameplay,
@@ -59,6 +60,8 @@ public:
     Layers GetEntities () const { return m_layers; }
     void GetEntities (vector<Entity*>* entities) const;
 
+    void SetHook (SceneHook* hook);
+
 protected:
     Game* m_game;
     bool m_isPaused;
@@ -75,6 +78,7 @@ private:
     set<Entity*> m_entitiesToRemove;
 
     list<Filter*> m_filters;
+    SceneHook* m_hook;
 
     DISALLOW_COPY_AND_ASSIGN(Scene);
 };

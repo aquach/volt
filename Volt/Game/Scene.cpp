@@ -5,12 +5,14 @@
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/OpenGL.h"
 #include "Volt/Game/PhysicsManager.h"
+#include "Volt/Game/SceneHook.h"
 
 namespace Volt {
 
 Scene::Scene ()
     : m_isPaused(false),
-      m_isEditor(false) {
+      m_isEditor(false),
+      m_hook(NULL) {
 }
 
 Scene::~Scene () {
@@ -21,6 +23,8 @@ Scene::~Scene () {
         delete *i;
     }
     m_filters.clear();
+    if (m_hook != NULL)
+        delete m_hook;
 }
 
 void Scene::RemoveAll () {
@@ -102,6 +106,8 @@ void Scene::ResolveEntityChanges () {
 }
 
 void Scene::Render () {
+    if (m_hook != NULL)
+        m_hook->OnRenderStart();
     // Setup window perspective.
     Graphics::Clear();
     m_camera.ApplyMatrix();
@@ -121,13 +127,21 @@ void Scene::Render () {
              * the filter and increment the filter iterator. */
             while (currentFilter != m_filters.end() &&
                    (*currentFilter)->layer() >= layerNum) {
+                if (m_hook != NULL)
+                    m_hook->OnFilterRenderStart(*currentFilter);
                 (*currentFilter)->Render();
+                if (m_hook != NULL)
+                    m_hook->OnFilterRenderEnd(*currentFilter);
                 currentFilter++;
             }
 
             list<Entity*>& entityList = layer->second;
             FOR_ (list<Entity*>::iterator, i, entityList) {
+                if (m_hook != NULL)
+                    m_hook->OnEntityRenderStart(*i);
                 (*i)->Render();
+                if (m_hook != NULL)
+                    m_hook->OnEntityRenderEnd(*i);
                 #if DEBUG
                     Graphics::CheckErrors();
                     Graphics::CheckState();
@@ -141,7 +155,11 @@ void Scene::Render () {
         int layerNum = (*currentFilter)->layer();
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
+            if (m_hook != NULL)
+                m_hook->OnFilterRenderStart(*currentFilter);
             (*currentFilter)->Render();
+            if (m_hook != NULL)
+                m_hook->OnFilterRenderEnd(*currentFilter);
         }
     }
 
@@ -274,6 +292,11 @@ void Scene::GetEntities (vector<Entity*>* entities) const {
             entities->push_back(*i);
         }
     }
+}
+
+void Scene::SetHook (SceneHook* hook) {
+    m_hook = hook;
+    m_hook->m_scene = this;
 }
 
 }

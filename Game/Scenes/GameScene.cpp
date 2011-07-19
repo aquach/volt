@@ -10,6 +10,7 @@
 #include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
 #include "Game/Game/LightManager.h"
+#include "Game/Game/GamePerfHook.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
@@ -48,6 +49,8 @@ GameScene::GameScene ()
     m_lightManager = new LightManager;
     m_lightManager->m_scene = this;
     LightManager::Register(m_lightManager);
+
+    SetHook(new GamePerfHook);
 
     camera()->WatchEntity(m_player);
 }

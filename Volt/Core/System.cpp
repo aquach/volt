@@ -24,12 +24,19 @@ void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
 #else
     SYSTEMTIME lt;
     GetLocalTime(&lt);
-    
+
     *hour = lt.wHour;
     *min = lt.wMinute;
     *sec = lt.wSecond;
     *usec = lt.wMilliseconds * 1000;
 #endif
+}
+
+long GetMicroseconds () {
+    int hour, min, sec;
+    long usec;
+    GetTimestamp(&hour, &min, &sec, &usec);
+    return usec + (sec + min * 60 + hour * 3600) * 1000000L;
 }
 
 void SleepMicroseconds (long usecs) {

@@ -104,9 +104,9 @@ void textureNone () {
     glTexCoord2i(0, 0);
     glVertex2i(0, 0);
     glTexCoord2i(1, 0);
-    glVertex2i(50, 0);
+    glVertex2i(5, 0);
     glTexCoord2i(0, 1);
-    glVertex2i(0, 50);
+    glVertex2i(0, 5);
     glEnd();
 }
 
@@ -117,9 +117,9 @@ void textureUnbound () {
     glTexCoord2i(0, 0);
     glVertex2i(0, 0);
     glTexCoord2i(1, 0);
-    glVertex2i(50, 0);
+    glVertex2i(5, 0);
     glTexCoord2i(0, 1);
-    glVertex2i(0, 50);
+    glVertex2i(0, 5);
     glEnd();
 }
 
@@ -163,7 +163,7 @@ int main (int argc, char** argv) {
     QuickTest("flippingTexture", flippingTexture);
     QuickTest("textureNone", textureNone);
     QuickTest("textureUnbound", textureUnbound);
-    
+
     SDL_Quit();
 
     return 0;

@@ -41,6 +41,10 @@ public:
     void RemoveTag (const string& tag) {
         m_tags.erase(tag);
     }
+    void GetTags (vector<string>* tags) const {
+        tags->resize(m_tags.size());
+        copy(m_tags.begin(), m_tags.end(), tags->begin());
+    }
     int numTags () const { return m_tags.size(); }
 
     virtual void Update () = 0;

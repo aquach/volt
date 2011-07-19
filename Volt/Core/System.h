@@ -7,6 +7,8 @@ using namespace std;
 
 namespace Volt {
 
+long GetMicroseconds ();
+
 void GetTimestamp (int* hour, int* min, int* sec, long* usec);
 
 void SleepMicroseconds (long usecs);
