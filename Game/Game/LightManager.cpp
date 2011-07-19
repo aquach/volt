@@ -15,10 +15,7 @@ static Times times;
 // TODO: Lights add their light together, but how does this interact
 // with lighting the background?
 
-// Constructs a color texture.
-GLuint MakeTexture () {
-    GLuint texture;
-    glGenTextures(1, &texture);
+void ConfigureTexture (GLuint texture) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -26,7 +23,6 @@ GLuint MakeTexture () {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, TEXTURE_WIDTH, TEXTURE_HEIGHT,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    return texture;
 }
 
 void CheckFramebufferStatus () {
@@ -68,27 +64,14 @@ void RenderPass () {
 
 LightManager::LightManager ()
     : m_scene(NULL),
-      m_fbo(-1),
-      m_dummyTexture(-1),
-      m_depthTexture(-1),
-      m_distanceTexture(-1),
-      m_parabolicTexture(-1),
-      m_shadowTexture(-1),
-      m_lightTexture(-1),
-      m_shadowShader(NULL),
-      m_parabolicShader(NULL),
-      m_reduceShader(NULL),
-      m_lightShader(NULL),
-      m_blurShader(NULL),
       m_debugDraw(false) {
     CHECK(Graphics::initialized());
 
-    glGenFramebuffers(1, &m_fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+    glGenFramebuffers(FBO_COUNT, m_fbos);
+    glGenTextures(TEXTURE_COUNT, m_textures);
 
     /* Dummy color texture. */
-    glGenTextures(1, &m_dummyTexture);
-    glBindTexture(GL_TEXTURE_2D, m_dummyTexture);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DUMMY]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -96,12 +79,8 @@ LightManager::LightManager ()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, TEXTURE_WIDTH,
                  TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
-    /* Parabolic mapping texture. */
-    m_parabolicTexture = MakeTexture();
-
     /* Starting depth texture. */
-    glGenTextures(1, &m_depthTexture);
-    glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -109,11 +88,13 @@ LightManager::LightManager ()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, TEXTURE_WIDTH,
                  TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
-    m_distanceTexture = MakeTexture();
+    ConfigureTexture(m_textures[TEXTURE_DISTANCE]);
+
+    /* Parabolic mapping texture. */
+    ConfigureTexture(m_textures[TEXTURE_PARABOLIC]);
 
     // Shadow texture is 2 x TEXTURE_HEIGHT.
-    glGenTextures(1, &m_shadowTexture);
-    glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -121,71 +102,73 @@ LightManager::LightManager ()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, 2 /* 2 pixel width */,
                  TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
-    // Light texture map.
-    glGenTextures(1, &m_lightTexture);
-    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TEXTURE_WIDTH,
-                 TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // Bind textures to each frame buffer.
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DEPTH]);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, m_textures[TEXTURE_DUMMY], 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                           GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH], 0);
+    CheckFramebufferStatus();
+                           
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DISTANCE]);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, m_textures[TEXTURE_DISTANCE], 0);
+    CheckFramebufferStatus();
 
-    m_shadowShader = new Volt::GpuProgram;
-    m_shadowShader->Attach(
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC], 0);
+    CheckFramebufferStatus();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_SHADOW]);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW], 0);
+    CheckFramebufferStatus();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    for (int i = 0; i < SHADER_COUNT; i++)
+        m_shaders[i] = new Volt::GpuProgram;
+        
+    m_shaders[SHADER_DISTANCE]->Attach(
         Volt::G_AssetManager->GetShader(
             "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
-    m_shadowShader->Attach(
+    m_shaders[SHADER_DISTANCE]->Attach(
         Volt::G_AssetManager->GetShader(
             "distance.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 
-    m_parabolicShader = new Volt::GpuProgram;
-    m_parabolicShader->Attach(
+    m_shaders[SHADER_PARABOLIC]->Attach(
         Volt::G_AssetManager->GetShader(
             "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
-    m_parabolicShader->Attach(
+    m_shaders[SHADER_PARABOLIC]->Attach(
         Volt::G_AssetManager->GetShader(
             "parabolic.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 
-    m_reduceShader = new Volt::GpuProgram;
-    m_reduceShader->Attach(
+    m_shaders[SHADER_SHADOW]->Attach(
         Volt::G_AssetManager->GetShader(
             "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
-    m_reduceShader->Attach(
+    m_shaders[SHADER_SHADOW]->Attach(
         Volt::G_AssetManager->GetShader(
             "reduce.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 
-    m_lightShader = new Volt::GpuProgram;
-    m_lightShader->Attach(
+    m_shaders[SHADER_LIGHT]->Attach(
         Volt::G_AssetManager->GetShader(
             "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
-    m_lightShader->Attach(
+    m_shaders[SHADER_LIGHT]->Attach(
         Volt::G_AssetManager->GetShader(
             "light.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
-
-    m_blurShader = new Volt::GpuProgram;
-    m_blurShader->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
-    m_blurShader->Attach(
-        Volt::G_AssetManager->GetShader(
-            "blur.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 
 LightManager::~LightManager () {
-    delete m_lightShader;
-    delete m_reduceShader;
-    delete m_parabolicShader;
-    delete m_shadowShader;
-    delete m_blurShader;
-    GLuint textures[] = { m_dummyTexture, m_depthTexture, m_distanceTexture,
-                          m_parabolicTexture, m_shadowTexture,
-                          m_lightTexture };
-    glDeleteTextures(sizeof(textures) / sizeof(GLuint), textures);
-    glDeleteFramebuffers(1, &m_fbo);
+    for (int i = 0; i < SHADER_COUNT; i++)
+        delete m_shaders[i];
+        
+    glDeleteTextures(TEXTURE_COUNT, m_textures);
+    glDeleteFramebuffers(FBO_COUNT, m_fbos);
 
+    LOG(INFO) << "LIGHT PERFORMANCE";
+    
     long total = 0;
     FOR_(Times::iterator, i, times) {
         total += i->second;
@@ -203,28 +186,14 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
     float lightLength = light->maxDistance();
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+    // Rerender entities around light to build shadow map.
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DEPTH]);
     glPushAttrib(GL_VIEWPORT_BIT);
     glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
     times["start-binding1"] += Volt::GetMicroseconds() - usecs;
-    usecs = Volt::GetMicroseconds();
-
-    // Rerender entities around light to build shadow map.
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_parabolicTexture, 0);
-    //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-    //                       GL_TEXTURE_2D, m_dummyTexture, 0);
-
-    times["start-binding-color"] += Volt::GetMicroseconds() - usecs;
-    usecs = Volt::GetMicroseconds();
-    
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                           GL_TEXTURE_2D, m_depthTexture, 0);
-    CheckFramebufferStatus();
-
-    times["start-binding-depth"] += Volt::GetMicroseconds() - usecs;
-    usecs = Volt::GetMicroseconds();
+    usecs = Volt::GetMicroseconds();    
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -257,14 +226,9 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
 
     // Render distance map.
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_distanceTexture, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                           GL_TEXTURE_2D, 0, 0);
-    CheckFramebufferStatus();
-
-    Graphics::BindShader(m_shadowShader);
-    glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DISTANCE]);
+    Graphics::BindShader(m_shaders[SHADER_DISTANCE]);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
     Graphics::SetShaderValue("depthMap", 0);
     RenderPass();
 
@@ -272,12 +236,9 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
 
     // Render parabolic map.
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_parabolicTexture, 0);
-    CheckFramebufferStatus();
-
-    Graphics::BindShader(m_parabolicShader);
-    glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
+    Graphics::BindShader(m_shaders[SHADER_PARABOLIC]);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DISTANCE]);
     Graphics::SetShaderValue("distanceMap", 0);
     RenderPass();
 
@@ -285,13 +246,12 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
 
     // Render shadow map.
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_SHADOW]);
     glViewport(0, 0, 2, TEXTURE_HEIGHT);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_shadowTexture, 0);
     CheckFramebufferStatus();
 
-    Graphics::BindShader(m_reduceShader);
-    glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
+    Graphics::BindShader(m_shaders[SHADER_SHADOW]);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC]);
     Graphics::SetShaderValue("parabolicMap", 0);
     Vector2 pixelSize(1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
     Graphics::SetShaderValue("pixelSize", pixelSize);
@@ -306,8 +266,8 @@ void LightManager::RenderLight (Light* light) {
 
     glPushMatrix();
     Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
-    Graphics::BindShader(m_lightShader);
-    glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
+    Graphics::BindShader(m_shaders[SHADER_LIGHT]);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
     Graphics::SetShaderValue("shadowMap", 0);
     Graphics::SetShaderValue("color", light->color());
     Graphics::SetShaderValue("coneAngle", light->coneAngle());
@@ -326,15 +286,15 @@ void LightManager::RenderLight (Light* light) {
     if (m_debugDraw) {
         glPushMatrix();
         Graphics::Translate(light->position() + Vector2(1, 0));
-        glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
+        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DISTANCE]);
         Graphics::RenderQuad(2, 2);
 
         Graphics::Translate(Vector2(2, 0));
-        glBindTexture(GL_TEXTURE_2D, m_parabolicTexture);
+        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC]);
         Graphics::RenderQuad(2, 2);
 
         Graphics::Translate(Vector2(2, 0));
-        glBindTexture(GL_TEXTURE_2D, m_shadowTexture);
+        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
         Graphics::RenderQuad(2, 2);
 
         glPopMatrix();

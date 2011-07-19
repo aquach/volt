@@ -14,7 +14,6 @@ GamePerfHook::~GamePerfHook () {
         LOG(INFO) << i->first << ": " << microsecs << " microsecs/entity"
                   << " (" << percent << "% of all update time)";
     }
-    LOG(INFO) << "=================";
 
     LOG(INFO) << "== RENDER PERFORMANCE ==";
     FOR_(Times::iterator, i, m_renderTimes) {
@@ -23,7 +22,6 @@ GamePerfHook::~GamePerfHook () {
         LOG(INFO) << i->first << ": " << microsecs << " microsecs/entity"
                   << " (" << percent << "% of all render time)";
     }
-    LOG(INFO) << "=================";
 }
 
 void GamePerfHook::OnEntityRenderStart (Volt::Entity* entity) {

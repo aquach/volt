@@ -29,18 +29,34 @@ private:
 
     bool m_debugDraw;
 
-    GLuint m_fbo;
-    GLuint m_dummyTexture;
-    GLuint m_depthTexture;
-    GLuint m_distanceTexture;
-    GLuint m_parabolicTexture;
-    GLuint m_shadowTexture;
-    GLuint m_lightTexture;
-    Volt::GpuProgram* m_shadowShader;
-    Volt::GpuProgram* m_parabolicShader;
-    Volt::GpuProgram* m_reduceShader;
-    Volt::GpuProgram* m_lightShader;
-    Volt::GpuProgram* m_blurShader;
+    enum FBOType {
+        FBO_DEPTH = 0,
+        FBO_DISTANCE,
+        FBO_PARABOLIC,
+        FBO_SHADOW,
+        FBO_COUNT
+    };
+
+    enum TextureType {
+        TEXTURE_DUMMY = 0,
+        TEXTURE_DEPTH,
+        TEXTURE_DISTANCE,
+        TEXTURE_PARABOLIC,
+        TEXTURE_SHADOW,
+        TEXTURE_COUNT
+    };
+
+    enum ShaderType {
+        SHADER_DISTANCE = 0,
+        SHADER_PARABOLIC,
+        SHADER_SHADOW,
+        SHADER_LIGHT,
+        SHADER_COUNT
+    };
+
+    GLuint m_fbos[FBO_COUNT];
+    GLuint m_textures[TEXTURE_COUNT];
+    Volt::GpuProgram* m_shaders[SHADER_COUNT];
 
     static LightManager* instance;
 
