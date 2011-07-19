@@ -9,6 +9,11 @@ void SelectionManager::Render () {
     FOR_(set<Entity*>::iterator, i, m_selectedEntities) {
         Entity* entity = *i;
         b2AABB aabb;
+        aabb.lowerBound.x = 0;
+        aabb.lowerBound.y = 0;
+        aabb.upperBound.x = 0;
+        aabb.upperBound.y = 0;
+
         bool first = true;
         b2Fixture* f = entity->body()->GetFixtureList();
         while (f != NULL) {

@@ -15,7 +15,7 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
                          bool repeatX, bool repeatY) {
     CHECK(Graphics::initialized())
         << "Graphics must be initialized before loading textures.";
-        
+
     SDL_RWops* rw = SDL_RWFromMem(item.data, item.size);
     SDL_Surface* tex = IMG_Load_RW(rw, 1);
     if (tex == NULL) {
@@ -49,10 +49,15 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
     glBindTexture(GL_TEXTURE_2D, glTexture);
 
     int filterTypeParam;
-    if (filterType == FILTER_LINEAR)
+    if (filterType == FILTER_LINEAR) {
         filterTypeParam = GL_LINEAR;
-    else if (filterType == FILTER_NONE)
+    } else if (filterType == FILTER_NONE) {
         filterTypeParam = GL_NEAREST;
+    } else {
+        LOG(WARNING) << "Unknown filter type " << filterType;
+        filterTypeParam = GL_NEAREST;
+    }
+
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterTypeParam);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterTypeParam);

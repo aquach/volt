@@ -23,7 +23,8 @@ long Time::GetMilliseconds () const {
 #if COMPILER_GCC
     struct timeval now;
     gettimeofday(&now, NULL);
-    long ticks = (now.tv_sec - startTime.tv_sec) * 1000 + (now.tv_usec - startTime.tv_usec) / 1000;
+    long ticks = (now.tv_sec - startTime.tv_sec) * 1000 +
+                 (now.tv_usec - startTime.tv_usec) / 1000;
     return ticks;
 #else
     long now = GetTickCount();
