@@ -12,7 +12,7 @@ Light::Light ()
 	: m_color(Volt::Color::white),
       m_maxDistance(5.0f),
       m_coneAngle(360.0f) {
-    m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 1.0);
+    m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
     AddTag("Light");
     CreatePhysicsBody();
 }

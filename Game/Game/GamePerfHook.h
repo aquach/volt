@@ -44,4 +44,6 @@ private:
 
     long m_renderTime;
     long m_updateTime;
+    long m_renderTimeTotal;
+    long m_frameCount;
 };

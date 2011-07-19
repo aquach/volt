@@ -93,7 +93,7 @@ void Game::Run () {
         }
 
         float seconds = (tick - m_lastTick) * 0.001f;
-        m_ticksPerFrame = m_ticksPerFrame * 0.9f + delta * 0.1f;
+        m_ticksPerFrame = m_ticksPerFrame * 0.95f + delta * 0.05f;
         m_dt = MIN(seconds, MAX_DELTA_TIME);
 
         m_window->UpdateInput();
