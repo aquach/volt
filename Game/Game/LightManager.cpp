@@ -15,8 +15,6 @@ static Times times;
 // TODO: Lights add their light together, but how does this interact
 // with lighting the background?
 
-// TODO: Fuse distance and parabolic shader.
-
 void ConfigureTexture (GLuint texture) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -90,8 +88,6 @@ LightManager::LightManager ()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, TEXTURE_WIDTH,
                  TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
-    ConfigureTexture(m_textures[TEXTURE_DISTANCE]);
-
     /* Parabolic mapping texture. */
     ConfigureTexture(m_textures[TEXTURE_PARABOLIC]);
 
@@ -112,11 +108,6 @@ LightManager::LightManager ()
                            GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH], 0);
     CheckFramebufferStatus();
                            
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DISTANCE]);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_textures[TEXTURE_DISTANCE], 0);
-    CheckFramebufferStatus();
-
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC], 0);
@@ -133,13 +124,6 @@ LightManager::LightManager ()
     for (int i = 0; i < SHADER_COUNT; i++)
         m_shaders[i] = new Volt::GpuProgram;
         
-    m_shaders[SHADER_DISTANCE]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
-    m_shaders[SHADER_DISTANCE]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "distance.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
-
     m_shaders[SHADER_PARABOLIC]->Attach(
         Volt::G_AssetManager->GetShader(
             "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
@@ -168,13 +152,14 @@ LightManager::~LightManager () {
         
     glDeleteTextures(TEXTURE_COUNT, m_textures);
     glDeleteFramebuffers(FBO_COUNT, m_fbos);
-
-    LOG(PERF) << "== LIGHT PERFORMANCE ==";
     
     long total = 0;
     FOR_(Times::iterator, i, times) {
         total += i->second;
     }
+
+    LOG(PERF) << "== LIGHT PERFORMANCE (" << lightCount << " lights) ==";
+    
     FOR_(Times::iterator, i, times) {
         LOG(PERF) << i->first << ": avg "
                   << i->second / lightCount << " usecs "
@@ -230,20 +215,10 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
 
     // Render distance map.
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DISTANCE]);
-    Graphics::BindShader(m_shaders[SHADER_DISTANCE]);
-    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
-    Graphics::SetShaderValue("depthMap", 0);
-    RenderPass();
-
-    times["4-distance"] += Volt::GetMicroseconds() - usecs;
-    usecs = Volt::GetMicroseconds();
-
-    // Render parabolic map.
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
     Graphics::BindShader(m_shaders[SHADER_PARABOLIC]);
-    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DISTANCE]);
-    Graphics::SetShaderValue("distanceMap", 0);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
+    Graphics::SetShaderValue("depthMap", 0);
     RenderPass();
 
     times["5-parabolic"] += Volt::GetMicroseconds() - usecs;
@@ -290,7 +265,7 @@ void LightManager::RenderLight (Light* light) {
     if (m_debugDraw) {
         glPushMatrix();
         Graphics::Translate(light->position() + Vector2(1, 0));
-        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DISTANCE]);
+        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
         Graphics::RenderQuad(2, 2);
 
         Graphics::Translate(Vector2(2, 0));

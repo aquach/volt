@@ -1,4 +1,17 @@
-uniform sampler2D distanceMap;
+uniform sampler2D depthMap;
+
+float GetDistance (vec2 texCoords) {
+    vec4 shadowMapColor = texture2D(depthMap, texCoords);
+
+    // For non-white pixels, compute distance from light.
+    if (shadowMapColor.r > 0.9f) {
+        return 1;
+    }
+    vec2 dir = texCoords - 0.5f;
+    float dist = length(dir);
+
+    return dist;
+}
 
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
@@ -12,8 +25,8 @@ void main() {
     v0 = (v0 + 1) / 2.0f;
 
     vec2 newCoords = vec2(texCoords.x, v0);
-    float horizontal = texture2D(distanceMap, newCoords).r;
-    float vertical = texture2D(distanceMap, newCoords.yx).r;
+    float horizontal = GetDistance(newCoords);
+    float vertical = GetDistance(newCoords.yx);
 
     gl_FragColor = vec4(horizontal, vertical, 0, 1);
 }

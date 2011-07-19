@@ -10,18 +10,19 @@ GamePerfHook::~GamePerfHook () {
     LOG(PERF) << "== UPDATE PERFORMANCE ==";
     FOR_(Times::iterator, i, m_updateTimes) {
         int percent = (int)((float)i->second / m_updateTotal * 100 + 0.5f);
-        int microsecs = (int)((float)i->second / m_counts[i->first]);
-        LOG(PERF) << i->first << ": " << microsecs << " usecs/entity"
-                  << " (" << percent << "% of all update time)";
+        int microsecs = (int)((float)i->second / m_updateCounts[i->first]);
+        LOG(PERF) << i->first << " (" << m_updateCounts[i->first] << "): "
+                  << microsecs << " usecs/entity" << " (" << percent
+                  << "%)";
     }
 
     LOG(PERF) << "== RENDER PERFORMANCE ==";
     FOR_(Times::iterator, i, m_renderTimes) {
         int percent = (int)((float)i->second / m_renderTotal * 100 + 0.5f);
-        int microsecs = (int)((float)i->second / m_counts[i->first]);
-        LOG(PERF) << i->first << ": avg " << microsecs << " usecs/entity"
-                  << " (" << percent << "%) "
-                  << "max " << m_maxRenderTimes[i->first] << " usecs";
+        int microsecs = (int)((float)i->second / m_renderCounts[i->first]);
+        LOG(PERF) << i->first << " (" << m_renderCounts[i->first] << "): "
+                  << microsecs << " usecs/entity" << " (" << percent
+                  << "%) max " << m_maxRenderTimes[i->first] << " usecs";
     }
 }
 
@@ -43,7 +44,7 @@ void GamePerfHook::OnEntityRenderEnd (Volt::Entity* entity) {
             key += ", ";
     }
     m_renderTimes[key] += elapsed;
-    m_counts[key]++;
+    m_renderCounts[key]++;
     m_renderTotal += elapsed;
 
     m_maxRenderTimes[key] = MAX(m_maxRenderTimes[key], elapsed);
@@ -69,7 +70,7 @@ void GamePerfHook::OnEntityUpdateEnd (Volt::Entity* entity) {
             key += ", ";
     }
     m_updateTimes[key] += elapsed;
-    m_counts[key]++;
+    m_updateCounts[key]++;
     m_updateTotal += elapsed;
 }
 

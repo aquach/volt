@@ -31,7 +31,6 @@ private:
 
     enum FBOType {
         FBO_DEPTH = 0,
-        FBO_DISTANCE,
         FBO_PARABOLIC,
         FBO_SHADOW,
         FBO_COUNT
@@ -40,15 +39,13 @@ private:
     enum TextureType {
         TEXTURE_DUMMY = 0,
         TEXTURE_DEPTH,
-        TEXTURE_DISTANCE,
         TEXTURE_PARABOLIC,
         TEXTURE_SHADOW,
         TEXTURE_COUNT
     };
 
     enum ShaderType {
-        SHADER_DISTANCE = 0,
-        SHADER_PARABOLIC,
+        SHADER_PARABOLIC = 0,
         SHADER_SHADOW,
         SHADER_LIGHT,
         SHADER_COUNT

@@ -35,7 +35,8 @@ private:
 
     // Tags to number of entities rendered.
     typedef map<string, int> Counts;
-    Counts m_counts;
+    Counts m_renderCounts;
+    Counts m_updateCounts;
 
     long m_usecs;
     long m_updateTotal;
