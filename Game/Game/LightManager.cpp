@@ -8,6 +8,10 @@ const int TEXTURE_HEIGHT = 512;
 
 LightManager* LightManager::instance = NULL;
 
+typedef map<string, int> Times;
+static int lightCount;
+static Times times;
+
 // TODO: Lights add their light together, but how does this interact
 // with lighting the background?
 
@@ -82,21 +86,15 @@ LightManager::LightManager ()
     glGenFramebuffers(1, &m_fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 
-    // TODO: Need this?
-    GLuint shadowBuffer;
-    glGenRenderbuffers(1, &shadowBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, shadowBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                          TEXTURE_WIDTH, TEXTURE_HEIGHT);
-    glFramebufferRenderbuffer(
-        GL_FRAMEBUFFER,
-        GL_DEPTH_ATTACHMENT,
-        GL_RENDERBUFFER,
-        shadowBuffer
-    );
-
     /* Dummy color texture. */
-    m_dummyTexture = MakeTexture();
+    glGenTextures(1, &m_dummyTexture);
+    glBindTexture(GL_TEXTURE_2D, m_dummyTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, TEXTURE_WIDTH,
+                 TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     /* Parabolic mapping texture. */
     m_parabolicTexture = MakeTexture();
@@ -187,22 +185,46 @@ LightManager::~LightManager () {
                           m_lightTexture };
     glDeleteTextures(sizeof(textures) / sizeof(GLuint), textures);
     glDeleteFramebuffers(1, &m_fbo);
+
+    long total = 0;
+    FOR_(Times::iterator, i, times) {
+        total += i->second;
+    }
+    FOR_(Times::iterator, i, times) {
+        LOG(INFO) << i->first << ": "
+                  << i->second / lightCount << " microsecs/light "
+                  << (int)((float)i->second / total * 100) << "%";
+    }
 }
 
 void LightManager::RenderLight (Light* light) {
-    LOG(INFO) << "START";
+    lightCount++;
+    long usecs;
+    usecs = Volt::GetMicroseconds();
     float lightLength = light->maxDistance();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
     glPushAttrib(GL_VIEWPORT_BIT);
     glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
+    times["start-binding1"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
+
     // Rerender entities around light to build shadow map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_dummyTexture, 0);
+                           GL_TEXTURE_2D, m_parabolicTexture, 0);
+    //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+    //                       GL_TEXTURE_2D, m_dummyTexture, 0);
+
+    times["start-binding-color"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
+    
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                            GL_TEXTURE_2D, m_depthTexture, 0);
     CheckFramebufferStatus();
+
+    times["start-binding-depth"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -218,7 +240,8 @@ void LightManager::RenderLight (Light* light) {
     glScalef(0.5f / lightLength, 0.5f / lightLength, 1);
     Graphics::Translate(-light->position());
 
-    LOG(INFO) << "PRE RENDER";
+    times["start-setup"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
 
     for (uint i = 0; i < light->m_nearbyEntities.size(); i++) {
         if (dynamic_cast<Light*>(light->m_nearbyEntities[i]))
@@ -230,7 +253,8 @@ void LightManager::RenderLight (Light* light) {
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
 
-    LOG(INFO) << "PRE DISTANCE MAP";
+    times["render"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
 
     // Render distance map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -244,7 +268,8 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("depthMap", 0);
     RenderPass();
 
-    LOG(INFO) << "PRE PARA MAP";
+    times["distance"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
 
     // Render parabolic map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -256,7 +281,8 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("distanceMap", 0);
     RenderPass();
 
-    LOG(INFO) << "PRE SHADOW MAP";
+    times["parabolic"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
 
     // Render shadow map.
     glViewport(0, 0, 2, TEXTURE_HEIGHT);
@@ -271,7 +297,8 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("pixelSize", pixelSize);
     RenderPass();
 
-    LOG(INFO) << "PRE FINAL";
+    times["shadow"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
 
     // Render final image.
     glPopAttrib();
@@ -288,6 +315,9 @@ void LightManager::RenderLight (Light* light) {
     Graphics::Translate(light->position());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
+    times["finalrender"] += Volt::GetMicroseconds() - usecs;
+    usecs = Volt::GetMicroseconds();
+    
     Graphics::BindShader(NULL);
     glPopMatrix();
 
@@ -311,5 +341,5 @@ void LightManager::RenderLight (Light* light) {
     }
 
     Graphics::BindTexture(NULL);
-    LOG(INFO) << "END";
+    times["end"] += Volt::GetMicroseconds() - usecs;
 }
