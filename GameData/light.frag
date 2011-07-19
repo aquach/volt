@@ -33,8 +33,7 @@ float GetLightMapDistanceV(vec2 texCoords) {
 
 float DEG2RAD = 3.1415 / 180;
 
-void main() {
-    vec2 texCoords = gl_TexCoord[0].st;
+vec4 GetColor (vec2 texCoords) {
     vec2 dir = texCoords - 0.5f;
     float distance = length(dir);
 
@@ -42,9 +41,11 @@ void main() {
     float x = 2.0f * (texCoords.x - 0.5f);
     float y = 2.0f * (texCoords.y - 0.5f);
 
+    distance -= 1.0 / 512;
+
     float cutoff = coneAngle * DEG2RAD / 2 + 0.001f;
     if (acos(dot(dir / distance, lightDir)) > cutoff) {
-        discard;
+        return vec4(0, 0, 0, 0);
     }
 
     float lightMapDistance;
@@ -57,9 +58,19 @@ void main() {
     if (distance < lightMapDistance) {
         float mult = 1.0 - distance * distance * 4;
         vec4 result = color * mult;
-        //result.a *= ;
-        gl_FragColor = result;
+        return result;
     } else {
-        discard;
+        return vec4(0, 0, 0, 0);
     }
+}
+
+void main() {
+    vec2 texCoords = gl_TexCoord[0].st;
+    vec2 pixelSize = vec2(2.0 / 512.0);
+    gl_FragColor = GetColor(texCoords) +
+                   GetColor(texCoords + pixelSize * vec2(1, 0)) +
+                   GetColor(texCoords + pixelSize * vec2(-1, 0)) +
+                   GetColor(texCoords + pixelSize * vec2(0, 1)) +
+                   GetColor(texCoords + pixelSize * vec2(0, -1));
+    gl_FragColor /= 5;
 }
