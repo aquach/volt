@@ -15,6 +15,8 @@ static Times times;
 // TODO: Lights add their light together, but how does this interact
 // with lighting the background?
 
+// TODO: Fuse distance and parabolic shader.
+
 void ConfigureTexture (GLuint texture) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -167,23 +169,25 @@ LightManager::~LightManager () {
     glDeleteTextures(TEXTURE_COUNT, m_textures);
     glDeleteFramebuffers(FBO_COUNT, m_fbos);
 
-    LOG(INFO) << "LIGHT PERFORMANCE";
+    LOG(PERF) << "== LIGHT PERFORMANCE ==";
     
     long total = 0;
     FOR_(Times::iterator, i, times) {
         total += i->second;
     }
     FOR_(Times::iterator, i, times) {
-        LOG(INFO) << i->first << ": "
-                  << i->second / lightCount << " microsecs/light "
+        LOG(PERF) << i->first << ": avg "
+                  << i->second / lightCount << " usecs "
                   << (int)((float)i->second / total * 100) << "%";
     }
+    LOG(PERF) << "TOTAL: " << total / lightCount << " usecs";
 }
 
 void LightManager::RenderLight (Light* light) {
     lightCount++;
     long usecs;
     usecs = Volt::GetMicroseconds();
+    
     float lightLength = light->maxDistance();
 
     // Rerender entities around light to build shadow map.
@@ -192,7 +196,7 @@ void LightManager::RenderLight (Light* light) {
     glPushAttrib(GL_VIEWPORT_BIT);
     glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
-    times["start-binding1"] += Volt::GetMicroseconds() - usecs;
+    times["1-start-binding1"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();    
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -209,7 +213,7 @@ void LightManager::RenderLight (Light* light) {
     glScalef(0.5f / lightLength, 0.5f / lightLength, 1);
     Graphics::Translate(-light->position());
 
-    times["start-setup"] += Volt::GetMicroseconds() - usecs;
+    times["2-start-setup"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();
 
     for (uint i = 0; i < light->m_nearbyEntities.size(); i++) {
@@ -222,7 +226,7 @@ void LightManager::RenderLight (Light* light) {
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
 
-    times["render"] += Volt::GetMicroseconds() - usecs;
+    times["3-render"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();
 
     // Render distance map.
@@ -232,7 +236,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("depthMap", 0);
     RenderPass();
 
-    times["distance"] += Volt::GetMicroseconds() - usecs;
+    times["4-distance"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();
 
     // Render parabolic map.
@@ -242,7 +246,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("distanceMap", 0);
     RenderPass();
 
-    times["parabolic"] += Volt::GetMicroseconds() - usecs;
+    times["5-parabolic"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();
 
     // Render shadow map.
@@ -257,7 +261,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("pixelSize", pixelSize);
     RenderPass();
 
-    times["shadow"] += Volt::GetMicroseconds() - usecs;
+    times["6-shadow"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();
 
     // Render final image.
@@ -275,7 +279,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::Translate(light->position());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
-    times["finalrender"] += Volt::GetMicroseconds() - usecs;
+    times["7-finalrender"] += Volt::GetMicroseconds() - usecs;
     usecs = Volt::GetMicroseconds();
     
     Graphics::BindShader(NULL);
@@ -301,5 +305,5 @@ void LightManager::RenderLight (Light* light) {
     }
 
     Graphics::BindTexture(NULL);
-    times["end"] += Volt::GetMicroseconds() - usecs;
+    times["8-end"] += Volt::GetMicroseconds() - usecs;
 }

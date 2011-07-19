@@ -15,7 +15,8 @@ enum LogType {
     INFO = 1,
     WARNING = 2,
     ERROR = 3,
-    FATAL = 4
+    FATAL = 4,
+    PERF = 5
 };
 
 #define LOG(i) \
@@ -102,17 +103,20 @@ public:
             case WARNING: os << "WARN "; break;
             case ERROR: os << "ERROR "; break;
             case FATAL: os << "FATAL "; break;
+            case PERF: os << "PERF "; break;
         }
 
         int hour = 0, min = 0, sec = 0;
         long usec = 0;
         GetTimestamp(&hour, &min, &sec, &usec);
 
-        os << setfill('0') << setw(2) << hour
-           << ":" << setw(2) << min
-           << ":" << setw(2) << sec
-           << "." << setw(COMPILER_GCC ? 6 : 3) << usec;
-        os << " ";
+        if (type != PERF) {
+            os << setfill('0') << setw(2) << hour
+               << ":" << setw(2) << min
+               << ":" << setw(2) << sec
+               << "." << setw(COMPILER_GCC ? 6 : 3) << usec;
+            os << " ";
+        }
         string fileStr(file);
         size_t index = fileStr.find_last_of("/\\");
         if (index != string::npos) {

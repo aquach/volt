@@ -35,6 +35,9 @@ void Scene::RemoveAll () {
 }
 
 void Scene::Update () {
+    if (m_hook != NULL)
+        m_hook->OnUpdateStart();
+        
     if (!m_isPaused) {
         m_camera.Update();
         FOR_ (Layers::iterator, layer, m_layers) {
@@ -49,6 +52,9 @@ void Scene::Update () {
     }
 
     ResolveEntityChanges();
+
+    if (m_hook != NULL)
+        m_hook->OnUpdateEnd();
 }
 
 void Scene::Add (Entity* entity, int layer) {
@@ -178,6 +184,9 @@ void Scene::Render () {
     Graphics::CheckState();
 #endif
     Graphics::ShowBuffer();
+
+    if (m_hook != NULL)
+        m_hook->OnRenderEnd();
 }
 
 void Scene::AddFilter (Filter* filter, int layer) {

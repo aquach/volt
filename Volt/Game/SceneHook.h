@@ -16,6 +16,9 @@ public:
     SceneHook () { };
     virtual ~SceneHook () { };
 
+    virtual void OnUpdateStart () { };
+    virtual void OnUpdateEnd () { };
+
     virtual void OnRenderStart () { };
     virtual void OnRenderEnd () { };
 

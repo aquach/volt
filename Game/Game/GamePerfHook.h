@@ -14,6 +14,12 @@ public:
     GamePerfHook ();
     virtual ~GamePerfHook ();
 
+    virtual void OnUpdateStart ();
+    virtual void OnUpdateEnd ();
+
+    virtual void OnRenderStart ();
+    virtual void OnRenderEnd ();
+
     virtual void OnEntityRenderStart (Volt::Entity* entity);
     virtual void OnEntityRenderEnd (Volt::Entity* entity);
 
@@ -25,6 +31,7 @@ private:
     typedef map<string, long> Times;
     Times m_renderTimes;
     Times m_updateTimes;
+    Times m_maxRenderTimes;
 
     // Tags to number of entities rendered.
     typedef map<string, int> Counts;
@@ -33,4 +40,7 @@ private:
     long m_usecs;
     long m_updateTotal;
     long m_renderTotal;
+
+    long m_renderTime;
+    long m_updateTime;
 };

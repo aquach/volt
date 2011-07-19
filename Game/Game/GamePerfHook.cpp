@@ -7,20 +7,21 @@ GamePerfHook::GamePerfHook ()
 }
 
 GamePerfHook::~GamePerfHook () {
-    LOG(INFO) << "== UPDATE PERFORMANCE ==";
+    LOG(PERF) << "== UPDATE PERFORMANCE ==";
     FOR_(Times::iterator, i, m_updateTimes) {
         int percent = (int)((float)i->second / m_updateTotal * 100 + 0.5f);
         int microsecs = (int)((float)i->second / m_counts[i->first]);
-        LOG(INFO) << i->first << ": " << microsecs << " microsecs/entity"
+        LOG(PERF) << i->first << ": " << microsecs << " usecs/entity"
                   << " (" << percent << "% of all update time)";
     }
 
-    LOG(INFO) << "== RENDER PERFORMANCE ==";
+    LOG(PERF) << "== RENDER PERFORMANCE ==";
     FOR_(Times::iterator, i, m_renderTimes) {
         int percent = (int)((float)i->second / m_renderTotal * 100 + 0.5f);
         int microsecs = (int)((float)i->second / m_counts[i->first]);
-        LOG(INFO) << i->first << ": " << microsecs << " microsecs/entity"
-                  << " (" << percent << "% of all render time)";
+        LOG(PERF) << i->first << ": avg " << microsecs << " usecs/entity"
+                  << " (" << percent << "%) "
+                  << "max " << m_maxRenderTimes[i->first] << " usecs";
     }
 }
 
@@ -44,6 +45,10 @@ void GamePerfHook::OnEntityRenderEnd (Volt::Entity* entity) {
     m_renderTimes[key] += elapsed;
     m_counts[key]++;
     m_renderTotal += elapsed;
+
+    m_maxRenderTimes[key] = MAX(m_maxRenderTimes[key], elapsed);
+    
+    LOG(INFO) << key << " took " << elapsed << " microsecs";
 }
 
 void GamePerfHook::OnEntityUpdateStart (Volt::Entity* entity) {
@@ -67,3 +72,26 @@ void GamePerfHook::OnEntityUpdateEnd (Volt::Entity* entity) {
     m_counts[key]++;
     m_updateTotal += elapsed;
 }
+
+void GamePerfHook::OnRenderStart () {
+    m_renderTime = Volt::GetMicroseconds();
+}
+
+void GamePerfHook::OnRenderEnd () {
+    long elapsed = Volt::GetMicroseconds() - m_renderTime;
+    if (elapsed < 0)
+        return;
+    LOG(INFO) << "Render: " << elapsed / 1000 << " ms";
+}
+
+void GamePerfHook::OnUpdateStart () {
+    m_updateTime = Volt::GetMicroseconds();
+}
+
+void GamePerfHook::OnUpdateEnd () {
+    long elapsed = Volt::GetMicroseconds() - m_updateTime;
+    if (elapsed < 0)
+        return;
+    LOG(INFO) << "Update: " << elapsed / 1000 << " ms";
+}
+
