@@ -16,15 +16,21 @@ public:
 
     virtual void OnEntityRenderStart (Volt::Entity* entity);
     virtual void OnEntityRenderEnd (Volt::Entity* entity);
+
+    virtual void OnEntityUpdateStart (Volt::Entity* entity);
+    virtual void OnEntityUpdateEnd (Volt::Entity* entity);
+
 private:
-    // Maps entity tags to their total rendering time in microseconds.
+    // Maps entity tags to their total processing time in microseconds.
     typedef map<string, long> Times;
-    Times m_times;
+    Times m_renderTimes;
+    Times m_updateTimes;
 
     // Tags to number of entities rendered.
     typedef map<string, int> Counts;
     Counts m_counts;
 
     long m_usecs;
-    long m_total;
+    long m_updateTotal;
+    long m_renderTotal;
 };

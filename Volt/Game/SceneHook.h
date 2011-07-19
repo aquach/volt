@@ -22,6 +22,9 @@ public:
     virtual void OnEntityRenderStart (Entity* entity) { };
     virtual void OnEntityRenderEnd (Entity* entity) { };
 
+    virtual void OnEntityUpdateStart (Entity* entity) { };
+    virtual void OnEntityUpdateEnd (Entity* entity) { };
+
     virtual void OnFilterRenderStart (Filter* filter) { };
     virtual void OnFilterRenderEnd (Filter* filter) { };
 

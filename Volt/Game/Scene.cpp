@@ -39,7 +39,11 @@ void Scene::Update () {
         m_camera.Update();
         FOR_ (Layers::iterator, layer, m_layers) {
             FOR_(list<Entity*>::iterator, i, layer->second) {
+                if (m_hook != NULL)
+                    m_hook->OnEntityUpdateStart(*i);
                 (*i)->Update();
+                if (m_hook != NULL)
+                    m_hook->OnEntityUpdateEnd(*i);
             }
         }
     }

@@ -4,6 +4,8 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Game/Entity.h"
 
+class LightManager;
+
 /* A light that can cast colored light with attenuation and in a particular
  * direction. */
 class Light : public Entity {
@@ -30,8 +32,11 @@ public:
     float coneAngle () const { return m_coneAngle; }
 
 private:
+    friend class LightManager;
     void CreatePhysicsBody ();
 
+    vector<Volt::Entity*> m_nearbyEntities;
+    float m_nearbyEntitiesTimer;
     Volt::Color m_color;
     float m_maxDistance;
     float m_coneAngle;

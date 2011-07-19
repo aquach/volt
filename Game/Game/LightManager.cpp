@@ -3,8 +3,8 @@
 #include "Volt/Graphics/GpuProgram.h"
 #include "Game/Entities/Game/Light.h"
 
-const int TEXTURE_WIDTH = 1024;
-const int TEXTURE_HEIGHT = 1024;
+const int TEXTURE_WIDTH = 512;
+const int TEXTURE_HEIGHT = 512;
 
 LightManager* LightManager::instance = NULL;
 
@@ -190,6 +190,7 @@ LightManager::~LightManager () {
 }
 
 void LightManager::RenderLight (Light* light) {
+    LOG(INFO) << "START";
     float lightLength = light->maxDistance();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
@@ -217,23 +218,19 @@ void LightManager::RenderLight (Light* light) {
     glScalef(0.5f / lightLength, 0.5f / lightLength, 1);
     Graphics::Translate(-light->position());
 
-    vector<Volt::Entity*> entities;
-    Vector2 field = Vector2(lightLength, lightLength);
-    // TODO: Fetching entities every render is expensive.
-    // Cache these or have a isStatic flag for only casting shadows on
-    // static entities?
-    m_scene->GetEntitiesInArea(light->position() - field,
-                               light->position() + field,
-                               &entities);
-    for (uint i = 0; i < entities.size(); i++) {
-        if (dynamic_cast<Light*>(entities[i]))
+    LOG(INFO) << "PRE RENDER";
+
+    for (uint i = 0; i < light->m_nearbyEntities.size(); i++) {
+        if (dynamic_cast<Light*>(light->m_nearbyEntities[i]))
             continue;
-        entities[i]->Render();
+        light->m_nearbyEntities[i]->Render();
     }
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
+
+    LOG(INFO) << "PRE DISTANCE MAP";
 
     // Render distance map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -247,6 +244,8 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("depthMap", 0);
     RenderPass();
 
+    LOG(INFO) << "PRE PARA MAP";
+
     // Render parabolic map.
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_parabolicTexture, 0);
@@ -256,6 +255,8 @@ void LightManager::RenderLight (Light* light) {
     glBindTexture(GL_TEXTURE_2D, m_distanceTexture);
     Graphics::SetShaderValue("distanceMap", 0);
     RenderPass();
+
+    LOG(INFO) << "PRE SHADOW MAP";
 
     // Render shadow map.
     glViewport(0, 0, 2, TEXTURE_HEIGHT);
@@ -269,6 +270,8 @@ void LightManager::RenderLight (Light* light) {
     Vector2 pixelSize(1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
     Graphics::SetShaderValue("pixelSize", pixelSize);
     RenderPass();
+
+    LOG(INFO) << "PRE FINAL";
 
     // Render final image.
     glPopAttrib();
@@ -308,4 +311,5 @@ void LightManager::RenderLight (Light* light) {
     }
 
     Graphics::BindTexture(NULL);
+    LOG(INFO) << "END";
 }

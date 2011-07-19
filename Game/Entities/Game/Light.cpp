@@ -1,13 +1,18 @@
 #include "Game/Entities/Game/Light.h"
+#include "Volt/Game/Game.h"
+#include "Volt/Game/Scene.h"
 #include "Game/Editor/Property.h"
 #include "Game/Game/LightManager.h"
 
 REGISTER_ENTITY_(Light);
 
+const float REFRESH_TIME = 1.0f;
+
 Light::Light ()
 	: m_color(Volt::Color::white),
       m_maxDistance(5.0f),
       m_coneAngle(360.0f) {
+    m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 1.0);
     AddTag("Light");
     CreatePhysicsBody();
 }
@@ -16,7 +21,14 @@ Light::~Light () {
 }
 
 void Light::Update () {
-    return;
+    m_nearbyEntitiesTimer -= Volt::G_Game->dt();
+    if (m_nearbyEntitiesTimer < 0) {
+        m_nearbyEntitiesTimer = REFRESH_TIME;
+        Vector2 field = Vector2(m_maxDistance, m_maxDistance);
+        scene()->GetEntitiesInArea(position() - field,
+                                   position() + field,
+                                   &m_nearbyEntities);
+    }
 }
 
 void Light::Render () {
