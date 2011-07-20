@@ -33,6 +33,7 @@ private:
         FBO_DEPTH = 0,
         FBO_PARABOLIC,
         FBO_SHADOW,
+        FBO_LIGHT,
         FBO_COUNT
     };
 
@@ -41,6 +42,7 @@ private:
         TEXTURE_DEPTH,
         TEXTURE_PARABOLIC,
         TEXTURE_SHADOW,
+        TEXTURE_LIGHT,
         TEXTURE_COUNT
     };
 
@@ -48,6 +50,7 @@ private:
         SHADER_PARABOLIC = 0,
         SHADER_SHADOW,
         SHADER_LIGHT,
+        SHADER_BLUR,
         SHADER_COUNT
     };
 

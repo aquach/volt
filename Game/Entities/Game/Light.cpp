@@ -21,7 +21,7 @@ Light::~Light () {
 }
 
 void Light::Update () {
-    m_nearbyEntitiesTimer -= Volt::G_Game->dt();
+    m_nearbyEntitiesTimer -= 0.01; //Volt::G_Game->dt();
     if (m_nearbyEntitiesTimer < 0) {
         m_nearbyEntitiesTimer = REFRESH_TIME;
         Vector2 field = Vector2(m_maxDistance, m_maxDistance);

@@ -5,6 +5,8 @@
 
 const int TEXTURE_WIDTH = 512;
 const int TEXTURE_HEIGHT = 512;
+const int LIGHT_TEXTURE_WIDTH = 1024;
+const int LIGHT_TEXTURE_HEIGHT = 1024;
 
 LightManager* LightManager::instance = NULL;
 
@@ -103,6 +105,15 @@ LightManager::LightManager ()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, 2 /* 2 pixel width */,
                  TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
+    // Light texture.
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, LIGHT_TEXTURE_WIDTH,
+                 LIGHT_TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
     // Bind textures to each frame buffer.
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DEPTH]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -110,7 +121,7 @@ LightManager::LightManager ()
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                            GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH], 0);
     CheckFramebufferStatus();
-                           
+
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC], 0);
@@ -121,12 +132,17 @@ LightManager::LightManager ()
                            GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW], 0);
     CheckFramebufferStatus();
 
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_LIGHT]);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT], 0);
+    CheckFramebufferStatus();
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     for (int i = 0; i < SHADER_COUNT; i++)
         m_shaders[i] = new Volt::GpuProgram;
-        
+
     m_shaders[SHADER_PARABOLIC]->Attach(
         Volt::G_AssetManager->GetShader(
             "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
@@ -147,22 +163,29 @@ LightManager::LightManager ()
     m_shaders[SHADER_LIGHT]->Attach(
         Volt::G_AssetManager->GetShader(
             "light.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+
+    m_shaders[SHADER_BLUR]->Attach(
+        Volt::G_AssetManager->GetShader(
+            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+    m_shaders[SHADER_BLUR]->Attach(
+        Volt::G_AssetManager->GetShader(
+            "blur.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 
 LightManager::~LightManager () {
     for (int i = 0; i < SHADER_COUNT; i++)
         delete m_shaders[i];
-        
+
     glDeleteTextures(TEXTURE_COUNT, m_textures);
     glDeleteFramebuffers(FBO_COUNT, m_fbos);
-    
+
     long total = 0;
     FOR_(Times::iterator, i, times) {
         total += i->second;
     }
 
     LOG(PERF) << "== LIGHT PERFORMANCE (" << lightCount << " lights) ==";
-    
+
     FOR_(Times::iterator, i, times) {
         LOG(PERF) << i->first << ": avg "
                   << i->second / lightCount << " usecs "
@@ -175,18 +198,18 @@ void LightManager::RenderLight (Light* light) {
     lightCount++;
     long usecs, elapsed;
     usecs = Volt::GetMicroseconds();
-    
+
     float lightLength = light->maxDistance();
 
     // Rerender entities around light to build shadow map.
-    
+
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DEPTH]);
     glPushAttrib(GL_VIEWPORT_BIT);
     glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["1-start-binding1"] += elapsed;
-    usecs = Volt::GetMicroseconds();    
+    usecs = Volt::GetMicroseconds();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -234,7 +257,6 @@ void LightManager::RenderLight (Light* light) {
     // Render shadow map.
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_SHADOW]);
     glViewport(0, 0, 2, TEXTURE_HEIGHT);
-    CheckFramebufferStatus();
 
     Graphics::BindShader(m_shaders[SHADER_SHADOW]);
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC]);
@@ -247,25 +269,40 @@ void LightManager::RenderLight (Light* light) {
     times["5-shadow"] += elapsed;
     usecs = Volt::GetMicroseconds();
 
-    // Render final image.
-    glPopAttrib();
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, LIGHT_TEXTURE_WIDTH, LIGHT_TEXTURE_HEIGHT);
 
-    glPushMatrix();
-    Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
+    // Render light.
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_LIGHT]);
     Graphics::BindShader(m_shaders[SHADER_LIGHT]);
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
     Graphics::SetShaderValue("shadowMap", 0);
     Graphics::SetShaderValue("color", light->color());
     Graphics::SetShaderValue("coneAngle", light->coneAngle());
     Graphics::SetShaderValue("lightDir", light->transform().yAxis());
+    RenderPass();
+
+    elapsed = Volt::GetMicroseconds() - usecs;
+    times["6-light"] += elapsed;
+    usecs = Volt::GetMicroseconds();
+
+    // Render final image.
+    glPopAttrib();
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glPushMatrix();
+    Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
+    Graphics::BindShader(m_shaders[SHADER_BLUR]);
+    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
+    Graphics::SetShaderValue("lightMap", 0);
+    pixelSize.Set(1.0f / LIGHT_TEXTURE_WIDTH, 1.0f / LIGHT_TEXTURE_HEIGHT);
+    Graphics::SetShaderValue("pixelSize", pixelSize);
     Graphics::Translate(light->position());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
     elapsed = Volt::GetMicroseconds() - usecs;
-    times["6-finalrender"] += elapsed;
+    times["7-finalrender"] += elapsed;
     usecs = Volt::GetMicroseconds();
-    
+
     Graphics::BindShader(NULL);
     glPopMatrix();
 
@@ -283,6 +320,10 @@ void LightManager::RenderLight (Light* light) {
 
         Graphics::Translate(Vector2(2, 0));
         glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
+        Graphics::RenderQuad(2, 2);
+
+        Graphics::Translate(Vector2(2, 0));
+        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
         Graphics::RenderQuad(2, 2);
 
         glPopMatrix();

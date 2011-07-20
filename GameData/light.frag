@@ -67,10 +67,5 @@ vec4 GetColor (vec2 texCoords) {
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
     vec2 pixelSize = vec2(2.0 / 512.0);
-    gl_FragColor = GetColor(texCoords) * 2 +
-                   GetColor(texCoords + pixelSize * vec2(1, 0)) +
-                   GetColor(texCoords + pixelSize * vec2(-1, 0)) +
-                   GetColor(texCoords + pixelSize * vec2(0, 1)) +
-                   GetColor(texCoords + pixelSize * vec2(0, -1));
-    gl_FragColor /= 6;
+    gl_FragColor = GetColor(texCoords);
 }
