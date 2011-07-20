@@ -1,6 +1,7 @@
 #include "Editor/Editor/Editor.h"
 #include <QtGui>
 #include "Volt/Assets/AssetManager.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Viewport.h"
@@ -50,11 +51,16 @@ Editor::Editor (const Volt::DataSource* source)
       m_updateTimer(0),
       m_autosaveTimer(0),
       m_properties(NULL),
-      m_brushesCombo(NULL) {
+      m_brushesCombo(NULL),
+      m_appTime(NULL) {
     setWindowTitle(EDITOR_TITLE);
     resize(1024, 768);
     setMinimumSize(1024, 768);
 
+    m_appTime = new Volt::AppTime;
+    m_appTime->SetDt(SECONDS_PER_UPDATE);
+    Volt::AppTime::Register(m_appTime);
+    
     m_settings = new QSettings;
 
     m_assetManager = new Volt::AssetManager(source);
@@ -319,10 +325,6 @@ Editor::~Editor () {
     delete m_scene;
     delete m_graphics;
     delete m_assetManager;
-}
-
-float Editor::dt () {
-    return SECONDS_PER_UPDATE;
 }
 
 void Editor::timerEvent (QTimerEvent* event) {

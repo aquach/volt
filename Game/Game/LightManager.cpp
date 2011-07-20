@@ -184,14 +184,16 @@ LightManager::~LightManager () {
         total += i->second;
     }
 
+    // Breakdown of time spent in each part of light rendering. Each pass
+    // is the average of the time it took for all lights over that pass.
     LOG(PERF) << "== LIGHT PERFORMANCE (" << lightCount << " lights) ==";
-
     FOR_(Times::iterator, i, times) {
         LOG(PERF) << i->first << ": avg "
                   << i->second / lightCount << " usecs "
                   << (int)((float)i->second / total * 100) << "%";
     }
-    LOG(PERF) << "TOTAL: " << total / lightCount << " usecs";
+    if (lightCount > 0)
+        LOG(PERF) << "TOTAL: " << total / lightCount << " usecs";
 }
 
 void LightManager::RenderLight (Light* light) {

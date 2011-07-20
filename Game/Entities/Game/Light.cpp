@@ -1,5 +1,5 @@
 #include "Game/Entities/Game/Light.h"
-#include "Volt/Game/Game.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/Scene.h"
 #include "Game/Editor/Property.h"
 #include "Game/Game/LightManager.h"
@@ -21,7 +21,7 @@ Light::~Light () {
 }
 
 void Light::Update () {
-    m_nearbyEntitiesTimer -= 0.01; //Volt::G_Game->dt();
+    m_nearbyEntitiesTimer -= Volt::G_Time->dt();
     if (m_nearbyEntitiesTimer < 0) {
         m_nearbyEntitiesTimer = REFRESH_TIME;
         Vector2 field = Vector2(m_maxDistance, m_maxDistance);

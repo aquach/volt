@@ -5,6 +5,7 @@
 #include "Volt/Game/FSM.h"
 
 namespace Volt {
+    class AppTime;
     class AssetManager;
     class DataSource;
     class Graphics;
@@ -35,8 +36,6 @@ public:
     virtual void timerEvent (QTimerEvent* event);
 
     void Render ();
-
-    float dt ();
 
     void MoveHorizontal (int dir);
     void MoveVertical (int dir);
@@ -253,4 +252,6 @@ private:
     int m_updateTimer;
     QTableView* m_properties;
     QComboBox* m_brushesCombo;
+
+    Volt::AppTime* m_appTime;
 };

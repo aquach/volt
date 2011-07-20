@@ -9,6 +9,7 @@
 #include "Volt/Core/Tween.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/FSM.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Game/Scene.h"
@@ -54,7 +55,7 @@ public:
 	}
 
 	virtual void Update () {
-		t += G_Game->dt();
+		t += G_Time->dt();
 	}
 
 	float t;
@@ -106,7 +107,7 @@ public:
     }
 
     virtual void Update () {
-        m_x.Update(G_Game->dt());
+        m_x.Update(G_Time->dt());
         m_transform.position.Set(m_x.value(), m_y);
     }
 
@@ -199,9 +200,9 @@ public:
 
 	virtual void Update () {
 		Scene::Update();
-		char buffer[512];
-		sprintf(buffer, "FPS: %.1f", G_Game->fps());
-		label->SetText(buffer);
+		//char buffer[512];
+		//sprintf(buffer, "FPS: %.1f", G_Time->fps());
+		//label->SetText(buffer);
 	}
 
 	virtual void OnKeyEvent (SDL_KeyboardEvent e) {

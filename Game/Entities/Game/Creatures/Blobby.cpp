@@ -1,7 +1,7 @@
 #include "Game/Entities/Game/Creatures/Blobby.h"
 #include "Game/Core/Controllers/VelocityController.h"
 #include "Game/Graphics/Graphics.h"
-#include "Volt/Game/Game.h"
+#include "Volt/Game/AppTime.h"
 
 static const float RADIUS = 0.8;
 
@@ -31,8 +31,8 @@ Blobby::Blobby ()
 void Blobby::Update () {
     UpdatePhysics();
 
-    m_moveTimer -= Volt::G_Game->dt();
-    m_pauseTimer -= Volt::G_Game->dt();
+    m_moveTimer -= Volt::G_Time->dt();
+    m_pauseTimer -= Volt::G_Time->dt();
 
     m_controller->Update();
 

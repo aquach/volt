@@ -1,4 +1,5 @@
 #include "Volt/Game/PhysicsManager.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Graphics/PhysicsDebugDraw.h"
 
@@ -91,7 +92,7 @@ PhysicsManager::~PhysicsManager () {
 }
 
 void PhysicsManager::Update () {
-    m_world->Step(m_game->dt(), velocityIterations, positionIterations);
+    m_world->Step(G_Time->dt(), velocityIterations, positionIterations);
     m_world->ClearForces();
 }
 

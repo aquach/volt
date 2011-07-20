@@ -5,6 +5,7 @@
 
 namespace Volt {
 
+class AppTime;
 class AssetManager;
 class DataSource;
 class Graphics;
@@ -25,8 +26,7 @@ public:
 
     void Run ();
     void Quit ();
-
-    float dt () const { return m_dt; }
+    
     float fps () const { return 1 / m_ticksPerFrame * 1000; }
 
     Scene* currentScene () const { return m_currentScene; }
@@ -51,18 +51,16 @@ private:
     KeyBindings* m_bindings;
     PhysicsManager* m_physicsManager;
     SoundManager* m_soundManager;
+    AppTime* m_appTime;
     Time m_time;
     SDLWindow* m_window;
 
     long m_lastTick;
     float m_ticksPerFrame;
-    float m_dt;
 
     static Game* instance;
 
     DISALLOW_COPY_AND_ASSIGN(Game);
 };
-
-#define G_Game Game::Instance()
 
 }

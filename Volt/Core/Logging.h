@@ -42,12 +42,14 @@ void GetTimestamp (int* hour, int* min, int* sec, long* usec);
 
 class LogStream {
 public:
+    /* Constructor for normal logs. */
     LogStream (LogType type, const char* file, int lineNumber) {
         this->type = type;
         this->checkCondition = false;
         SetupHeader(type, file, lineNumber);
     }
 
+    /* Construct for CHECKs. */
     LogStream (const char* file, int lineNumber, bool condition,
                const char* conditionStr) {
         this->type = FATAL;
@@ -59,6 +61,7 @@ public:
         }
     }
 
+    /* Construct for relation CHECKs. */
     LogStream (const char* file, int lineNumber, int a, int b, bool condition,
                const char* op, const char* aStr, const char* bStr) {
         this->type = FATAL;
@@ -87,6 +90,7 @@ public:
             os << endl;
             cerr << os.str();
             if (type == FATAL) {
+                PrintStackTrace();
                 #if COMPILER_VCC
                     system("PAUSE");
                 #endif
@@ -124,11 +128,12 @@ public:
         }
         os << fileStr << ":" << lineNumber << "] ";
     }
+    
 private:
-    bool checkCondition;
-    bool condition;
-    stringstream os;
-    LogType type;
+    bool checkCondition; // Should we verify that condition is true?
+    bool condition;      // The value of the condition we're checking.
+    stringstream os;     // Output stream.
+    LogType type;        // Log type.
 };
 
 }

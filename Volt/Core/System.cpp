@@ -6,12 +6,24 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <ftw.h>
+#include <execinfo.h>
+#include <cxxabi.h>
 #endif
 
 namespace Volt {
 
-void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
+long GetMicroseconds () {
+    int hour, min, sec;
+    long usec;
+    GetTimestamp(&hour, &min, &sec, &usec);
+    return usec + (sec + min * 60 + hour * 3600) * 1000000L;
+}
+
 #if COMPILER_GCC
+
+// UNIX implementations.
+
+void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
     struct timeval tv;
     struct timezone tz;
     gettimeofday(&tv, &tz);
@@ -21,34 +33,13 @@ void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
     *min = tm->tm_min;
     *sec = tm->tm_sec;
     *usec = tv.tv_usec;
-#else
-    SYSTEMTIME lt;
-    GetLocalTime(&lt);
-
-    *hour = lt.wHour;
-    *min = lt.wMinute;
-    *sec = lt.wSecond;
-    *usec = lt.wMilliseconds * 1000;
-#endif
-}
-
-long GetMicroseconds () {
-    int hour, min, sec;
-    long usec;
-    GetTimestamp(&hour, &min, &sec, &usec);
-    return usec + (sec + min * 60 + hour * 3600) * 1000000L;
 }
 
 void SleepMicroseconds (long usecs) {
-#if COMPILER_GCC
     usleep(usecs);
-#else
-    Sleep(usecs / 1000);
-#endif
 }
 
 string GetExecutableDirectory (string exePath) {
-#if COMPILER_GCC
     char path[255];
     getcwd(path, 255);
     strcat(path, "/");
@@ -62,13 +53,7 @@ string GetExecutableDirectory (string exePath) {
         return str;
 
     return "";
-#else
-    // TODO
-    return "";
-#endif
 }
-
-#if COMPILER_GCC
 
 static vector<string>* fileList;
 static string pathString;
@@ -88,10 +73,70 @@ void GetAllFilesInDirectory (string path, vector<string>* files) {
     pathString = "";
 }
 
+string DemangleSymbol (const char* symbol) {
+    size_t size;
+    int status;
+    char temp[128];
+    char* demangled;
+    //first, try to demangle a c++ name
+    if (1 == sscanf(symbol, "%*[^(]%*[^_]%127[^)+]", temp)) {
+        if (NULL != (demangled = abi::__cxa_demangle(temp, NULL, &size,
+                                                     &status))) {
+            std::string result(demangled);
+            free(demangled);
+            return result;
+        }
+    }
+    //if that didn't work, try to get a regular c symbol
+    if (1 == sscanf(symbol, "%127s", temp)) {
+        return temp;
+    }
+ 
+    //if all else fails, just return the symbol
+    return symbol;
+}
+
+void PrintStackTrace () {
+    void* trace[32];
+    int size = backtrace(trace, 32);
+    char** strings = backtrace_symbols(trace, size);
+    LOG(INFO) << "== STACK TRACE =="; 
+    for (int i = 0; i < size; i++)
+        LOG(INFO) << "@ " << DemangleSymbol(strings[i]);
+    LOG(INFO) << "================="; 
+    free(strings);
+}
+
 #else
+
+// Windows implementations.
+
+void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
+    SYSTEMTIME lt;
+    GetLocalTime(&lt);
+
+    *hour = lt.wHour;
+    *min = lt.wMinute;
+    *sec = lt.wSecond;
+    *usec = lt.wMilliseconds * 1000;
+}
+
+void PrintStackTrace () {
+}
+
 void GetAllFilesInDirectory (string path, vector<string>* files) {
     // TODO
 }
+
+string GetExecutableDirectory (string exePath) {
+    // TODO
+    return "";
+}
+
+void SleepMicroseconds (long usecs) {
+    Sleep(usecs / 1000);
+}
+
 #endif
 
 }

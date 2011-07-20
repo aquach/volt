@@ -8,6 +8,7 @@
 #include "Volt/Game/KeyBindings.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Game/Scene.h"
+#include "Volt/Game/AppTime.h"
 
 #define MIN_DELTA_TIME (1.0f / 120.0f)
 #define MAX_DELTA_TIME (1.0f / 30.0f)
@@ -28,9 +29,13 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
       m_assetManager(NULL),
       m_soundManager(NULL),
       m_physicsManager(NULL),
-      m_bindings(NULL) {
+      m_bindings(NULL),
+      m_appTime(NULL) {
 
     Random::Seed();
+
+    m_appTime = new AppTime;
+    AppTime::Register(m_appTime);
 
     m_window = new SDLWindow(this, name, w, h, fullscreen);
     Viewport::Register(m_window);
@@ -70,6 +75,7 @@ Game::~Game () {
     delete m_assetManager;
     delete m_soundManager;
     delete m_window;
+    delete m_appTime;
 }
 
 void Game::Run () {
@@ -94,7 +100,7 @@ void Game::Run () {
 
         float seconds = (tick - m_lastTick) * 0.001f;
         m_ticksPerFrame = m_ticksPerFrame * 0.95f + delta * 0.05f;
-        m_dt = MIN(seconds, MAX_DELTA_TIME);
+        m_appTime->SetDt(MIN(seconds, MAX_DELTA_TIME));
 
         m_window->UpdateInput();
         m_soundManager->Update();

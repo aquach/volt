@@ -17,4 +17,6 @@ string GetExecutableDirectory (string exePath);
 
 void GetAllFilesInDirectory (string path, vector<string>* files);
 
+void PrintStackTrace ();
+
 }

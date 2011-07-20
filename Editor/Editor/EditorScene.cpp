@@ -1,4 +1,5 @@
 #include "Editor/Editor/EditorScene.h"
+#include "Volt/Game/AppTime.h"
 #include "Game/Editor/SelectionManager.h"
 #include "Game/Entities/Game/Ladder.h"
 #include "Game/Game/DoodadManager.h"
@@ -47,7 +48,7 @@ void EditorScene::Update () {
 
     camera()->transform.position += Vector2(
         m_cameraMoveX * 20,
-        m_cameraMoveY * 20) * m_editor->dt();
+        m_cameraMoveY * 20) * Volt::G_Time->dt();
 }
 
 void EditorScene::OnPostRender () {

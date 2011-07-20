@@ -1,6 +1,6 @@
 #include "Game/Entities/GUI/MessageBox.h"
 #include "Game/Graphics/Graphics.h"
-#include "Volt/Game/Game.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Graphics/Viewport.h"
 
 const float HEIGHT = 250;
@@ -24,7 +24,7 @@ void MessageBox::Skip () {
 
 void MessageBox::Update () {
     if (HasCharactersRemaining()) {
-        m_nextCharTimer -= Volt::G_Game->dt();
+        m_nextCharTimer -= Volt::G_Time->dt();
         if (m_nextCharTimer <= 0) {
             m_nextCharTimer = SECONDS_PER_CHARACTER;
             m_textStream << m_def.text[m_currentCharacter++];

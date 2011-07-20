@@ -1,5 +1,5 @@
 #include "Game/Entities/Graphics/ParticleSystem.h"
-#include "Volt/Game/Game.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/Scene.h"
 #include "Game/Editor/Property.h"
 #include "Game/Graphics/Graphics.h"
@@ -42,6 +42,7 @@ void ParticleSystemDef::Save (Json::Value& node) const {
 
 ParticleSystem::ParticleSystem ()
     : m_particleTimer(0) {
+    ResizeParticleArray();
 }
 
 ParticleSystem::ParticleSystem (Vector2 pos, const ParticleSystemDef& def)
@@ -62,7 +63,7 @@ ParticleSystem::~ParticleSystem () {
 }
 
 void ParticleSystem::Update () {
-    m_particleTimer += Volt::G_Game->dt();
+    m_particleTimer += Volt::G_Time->dt();
     int numNewParticles = 0;
     float secondsPerParticle = 1 / m_def.particlesPerSecond;
     while (m_particleTimer > secondsPerParticle) {
@@ -74,11 +75,11 @@ void ParticleSystem::Update () {
          i != m_particles.end(); i++) {
         Particle* p = &(*i);
         if (p->active) {
-            p->t += Volt::G_Game->dt();
+            p->t += Volt::G_Time->dt();
             if (p->t > p->life)
                 p->active = false;
             else
-                p->position += p->velocity * Volt::G_Game->dt();
+                p->position += p->velocity * Volt::G_Time->dt();
         } else if (numNewParticles > 0) {
             // Spawn new particle.
             p->t = 0;
@@ -104,7 +105,9 @@ void ParticleSystem::Update () {
             numNewParticles--;
         }
     }
-    CHECK(numNewParticles == 0);
+    CHECK(numNewParticles == 0) << "Did not have enough room to make "
+                                << numNewParticles << " particles, list of "
+                                << "size " << m_particles.size();
 }
 
 void ParticleSystem::Render () {

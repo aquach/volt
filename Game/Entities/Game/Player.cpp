@@ -6,6 +6,7 @@
 #include "Game/Entities/GUI/PowerBar.h"
 #include "Game/Graphics/Graphics.h"
 #include "Game/Scenes/GameScene.h"
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/SDLWindow.h"
@@ -232,7 +233,7 @@ void Player::UpdateJump () {
             m_jumpTimer = JUMP_TIME;
 
         if (m_jumpTimer > 0) {
-            m_jumpTimer -= Volt::G_Game->dt();
+            m_jumpTimer -= Volt::G_Time->dt();
             if (vel.y > -JUMP_MAX_VEL) {
                 m_body->ApplyLinearImpulse(b2Vec2(0, -JUMP_IMPULSE),
                                            m_body->GetWorldCenter());
