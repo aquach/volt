@@ -51,20 +51,20 @@ void Light::CreatePhysicsBody () {
 }
 
 void Light::Load (const Json::Value& node) {
+    Entity::Load(node);
     CHECK(node["type"].asString() == "Light");
-    CHECK(node.isMember("transform"));
     CHECK(node.isMember("color"));
     CHECK(node.isMember("maxDistance"));
 
-    m_transform.Load(node["transform"]);
     m_color.Load(node["color"]);
     m_maxDistance = node["maxDistance"].asDouble();
     CreatePhysicsBody();
 }
 
 void Light::Save (Json::Value& node) const {
+    Entity::Save(node);
+
     node["type"] = "Light";
-    m_transform.Save(node["transform"]);
     m_color.Save(node["color"]);
     node["maxDistance"] = m_maxDistance;
 }

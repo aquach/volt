@@ -109,9 +109,8 @@ void Triangle::CreatePhysicsBody () {
 }
 
 void Triangle::Load (const Json::Value& node) {
+    Entity::Load(node);
     CHECK(node["type"].asString() == "Triangle");
-    CHECK(node.isMember("transform"));
-    m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 
     if (node.isMember("vertexColors")) {
@@ -130,8 +129,8 @@ void Triangle::Load (const Json::Value& node) {
 }
 
 void Triangle::Save (Json::Value& node) const {
+    Entity::Save(node);
     node["type"] = "Triangle";
-    m_transform.Save(node["transform"]);
 
     for (int i = 0; i < NUM_VERTS; i++) {
         Json::Value v;

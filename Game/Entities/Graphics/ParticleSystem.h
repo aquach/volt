@@ -2,6 +2,7 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
+#include "Game/Editor/EntityFactory.h"
 
 struct Particle {
     Particle ()
@@ -49,6 +50,8 @@ struct ParticleSystemDef {
 
 class ParticleSystem : public Entity {
 public:
+    //REFERENCE_ENTITY(ParticleSystem);
+
     ParticleSystem (Vector2 pos, const ParticleSystemDef& def);
     virtual ~ParticleSystem ();
 
@@ -57,6 +60,8 @@ public:
 
     virtual void Load (const Json::Value& node);
     virtual void Save (Json::Value& node) const;
+
+    virtual void GetProperties (vector<Property*>* properties);
 
 private:
     list<Particle> m_particles;

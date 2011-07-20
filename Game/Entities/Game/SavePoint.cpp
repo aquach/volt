@@ -34,15 +34,14 @@ void SavePoint::CreatePhysicsBody () {
 }
 
 void SavePoint::Load (const Json::Value& node) {
+    Entity::Load(node);
     CHECK(node["type"].asString() == "SavePoint");
-    CHECK(node.isMember("transform"));
-    m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
 void SavePoint::Save (Json::Value& node) const {
+    Entity::Save(node);
     node["type"] = "SavePoint";
-    m_transform.Save(node["transform"]);
 }
 
 void SavePoint::OnScaleChanged () {

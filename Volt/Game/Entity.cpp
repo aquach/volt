@@ -103,4 +103,13 @@ void Entity::CopyFrom (const Entity* other) {
     m_transform = other->m_transform;
 }
 
+void Entity::Load (const Json::Value& node) {
+    CHECK(node.isMember("transform"));
+    m_transform.Load(node["transform"]);
+}
+
+void Entity::Save (Json::Value& node) const {
+    m_transform.Save(node["transform"]);
+}
+
 }

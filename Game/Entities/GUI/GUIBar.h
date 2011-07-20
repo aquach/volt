@@ -22,6 +22,9 @@ public:
     float value () const { return m_currentValue; }
     float targetValue () const { return m_target; }
 
+    virtual void Load (const Json::Value& node) { }
+    virtual void Save (Json::Value& node) const { }
+
 protected:
     float m_target;
     float m_currentValue;

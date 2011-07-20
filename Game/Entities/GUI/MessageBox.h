@@ -30,8 +30,11 @@ public:
 
     bool IsFinished () const;
     bool HasCharactersRemaining () const;
-    
+
     void OnKeyEvent (SDL_KeyboardEvent event);
+
+    virtual void Load (const Json::Value& node) { }
+    virtual void Save (Json::Value& node) const { }
 
 private:
     friend class ConversationManager;

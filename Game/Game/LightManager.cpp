@@ -232,6 +232,10 @@ void LightManager::RenderLight (Light* light) {
     for (uint i = 0; i < light->m_nearbyEntities.size(); i++) {
         if (dynamic_cast<Light*>(light->m_nearbyEntities[i]))
             continue;
+        if (Entity* e = dynamic_cast<Entity*>(light->m_nearbyEntities[i])) {
+            if (!e->occludesLight())
+                continue;
+        }
         light->m_nearbyEntities[i]->Render();
     }
     glPopMatrix();

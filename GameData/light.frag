@@ -41,12 +41,12 @@ vec4 GetColor (vec2 texCoords) {
     float x = 2.0f * (texCoords.x - 0.5f);
     float y = 2.0f * (texCoords.y - 0.5f);
 
-    distance -= 1.0 / 512;
-
-    float cutoff = coneAngle * DEG2RAD / 2 + 0.001f;
+    float cutoff = coneAngle * DEG2RAD / 2;
     if (acos(dot(dir / distance, lightDir)) > cutoff) {
         return vec4(0, 0, 0, 0);
     }
+
+    distance -= 1.0 / 512;
 
     float lightMapDistance;
     if (abs(y) < abs(x)) {

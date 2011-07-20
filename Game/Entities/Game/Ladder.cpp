@@ -35,15 +35,14 @@ void Ladder::CreatePhysicsBody () {
 }
 
 void Ladder::Load (const Json::Value& node) {
+    Entity::Load(node);
     CHECK(node["type"].asString() == "Ladder");
-    CHECK(node.isMember("transform"));
-    m_transform.Load(node["transform"]);
     CreatePhysicsBody();
 }
 
 void Ladder::Save (Json::Value& node) const {
+    Entity::Save(node);
     node["type"] = "Ladder";
-    m_transform.Save(node["transform"]);
 }
 
 void Ladder::OnScaleChanged () {

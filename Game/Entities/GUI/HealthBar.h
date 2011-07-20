@@ -13,4 +13,7 @@ public:
     virtual ~HealthBar () { }
 
     virtual void Render ();
+
+    virtual void Load (const Json::Value& node) { }
+    virtual void Save (Json::Value& node) const { }
 };

@@ -3,6 +3,8 @@
 #include "Volt/Game/Game.h"
 #include "Volt/Game/Scene.h"
 
+//REGISTER_ENTITY_(ParticleSystem);
+
 void ParticleSystemDef::Load (const Json::Value& node) {
     CHECK(node.isMember("particlesPerSecond"));
     CHECK(node.isMember("color"));
@@ -111,11 +113,15 @@ void ParticleSystem::Render () {
 }
 
 void ParticleSystem::Load (const Json::Value& node) {
+    Entity::Load(node);
     CHECK(node.isMember("def"));
     m_def.Load(node["def"]);
 }
 
 void ParticleSystem::Save (Json::Value& node) const {
+    Entity::Save(node);
     m_def.Save(node["def"]);
 }
 
+void ParticleSystem::GetProperties (vector<Property*>* properties) {
+}
