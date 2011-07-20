@@ -50,8 +50,9 @@ struct ParticleSystemDef {
 
 class ParticleSystem : public Entity {
 public:
-    //REFERENCE_ENTITY(ParticleSystem);
+    DECLARE_ENTITY_(ParticleSystem);
 
+    ParticleSystem ();
     ParticleSystem (Vector2 pos, const ParticleSystemDef& def);
     virtual ~ParticleSystem ();
 
@@ -64,6 +65,8 @@ public:
     virtual void GetProperties (vector<Property*>* properties);
 
 private:
+    void ResizeParticleArray ();
+
     list<Particle> m_particles;
     ParticleSystemDef m_def;
     float m_particleTimer;

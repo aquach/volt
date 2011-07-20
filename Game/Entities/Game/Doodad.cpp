@@ -77,9 +77,9 @@ void Doodad::CreatePhysicsBody () {
 }
 
 void Doodad::Load (const Json::Value& node) {
+    Entity::Load(node);
     CHECK(node["type"].asString() == "Doodad");
-    CHECK(node.isMember("transform"));
-    m_transform.Load(node["transform"]);
+
     if (node.isMember("tint"))
         m_tint.Load(node["tint"]);
 
@@ -92,8 +92,8 @@ void Doodad::Load (const Json::Value& node) {
 }
 
 void Doodad::Save (Json::Value& node) const {
+    Entity::Save(node);
     node["type"] = "Doodad";
-    m_transform.Save(node["transform"]);
     m_tint.Save(node["tint"]);
     if (m_brush != NULL)
         node["brush"] = m_brushId;

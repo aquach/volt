@@ -6,10 +6,12 @@
 #include "Game/Entities/Game/SavePoint.h"
 #include "Game/Entities/Game/Sign.h"
 #include "Game/Entities/Game/Triangle.h"
+#include "Game/Entities/Graphics/ParticleSystem.h"
 
 REFERENCE_ENTITY_(Doodad);
 REFERENCE_ENTITY_(Ladder);
 REFERENCE_ENTITY_(Light);
+REFERENCE_ENTITY_(ParticleSystem);
 REFERENCE_ENTITY_(SavePoint);
 REFERENCE_ENTITY_(Sign);
 REFERENCE_ENTITY_(Triangle);

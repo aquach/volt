@@ -1,9 +1,10 @@
 #include "Game/Entities/Graphics/ParticleSystem.h"
-#include "Game/Graphics/Graphics.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/Scene.h"
+#include "Game/Editor/Property.h"
+#include "Game/Graphics/Graphics.h"
 
-//REGISTER_ENTITY_(ParticleSystem);
+REGISTER_ENTITY_(ParticleSystem);
 
 void ParticleSystemDef::Load (const Json::Value& node) {
     CHECK(node.isMember("particlesPerSecond"));
@@ -39,10 +40,18 @@ void ParticleSystemDef::Save (Json::Value& node) const {
     node["sizeVariance"] = sizeVariance;
 }
 
+ParticleSystem::ParticleSystem ()
+    : m_particleTimer(0) {
+}
+
 ParticleSystem::ParticleSystem (Vector2 pos, const ParticleSystemDef& def)
     : m_def(def),
       m_particleTimer(0) {
     m_transform.position = pos;
+    ResizeParticleArray();
+}
+
+void ParticleSystem::ResizeParticleArray () {
     // Make room for enough particles to not have to make more room.
     int room = (int)((m_def.life + m_def.lifeVariance)
                 * m_def.particlesPerSecond * 1.1);
@@ -124,4 +133,18 @@ void ParticleSystem::Save (Json::Value& node) const {
 }
 
 void ParticleSystem::GetProperties (vector<Property*>* properties) {
+    properties->push_back(new FloatProperty("Particles / Second",
+                                            &m_def.particlesPerSecond));
+    properties->push_back(new ColorProperty("Color", &m_def.color));
+    properties->push_back(new FloatProperty("Color Variance",
+                                            &m_def.colorVariance));
+    properties->push_back(new FloatProperty("Speed", &m_def.speed));
+    properties->push_back(new FloatProperty("Speed Variance",
+                                            &m_def.speedVariance));
+    properties->push_back(new FloatProperty("Life", &m_def.life));
+    properties->push_back(new FloatProperty("Life Variance",
+                                            &m_def.lifeVariance));
+    properties->push_back(new FloatProperty("Size", &m_def.size));
+    properties->push_back(new FloatProperty("Size Variance",
+                                            &m_def.sizeVariance));
 }
