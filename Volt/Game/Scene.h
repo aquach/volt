@@ -13,6 +13,14 @@ class Filter;
 class Game;
 class SceneHook;
 
+/* A listener that can be registered with the Scene to get notifications when
+ * entities are added/removed. */
+class SceneListener {
+public:
+    virtual void OnEntityAdded (Entity* e) { };
+    virtual void OnEntityRemoved (Entity* e) { };
+};
+
 /**
  *  A scene of the game. Scenes can be startup screens, level screens, gameplay,
     etc.
@@ -35,6 +43,8 @@ public:
     void Add (Entity* entity, int layer = 0);
     void Remove (Entity* entity);
     void RemoveAll ();
+
+    /* Called by Entities to tell the scene to update its state. */
     void OnEntityLayerChange (Entity* entity, int oldLayer, int newLayer);
 
     virtual void OnKeyEvent (SDL_KeyboardEvent event) { }
@@ -43,8 +53,6 @@ public:
 
     int numFilters () const { return m_filters.size(); }
 
-    /* We don't let entities and filters change their layer except when adding
-     * them, because the scene's data structures need to keep this in mind. */
     void AddFilter (Filter* filter, int layer = 0);
     void RemoveFilter (Filter* filter);
 
@@ -60,7 +68,16 @@ public:
     Layers GetEntities () const { return m_layers; }
     void GetEntities (vector<Entity*>* entities) const;
 
+    /* Sets an object to receive notifications during Scene processing for
+     * performance or other purposes. */
     void SetHook (SceneHook* hook);
+
+    void AddSceneListener (SceneListener* listener) {
+        m_sceneListeners.insert(listener);
+    }
+    void RemoveSceneListener (SceneListener* listener) {
+        m_sceneListeners.erase(listener);
+    }
 
 protected:
     Game* m_game;
@@ -72,6 +89,8 @@ private:
     friend class Game;
 
     void ResolveEntityChanges ();
+    void NotifyAddListeners (Entity* entity);
+    void NotifyRemoveListeners (Entity* entity);
 
     Layers m_layers;
     set<Entity*> m_entitiesToAdd;
@@ -79,6 +98,7 @@ private:
 
     list<Filter*> m_filters;
     SceneHook* m_hook;
+    set<SceneListener*> m_sceneListeners;
 
     DISALLOW_COPY_AND_ASSIGN(Scene);
 };

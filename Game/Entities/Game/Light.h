@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/Core/Core.h"
+#include "Volt/Game/Scene.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Game/Entity.h"
 
@@ -18,6 +19,9 @@ public:
     virtual Light* Clone () const;
     void CopyFrom (const Light* other);
 
+    virtual void OnAdded ();
+    virtual void OnRemoved ();
+
     virtual void Update ();
     virtual void Render ();
 
@@ -33,6 +37,16 @@ public:
 
 private:
     friend class LightManager;
+
+    class LightSceneListener : public Volt::SceneListener {
+    public:
+        LightSceneListener (Light* l) : m_light(l) { }
+
+        virtual void OnEntityRemoved (Volt::Entity* e);
+    private:
+        Light* m_light;
+    };
+
     void CreatePhysicsBody ();
 
     vector<Volt::Entity*> m_nearbyEntities;
@@ -41,4 +55,5 @@ private:
     float m_maxDistance;
     float m_coneAngle;
     bool m_enabled;
+    LightSceneListener* m_listener;
 };

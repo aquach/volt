@@ -66,6 +66,18 @@ void Scene::Remove (Entity* entity) {
     m_entitiesToRemove.insert(entity);
 }
 
+void Scene::NotifyAddListeners (Entity* entity) {
+    FOR_(set<SceneListener*>::iterator, i, m_sceneListeners) {
+        (*i)->OnEntityAdded(entity);
+    }
+}
+
+void Scene::NotifyRemoveListeners (Entity* entity) {
+    FOR_(set<SceneListener*>::iterator, i, m_sceneListeners) {
+        (*i)->OnEntityRemoved(entity);
+    }
+}
+
 void Scene::ResolveEntityChanges () {
     while (true) {
         // OnRemoved may remove other entities, so don't try to iterate.
@@ -83,6 +95,7 @@ void Scene::ResolveEntityChanges () {
                                                    entity);
             if (entityI != entityList.end()) {
                 entityList.erase(entityI);
+                NotifyRemoveListeners(entity);
                 entity->OnRemoved();
                 entity->m_scene = NULL;
                 delete entity;
@@ -109,6 +122,7 @@ void Scene::ResolveEntityChanges () {
         }
         entity->m_scene = this;
         entity->OnAdded();
+        NotifyAddListeners(entity);
         m_entitiesToAdd.erase(i);
     }
 

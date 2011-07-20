@@ -1,0 +1,107 @@
+
+{
+	"entities" : 
+	[
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
+			"maxDistance" : 7.0,
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 11.27685070037842, -6.130711555480957 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
+			"maxDistance" : 7.0,
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 5.688888549804688, -7.066668510437012 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
+			"maxDistance" : 8.0,
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 18.44317817687988, -16.61296653747559 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
+			"maxDistance" : 4.0,
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 11.93739700317383, -11.58588695526123 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
+			"maxDistance" : 8.0,
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 4.237499713897705, -13.70787048339844 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		}
+	],
+	"name" : "The Crazy Temple"
+}

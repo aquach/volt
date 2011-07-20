@@ -8,17 +8,38 @@ REGISTER_ENTITY_(Light);
 
 const float REFRESH_TIME = 1.0f;
 
+void Light::LightSceneListener::OnEntityRemoved (Volt::Entity* e) {
+    for (vector<Volt::Entity*>::iterator i = m_light->m_nearbyEntities.begin();
+         i != m_light->m_nearbyEntities.end();) {
+        if (*i == e)
+            i = m_light->m_nearbyEntities.erase(i);
+        else
+            i++;
+    }
+};
+
 Light::Light ()
 	: m_color(Volt::Color::white),
       m_maxDistance(5.0f),
       m_coneAngle(360.0f),
-      m_enabled(true) {
+      m_enabled(true),
+      m_listener(NULL) {
     m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
+    m_listener = new LightSceneListener(this);
     AddTag("Light");
     CreatePhysicsBody();
 }
 
 Light::~Light () {
+    delete m_listener;
+}
+
+void Light::OnAdded () {
+    scene()->AddSceneListener(m_listener);
+}
+
+void Light::OnRemoved () {
+    scene()->RemoveSceneListener(m_listener);
 }
 
 void Light::Update () {
