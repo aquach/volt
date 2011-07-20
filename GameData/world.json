@@ -1,266 +1,11 @@
 
 {
-	"entities" :
+	"entities" : 
 	[
-
+		
 		{
 			"occludesLight" : false,
-			"transform" :
-			{
-				"position" : [ 21.0, -7.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 0.50, 10.0 ]
-			},
-			"type" : "Ladder"
-		},
-
-		{
-			"brush" : 2,
-			"tint" :
-			{
-				"a" : 1.0,
-				"b" : 1.0,
-				"g" : 1.0,
-				"r" : 1.0
-			},
-			"transform" :
-			{
-				"position" : [ 12.00000095367432, -3.566666603088379 ],
-				"rotation" : 25.0,
-				"scale" : [ 1.0, 1.0 ]
-			},
-			"type" : "Doodad"
-		},
-
-		{
-			"occludesLight" : true,
-			"transform" :
-			{
-				"position" : [ 0.0, -11.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 2.0, 2.0 ]
-			},
-			"type" : "Sign"
-		},
-
-		{
-			"brush" : 1,
-			"tint" :
-			{
-				"a" : 0.0,
-				"b" : 1.0,
-				"g" : 1.0,
-				"r" : 1.0
-			},
-			"transform" :
-			{
-				"position" : [ 6.966666698455811, -2.566666603088379 ],
-				"rotation" : 0.0,
-				"scale" : [ 1.0, 1.0 ]
-			},
-			"type" : "Doodad"
-		},
-
-		{
-			"occludesLight" : true,
-			"transform" :
-			{
-				"position" : [ 7.0, 2.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 2.0, 2.0 ]
-			},
-			"type" : "Sign"
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ -2.0, 3.0 ],
-				"rotation" : 180.0,
-				"scale" : [ 1.0, 50.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 20.0, -10.0 ],
-				"rotation" : 450.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"brush" : 1,
-			"tint" :
-			{
-				"a" : 1.0,
-				"b" : 1.0,
-				"g" : 1.0,
-				"r" : 1.0
-			},
-			"transform" :
-			{
-				"position" : [ 2.50, 1.0 ],
-				"rotation" : -30.0,
-				"scale" : [ 1.0, 1.0 ]
-			},
-			"type" : "Doodad"
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 20.0, -2.0 ],
-				"rotation" : 360.0,
-				"scale" : [ 3.0, 5.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 7.0, -25.0 ],
-				"rotation" : 625.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : false,
-			"transform" :
+			"transform" : 
 			{
 				"position" : [ 3.0, -15.0 ],
 				"rotation" : 0.0,
@@ -268,394 +13,40 @@
 			},
 			"type" : "Ladder"
 		},
-
+		
 		{
 			"occludesLight" : true,
 			"texture" : "",
-			"textureCoords" :
+			"textureCoords" : 
 			[
 				[ 0.0, 0.0 ],
 				[ 1.0, 0.0 ],
 				[ 0.0, 1.0 ]
 			],
-			"transform" :
-			{
-				"position" : [ 5.0, -16.0 ],
-				"rotation" : 615.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ -2.0, 3.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 20.0, 1.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 7.0, -16.0 ],
-				"rotation" : 610.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 9.0, -16.0 ],
-				"rotation" : 600.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 9.0, -27.0 ],
-				"rotation" : 495.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"brush" : 1,
-			"tint" :
-			{
-				"a" : 1.0,
-				"b" : 1.0,
-				"g" : 1.0,
-				"r" : 1.0
-			},
-			"transform" :
-			{
-				"position" : [ 2.240869522094727, -5.658436298370361 ],
-				"rotation" : 0.0,
-				"scale" : [ 1.0, 1.0 ]
-			},
-			"type" : "Doodad"
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 11.0, -16.0 ],
-				"rotation" : 590.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 14.0, -41.0 ],
-				"rotation" : 800.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 9.0, -16.0 ],
-				"rotation" : 600.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
+			"transform" : 
 			{
 				"position" : [ 22.0, -2.0 ],
 				"rotation" : 270.0,
 				"scale" : [ 50.0, 1.0 ]
 			},
 			"type" : "Triangle",
-			"vertexColors" :
+			"vertexColors" : 
 			[
-
+				
 				{
 					"a" : 1.0,
 					"b" : 0.0,
 					"g" : 0.0,
 					"r" : 1.0
 				},
-
+				
 				{
 					"a" : 1.0,
 					"b" : 0.0,
 					"g" : 1.0,
 					"r" : 0.0
 				},
-
+				
 				{
 					"a" : 1.0,
 					"b" : 1.0,
@@ -664,102 +55,19 @@
 				}
 			]
 		},
-
+		
 		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ 20.0, 3.0 ],
-				"rotation" : 180.0,
-				"scale" : [ 10.0, 5.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"occludesLight" : true,
-			"texture" : "",
-			"textureCoords" :
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" :
-			{
-				"position" : [ -2.0, -10.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 8.0, 1.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" :
-			[
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			]
-		},
-
-		{
-			"color" :
+			"color" : 
 			{
 				"a" : 1.0,
 				"b" : 0.0,
 				"g" : 0.6999999880790710,
 				"r" : 0.6999999880790710
 			},
+			"enabled" : true,
 			"maxDistance" : 7.0,
 			"occludesLight" : true,
-			"transform" :
+			"transform" : 
 			{
 				"position" : [ 5.688888549804688, -7.066668510437012 ],
 				"rotation" : 0.0,
@@ -767,37 +75,507 @@
 			},
 			"type" : "Light"
 		},
-
+		
 		{
-			"color" :
-			{
-				"a" : 1.0,
-				"b" : 0.0,
-				"g" : 0.6999999880790710,
-				"r" : 0.6999999880790710
-			},
-			"maxDistance" : 7.0,
 			"occludesLight" : true,
-			"transform" :
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
 			{
-				"position" : [ 11.27685070037842, -6.130711555480957 ],
+				"position" : [ 20.0, -2.0 ],
+				"rotation" : 360.0,
+				"scale" : [ 3.0, 5.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 9.0, -16.0 ],
+				"rotation" : 600.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"brush" : 1,
+			"occludesLight" : true,
+			"tint" : 
+			{
+				"a" : 0.0,
+				"b" : 1.0,
+				"g" : 1.0,
+				"r" : 1.0
+			},
+			"transform" : 
+			{
+				"position" : [ 6.966666698455811, -2.566666603088379 ],
 				"rotation" : 0.0,
 				"scale" : [ 1.0, 1.0 ]
 			},
-			"type" : "Light"
+			"type" : "Doodad"
 		},
-
+		
 		{
-			"color" :
+			"brush" : 1,
+			"occludesLight" : true,
+			"tint" : 
+			{
+				"a" : 1.0,
+				"b" : 1.0,
+				"g" : 1.0,
+				"r" : 1.0
+			},
+			"transform" : 
+			{
+				"position" : [ 2.50, 1.0 ],
+				"rotation" : -30.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Doodad"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ -2.0, 3.0 ],
+				"rotation" : 180.0,
+				"scale" : [ 1.0, 50.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"brush" : 1,
+			"occludesLight" : true,
+			"tint" : 
+			{
+				"a" : 1.0,
+				"b" : 1.0,
+				"g" : 1.0,
+				"r" : 1.0
+			},
+			"transform" : 
+			{
+				"position" : [ 2.240869522094727, -5.658436298370361 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Doodad"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 7.0, -16.0 ],
+				"rotation" : 610.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 0.0, -11.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 2.0, 2.0 ]
+			},
+			"type" : "Sign"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 20.0, 3.0 ],
+				"rotation" : 180.0,
+				"scale" : [ 10.0, 5.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 7.0, -25.0 ],
+				"rotation" : 625.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 5.0, -16.0 ],
+				"rotation" : 615.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 14.0, -41.0 ],
+				"rotation" : 800.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 9.0, -27.0 ],
+				"rotation" : 495.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 11.0, -16.0 ],
+				"rotation" : 590.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"color" : 
 			{
 				"a" : 1.0,
 				"b" : 0.0,
 				"g" : 0.6999999880790710,
 				"r" : 0.6999999880790710
 			},
+			"enabled" : true,
 			"maxDistance" : 4.0,
 			"occludesLight" : true,
-			"transform" :
+			"transform" : 
 			{
 				"position" : [ 11.93739700317383, -11.58588695526123 ],
 				"rotation" : 0.0,
@@ -805,18 +583,196 @@
 			},
 			"type" : "Light"
 		},
-
+		
 		{
-			"color" :
+			"color" : 
 			{
 				"a" : 1.0,
 				"b" : 0.0,
 				"g" : 0.6999999880790710,
 				"r" : 0.6999999880790710
 			},
+			"enabled" : true,
+			"maxDistance" : 7.0,
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 11.27685070037842, -6.130711555480957 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ -2.0, 3.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 20.0, 1.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"occludesLight" : true,
+			"transform" : 
+			{
+				"position" : [ 7.0, 2.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 2.0, 2.0 ]
+			},
+			"type" : "Sign"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 20.0, -10.0 ],
+				"rotation" : 450.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
 			"maxDistance" : 8.0,
 			"occludesLight" : true,
-			"transform" :
+			"transform" : 
+			{
+				"position" : [ 18.44317817687988, -16.61296653747559 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 9.0, -16.0 ],
+				"rotation" : 600.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
+		},
+		
+		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.0,
+				"g" : 0.6999999880790710,
+				"r" : 0.6999999880790710
+			},
+			"enabled" : true,
+			"maxDistance" : 8.0,
+			"occludesLight" : true,
+			"transform" : 
 			{
 				"position" : [ 4.237499713897705, -13.70787048339844 ],
 				"rotation" : 0.0,
@@ -824,24 +780,77 @@
 			},
 			"type" : "Light"
 		},
-
+		
 		{
-			"color" :
+			"occludesLight" : false,
+			"transform" : 
+			{
+				"position" : [ 21.0, -7.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 0.50, 10.0 ]
+			},
+			"type" : "Ladder"
+		},
+		
+		{
+			"brush" : 2,
+			"occludesLight" : true,
+			"tint" : 
 			{
 				"a" : 1.0,
-				"b" : 0.0,
-				"g" : 0.6999999880790710,
-				"r" : 0.6999999880790710
+				"b" : 1.0,
+				"g" : 1.0,
+				"r" : 1.0
 			},
-			"maxDistance" : 8.0,
-			"occludesLight" : true,
-			"transform" :
+			"transform" : 
 			{
-				"position" : [ 18.44317817687988, -16.61296653747559 ],
-				"rotation" : 0.0,
+				"position" : [ 12.00000095367432, -3.566666603088379 ],
+				"rotation" : 25.0,
 				"scale" : [ 1.0, 1.0 ]
 			},
-			"type" : "Light"
+			"type" : "Doodad"
+		},
+		
+		{
+			"occludesLight" : true,
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ -2.0, -10.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 8.0, 1.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			]
 		}
 	],
 	"name" : "The Crazy Temple"

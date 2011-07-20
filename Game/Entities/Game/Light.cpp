@@ -11,7 +11,8 @@ const float REFRESH_TIME = 1.0f;
 Light::Light ()
 	: m_color(Volt::Color::white),
       m_maxDistance(5.0f),
-      m_coneAngle(360.0f) {
+      m_coneAngle(360.0f),
+      m_enabled(true) {
     m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
     AddTag("Light");
     CreatePhysicsBody();
@@ -21,18 +22,21 @@ Light::~Light () {
 }
 
 void Light::Update () {
-    m_nearbyEntitiesTimer -= Volt::G_Time->dt();
-    if (m_nearbyEntitiesTimer < 0) {
-        m_nearbyEntitiesTimer = REFRESH_TIME;
-        Vector2 field = Vector2(m_maxDistance, m_maxDistance);
-        scene()->GetEntitiesInArea(position() - field,
-                                   position() + field,
-                                   &m_nearbyEntities);
+    if (m_enabled) {
+        m_nearbyEntitiesTimer -= Volt::G_Time->dt();
+        if (m_nearbyEntitiesTimer < 0) {
+            m_nearbyEntitiesTimer = REFRESH_TIME;
+            Vector2 field = Vector2(m_maxDistance, m_maxDistance);
+            scene()->GetEntitiesInArea(position() - field,
+                                       position() + field,
+                                       &m_nearbyEntities);
+        }
     }
 }
 
 void Light::Render () {
-    G_LightManager->RenderLight(this);
+    if (m_enabled)
+        G_LightManager->RenderLight(this);
 }
 
 void Light::CreatePhysicsBody () {
@@ -58,6 +62,7 @@ void Light::Load (const Json::Value& node) {
 
     m_color.Load(node["color"]);
     m_maxDistance = node["maxDistance"].asDouble();
+    m_enabled = node.get("enabled", true).asBool();
     CreatePhysicsBody();
 }
 
@@ -67,6 +72,7 @@ void Light::Save (Json::Value& node) const {
     node["type"] = "Light";
     m_color.Save(node["color"]);
     node["maxDistance"] = m_maxDistance;
+    node["enabled"] = m_enabled;
 }
 
 void Light::OnScaleChanged () {
@@ -84,6 +90,7 @@ void Light::CopyFrom (const Light* other) {
     m_maxDistance = other->m_maxDistance;
     m_color = other->m_color;
     m_coneAngle = other->m_coneAngle;
+    m_enabled = other->m_enabled;
     CreatePhysicsBody();
 }
 
@@ -92,6 +99,7 @@ void Light::GetProperties (vector<Property*>* properties) {
     properties->push_back(new ColorProperty("Color", &m_color));
     properties->push_back(new FloatProperty("Max Distance", &m_maxDistance));
     properties->push_back(new FloatProperty("Cone Angle", &m_coneAngle));
+    //properties->push_back(new BoolProperty("Enabled", &m_enabled));
 }
 
 

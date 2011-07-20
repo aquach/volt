@@ -40,4 +40,5 @@ private:
     Volt::Color m_color;
     float m_maxDistance;
     float m_coneAngle;
+    bool m_enabled;
 };
