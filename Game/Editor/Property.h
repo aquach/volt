@@ -13,6 +13,10 @@ public:
 
     virtual bool editable () const { return true; }
 
+    virtual bool checkable () const { return false; }
+    virtual bool checked () const { return false; }
+    virtual void setChecked (bool b) { }
+
     string name () const { return m_name; }
 protected:
     string m_name;
@@ -46,6 +50,20 @@ public:
     virtual void Load (string* out) const;
 private:
     int* m_num;
+};
+
+class BoolProperty : public Property {
+public:
+    BoolProperty (string name, bool* b)
+        : Property(name), m_b(b) { }
+    virtual void Save (string input) { }
+    virtual void Load (string* out) const { }
+
+    virtual bool checkable () const { return true; }
+    virtual bool checked () const { return *m_b; }
+    virtual void setChecked (bool b) { *m_b = b; }
+private:
+    bool* m_b;
 };
 
 class ColorProperty : public Property {

@@ -6,7 +6,7 @@ void Entity::GetProperties (vector<Property*>* properties) {
     properties->push_back(new EntityRotationProperty("Rotation", this));
     properties->push_back(new EntityScaleProperty("Scale", this));
     properties->push_back(new EntityLayerProperty("Layer", this));
-    //properties->push_back(new BoolProperty("Occludes Light", &m_occludesLight));
+    properties->push_back(new BoolProperty("Occludes Light", &m_occludesLight));
 }
 
 void Entity::CopyFrom (const Entity* other) {

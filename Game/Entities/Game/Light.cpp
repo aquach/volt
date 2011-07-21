@@ -120,7 +120,7 @@ void Light::GetProperties (vector<Property*>* properties) {
     properties->push_back(new ColorProperty("Color", &m_color));
     properties->push_back(new FloatProperty("Max Distance", &m_maxDistance));
     properties->push_back(new FloatProperty("Cone Angle", &m_coneAngle));
-    //properties->push_back(new BoolProperty("Enabled", &m_enabled));
+    properties->push_back(new BoolProperty("Enabled", &m_enabled));
 }
 
 
