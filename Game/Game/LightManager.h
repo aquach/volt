@@ -5,6 +5,7 @@
 
 namespace Volt {
     class GpuProgram;
+    class RenderSurface;
     class Scene;
 }
 
@@ -56,7 +57,9 @@ private:
 
     GLuint m_fbos[FBO_COUNT];
     GLuint m_textures[TEXTURE_COUNT];
-    Volt::GpuProgram* m_shaders[SHADER_COUNT];
+    Volt::GpuProgram* m_shaders[SHADER_COUNT];;
+    static const int NUM_DOWNSAMPLES = 3;
+    Volt::RenderSurface* m_lights[NUM_DOWNSAMPLES];
 
     static LightManager* instance;
 

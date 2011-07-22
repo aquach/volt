@@ -17,6 +17,9 @@ public:
     void Bind ();
     void Unbind ();
 
+    int width () const { return m_width; }
+    int height () const { return m_height; }
+
     static void RenderPass ();
     static void CheckStatus ();
 
@@ -24,6 +27,8 @@ private:
     GLuint m_fbo;
     GLuint m_depthBuffer;
     GLuint m_texture;
+    int m_width;
+    int m_height;
 
     DISALLOW_COPY_AND_ASSIGN(RenderSurface);
 };

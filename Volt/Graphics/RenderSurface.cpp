@@ -40,7 +40,9 @@ RenderSurface::RenderSurface (int width, int height, bool depth,
                               bool floatingPoint, bool linearFilter)
     : m_fbo(0),
       m_depthBuffer(0),
-      m_texture(0) {
+      m_texture(0),
+      m_width(width),
+      m_height(height) {
 
     GLenum internalFormat = floatingPoint ? GL_RGBA16F_ARB : GL_RGBA;
     GLenum type = floatingPoint ? GL_HALF_FLOAT_ARB : GL_UNSIGNED_BYTE;
@@ -70,6 +72,7 @@ RenderSurface::RenderSurface (int width, int height, bool depth,
                                   GL_RENDERBUFFER, m_depthBuffer);
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    CheckStatus();
 
 }
 

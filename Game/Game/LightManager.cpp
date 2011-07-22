@@ -35,7 +35,7 @@ void ConfigureTexture (GLuint texture) {
 
 LightManager::LightManager ()
     : m_scene(NULL),
-      m_debugDraw(false) {
+      m_debugDraw(true) {
     CHECK(Graphics::initialized());
 
     glGenFramebuffers(FBO_COUNT, m_fbos);
@@ -73,12 +73,24 @@ LightManager::LightManager ()
 
     // Light texture.
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, LIGHT_TEXTURE_WIDTH,
                  LIGHT_TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+
+    int width = LIGHT_TEXTURE_WIDTH;
+    int height = LIGHT_TEXTURE_HEIGHT;
+    for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
+        width /= 2;
+        height /= 2;
+        CHECK_GE(width, 0);
+        CHECK_GE(height, 0);
+        m_lights[i] = new Volt::RenderSurface(width, height, false, false,
+                                              true);
+    }
 
     // Bind textures to each frame buffer.
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DEPTH]);
@@ -257,19 +269,33 @@ void LightManager::RenderLight (Light* light) {
     times["6-light"] += elapsed;
     usecs = Volt::GetMicroseconds();
 
+    // Render downsampled.
+    Graphics::BindShader(m_shaders[SHADER_BLUR]);
+    for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
+        glViewport(0, 0, m_lights[i]->width(), m_lights[i]->height());
+        pixelSize.Set(1.0f / m_lights[i]->width(), 1.0f / m_lights[i]->height());
+        Graphics::SetShaderValue("pixelSize", pixelSize);
+        m_lights[i]->Bind();
+        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
+        Volt::RenderSurface::RenderPass();
+    }
+
     // Render final image.
     glPopAttrib();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glPushMatrix();
     Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
-    Graphics::BindShader(m_shaders[SHADER_BLUR]);
+    Graphics::BindShader(NULL);
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
-    Graphics::SetShaderValue("lightMap", 0);
-    pixelSize.Set(1.0f / LIGHT_TEXTURE_WIDTH, 1.0f / LIGHT_TEXTURE_HEIGHT);
-    Graphics::SetShaderValue("pixelSize", pixelSize);
     Graphics::Translate(light->position());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
+
+    // Render downsampled on top.
+    for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
+        glBindTexture(GL_TEXTURE_2D, m_lights[i]->texture());
+        Graphics::RenderQuad(lightLength * 2, lightLength * 2);
+    }
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["7-finalrender"] += elapsed;
@@ -297,6 +323,12 @@ void LightManager::RenderLight (Light* light) {
         Graphics::Translate(Vector2(2, 0));
         glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
         Graphics::RenderQuad(2, 2);
+
+        for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
+            Graphics::Translate(Vector2(2, 0));
+            glBindTexture(GL_TEXTURE_2D, m_lights[i]->texture());
+            Graphics::RenderQuad(2, 2);
+        }
 
         glPopMatrix();
     }
