@@ -1,6 +1,7 @@
 #include "LightManager.h"
 #include "Volt/Game/Scene.h"
 #include "Volt/Graphics/GpuProgram.h"
+#include "Volt/Graphics/RenderSurface.h"
 #include "Game/Entities/Game/Light.h"
 
 const int TEXTURE_WIDTH = 512;
@@ -20,6 +21,8 @@ static Times times;
 // First render of light seems to take a really long time. Might be
 // GPU warming up or something.
 
+// TODO: Bind all textures and then use glActiveTexture to switch between them.
+
 void ConfigureTexture (GLuint texture) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -28,43 +31,6 @@ void ConfigureTexture (GLuint texture) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, TEXTURE_WIDTH, TEXTURE_HEIGHT,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-}
-
-void CheckFramebufferStatus () {
-    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    CHECK_EQ(status, GL_FRAMEBUFFER_COMPLETE)
-        << "Frame buffer was not fully configured.";
-}
-
-// Renders a quad across the entire screen, for each pass.
-void RenderPass () {
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D(0, 1, 0, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-
-    Graphics::SetColor(Volt::Color::white);
-    glBegin(GL_QUADS);
-    glTexCoord2i(0, 0);
-    glVertex2i(0, 0);
-    glTexCoord2i(1, 0);
-    glVertex2i(1, 0);
-    glTexCoord2i(1, 1);
-    glVertex2i(1, 1);
-    glTexCoord2i(0, 1);
-    glVertex2i(0, 1);
-    glEnd();
-
-    glPopMatrix();
-
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-
-    glMatrixMode(GL_MODELVIEW);
 }
 
 LightManager::LightManager ()
@@ -120,22 +86,22 @@ LightManager::LightManager ()
                            GL_TEXTURE_2D, m_textures[TEXTURE_DUMMY], 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                            GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH], 0);
-    CheckFramebufferStatus();
+    Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC], 0);
-    CheckFramebufferStatus();
+    Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_SHADOW]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW], 0);
-    CheckFramebufferStatus();
+    Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_LIGHT]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT], 0);
-    CheckFramebufferStatus();
+    Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -254,7 +220,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::BindShader(m_shaders[SHADER_PARABOLIC]);
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
     Graphics::SetShaderValue("depthMap", 0);
-    RenderPass();
+    Volt::RenderSurface::RenderPass();
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["4-parabolic"] += elapsed;
@@ -269,7 +235,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("parabolicMap", 0);
     Vector2 pixelSize(1.0f / TEXTURE_WIDTH, 1.0f / TEXTURE_HEIGHT);
     Graphics::SetShaderValue("pixelSize", pixelSize);
-    RenderPass();
+    Volt::RenderSurface::RenderPass();
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["5-shadow"] += elapsed;
@@ -285,7 +251,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::SetShaderValue("color", light->color());
     Graphics::SetShaderValue("coneAngle", light->coneAngle());
     Graphics::SetShaderValue("lightDir", light->transform().yAxis());
-    RenderPass();
+    Volt::RenderSurface::RenderPass();
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["6-light"] += elapsed;
