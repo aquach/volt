@@ -34,7 +34,6 @@ private:
         FBO_DEPTH = 0,
         FBO_PARABOLIC,
         FBO_SHADOW,
-        FBO_LIGHT,
         FBO_COUNT
     };
 
@@ -43,7 +42,6 @@ private:
         TEXTURE_DEPTH,
         TEXTURE_PARABOLIC,
         TEXTURE_SHADOW,
-        TEXTURE_LIGHT,
         TEXTURE_COUNT
     };
 
@@ -52,14 +50,16 @@ private:
         SHADER_SHADOW,
         SHADER_LIGHT,
         SHADER_BLUR,
+        SHADER_ATTENUATE,
         SHADER_COUNT
     };
 
     GLuint m_fbos[FBO_COUNT];
     GLuint m_textures[TEXTURE_COUNT];
-    Volt::GpuProgram* m_shaders[SHADER_COUNT];;
-    static const int NUM_DOWNSAMPLES = 3;
-    Volt::RenderSurface* m_lights[NUM_DOWNSAMPLES];
+    Volt::GpuProgram* m_shaders[SHADER_COUNT];
+    static const int NUM_SAMPLES = 4;
+    Volt::RenderSurface* m_bloomPass1[NUM_SAMPLES];
+    Volt::RenderSurface* m_bloomPass2[NUM_SAMPLES];
 
     static LightManager* instance;
 

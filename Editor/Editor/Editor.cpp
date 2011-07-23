@@ -322,6 +322,7 @@ void Editor::ReloadBrushes () {
 }
 
 Editor::~Editor () {
+    delete m_propertyModel;
     delete m_scene;
     delete m_graphics;
     delete m_assetManager;

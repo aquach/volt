@@ -37,6 +37,8 @@ vec4 GetColor (vec2 texCoords) {
     vec2 dir = texCoords - 0.5f;
     float distance = length(dir);
 
+    distance -= 1.0f / 1024.0f;
+
     // Convert to [-1, 1].
     float x = 2.0f * (texCoords.x - 0.5f);
     float y = 2.0f * (texCoords.y - 0.5f);
@@ -46,7 +48,7 @@ vec4 GetColor (vec2 texCoords) {
         return vec4(0, 0, 0, 0);
     }
 
-    distance -= 1.0 / 512;
+    //distance -= 1.0 / 512;
 
     float lightMapDistance;
     if (abs(y) < abs(x)) {
@@ -56,9 +58,7 @@ vec4 GetColor (vec2 texCoords) {
     }
 
     if (distance < lightMapDistance) {
-        float mult = 1.0 - distance * distance * 4;
-        vec4 result = color * mult;
-        return result;
+        return color;
     } else {
         return vec4(0, 0, 0, 0);
     }
@@ -66,6 +66,5 @@ vec4 GetColor (vec2 texCoords) {
 
 void main() {
     vec2 texCoords = gl_TexCoord[0].st;
-    vec2 pixelSize = vec2(2.0 / 512.0);
     gl_FragColor = GetColor(texCoords);
 }

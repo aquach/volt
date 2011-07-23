@@ -28,7 +28,7 @@ public:
         memcpy(buffer, item.data, item.size);
         glShaderSourceARB(m_handle, 1, (const char**)&buffer, NULL);
         m_filename = item.path;
-        free(buffer);
+        delete[] buffer;
     }
 
     bool Compile () {

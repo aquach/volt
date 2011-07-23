@@ -20,10 +20,8 @@ EditorScene::EditorScene ()
     m_isEditor = true;
 
     camera()->transform.scale.Set(
-        WORLD_TO_SCREEN_SCALE * 3,
-        WORLD_TO_SCREEN_SCALE * 3);
-
-    camera()->transform.position.Set(6, -4);
+        WORLD_TO_SCREEN_SCALE,
+        WORLD_TO_SCREEN_SCALE);
 
     m_levelManager = new LevelManager;
     m_levelManager->m_scene = this;

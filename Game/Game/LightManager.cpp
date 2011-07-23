@@ -35,7 +35,7 @@ void ConfigureTexture (GLuint texture) {
 
 LightManager::LightManager ()
     : m_scene(NULL),
-      m_debugDraw(true) {
+      m_debugDraw(false) {
     CHECK(Graphics::initialized());
 
     glGenFramebuffers(FBO_COUNT, m_fbos);
@@ -71,25 +71,18 @@ LightManager::LightManager ()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, 2 /* 2 pixel width */,
                  TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
-    // Light texture.
-    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, LIGHT_TEXTURE_WIDTH,
-                 LIGHT_TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-
-
     int width = LIGHT_TEXTURE_WIDTH;
     int height = LIGHT_TEXTURE_HEIGHT;
-    for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
-        width /= 2;
-        height /= 2;
+    for (int i = 0; i < NUM_SAMPLES; i++) {
         CHECK_GE(width, 0);
         CHECK_GE(height, 0);
-        m_lights[i] = new Volt::RenderSurface(width, height, false, false,
-                                              true);
+        LOG(INFO) << "Creating " << width << " x " << height << " sample...";
+        m_bloomPass1[i] = new Volt::RenderSurface(width, height, false, false,
+                                                  true);
+        m_bloomPass2[i] = new Volt::RenderSurface(width, height, false, false,
+                                                  true);
+        width /= 2;
+        height /= 2;
     }
 
     // Bind textures to each frame buffer.
@@ -108,11 +101,6 @@ LightManager::LightManager ()
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_SHADOW]);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW], 0);
-    Volt::RenderSurface::CheckStatus();
-
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_LIGHT]);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT], 0);
     Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -148,11 +136,23 @@ LightManager::LightManager ()
     m_shaders[SHADER_BLUR]->Attach(
         Volt::G_AssetManager->GetShader(
             "blur.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+
+    m_shaders[SHADER_ATTENUATE]->Attach(
+        Volt::G_AssetManager->GetShader(
+            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+    m_shaders[SHADER_ATTENUATE]->Attach(
+        Volt::G_AssetManager->GetShader(
+            "attenuate.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 
 LightManager::~LightManager () {
     for (int i = 0; i < SHADER_COUNT; i++)
         delete m_shaders[i];
+
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        delete m_bloomPass1[i];
+        delete m_bloomPass2[i];
+    }
 
     glDeleteTextures(TEXTURE_COUNT, m_textures);
     glDeleteFramebuffers(FBO_COUNT, m_fbos);
@@ -256,7 +256,7 @@ void LightManager::RenderLight (Light* light) {
     glViewport(0, 0, LIGHT_TEXTURE_WIDTH, LIGHT_TEXTURE_HEIGHT);
 
     // Render light.
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_LIGHT]);
+    m_bloomPass2[0]->Bind();
     Graphics::BindShader(m_shaders[SHADER_LIGHT]);
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
     Graphics::SetShaderValue("shadowMap", 0);
@@ -269,14 +269,25 @@ void LightManager::RenderLight (Light* light) {
     times["6-light"] += elapsed;
     usecs = Volt::GetMicroseconds();
 
-    // Render downsampled.
+    /* Render downsampled and blurred horizontally from bloomPass2[0] into
+     * bloomPass1. */
     Graphics::BindShader(m_shaders[SHADER_BLUR]);
-    for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
-        glViewport(0, 0, m_lights[i]->width(), m_lights[i]->height());
-        pixelSize.Set(1.0f / m_lights[i]->width(), 1.0f / m_lights[i]->height());
-        Graphics::SetShaderValue("pixelSize", pixelSize);
-        m_lights[i]->Bind();
-        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
+    glBindTexture(GL_TEXTURE_2D, m_bloomPass2[0]->texture());
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        glViewport(0, 0, m_bloomPass1[i]->width(), m_bloomPass1[i]->height());
+        Graphics::SetShaderValue("offset",
+                                 Vector2(1.2f / m_bloomPass1[i]->width(), 0));
+        m_bloomPass1[i]->Bind();
+        Volt::RenderSurface::RenderPass();
+    }
+
+    /* Render blurred vertically from bloomPass1 into bloomPass2. */
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        glViewport(0, 0, m_bloomPass2[i]->width(), m_bloomPass2[i]->height());
+        Graphics::SetShaderValue("offset",
+                                 Vector2(0, 1.2f / m_bloomPass2[i]->height()));
+        m_bloomPass2[i]->Bind();
+        glBindTexture(GL_TEXTURE_2D, m_bloomPass1[i]->texture());
         Volt::RenderSurface::RenderPass();
     }
 
@@ -286,16 +297,18 @@ void LightManager::RenderLight (Light* light) {
 
     glPushMatrix();
     Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
-    Graphics::BindShader(NULL);
-    glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
+    Graphics::BindShader(m_shaders[SHADER_ATTENUATE]);
     Graphics::Translate(light->position());
-    Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
-    // Render downsampled on top.
-    for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
-        glBindTexture(GL_TEXTURE_2D, m_lights[i]->texture());
-        Graphics::RenderQuad(lightLength * 2, lightLength * 2);
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        char buffer[8];
+        sprintf(buffer, "pass%d", i);
+        Graphics::SetShaderValue(buffer, i);
+        glBindTexture(GL_TEXTURE_2D, m_bloomPass2[i]->texture());
     }
+    glActiveTexture(GL_TEXTURE0);
+    Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["7-finalrender"] += elapsed;
@@ -320,13 +333,15 @@ void LightManager::RenderLight (Light* light) {
         glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
         Graphics::RenderQuad(2, 2);
 
-        Graphics::Translate(Vector2(2, 0));
-        glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_LIGHT]);
-        Graphics::RenderQuad(2, 2);
-
-        for (int i = 0; i < NUM_DOWNSAMPLES; i++) {
+        for (int i = 0; i < NUM_SAMPLES; i++) {
             Graphics::Translate(Vector2(2, 0));
-            glBindTexture(GL_TEXTURE_2D, m_lights[i]->texture());
+            glBindTexture(GL_TEXTURE_2D, m_bloomPass1[i]->texture());
+            Graphics::RenderQuad(2, 2);
+        }
+
+        for (int i = 0; i < NUM_SAMPLES; i++) {
+            Graphics::Translate(Vector2(2, 0));
+            glBindTexture(GL_TEXTURE_2D, m_bloomPass2[i]->texture());
             Graphics::RenderQuad(2, 2);
         }
 
