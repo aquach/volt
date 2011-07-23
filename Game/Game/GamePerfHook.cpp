@@ -54,7 +54,7 @@ void GamePerfHook::OnEntityRenderEnd (Volt::Entity* entity) {
 
     m_maxRenderTimes[key] = MAX(m_maxRenderTimes[key], elapsed);
 
-    LOG(INFO) << key << " took " << elapsed << " microsecs";
+    //LOG(INFO) << key << " took " << elapsed << " microsecs";
 }
 
 void GamePerfHook::OnEntityUpdateStart (Volt::Entity* entity) {
@@ -87,7 +87,7 @@ void GamePerfHook::OnRenderEnd () {
     long elapsed = Volt::GetMicroseconds() - m_renderTime;
     if (elapsed < 0)
         return;
-    LOG(INFO) << "Render: " << elapsed / 1000 << " ms";
+    //LOG(INFO) << "Render: " << elapsed / 1000 << " ms";
     m_renderTimeTotal += elapsed;
     m_frameCount++;
 }

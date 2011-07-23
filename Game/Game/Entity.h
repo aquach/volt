@@ -6,7 +6,7 @@ class Property;
 
 class Entity : public Volt::Entity {
 public:
-    Entity () { }
+    Entity () : m_occludesLight(true) { }
     virtual ~Entity () { }
 
     virtual void OnAccessed (Entity* accessor) { }

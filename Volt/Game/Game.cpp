@@ -10,7 +10,7 @@
 #include "Volt/Game/Scene.h"
 #include "Volt/Game/AppTime.h"
 
-#define MIN_DELTA_TIME (1.0f / 120.0f)
+#define MIN_DELTA_TIME (1.0f / 60.0f)
 #define MAX_DELTA_TIME (1.0f / 30.0f)
 
 namespace Volt {
@@ -124,9 +124,10 @@ void Game::Run () {
             m_currentScene->OnBegin();
         }
 
-        char buffer[64];
-        sprintf(buffer, "%s - %d FPS", m_name.c_str(), (int)fps());
-        m_window->SetTitle(buffer);
+        // This consumes a ton of CPU.
+        //char buffer[64];
+        //sprintf(buffer, "%s - %d FPS", m_name.c_str(), (int)fps());
+        //m_window->SetTitle(buffer);
 
         m_lastTick = tick;
     }

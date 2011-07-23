@@ -170,6 +170,7 @@ LightManager::~LightManager () {
                   << i->second / lightCount << " usecs "
                   << (int)((float)i->second / total * 100) << "%";
     }
+
     if (lightCount > 0)
         LOG(PERF) << "TOTAL: " << total / lightCount << " usecs";
 }
@@ -281,6 +282,10 @@ void LightManager::RenderLight (Light* light) {
         Volt::RenderSurface::RenderPass();
     }
 
+    elapsed = Volt::GetMicroseconds() - usecs;
+    times["7-bloom1"] += elapsed;
+    usecs = Volt::GetMicroseconds();
+
     /* Render blurred vertically from bloomPass1 into bloomPass2. */
     for (int i = 0; i < NUM_SAMPLES; i++) {
         glViewport(0, 0, m_bloomPass2[i]->width(), m_bloomPass2[i]->height());
@@ -290,6 +295,10 @@ void LightManager::RenderLight (Light* light) {
         glBindTexture(GL_TEXTURE_2D, m_bloomPass1[i]->texture());
         Volt::RenderSurface::RenderPass();
     }
+
+    elapsed = Volt::GetMicroseconds() - usecs;
+    times["8-bloom2"] += elapsed;
+    usecs = Volt::GetMicroseconds();
 
     // Render final image.
     glPopAttrib();
@@ -311,7 +320,7 @@ void LightManager::RenderLight (Light* light) {
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
 
     elapsed = Volt::GetMicroseconds() - usecs;
-    times["7-finalrender"] += elapsed;
+    times["9-finalrender"] += elapsed;
     usecs = Volt::GetMicroseconds();
 
     Graphics::BindShader(NULL);
@@ -350,5 +359,5 @@ void LightManager::RenderLight (Light* light) {
 
     Graphics::BindTexture(NULL);
     elapsed = Volt::GetMicroseconds() - usecs;
-    times["8-end"] += elapsed;
+    times["10-end"] += elapsed;
 }

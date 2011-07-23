@@ -66,8 +66,6 @@ bool FontAsset::Load (const DataItem& item, float size) {
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    LOG(INFO) << m_texID;
-
     return true;
 }
 
