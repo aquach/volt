@@ -23,8 +23,10 @@ public:
         m_watchEntity = entity;
     }
 
-    Vector2 WorldToScreen (Vector2 v);
-    Vector2 ScreenToWorld (Vector2 v);
+    Vector2 WorldToScreen (Vector2 v) const;
+    Vector2 ScreenToWorld (Vector2 v) const;
+
+    BBox worldBounds () const;
 
     Transform transform;
 private:

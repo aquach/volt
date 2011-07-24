@@ -174,6 +174,10 @@ LightManager::~LightManager () {
 }
 
 void LightManager::RenderLight (Light* light) {
+    // Viewport clipping.
+    if (!m_scene->camera()->worldBounds().Intersects(light->renderBounds()))
+        return;
+
     lightCount++;
     long usecs, elapsed;
     usecs = Volt::GetMicroseconds();

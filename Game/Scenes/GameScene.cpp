@@ -67,7 +67,7 @@ GameScene::GameScene ()
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
     Volt::Filter* f = new Volt::Filter(program);
     f->AddMap("paperMap", Volt::G_AssetManager->GetTexture("paper_map.bmp"));
-    AddFilter(f, -3);
+    //AddFilter(f, -3);
 }
 
 GameScene::~GameScene () {

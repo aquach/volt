@@ -123,4 +123,9 @@ void Light::GetProperties (vector<Property*>* properties) {
     properties->push_back(new BoolProperty("Enabled", &m_enabled));
 }
 
+Volt::BBox Light::renderBounds () const {
+    Vector2 field(m_maxDistance, m_maxDistance);
+    return Volt::BBox(position() - field, position() + field);
+}
+
 

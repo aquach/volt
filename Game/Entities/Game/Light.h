@@ -35,6 +35,8 @@ public:
     float maxDistance () const { return m_maxDistance; }
     float coneAngle () const { return m_coneAngle; }
 
+    Volt::BBox renderBounds () const;
+
 private:
     friend class LightManager;
 

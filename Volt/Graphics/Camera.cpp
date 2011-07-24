@@ -30,7 +30,7 @@ void Camera::SetLayers (int backLayer, int frontLayer) {
     m_backLayer = backLayer;
 }
 
-Vector2 Camera::WorldToScreen (Vector2 v) {
+Vector2 Camera::WorldToScreen (Vector2 v) const {
     v -= transform.position;
     v = v.Rotate(transform.rotation);
     v.x *= transform.scale.x;
@@ -39,7 +39,7 @@ Vector2 Camera::WorldToScreen (Vector2 v) {
     return v;
 }
 
-Vector2 Camera::ScreenToWorld (Vector2 v) {
+Vector2 Camera::ScreenToWorld (Vector2 v) const {
     v -= Graphics::GetScreenCenter();
     v.x /= transform.scale.x;
     v.y /= transform.scale.y;
@@ -58,6 +58,14 @@ void Camera::Update () {
         Vector2 dir = m_watchEntity->position() - transform.position;
         transform.position += dir * TRACKING_SPEED;
     }
+}
+
+BBox Camera::worldBounds () const {
+    Vector2 upperLeft(0, 0);
+    Vector2 lowerRight(Graphics::width(), Graphics::height());
+    upperLeft = ScreenToWorld(upperLeft);
+    lowerRight = ScreenToWorld(lowerRight);
+    return BBox(upperLeft, lowerRight);
 }
 
 }

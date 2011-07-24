@@ -38,7 +38,11 @@ public:
     bool IsInside (const Vector2& point) const;
     void BoundingCircle (Vector2* point, float* radius) const;
 
+    bool Intersects (const BBox& other) const;
+
     BBox Expand (float margin) const;
 };
+
+ostream& operator<< (ostream& stream, const BBox& box);
 
 }

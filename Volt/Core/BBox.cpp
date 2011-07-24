@@ -39,4 +39,22 @@ BBox BBox::Expand (float margin) const {
     );
 }
 
+bool BBox::Intersects (const BBox& other) const {
+    Vector2 v1 = other.min - max;
+    Vector2 v2 = min - other.max;
+
+    if (v1.x > 0.0f || v1.y > 0.0f)
+        return false;
+
+    if (v2.x > 0.0f || v2.y > 0.0f)
+        return false;
+
+    return true;
+}
+
+ostream& operator<< (ostream& stream, const BBox& box) {
+    stream << "min " << box.min << " max " << box.max;
+    return stream;
+}
+
 }
