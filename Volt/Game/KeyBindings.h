@@ -43,5 +43,5 @@ private:
 };
 
 #define G_KeyBindings KeyBindings::Instance()
-
+#define G_Key(name) (G_KeyBindings->Get(name))
 }
