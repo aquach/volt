@@ -90,7 +90,9 @@ TARGET_LINK_LIBRARIES(editor gamelib ${VOLT_DEPENDENCIES} volt ${QT_LIBRARIES})
 
 # Benchmarks
 
-SET(source Benchmarks/pushAttrib.cpp)
-SET_SOURCE_FILES_PROPERTIES(${source} PROPERTIES COMPILE_FLAGS -O2)
-ADD_EXECUTABLE(benchmark_pushAttrib ${source})
-TARGET_LINK_LIBRARIES(benchmark_pushAttrib SDL GL volt)
+IF(UNIX)
+    SET(source Benchmarks/pushAttrib.cpp)
+    SET_SOURCE_FILES_PROPERTIES(${source} PROPERTIES COMPILE_FLAGS -O2)
+    ADD_EXECUTABLE(benchmark_pushAttrib ${source})
+    TARGET_LINK_LIBRARIES(benchmark_pushAttrib SDL GL volt)
+ENDIF()    
