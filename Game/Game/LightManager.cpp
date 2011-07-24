@@ -21,8 +21,6 @@ static Times times;
 // First render of light seems to take a really long time. Might be
 // GPU warming up or something.
 
-// TODO: Bind all textures and then use glActiveTexture to switch between them.
-
 void ConfigureTexture (GLuint texture) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

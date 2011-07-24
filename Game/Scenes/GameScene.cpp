@@ -1,6 +1,10 @@
 #include "Game/Scenes/GameScene.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
+#include "Volt/Graphics/Filter.h"
+#include "Volt/Graphics/GpuProgram.h"
+#include "Volt/Graphics/SDLWindow.h"
+#include "Volt/Graphics/Viewport.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -53,6 +57,17 @@ GameScene::GameScene ()
     SetHook(new GamePerfHook);
 
     camera()->WatchEntity(m_player);
+
+    Volt::GpuProgram* program = new Volt::GpuProgram;
+    program->Attach(
+        Volt::G_AssetManager->GetShader("standard.vert",
+                                        Volt::ShaderAsset::SHADER_VERTEX));
+    program->Attach(
+        Volt::G_AssetManager->GetShader("celshade.frag",
+                                        Volt::ShaderAsset::SHADER_FRAGMENT));
+    Volt::Filter* f = new Volt::Filter(program);
+    f->AddMap("paperMap", Volt::G_AssetManager->GetTexture("paper_map.bmp"));
+    AddFilter(f, -3);
 }
 
 GameScene::~GameScene () {
@@ -91,6 +106,9 @@ void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
             case SDLK_F2:
                 // Reload all shaders.
                 Volt::G_AssetManager->ReloadShaders();
+            break;
+            case SDLK_F9:
+                dynamic_cast<Volt::SDLWindow*>(G_Viewport)->Screenshot("screenshot.bmp");
             break;
             default:
             break;

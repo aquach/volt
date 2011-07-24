@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Volt/Core/Core.h"
+#include "Volt/Assets/AssetManager.h"
 
 namespace Volt {
 
@@ -21,6 +22,8 @@ public:
 
     int layer () const { return m_layer; }
 
+    void AddMap (string name, TextureAssetRef texture);
+
 protected:
     GpuProgram* m_program;
     int m_colorMap;
@@ -29,6 +32,8 @@ private:
     friend class Scene;
 
     int m_layer;
+    typedef map<string, TextureAssetRef> Maps;
+    Maps m_maps;
 
     DISALLOW_COPY_AND_ASSIGN(Filter);
 };

@@ -2,6 +2,7 @@
 #include "Volt/Graphics/OpenGL.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/GpuProgram.h"
+#include "Volt/Graphics/RenderSurface.h"
 #include "Volt/Graphics/Viewport.h"
 
 namespace Volt {
@@ -24,7 +25,20 @@ Filter::~Filter () {
 }
 
 void Filter::SetUniforms () {
+    glBindTexture(GL_TEXTURE_2D, m_colorMap);
     Graphics::SetShaderValue("colorMap", 0);
+    int count = 1;
+    FOR_(Maps::iterator, i, m_maps) {
+        glActiveTexture(GL_TEXTURE0 + count);
+        glBindTexture(GL_TEXTURE_2D, i->second->glID());
+        Graphics::SetShaderValue(i->first.c_str(), count);
+        count++;
+    }
+    glActiveTexture(GL_TEXTURE0);
+}
+
+void Filter::AddMap (string name, TextureAssetRef texture) {
+    m_maps[name] = texture;
 }
 
 void Filter::Render () {
@@ -34,36 +48,9 @@ void Filter::Render () {
 
     Graphics::Clear();
     Graphics::BindShader(m_program);
-    glBindTexture(GL_TEXTURE_2D, m_colorMap);
     SetUniforms();
 
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D(0, 1, 0, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-
-    Graphics::SetColor(Color::white);
-    glBegin(GL_QUADS);
-    glTexCoord2i(0, 0);
-    glVertex2i(0, 0);
-    glTexCoord2i(1, 0);
-    glVertex2i(1, 0);
-    glTexCoord2i(1, 1);
-    glVertex2i(1, 1);
-    glTexCoord2i(0, 1);
-    glVertex2i(0, 1);
-    glEnd();
-
-    glPopMatrix();
-
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    
-    glMatrixMode(GL_MODELVIEW);
+    RenderSurface::RenderPass();
 
     Graphics::BindShader(NULL);
     glBindTexture(GL_TEXTURE_2D, 0);
