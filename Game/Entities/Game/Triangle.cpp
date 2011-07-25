@@ -43,7 +43,7 @@ void Triangle::Render () {
         Graphics::BindTexture(m_texture);
 
     glBegin(GL_TRIANGLES);
-    for (int i = 0; i < NUM_VERTS && false; i++) {
+    for (int i = 0; i < NUM_VERTS; i++) {
         if (m_texture.HasAsset())
             glTexCoord2f(m_textureCoords[i].x, m_textureCoords[i].y);
         else
@@ -57,26 +57,6 @@ void Triangle::Render () {
     }
     glEnd();
     Graphics::BindTexture(NULL);
-
-    glPopMatrix();
-    glPushMatrix();
-    Graphics::Translate(m_transform.position);
-    glRotatef(m_transform.rotation, 0.0f, 0.0f, 1.0f);
-    Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::BindTexture(Volt::G_AssetManager->GetTexture("brush.png"));
-    for (int i = 0; i < m_strokes.size(); i++) {
-        glPushMatrix();
-        Graphics::Translate(Vector2(m_strokes[i].transform.position.x * m_transform.scale.x, m_strokes[i].transform.position.y * m_transform.scale.y));
-        glRotatef(m_strokes[i].transform.rotation, 0.0f, 0.0f, 1.0f);
-        Graphics::Scale(m_strokes[i].transform.scale);
-        Graphics::SetColor(m_strokes[i].color);
-        Graphics::RenderQuad(1, 1);
-        glPopMatrix();
-    }
-    Graphics::SetBlend(Graphics::BLEND_NONE);
-    Graphics::BindTexture(NULL);
-    glPopMatrix();
-
 
     if (G_SelectionManager != NULL) {
         // Render selected vertices if necessary.
@@ -98,6 +78,25 @@ void Triangle::Render () {
             }
         }
     }
+    glPopMatrix();
+    glPushMatrix();
+    Graphics::Translate(m_transform.position);
+    glRotatef(m_transform.rotation, 0.0f, 0.0f, 1.0f);
+    Graphics::SetBlend(Graphics::BLEND_ALPHA);
+    Graphics::BindTexture(Volt::G_AssetManager->GetTexture("brush.png"));
+    for (int i = 0; i < m_strokes.size(); i++) {
+        glPushMatrix();
+        Graphics::Translate(Vector2(m_strokes[i].transform.position.x
+            * m_transform.scale.x, m_strokes[i].transform.position.y
+            * m_transform.scale.y));
+        glRotatef(m_strokes[i].transform.rotation, 0.0f, 0.0f, 1.0f);
+        Graphics::Scale(m_strokes[i].transform.scale);
+        Graphics::SetColor(m_strokes[i].color);
+        Graphics::RenderQuad(1, 1);
+        glPopMatrix();
+    }
+    Graphics::SetBlend(Graphics::BLEND_NONE);
+    Graphics::BindTexture(NULL);
     glPopMatrix();
 }
 
@@ -180,8 +179,8 @@ Vector2 ColorGradientAtPoint (Vector2 pos) {
 
 void Triangle::GenerateStrokes () {
     m_strokes.clear();
-
-    for (int i = 0; i < 150; i++) {
+    int numStrokes = 50 * (m_transform.scale.x + m_transform.scale.y) / 2;
+    for (int i = 0; i < numStrokes; i++) {
         Vector2 pos(Volt::Random::Percent(), Volt::Random::Percent());
         Volt::Color color = ColorAtPoint(pos);
         if (color.Intensity() == 0) {
@@ -194,9 +193,7 @@ void Triangle::GenerateStrokes () {
         BrushStroke stroke;
         stroke.transform.position = pos;
         stroke.transform.rotation = gradient.GetAngleDegrees();
-        stroke.transform.scale.Set(Volt::Random::RangeFloat(0.8, 1.2) * 1.2,
-                                   Volt::Random::RangeFloat(0.8, 1.2));
-        //stroke.transform.scale;
+        stroke.transform.scale.Set(0.5, 0.5);
         stroke.color = color + Volt::Color::Random() * 0.2;
         m_strokes.push_back(stroke);
     }
