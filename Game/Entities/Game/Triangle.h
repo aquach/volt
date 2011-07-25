@@ -5,6 +5,11 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Volt/Assets/AssetManager.h"
 
+struct BrushStroke {
+    Volt::Transform transform;
+    Volt::Color color;
+};
+
 /* A triangle of the terrain. */
 class Triangle : public Entity {
 public:
@@ -35,6 +40,9 @@ private:
     Volt::Color m_vertexColors[NUM_VERTS];
     Vector2 m_textureCoords[NUM_VERTS];
     Volt::TextureAssetRef m_texture;
+
+    void GenerateStrokes ();
+    vector<BrushStroke> m_strokes;
 
     DISALLOW_COPY_AND_ASSIGN(Triangle);
 };

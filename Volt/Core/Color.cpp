@@ -67,6 +67,10 @@ float& Color::operator[] (unsigned int i) {
     }
 }
 
+float Color::Intensity () const {
+    return r * 0.3 + g * 0.59 + b * 0.11;
+}
+
 void Color::Load (const Json::Value& node) {
     CHECK(node.isMember("r"));
     CHECK(node.isMember("g"));

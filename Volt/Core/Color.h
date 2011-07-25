@@ -23,6 +23,7 @@ public:
     static Color Random ();
 
     void Clamp ();
+    float Intensity () const;
 
     float& operator[] (unsigned int i);
     bool operator!= (const Color& rhs);
