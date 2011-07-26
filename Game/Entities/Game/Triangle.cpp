@@ -82,6 +82,9 @@ void Triangle::Render () {
     glPushMatrix();
     Graphics::Translate(m_transform.position);
     glRotatef(m_transform.rotation, 0.0f, 0.0f, 1.0f);
+    // Discard low-alpha fragments.
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.0f);
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
     Graphics::BindTexture(Volt::G_AssetManager->GetTexture("brush.png"));
     for (int i = 0; i < m_strokes.size(); i++) {
@@ -98,6 +101,7 @@ void Triangle::Render () {
     Graphics::SetBlend(Graphics::BLEND_NONE);
     Graphics::BindTexture(NULL);
     glPopMatrix();
+    glDisable(GL_ALPHA_TEST);
 }
 
 void Triangle::CreatePhysicsBody () {
@@ -194,6 +198,7 @@ void Triangle::GenerateStrokes () {
         stroke.transform.position = pos;
         stroke.transform.rotation = gradient.GetAngleDegrees();
         stroke.transform.scale.Set(0.5, 0.5);
+        stroke.transform.scale *= Volt::Random::RangeFloat(0.8, 1.3);
         stroke.color = color + Volt::Color::Random() * 0.2;
         m_strokes.push_back(stroke);
     }
