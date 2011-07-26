@@ -54,12 +54,15 @@ private:
         SHADER_COUNT
     };
 
+    void RenderCachedStaticLight (Light* light);
+
     GLuint m_fbos[FBO_COUNT];
     GLuint m_textures[TEXTURE_COUNT];
     Volt::GpuProgram* m_shaders[SHADER_COUNT];
     static const int NUM_SAMPLES = 4;
     Volt::RenderSurface* m_bloomPass1[NUM_SAMPLES];
     Volt::RenderSurface* m_bloomPass2[NUM_SAMPLES];
+    Volt::RenderSurface* m_finalSurface;
 
     static LightManager* instance;
 

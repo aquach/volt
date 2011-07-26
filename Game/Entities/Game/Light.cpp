@@ -23,7 +23,8 @@ Light::Light ()
       m_maxDistance(5.0f),
       m_coneAngle(360.0f),
       m_enabled(true),
-      m_listener(NULL) {
+      m_listener(NULL),
+      m_static(false) {
     m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
     m_listener = new LightSceneListener(this);
     AddTag("Light");
@@ -42,17 +43,27 @@ void Light::OnRemoved () {
     scene()->RemoveSceneListener(m_listener);
 }
 
+void Light::UpdateNearbyEntities () {
+    Vector2 field = Vector2(m_maxDistance, m_maxDistance);
+    scene()->GetEntitiesInArea(position() - field,
+                               position() + field,
+                               &m_nearbyEntities);
+}
+
 void Light::Update () {
-    if (m_enabled) {
+    if (m_enabled && !m_static) {
         m_nearbyEntitiesTimer -= Volt::G_Time->dt();
         if (m_nearbyEntitiesTimer < 0) {
             m_nearbyEntitiesTimer = REFRESH_TIME;
-            Vector2 field = Vector2(m_maxDistance, m_maxDistance);
-            scene()->GetEntitiesInArea(position() - field,
-                                       position() + field,
-                                       &m_nearbyEntities);
+            UpdateNearbyEntities();
         }
     }
+}
+
+void Light::InvalidateStaticMap () {
+    m_staticMap = NULL;
+    m_nearbyEntities.clear();
+    UpdateNearbyEntities();
 }
 
 void Light::Render () {
@@ -81,9 +92,16 @@ void Light::Load (const Json::Value& node) {
     CHECK(node.isMember("color"));
     CHECK(node.isMember("maxDistance"));
 
+    m_name = node["name"].asString();
     m_color.Load(node["color"]);
     m_maxDistance = node["maxDistance"].asDouble();
     m_enabled = node.get("enabled", true).asBool();
+    m_static = node.get("static", false).asBool();
+    if (m_static) {
+        CHECK(node.isMember("staticMap"));
+        m_staticMap = Volt::G_AssetManager->GetTexture(node["staticMap"].asString());
+    }
+
     CreatePhysicsBody();
 }
 
@@ -94,6 +112,9 @@ void Light::Save (Json::Value& node) const {
     m_color.Save(node["color"]);
     node["maxDistance"] = m_maxDistance;
     node["enabled"] = m_enabled;
+    node["name"] = m_name;
+    node["static"] = m_static;
+    node["staticMap"] = m_staticMap->path();
 }
 
 void Light::OnScaleChanged () {
@@ -117,10 +138,12 @@ void Light::CopyFrom (const Light* other) {
 
 void Light::GetProperties (vector<Property*>* properties) {
     Entity::GetProperties(properties);
+    properties->push_back(new StringProperty("Name", &m_name));
     properties->push_back(new ColorProperty("Color", &m_color));
     properties->push_back(new FloatProperty("Max Distance", &m_maxDistance));
     properties->push_back(new FloatProperty("Cone Angle", &m_coneAngle));
     properties->push_back(new BoolProperty("Enabled", &m_enabled));
+    properties->push_back(new BoolProperty("Static", &m_static));
 }
 
 Volt::BBox Light::renderBounds () const {

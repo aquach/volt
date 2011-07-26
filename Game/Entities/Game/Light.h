@@ -2,6 +2,7 @@
 
 #include "Game/Core/Core.h"
 #include "Volt/Game/Scene.h"
+#include "Volt/Assets/AssetManager.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Game/Entity.h"
 
@@ -35,6 +36,8 @@ public:
     float maxDistance () const { return m_maxDistance; }
     float coneAngle () const { return m_coneAngle; }
 
+    void InvalidateStaticMap ();
+
     Volt::BBox renderBounds () const;
 
 private:
@@ -50,6 +53,7 @@ private:
     };
 
     void CreatePhysicsBody ();
+    void UpdateNearbyEntities ();
 
     vector<Volt::Entity*> m_nearbyEntities;
     float m_nearbyEntitiesTimer;
@@ -57,5 +61,8 @@ private:
     float m_maxDistance;
     float m_coneAngle;
     bool m_enabled;
+    string m_name;
+    bool m_static;
+    Volt::TextureAssetRef m_staticMap;
     LightSceneListener* m_listener;
 };

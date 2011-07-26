@@ -516,6 +516,8 @@ void Graphics::SaveTextureToFile (int glId, string filename) {
                width * 3);
     free(pixels);
 
+    LOG(INFO) << "Saved texture id " << glId << " (" << width << " x " << height
+              << ") to " << filename;
     SDL_SaveBMP(temp, filename.c_str());
     SDL_FreeSurface(temp);
     glBindTexture(GL_TEXTURE_2D, 0);

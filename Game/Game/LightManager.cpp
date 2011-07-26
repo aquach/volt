@@ -27,13 +27,12 @@ void ConfigureTexture (GLuint texture) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, TEXTURE_WIDTH, TEXTURE_HEIGHT,
-                 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 }
 
-LightManager::LightManager ()
-    : m_scene(NULL),
-      m_debugDraw(false) {
+LightManager::LightManager () :
+    m_scene(NULL), m_debugDraw(true) {
     CHECK(Graphics::initialized());
 
     glGenFramebuffers(FBO_COUNT, m_fbos);
@@ -45,8 +44,8 @@ LightManager::LightManager ()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, TEXTURE_WIDTH,
-                 TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     /* Starting depth texture. */
     glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH]);
@@ -83,22 +82,26 @@ LightManager::LightManager ()
         height /= 2;
     }
 
+    m_finalSurface = new Volt::RenderSurface(LIGHT_TEXTURE_WIDTH,
+                                             LIGHT_TEXTURE_HEIGHT, false,
+                                             false, true);
+
     // Bind textures to each frame buffer.
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_DEPTH]);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_textures[TEXTURE_DUMMY], 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                           GL_TEXTURE_2D, m_textures[TEXTURE_DEPTH], 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+                           m_textures[TEXTURE_DUMMY], 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
+                           m_textures[TEXTURE_DEPTH], 0);
     Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_PARABOLIC]);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_textures[TEXTURE_PARABOLIC], 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+                           m_textures[TEXTURE_PARABOLIC], 0);
     Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbos[FBO_SHADOW]);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                           GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW], 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+                           m_textures[TEXTURE_SHADOW], 0);
     Volt::RenderSurface::CheckStatus();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -108,39 +111,39 @@ LightManager::LightManager ()
         m_shaders[i] = new Volt::GpuProgram;
 
     m_shaders[SHADER_PARABOLIC]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+        Volt::G_AssetManager->GetShader("standard.vert",
+                                        Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_PARABOLIC]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "parabolic.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+        Volt::G_AssetManager->GetShader("parabolic.frag",
+                                        Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_SHADOW]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+        Volt::G_AssetManager->GetShader("standard.vert",
+                                        Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_SHADOW]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "reduce.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+        Volt::G_AssetManager->GetShader("reduce.frag",
+                                        Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_LIGHT]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+        Volt::G_AssetManager->GetShader("standard.vert",
+                                        Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_LIGHT]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "light.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+        Volt::G_AssetManager->GetShader("light.frag",
+                                        Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_BLUR]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+        Volt::G_AssetManager->GetShader("standard.vert",
+                                        Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_BLUR]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "blur.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+        Volt::G_AssetManager->GetShader("blur.frag",
+                                        Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_ATTENUATE]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "standard.vert", Volt::ShaderAsset::SHADER_VERTEX));
+        Volt::G_AssetManager->GetShader("standard.vert",
+                                        Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_ATTENUATE]->Attach(
-        Volt::G_AssetManager->GetShader(
-            "attenuate.frag", Volt::ShaderAsset::SHADER_FRAGMENT));
+        Volt::G_AssetManager->GetShader("attenuate.frag",
+                                        Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 
 LightManager::~LightManager () {
@@ -164,19 +167,36 @@ LightManager::~LightManager () {
     // is the average of the time it took for all lights over that pass.
     LOG(PERF) << "== LIGHT PERFORMANCE (" << lightCount << " lights) ==";
     FOR_(Times::iterator, i, times) {
-        LOG(PERF) << i->first << ": avg "
-                  << i->second / lightCount << " usecs "
-                  << (int)((float)i->second / total * 100) << "%";
+        LOG(PERF) << i->first << ": avg " << i->second / lightCount
+            << " usecs " << (int)((float)i->second / total * 100) << "%";
     }
 
     if (lightCount > 0)
         LOG(PERF) << "TOTAL: " << total / lightCount << " usecs";
 }
 
+void LightManager::RenderCachedStaticLight (Light* light) {
+    Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
+    glPushMatrix();
+
+    Graphics::Translate(light->position());
+    Graphics::BindTexture(light->m_staticMap);
+    float lightLength = light->maxDistance();
+    Graphics::RenderQuad(lightLength * 2, lightLength * 2);
+
+    glPopMatrix();
+    Graphics::SetBlend(Graphics::BLEND_NONE);
+}
+
 void LightManager::RenderLight (Light* light) {
     // Viewport clipping.
     if (!m_scene->camera()->worldBounds().Intersects(light->renderBounds()))
         return;
+
+    if (light->m_static && light->m_staticMap.HasAsset()) {
+        RenderCachedStaticLight(light);
+        return;
+    }
 
     lightCount++;
     long usecs, elapsed;
@@ -213,7 +233,7 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
 
     for (uint i = 0; i < light->m_nearbyEntities.size(); i++) {
-        if (dynamic_cast<Light*>(light->m_nearbyEntities[i]))
+        if (dynamic_cast<Light*> (light->m_nearbyEntities[i]))
             continue;
         if (Entity* e = dynamic_cast<Entity*>(light->m_nearbyEntities[i])) {
             if (!e->occludesLight())
@@ -278,8 +298,8 @@ void LightManager::RenderLight (Light* light) {
     glBindTexture(GL_TEXTURE_2D, m_bloomPass2[0]->texture());
     for (int i = 0; i < NUM_SAMPLES; i++) {
         glViewport(0, 0, m_bloomPass1[i]->width(), m_bloomPass1[i]->height());
-        Graphics::SetShaderValue("offset",
-                                 Vector2(1.2f / m_bloomPass1[i]->width(), 0));
+        Graphics::SetShaderValue("offset", Vector2(1.2f
+            / m_bloomPass1[i]->width(), 0));
         m_bloomPass1[i]->Bind();
         Volt::RenderSurface::RenderPass();
     }
@@ -291,8 +311,8 @@ void LightManager::RenderLight (Light* light) {
     /* Render blurred vertically from bloomPass1 into bloomPass2. */
     for (int i = 0; i < NUM_SAMPLES; i++) {
         glViewport(0, 0, m_bloomPass2[i]->width(), m_bloomPass2[i]->height());
-        Graphics::SetShaderValue("offset",
-                                 Vector2(0, 1.2f / m_bloomPass2[i]->height()));
+        Graphics::SetShaderValue("offset", Vector2(0, 1.2f
+            / m_bloomPass2[i]->height()));
         m_bloomPass2[i]->Bind();
         glBindTexture(GL_TEXTURE_2D, m_bloomPass1[i]->texture());
         Volt::RenderSurface::RenderPass();
@@ -303,13 +323,11 @@ void LightManager::RenderLight (Light* light) {
     usecs = Volt::GetMicroseconds();
 
     // Render final image.
-    glPopAttrib();
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    glPushMatrix();
+    m_finalSurface->Bind();
+    glViewport(0, 0, m_finalSurface->width(), m_finalSurface->height());
+    Graphics::Clear();
     Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
     Graphics::BindShader(m_shaders[SHADER_ATTENUATE]);
-    Graphics::Translate(light->position());
 
     for (int i = 0; i < NUM_SAMPLES; i++) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -319,14 +337,29 @@ void LightManager::RenderLight (Light* light) {
         glBindTexture(GL_TEXTURE_2D, m_bloomPass2[i]->texture());
     }
     glActiveTexture(GL_TEXTURE0);
+    Volt::RenderSurface::RenderPass();
+    Graphics::BindShader(NULL);
+
+    glPopAttrib();
+
+    if (light->m_static && !light->m_staticMap.HasAsset()) {
+        // Save static map.
+        char filename[64];
+        sprintf(filename, "generated_%s.bmp", light->m_name.c_str());
+        Graphics::SaveTextureToFile(m_finalSurface->texture(), filename);
+        LOG(INFO) << "Saving static light map to " << filename << "...";
+    }
+
+    glPushMatrix();
+    Graphics::Translate(light->position());
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, m_finalSurface->texture());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
+    glPopMatrix();
 
     elapsed = Volt::GetMicroseconds() - usecs;
     times["9-finalrender"] += elapsed;
     usecs = Volt::GetMicroseconds();
-
-    Graphics::BindShader(NULL);
-    glPopMatrix();
 
     Graphics::SetBlend(Graphics::BLEND_NONE);
 
@@ -344,6 +377,7 @@ void LightManager::RenderLight (Light* light) {
         glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
         Graphics::RenderQuad(2, 2);
 
+        /*
         for (int i = 0; i < NUM_SAMPLES; i++) {
             Graphics::Translate(Vector2(2, 0));
             glBindTexture(GL_TEXTURE_2D, m_bloomPass1[i]->texture());
@@ -355,6 +389,11 @@ void LightManager::RenderLight (Light* light) {
             glBindTexture(GL_TEXTURE_2D, m_bloomPass2[i]->texture());
             Graphics::RenderQuad(2, 2);
         }
+        */
+
+        Graphics::Translate(Vector2(2, 0));
+        glBindTexture(GL_TEXTURE_2D, m_finalSurface->texture());
+        Graphics::RenderQuad(2, 2);
 
         glPopMatrix();
     }
