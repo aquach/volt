@@ -32,7 +32,7 @@ void ConfigureTexture (GLuint texture) {
 }
 
 LightManager::LightManager () :
-    m_scene(NULL), m_debugDraw(true) {
+    m_scene(NULL), m_debugDraw(false) {
     CHECK(Graphics::initialized());
 
     glGenFramebuffers(FBO_COUNT, m_fbos);
@@ -179,10 +179,12 @@ void LightManager::RenderCachedStaticLight (Light* light) {
     Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
     glPushMatrix();
 
+    Graphics::SetColor(Volt::Color::white);
     Graphics::Translate(light->position());
     Graphics::BindTexture(light->m_staticMap);
     float lightLength = light->maxDistance();
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
+    Graphics::BindTexture(NULL);
 
     glPopMatrix();
     Graphics::SetBlend(Graphics::BLEND_NONE);
@@ -344,10 +346,15 @@ void LightManager::RenderLight (Light* light) {
 
     if (light->m_static && !light->m_staticMap.HasAsset()) {
         // Save static map.
-        char filename[64];
-        sprintf(filename, "generated_%s.bmp", light->m_name.c_str());
+        char path[128];
+        sprintf(path, "%s/%s.bmp", Light::STATIC_MAP_FOLDER, light->m_name.c_str());
+
+        char filename[128];
+        sprintf(filename, "%s/%s", Volt::G_AssetManager->sourcePath().c_str(), path);
+
         Graphics::SaveTextureToFile(m_finalSurface->texture(), filename);
-        LOG(INFO) << "Saving static light map to " << filename << "...";
+        LOG(INFO) << "Saving static light map to " << path << "...";
+        light->m_staticMap = Volt::G_AssetManager->GetTexture(path);
     }
 
     glPushMatrix();
@@ -377,7 +384,7 @@ void LightManager::RenderLight (Light* light) {
         glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_SHADOW]);
         Graphics::RenderQuad(2, 2);
 
-        /*
+        Graphics::Translate(Vector2(-4, 2));
         for (int i = 0; i < NUM_SAMPLES; i++) {
             Graphics::Translate(Vector2(2, 0));
             glBindTexture(GL_TEXTURE_2D, m_bloomPass1[i]->texture());
@@ -389,7 +396,6 @@ void LightManager::RenderLight (Light* light) {
             glBindTexture(GL_TEXTURE_2D, m_bloomPass2[i]->texture());
             Graphics::RenderQuad(2, 2);
         }
-        */
 
         Graphics::Translate(Vector2(2, 0));
         glBindTexture(GL_TEXTURE_2D, m_finalSurface->texture());

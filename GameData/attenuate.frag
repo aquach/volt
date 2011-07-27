@@ -13,7 +13,7 @@ vec4 GetColor (vec2 texCoords) {
                texture2D(pass2, texCoords) +
                texture2D(pass3, texCoords);
 
-    vec4 color = sum * 0.25f * value;
+    vec4 color = sum * value * 0.25f;
     return color;
 }
 

@@ -6,6 +6,7 @@
 
 REGISTER_ENTITY_(Light);
 
+const char* Light::STATIC_MAP_FOLDER = "generated_lightmaps";
 const float REFRESH_TIME = 1.0f;
 
 void Light::LightSceneListener::OnEntityRemoved (Volt::Entity* e) {

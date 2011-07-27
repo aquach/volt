@@ -512,15 +512,19 @@ void Graphics::SaveTextureToFile (int glId, string filename) {
 
     for (int i = 0; i < height; i++)
         memcpy(((char *)temp->pixels) + temp->pitch * i,
-               pixels + 3 * width * (height - i - 1),
+               pixels + 3 * width * i,
                width * 3);
     free(pixels);
 
-    LOG(INFO) << "Saved texture id " << glId << " (" << width << " x " << height
-              << ") to " << filename;
-    SDL_SaveBMP(temp, filename.c_str());
+    int success = SDL_SaveBMP(temp, filename.c_str());
     SDL_FreeSurface(temp);
     glBindTexture(GL_TEXTURE_2D, 0);
+    if (success == 0) {
+        LOG(INFO) << "Saved texture id " << glId << " (" << width << " x " << height
+                  << ") to " << filename;
+    } else {
+        LOG(ERROR) << "Failed to save file " << filename;
+    }
 }
 
 }

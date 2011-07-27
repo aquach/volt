@@ -13,8 +13,8 @@ void main() {
 
     vec4 color;
     color += gaussianCoeff[0] * texture2D(lightMap, texCoords - offset);
-    color += gaussianCoeff[0] * texture2D(lightMap, texCoords);
-    color += gaussianCoeff[0] * texture2D(lightMap, texCoords + offset);
+    color += gaussianCoeff[1] * texture2D(lightMap, texCoords);
+    color += gaussianCoeff[2] * texture2D(lightMap, texCoords + offset);
 
     color /= 16.0f;
 

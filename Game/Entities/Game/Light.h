@@ -40,6 +40,8 @@ public:
 
     Volt::BBox renderBounds () const;
 
+    static const char* STATIC_MAP_FOLDER;
+
 private:
     friend class LightManager;
 
