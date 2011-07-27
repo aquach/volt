@@ -355,6 +355,7 @@ void LightManager::RenderLight (Light* light) {
         Graphics::SaveTextureToFile(m_finalSurface->texture(), filename);
         LOG(INFO) << "Saving static light map to " << path << "...";
         light->m_staticMap = Volt::G_AssetManager->GetTexture(path);
+        light->m_staticMap->Reload();
     }
 
     glPushMatrix();

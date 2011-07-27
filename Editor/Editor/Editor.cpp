@@ -266,6 +266,11 @@ Editor::Editor (const Volt::DataSource* source)
 
     button = new QPushButton("Expand Triangle");
     layout->addWidget(button);
+
+    button = new QPushButton("Recompute Static Lightmap");
+    connect(button, SIGNAL(clicked()), this, SLOT(RecomputeLightmap()));
+    layout->addWidget(button);
+
     layout->insertStretch(25);
 
     tools->setLayout(layout);
@@ -859,4 +864,17 @@ void Editor::Delete () {
     for (uint i = 0; i < selectedEntities.size(); i++) {
         m_scene->Remove(selectedEntities[i]);
     }
+}
+
+void Editor::RecomputeLightmap () {
+    vector<Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    if (selectedEntities.size() == 0)
+        return;
+    for (uint i = 0; i < selectedEntities.size(); i++) {
+        if (Light* l = dynamic_cast<Light*>(selectedEntities[i])) {
+            l->InvalidateStaticMap();
+        }
+    }
+
 }
