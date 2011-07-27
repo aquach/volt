@@ -21,5 +21,11 @@ vec4 sobelFilter (vec2 pos) {
 
 void main() {
 	vec2 texCoords = gl_TexCoord[0].st;
-	gl_FragColor = sobelFilter(texCoords);
+    vec4 color = texture2D(colorMap, texCoords);
+    vec4 sobel = sobelFilter(texCoords);
+    float intensity = length(sobel);
+    if (intensity > 0.2)
+        color -= vec4(intensity) * 0.1;
+        
+	gl_FragColor = color;
 }

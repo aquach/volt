@@ -141,6 +141,18 @@ void Scene::Render () {
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
 
+            /* While we have a filter that should end on a layer higher
+             * than the layer of entities we just finished rendering, alert the
+             * filter and increment the filter iterator. */
+            while (currentTopFilterList != m_topFilters.rend() &&
+                currentTopFilterList->first >= layerNum) {
+                FOR_ (list<Filter*>::iterator, i,
+                      currentTopFilterList->second) {
+                    (*i)->OnTopLayer();
+                }
+                currentTopFilterList++;
+            }
+
             /* While we have a filter that should start on a layer lower
              * than the layer of entities we're about to render, alert the
              * filter and increment the filter iterator. */
@@ -165,18 +177,6 @@ void Scene::Render () {
                     Graphics::CheckState();
                 #endif
             }
-
-            /* While we have a filter that should end on a layer higher
-             * than the layer of entities we just finished rendering, alert the
-             * filter and increment the filter iterator. */
-            while (currentTopFilterList != m_topFilters.rend() &&
-                currentTopFilterList->first >= layerNum) {
-                FOR_ (list<Filter*>::iterator, i,
-                      currentTopFilterList->second) {
-                    (*i)->OnTopLayer();
-                }
-                currentTopFilterList++;
-            }
         }
     }
 
@@ -189,6 +189,7 @@ void Scene::Render () {
             FOR_ (list<Filter*>::iterator, i,
                   currentTopFilterList->second) {
                 (*i)->OnTopLayer();
+                LOG(INFO) << "top layer of filter " << currentTopFilterList->first;
             }
         }
     }

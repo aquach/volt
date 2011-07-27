@@ -1,4 +1,3 @@
-
 {
 	"entities" : 
 	[
@@ -99,7 +98,7 @@
 			"maxDistance" : 8.0,
 			"name" : "62346",
 			"occludesLight" : true,
-			"static" : true,
+			"static" : false,
 			"staticMap" : "generated_lightmaps/62346.bmp",
 			"transform" : 
 			{
@@ -365,7 +364,7 @@
 			"maxDistance" : 7.0,
 			"name" : "my light",
 			"occludesLight" : true,
-			"static" : true,
+			"static" : false,
 			"staticMap" : "generated_lightmaps/my light.bmp",
 			"transform" : 
 			{
@@ -407,7 +406,7 @@
 			"maxDistance" : 8.0,
 			"name" : "asdf",
 			"occludesLight" : true,
-			"static" : true,
+			"static" : false,
 			"staticMap" : "generated_lightmaps/asdf.bmp",
 			"transform" : 
 			{
@@ -472,7 +471,7 @@
 			"maxDistance" : 4.0,
 			"name" : "23",
 			"occludesLight" : true,
-			"static" : true,
+			"static" : false,
 			"staticMap" : "generated_lightmaps/23.bmp",
 			"transform" : 
 			{
@@ -716,7 +715,7 @@
 			"maxDistance" : 7.0,
 			"name" : "",
 			"occludesLight" : true,
-			"static" : true,
+			"static" : false,
 			"staticMap" : "generated_lightmaps/.bmp",
 			"transform" : 
 			{
