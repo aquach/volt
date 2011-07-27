@@ -120,4 +120,10 @@ void RenderSurface::RenderPass () {
     glMatrixMode(GL_MODELVIEW);
 }
 
+bool RenderSurface::IsBound () const {
+    GLint buffer;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &buffer);
+    return buffer == (int)m_fbo;
+}
+
 }

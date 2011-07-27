@@ -200,6 +200,9 @@ void LightManager::RenderLight (Light* light) {
         return;
     }
 
+    GLint oldFrameBuffer;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFrameBuffer);
+
     lightCount++;
     long usecs, elapsed;
     usecs = Volt::GetMicroseconds();
@@ -360,7 +363,7 @@ void LightManager::RenderLight (Light* light) {
 
     glPushMatrix();
     Graphics::Translate(light->position());
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, oldFrameBuffer);
     glBindTexture(GL_TEXTURE_2D, m_finalSurface->texture());
     Graphics::RenderQuad(lightLength * 2, lightLength * 2);
     glPopMatrix();

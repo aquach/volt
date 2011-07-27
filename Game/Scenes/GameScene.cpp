@@ -1,7 +1,6 @@
 #include "Game/Scenes/GameScene.h"
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
-#include "Volt/Graphics/Filter.h"
 #include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/SDLWindow.h"
 #include "Volt/Graphics/Viewport.h"
@@ -9,6 +8,7 @@
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Umbrella.h"
+#include "Game/Filters/EdgeFilter.h"
 #include "Game/Game/ConversationManager.h"
 #include "Game/Game/DoodadManager.h"
 #include "Game/Game/Entity.h"
@@ -58,16 +58,8 @@ GameScene::GameScene ()
 
     camera()->WatchEntity(m_player);
 
-    Volt::GpuProgram* program = new Volt::GpuProgram;
-    program->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
-                                        Volt::ShaderAsset::SHADER_VERTEX));
-    program->Attach(
-        Volt::G_AssetManager->GetShader("celshade.frag",
-                                        Volt::ShaderAsset::SHADER_FRAGMENT));
-    Volt::Filter* f = new Volt::Filter(program);
-    f->AddMap("paperMap", Volt::G_AssetManager->GetTexture("paper_map.bmp"));
-    //AddFilter(f, -3);
+    EdgeFilter* f = new EdgeFilter(40, -5);
+    AddFilter(f);
 }
 
 GameScene::~GameScene () {

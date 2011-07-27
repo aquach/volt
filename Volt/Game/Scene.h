@@ -51,9 +51,9 @@ public:
     virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event) { }
     virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event) { }
 
-    int numFilters () const { return m_filters.size(); }
+    int numFilters () const { return m_bottomFilters.size(); }
 
-    void AddFilter (Filter* filter, int layer = 0);
+    void AddFilter (Filter* filter);
     void RemoveFilter (Filter* filter);
 
     Camera* camera () { return &m_camera; }
@@ -96,7 +96,10 @@ private:
     set<Entity*> m_entitiesToAdd;
     set<Entity*> m_entitiesToRemove;
 
-    list<Filter*> m_filters;
+    typedef map<int, list<Filter*> > Filters;
+    Filters m_bottomFilters;
+    Filters m_topFilters;
+
     SceneHook* m_hook;
     set<SceneListener*> m_sceneListeners;
 

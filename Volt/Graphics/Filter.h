@@ -1,39 +1,33 @@
 #pragma once
 
 #include "Volt/Core/Core.h"
-#include "Volt/Assets/AssetManager.h"
 
 namespace Volt {
 
-class GpuProgram;
-
 /** A filter, in the form of a shader, to be applied to the screen. Filters
  *  allow people to add multi-pass full-screen effects using shaders. Filters
- *  specify a layer they should be applied at and a shader that should be
- *  applied, and the engine handles the multiple passes. */
+ *  specify a layer range, and will get calls when those layer is rendered
+ *  so that the filter can do things like change a FBO or render something
+ *  special. */
 class Filter {
 public:
-    Filter (GpuProgram* program);
-    virtual ~Filter ();
+    Filter (int bottomLayer, int topLayer);
+    virtual ~Filter () { }
 
-    void Render ();
+    /* Called just before any entities in the bottom layer or higher are
+     * rendered. */
+    virtual void OnBottomLayer () = 0;
+    /* Called just after any entities in the top layer or lower are
+     * rendered. */
+    virtual void OnTopLayer () = 0;
 
-    virtual void SetUniforms ();
-
-    int layer () const { return m_layer; }
-
-    void AddMap (string name, TextureAssetRef texture);
-
-protected:
-    GpuProgram* m_program;
-    int m_colorMap;
+    int bottomLayer () const { return m_bottomLayer; }
+    int topLayer () const { return m_topLayer; }
 
 private:
     friend class Scene;
-
-    int m_layer;
-    typedef map<string, TextureAssetRef> Maps;
-    Maps m_maps;
+    int m_bottomLayer;
+    int m_topLayer;
 
     DISALLOW_COPY_AND_ASSIGN(Filter);
 };

@@ -28,9 +28,6 @@ public:
     virtual void OnEntityUpdateStart (Entity* entity) { };
     virtual void OnEntityUpdateEnd (Entity* entity) { };
 
-    virtual void OnFilterRenderStart (Filter* filter) { };
-    virtual void OnFilterRenderEnd (Filter* filter) { };
-
 protected:
     friend class Scene;
     Scene* m_scene;

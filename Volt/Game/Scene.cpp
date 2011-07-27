@@ -19,10 +19,10 @@ Scene::~Scene () {
     RemoveAll();
     ResolveEntityChanges();
 
-    FOR_ (list<Filter*>::iterator, i, m_filters) {
-        delete *i;
+    FOR_ (Filters::iterator, i, m_bottomFilters) {
+        FOR_(list<Filter*>::iterator, filterIter, i->second)
+            delete *filterIter;
     }
-    m_filters.clear();
     if (m_hook != NULL)
         delete m_hook;
 }
@@ -112,14 +112,7 @@ void Scene::ResolveEntityChanges () {
             break;
         Entity* entity = *i;
 
-        Layers::iterator found = m_layers.find(entity->layer());
-        if (found != m_layers.end()) {
-            found->second.push_back(entity);
-        } else {
-            list<Entity*> entityList;
-            entityList.push_back(entity);
-            m_layers.insert(make_pair(entity->layer(), entityList));
-        }
+        m_layers[entity->layer()].push_back(entity);
         entity->m_scene = this;
         entity->OnAdded();
         NotifyAddListeners(entity);
@@ -138,7 +131,9 @@ void Scene::Render () {
 
     OnPreRender();
 
-    list<Filter*>::iterator currentFilter = m_filters.begin();
+    Filters::reverse_iterator currentBottomFilterList =
+        m_bottomFilters.rbegin();
+    Filters ::reverse_iterator currentTopFilterList = m_topFilters.rbegin();
 
     for (Layers::reverse_iterator layer = m_layers.rbegin();
          layer != m_layers.rend(); layer++) {
@@ -146,17 +141,16 @@ void Scene::Render () {
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
 
-            /* While we have a filter that should go on a layer lower
-             * than the layer of entities we're about to render, render
-             * the filter and increment the filter iterator. */
-            while (currentFilter != m_filters.end() &&
-                   (*currentFilter)->layer() >= layerNum) {
-                if (m_hook != NULL)
-                    m_hook->OnFilterRenderStart(*currentFilter);
-                (*currentFilter)->Render();
-                if (m_hook != NULL)
-                    m_hook->OnFilterRenderEnd(*currentFilter);
-                currentFilter++;
+            /* While we have a filter that should start on a layer lower
+             * than the layer of entities we're about to render, alert the
+             * filter and increment the filter iterator. */
+            while (currentBottomFilterList != m_bottomFilters.rend() &&
+                currentBottomFilterList->first >= layerNum) {
+                FOR_ (list<Filter*>::iterator, i,
+                      currentBottomFilterList->second) {
+                    (*i)->OnBottomLayer();
+                }
+                currentBottomFilterList++;
             }
 
             list<Entity*>& entityList = layer->second;
@@ -171,19 +165,31 @@ void Scene::Render () {
                     Graphics::CheckState();
                 #endif
             }
+
+            /* While we have a filter that should end on a layer higher
+             * than the layer of entities we just finished rendering, alert the
+             * filter and increment the filter iterator. */
+            while (currentTopFilterList != m_topFilters.rend() &&
+                currentTopFilterList->first >= layerNum) {
+                FOR_ (list<Filter*>::iterator, i,
+                      currentTopFilterList->second) {
+                    (*i)->OnTopLayer();
+                }
+                currentTopFilterList++;
+            }
         }
     }
 
-    // Render remaining filters on top.
-    for (; currentFilter != m_filters.end(); currentFilter++) {
-        int layerNum = (*currentFilter)->layer();
+    // Alert remaining top filters.
+    for (; currentTopFilterList != m_topFilters.rend();
+         currentTopFilterList++) {
+        int layerNum = currentTopFilterList->first;
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
-            if (m_hook != NULL)
-                m_hook->OnFilterRenderStart(*currentFilter);
-            (*currentFilter)->Render();
-            if (m_hook != NULL)
-                m_hook->OnFilterRenderEnd(*currentFilter);
+            FOR_ (list<Filter*>::iterator, i,
+                  currentTopFilterList->second) {
+                (*i)->OnTopLayer();
+            }
         }
     }
 
@@ -203,24 +209,31 @@ void Scene::Render () {
         m_hook->OnRenderEnd();
 }
 
-void Scene::AddFilter (Filter* filter, int layer) {
-    filter->m_layer = layer;
-
-    list<Filter*>::iterator i = m_filters.begin();
-    while (i != m_filters.end() && (*i)->layer() > filter->layer())
-        i++;
-    m_filters.insert(i, filter);
+void Scene::AddFilter (Filter* filter) {
+    m_bottomFilters[filter->bottomLayer()].push_back(filter);
+    m_topFilters[filter->topLayer()].push_back(filter);
 }
 
 void Scene::RemoveFilter (Filter* filter) {
-    for (list<Filter*>::iterator i = m_filters.begin(); i != m_filters.end();) {
-        if (*i == filter) {
-            i = m_filters.erase(i);
-            break;
-        } else {
-            i++;
-        }
+    list<Filter*>& filterList = m_bottomFilters[filter->bottomLayer()];
+    list<Filter*>::iterator filterIter = find(filterList.begin(),
+                                              filterList.end(),
+                                              filter);
+    if (filterIter == filterList.end()) {
+        LOG(WARNING) << "Failed to find filter in list for removal.";
+        return;
     }
+    filterList.erase(filterIter);
+
+    filterList = m_topFilters[filter->topLayer()];
+    filterIter = find(filterList.begin(), filterList.end(), filter);
+    if (filterIter == filterList.end()) {
+        LOG(WARNING) << "Failed to find filter in list for removal.";
+        return;
+    }
+    filterList.erase(filterIter);
+
+    delete filter;
 }
 
 class ListEntitiesQueryCallback : public b2QueryCallback {

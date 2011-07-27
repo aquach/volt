@@ -17,6 +17,8 @@ public:
     void Bind ();
     void Unbind ();
 
+    bool IsBound () const;
+
     int width () const { return m_width; }
     int height () const { return m_height; }
 
