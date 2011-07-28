@@ -8,6 +8,14 @@
 
 class LightManager;
 
+struct LightStroke {
+    float radius;
+    float startAngle;
+    float endAngle;
+    Volt::Color color;
+    float thickness;
+};
+
 /* A light that can cast colored light with attenuation and in a particular
  * direction. */
 class Light : public Entity {
@@ -56,6 +64,8 @@ private:
 
     void CreatePhysicsBody ();
     void UpdateNearbyEntities ();
+    void CreateStrokes ();
+    vector<LightStroke> m_strokes;
 
     vector<Volt::Entity*> m_nearbyEntities;
     float m_nearbyEntitiesTimer;

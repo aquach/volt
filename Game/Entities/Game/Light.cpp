@@ -70,6 +70,42 @@ void Light::InvalidateStaticMap () {
 void Light::Render () {
     if (m_enabled)
         G_LightManager->RenderLight(this);
+
+    Graphics::SetBlend(Graphics::BLEND_ALPHA);
+    Graphics::BindTexture(Volt::G_AssetManager->GetTexture("lightstroke.png"));
+    glPushMatrix();
+    Graphics::Translate(position());
+    for (int i = 0; i < m_strokes.size(); i++) {
+        LightStroke* stroke = &m_strokes[i];
+        Graphics::SetColor(stroke->color);
+        Vector2 pos1, pos2;
+        pos1.SetFromAngleDegrees(stroke->startAngle);
+        pos1 *= stroke->radius;
+        pos2.SetFromAngleDegrees(stroke->endAngle);
+        pos2 *= stroke->radius;
+
+        Vector2 perp = (pos2 - pos1).GetPerpendicularRight();
+        perp.Normalize();
+        perp *= CLAMP((pos2 - pos1).Length() * 0.3f, 0.05, 0.25f);
+        Vector2 v1 = pos1 - perp;
+        Vector2 v2 = pos1 + perp;
+        Vector2 v3 = pos2 - perp;
+        Vector2 v4 = pos2 + perp;
+
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0);
+        glVertex2f(v1.x, v1.y);
+        glTexCoord2i(0, 1);
+        glVertex2f(v2.x, v2.y);
+        glTexCoord2i(1, 1);
+        glVertex2f(v4.x, v4.y);
+        glTexCoord2i(1, 0);
+        glVertex2f(v3.x, v3.y);
+        glEnd();
+    }
+    glPopMatrix();
+    Graphics::BindTexture(NULL);
+    Graphics::SetBlend(Graphics::BLEND_NONE);
 }
 
 void Light::CreatePhysicsBody () {
@@ -104,6 +140,50 @@ void Light::Load (const Json::Value& node) {
     }
 
     CreatePhysicsBody();
+    CreateStrokes();
+}
+
+void Light::CreateStrokes () {
+    Graphics::BindTexture(m_staticMap);
+    unsigned char* image = new unsigned char[
+        m_staticMap->width() * m_staticMap->height() * 3];
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    Graphics::BindTexture(NULL);
+
+    for (int i = 0; i < 300; i++) {
+        float r = Volt::Random::RangeFloat(0, 1);
+        r *= m_maxDistance * 0.6f;
+        float startAngle = Volt::Random::RangeFloat(0, 360);
+        float endAngle = startAngle + Volt::Random::RangeFloat(20, 40);
+
+        bool interrupted = false;
+        for (int step = startAngle; step < endAngle; step += 3) {
+            Vector2 pos;
+            pos.SetFromAngleDegrees(step);
+            pos *= r;
+            pos /= m_maxDistance;
+            int x = (int)((pos.x + 1) / 2 * m_staticMap->width());
+            int y = (int)((pos.y + 1) / 2 * m_staticMap->height());
+            unsigned char* pixel = image + (y * m_staticMap->width() + x) * 3;
+            float intensity = pixel[0] + pixel[1] + pixel[2];
+            if (intensity < 0.2f) {
+                interrupted = true;
+                break;
+            }
+        }
+
+        if (interrupted) {
+            i--;
+            continue;
+        }
+
+        LightStroke stroke;
+        stroke.radius = r;
+        stroke.startAngle = startAngle;
+        stroke.endAngle = endAngle;
+        stroke.color = m_color - Volt::Color::Random() * 0.1;
+        m_strokes.push_back(stroke);
+    }
 }
 
 void Light::Save (Json::Value& node) const {

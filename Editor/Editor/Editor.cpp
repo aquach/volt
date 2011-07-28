@@ -384,10 +384,10 @@ void Editor::Render () {
     CHECK_NOTNULL(state);
     state->Render();
 
-    if (t.elapsed() > 0) {
+    if (t.elapsed() > 5) {
         m_fpsLabel->setText(tr("FPS: %1").arg((int)(1000.0f / t.elapsed())));
     } else {
-        m_fpsLabel->setText("");
+        m_fpsLabel->setText("FPS: High");
     }
 }
 
