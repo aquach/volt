@@ -10,7 +10,7 @@ void Entity::GetProperties (vector<Property*>* properties) {
 }
 
 void Entity::CopyFrom (const Entity* other) {
-    Entity::CopyFrom(other);
+    Volt::Entity::CopyFrom(other);
     m_occludesLight = other->m_occludesLight;
 }
 

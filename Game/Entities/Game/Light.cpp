@@ -115,7 +115,8 @@ void Light::Save (Json::Value& node) const {
     node["enabled"] = m_enabled;
     node["name"] = m_name;
     node["static"] = m_static;
-    node["staticMap"] = m_staticMap->path();
+    if (m_staticMap.HasAsset())
+        node["staticMap"] = m_staticMap->path();
 }
 
 void Light::OnScaleChanged () {
