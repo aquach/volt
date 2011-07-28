@@ -37,8 +37,6 @@ vec4 GetColor (vec2 texCoords) {
     vec2 dir = texCoords - 0.5f;
     float distance = length(dir);
 
-    distance -= 1.0f / 1024.0f;
-
     // Convert to [-1, 1].
     float x = 2.0f * (texCoords.x - 0.5f);
     float y = 2.0f * (texCoords.y - 0.5f);
@@ -48,7 +46,7 @@ vec4 GetColor (vec2 texCoords) {
         return vec4(0, 0, 0, 0);
     }
 
-    //distance -= 1.0 / 512;
+    distance -= 1.0f / 1024.0f;
 
     float lightMapDistance;
     if (abs(y) < abs(x)) {
