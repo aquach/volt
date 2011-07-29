@@ -40,12 +40,12 @@ GameScene::GameScene ()
     m_doodadManager = new DoodadManager;
     m_doodadManager->m_scene = this;
     m_doodadManager->LoadDoodadBrushes(
-        Volt::G_AssetManager->GetData("doodads.json"));
+        G_AssetManager->GetData("doodads.json"));
     DoodadManager::Register(m_doodadManager);
 
     m_levelManager = new LevelManager;
     m_levelManager->m_scene = this;
-    m_levelManager->LoadLevel(Volt::G_AssetManager->GetData("world.json"));
+    m_levelManager->LoadLevel(G_AssetManager->GetData("world.json"));
 
     m_conversationManager = new ConversationManager;
     m_conversationManager->m_gameScene = this;
@@ -97,7 +97,7 @@ void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
             break;
             case SDLK_F2:
                 // Reload all shaders.
-                Volt::G_AssetManager->ReloadShaders();
+                G_AssetManager->ReloadShaders();
             break;
             case SDLK_F9:
                 dynamic_cast<Volt::SDLWindow*>(G_Viewport)->Screenshot("screenshot.bmp");

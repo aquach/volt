@@ -86,7 +86,7 @@ void Triangle::Render () {
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::BindTexture(Volt::G_AssetManager->GetTexture("brush.png"));
+    Graphics::BindTexture(G_AssetManager->GetTexture("brush.png"));
     for (int i = 0; i < m_strokes.size(); i++) {
         glPushMatrix();
         Graphics::Translate(Vector2(m_strokes[i].transform.position.x
@@ -148,7 +148,7 @@ void Triangle::Load (const Json::Value& node) {
     }
     string path = node.get("texture", "").asString();
     if (path != "")
-        m_texture = Volt::G_AssetManager->GetTexture(path);
+        m_texture = G_AssetManager->GetTexture(path);
 
     GenerateStrokes();
 }

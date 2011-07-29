@@ -420,7 +420,7 @@ void Editor::keyPressEvent (QKeyEvent *event) {
         break;
         case Qt::Key_F2:
             // Reload all shaders.
-            Volt::G_AssetManager->ReloadShaders();
+            G_AssetManager->ReloadShaders();
         break;
         default:
             event->ignore();

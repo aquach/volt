@@ -3,7 +3,7 @@
 #include "Game/Scenes/GameScene.h"
 
 ConversationManager::ConversationManager () {
-    m_font = Volt::G_AssetManager->GetFont("Mido.ttf", 32.0);
+    m_font = G_AssetManager->GetFont("Mido.ttf", 32.0);
 }
 
 /*

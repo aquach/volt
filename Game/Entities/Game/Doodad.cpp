@@ -21,7 +21,7 @@ void Doodad::Update () {
 void Doodad::SetBrush (DoodadBrush* brush) {
     m_brush = brush;
     m_brushId = brush->id;
-    m_texture = Volt::G_AssetManager->GetTexture(m_brush->texture);
+    m_texture = G_AssetManager->GetTexture(m_brush->texture);
     CreatePhysicsBody();
 }
 

@@ -33,15 +33,15 @@ void DoodadBrush::Save (Json::Value& node) const {
 float DoodadBrush::width () const {
     if (size.x != 0)
         return size.x;
-    return size.y / Volt::G_AssetManager->GetTexture(texture)->height() *
-                    Volt::G_AssetManager->GetTexture(texture)->width();
+    return size.y / G_AssetManager->GetTexture(texture)->height() *
+                    G_AssetManager->GetTexture(texture)->width();
 }
 
 float DoodadBrush::height () const {
     if (size.y != 0)
         return size.y;
-    return size.x / Volt::G_AssetManager->GetTexture(texture)->width() *
-                    Volt::G_AssetManager->GetTexture(texture)->height();
+    return size.x / G_AssetManager->GetTexture(texture)->width() *
+                    G_AssetManager->GetTexture(texture)->height();
 }
 
 DoodadManager* DoodadManager::instance = NULL;

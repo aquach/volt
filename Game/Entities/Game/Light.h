@@ -9,12 +9,11 @@
 class LightManager;
 
 struct LightStroke {
-    float startRadius;
-    float startAngle;
-    float endRadius;
-    float endAngle;
+    Vector2 vertices[4];
     Volt::Color color;
-    float thickness;
+
+    void Load (const Json::Value& node);
+    void Save (Json::Value& node) const;
 };
 
 /* A light that can cast colored light with attenuation and in a particular
@@ -46,6 +45,7 @@ public:
     float coneAngle () const { return m_coneAngle; }
 
     void InvalidateStaticMap ();
+    void GenerateStrokes ();
 
     Volt::BBox renderBounds () const;
 
@@ -65,11 +65,10 @@ private:
 
     void CreatePhysicsBody ();
     void UpdateNearbyEntities ();
-    void CreateStrokes ();
-    vector<LightStroke> m_strokes;
 
     vector<Volt::Entity*> m_nearbyEntities;
     float m_nearbyEntitiesTimer;
+
     Volt::Color m_color;
     float m_maxDistance;
     float m_coneAngle;
@@ -77,5 +76,9 @@ private:
     string m_name;
     bool m_static;
     Volt::TextureAssetRef m_staticMap;
+    bool m_painted;
+    vector<LightStroke> m_strokes;
+    Volt::TextureAssetRef m_strokeTexture;
+
     LightSceneListener* m_listener;
 };

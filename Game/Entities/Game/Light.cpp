@@ -9,6 +9,26 @@ REGISTER_ENTITY_(Light);
 const char* Light::STATIC_MAP_FOLDER = "generated_lightmaps";
 const float REFRESH_TIME = 1.0f;
 
+void LightStroke::Load (const Json::Value& node) {
+    CHECK(node.isMember("vertices"));
+    CHECK(node["vertices"].size() == 4);
+
+    for (int i = 0; i < 4; i++) {
+        vertices[i].Load(node["vertices"][i]);
+    }
+    CHECK(node.isMember("color"));
+    color.Load(node["color"]);
+}
+
+void LightStroke::Save (Json::Value& node) const {
+    for (int i = 0; i < 4; i++) {
+        Json::Value vertNode;
+        vertices[i].Save(vertNode);
+        node["vertices"].append(vertNode);
+    }
+    color.Save(node["color"]);
+}
+
 void Light::LightSceneListener::OnEntityRemoved (Volt::Entity* e) {
     for (vector<Volt::Entity*>::iterator i = m_light->m_nearbyEntities.begin();
          i != m_light->m_nearbyEntities.end();) {
@@ -25,11 +45,14 @@ Light::Light ()
       m_coneAngle(360.0f),
       m_enabled(true),
       m_listener(NULL),
-      m_static(false) {
+      m_static(false),
+      m_painted(false) {
     m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
     m_listener = new LightSceneListener(this);
     AddTag("Light");
     CreatePhysicsBody();
+
+    m_strokeTexture = G_AssetManager->GetTexture("lightstroke.png");
 }
 
 Light::~Light () {
@@ -59,6 +82,11 @@ void Light::Update () {
             UpdateNearbyEntities();
         }
     }
+
+    if (m_painted && m_strokes.size() == 0)
+        GenerateStrokes();
+    else if (!m_painted && m_strokes.size() > 0)
+        m_strokes.clear();
 }
 
 void Light::InvalidateStaticMap () {
@@ -68,44 +96,35 @@ void Light::InvalidateStaticMap () {
 }
 
 void Light::Render () {
-    if (m_enabled)
-        G_LightManager->RenderLight(this);
+    if (!m_enabled)
+        return;
 
-    Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::BindTexture(Volt::G_AssetManager->GetTexture("lightstroke.png"));
-    glPushMatrix();
-    Graphics::Translate(position());
-    for (int i = 0; i < m_strokes.size(); i++) {
-        LightStroke* stroke = &m_strokes[i];
-        Graphics::SetColor(stroke->color);
-        Vector2 pos1, pos2;
-        pos1.SetFromAngleDegrees(stroke->startAngle);
-        pos1 *= stroke->startRadius;
-        pos2.SetFromAngleDegrees(stroke->endAngle);
-        pos2 *= stroke->endRadius;
+    G_LightManager->RenderLight(this);
 
-        Vector2 perp = (pos2 - pos1).GetPerpendicularRight();
-        perp.Normalize();
-        perp *= CLAMP((pos2 - pos1).Length() * 0.3f, 0.05, 0.25f);
-        Vector2 v1 = pos1 - perp;
-        Vector2 v2 = pos1 + perp;
-        Vector2 v3 = pos2 - perp;
-        Vector2 v4 = pos2 + perp;
-
-        glBegin(GL_QUADS);
-        glTexCoord2i(0, 0);
-        glVertex2f(v1.x, v1.y);
-        glTexCoord2i(0, 1);
-        glVertex2f(v2.x, v2.y);
-        glTexCoord2i(1, 1);
-        glVertex2f(v4.x, v4.y);
-        glTexCoord2i(1, 0);
-        glVertex2f(v3.x, v3.y);
-        glEnd();
+    // Render strokes only if painted mode is on and the light is static.
+    if (m_painted && m_static) {
+        Graphics::SetBlend(Graphics::BLEND_ALPHA);
+        Graphics::BindTexture(m_strokeTexture);
+        glPushMatrix();
+        Graphics::Translate(position());
+        for (uint i = 0; i < m_strokes.size(); i++) {
+            LightStroke* stroke = &m_strokes[i];
+            Graphics::SetColor(stroke->color);
+            glBegin(GL_QUADS);
+            glTexCoord2i(0, 0);
+            glVertex2f(stroke->vertices[0].x, stroke->vertices[0].y);
+            glTexCoord2i(0, 1);
+            glVertex2f(stroke->vertices[1].x, stroke->vertices[1].y);
+            glTexCoord2i(1, 1);
+            glVertex2f(stroke->vertices[2].x, stroke->vertices[2].y);
+            glTexCoord2i(1, 0);
+            glVertex2f(stroke->vertices[3].x, stroke->vertices[3].y);
+            glEnd();
+        }
+        glPopMatrix();
+        Graphics::BindTexture(NULL);
+        Graphics::SetBlend(Graphics::BLEND_NONE);
     }
-    glPopMatrix();
-    Graphics::BindTexture(NULL);
-    Graphics::SetBlend(Graphics::BLEND_NONE);
 }
 
 void Light::CreatePhysicsBody () {
@@ -133,38 +152,59 @@ void Light::Load (const Json::Value& node) {
     m_color.Load(node["color"]);
     m_maxDistance = node["maxDistance"].asDouble();
     m_enabled = node.get("enabled", true).asBool();
+    m_coneAngle = node.get("coneAngle", 360).asInt();
     m_static = node.get("static", false).asBool();
     if (m_static) {
         CHECK(node.isMember("staticMap"));
-        m_staticMap = Volt::G_AssetManager->GetTexture(node["staticMap"].asString());
+        m_staticMap = G_AssetManager->GetTexture(node["staticMap"].asString());
+    }
+
+    m_painted = node.get("painted", false).asBool();
+    if (m_painted) {
+        CHECK(node.isMember("strokes"));
+        m_strokes.resize(node["strokes"].size());
+        for (uint i = 0; i < node["strokes"].size(); i++) {
+            m_strokes[i].Load(node["strokes"][i]);
+        }
     }
 
     CreatePhysicsBody();
-    CreateStrokes();
 }
 
-void Light::CreateStrokes () {
+void Light::GenerateStrokes () {
+    if (!m_static || !m_staticMap.HasAsset()) {
+        // Can't generate strokes for nonstatic lights.
+        m_strokes.clear();
+        return;
+    }
+
     Graphics::BindTexture(m_staticMap);
     unsigned char* image = new unsigned char[
         m_staticMap->width() * m_staticMap->height() * 3];
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     Graphics::BindTexture(NULL);
 
-    for (int i = 0; i < 300; i++) {
-        float r = Volt::Random::RangeFloat(0.3, 1);
-        float dist = r / 4;
-        float r2 = r + Volt::Random::RangeFloat(-1, 1) * 0.1;
-        r *= m_maxDistance * 0.7f;
-        r2 *= m_maxDistance * 0.7f;
+    m_strokes.resize(300);
+    for (uint i = 0; i < m_strokes.size(); i++) {
+        float startRadius = Volt::Random::RangeFloat(0.3, 1);
+
+        // Store dist for falloff color.
+        float dist = startRadius / 4;
+
+        // Strokes start and end at a pair of (r, theta) coords.
+        float endRadius = startRadius + Volt::Random::RangeFloat(-1, 1) * 0.1;
+        startRadius *= m_maxDistance * 0.8f;
+        endRadius *= m_maxDistance * 0.8f;
 
         float startAngle = Volt::Random::RangeFloat(0, 360);
         float endAngle = startAngle + Volt::Random::RangeFloat(20, 40);
 
+        // Ensure that the arc is actually connected by light.
         bool interrupted = false;
         for (int step = startAngle; step < endAngle; step += 3) {
             Vector2 pos;
             pos.SetFromAngleDegrees(step);
-            pos *= r;
+            pos *= startRadius;
             pos /= m_maxDistance;
             int x = (int)((pos.x + 1) / 2 * m_staticMap->width());
             int y = (int)((pos.y + 1) / 2 * m_staticMap->height());
@@ -181,14 +221,24 @@ void Light::CreateStrokes () {
             continue;
         }
 
-        LightStroke stroke;
-        stroke.startRadius = r;
-        stroke.startAngle = startAngle;
-        stroke.endRadius = r2;
-        stroke.endAngle = endAngle;
+        LightStroke& stroke = m_strokes[i];
+        Vector2 pos1, pos2;
+        pos1.SetFromAngleDegrees(startAngle);
+        pos1 *= startRadius;
+        pos2.SetFromAngleDegrees(endAngle);
+        pos2 *= endRadius;
+
+        Vector2 perp = (pos2 - pos1).GetPerpendicularRight();
+        perp.Normalize();
+        perp *= CLAMP((pos2 - pos1).Length() * 0.3f, 0.05, 0.25f);
+        stroke.vertices[0] = pos1 - perp;
+        stroke.vertices[1] = pos1 + perp;
+        stroke.vertices[2] = pos2 + perp;
+        stroke.vertices[3] = pos2 - perp;
         stroke.color = (m_color - Volt::Color::Random() * 0.1) * (1 - dist);
-        m_strokes.push_back(stroke);
     }
+
+    delete[] image;
 }
 
 void Light::Save (Json::Value& node) const {
@@ -197,11 +247,18 @@ void Light::Save (Json::Value& node) const {
     node["type"] = "Light";
     m_color.Save(node["color"]);
     node["maxDistance"] = m_maxDistance;
+    node["coneAngle"] = m_coneAngle;
     node["enabled"] = m_enabled;
     node["name"] = m_name;
     node["static"] = m_static;
     if (m_staticMap.HasAsset())
         node["staticMap"] = m_staticMap->path();
+    node["painted"] = m_painted;
+    for (uint i = 0; i < m_strokes.size(); i++) {
+        Json::Value strokeNode;
+        m_strokes[i].Save(strokeNode);
+        node["strokes"].append(strokeNode);
+    }
 }
 
 void Light::OnScaleChanged () {
@@ -220,6 +277,12 @@ void Light::CopyFrom (const Light* other) {
     m_color = other->m_color;
     m_coneAngle = other->m_coneAngle;
     m_enabled = other->m_enabled;
+    m_painted = other->m_painted;
+    m_static = other->m_static;
+    m_name = other->m_name + "_";
+    m_staticMap = other->m_staticMap;
+    m_strokes = other->m_strokes;
+
     CreatePhysicsBody();
 }
 
@@ -231,6 +294,7 @@ void Light::GetProperties (vector<Property*>* properties) {
     properties->push_back(new FloatProperty("Cone Angle", &m_coneAngle));
     properties->push_back(new BoolProperty("Enabled", &m_enabled));
     properties->push_back(new BoolProperty("Static", &m_static));
+    properties->push_back(new BoolProperty("Painted", &m_painted));
 }
 
 Volt::BBox Light::renderBounds () const {

@@ -111,38 +111,38 @@ LightManager::LightManager () :
         m_shaders[i] = new Volt::GpuProgram;
 
     m_shaders[SHADER_PARABOLIC]->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_PARABOLIC]->Attach(
-        Volt::G_AssetManager->GetShader("parabolic.frag",
+        G_AssetManager->GetShader("parabolic.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_SHADOW]->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_SHADOW]->Attach(
-        Volt::G_AssetManager->GetShader("reduce.frag",
+        G_AssetManager->GetShader("reduce.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_LIGHT]->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_LIGHT]->Attach(
-        Volt::G_AssetManager->GetShader("light.frag",
+        G_AssetManager->GetShader("light.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_BLUR]->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_BLUR]->Attach(
-        Volt::G_AssetManager->GetShader("blur.frag",
+        G_AssetManager->GetShader("blur.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_ATTENUATE]->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_ATTENUATE]->Attach(
-        Volt::G_AssetManager->GetShader("attenuate.frag",
+        G_AssetManager->GetShader("attenuate.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 
@@ -353,11 +353,11 @@ void LightManager::RenderLight (Light* light) {
         sprintf(path, "%s/%s.bmp", Light::STATIC_MAP_FOLDER, light->m_name.c_str());
 
         char filename[128];
-        sprintf(filename, "%s/%s", Volt::G_AssetManager->sourcePath().c_str(), path);
+        sprintf(filename, "%s/%s", G_AssetManager->sourcePath().c_str(), path);
 
         Graphics::SaveTextureToFile(m_finalSurface->texture(), filename);
         LOG(INFO) << "Saving static light map to " << path << "...";
-        light->m_staticMap = Volt::G_AssetManager->GetTexture(path);
+        light->m_staticMap = G_AssetManager->GetTexture(path);
         light->m_staticMap->Reload();
     }
 

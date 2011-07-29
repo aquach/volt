@@ -14,10 +14,10 @@ EdgeFilter::EdgeFilter (int bottomLayer, int topLayer)
                                        false, true);
     m_shader = new Volt::GpuProgram;
     m_shader->Attach(
-        Volt::G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shader->Attach(
-        Volt::G_AssetManager->GetShader("celshade.frag",
+        G_AssetManager->GetShader("celshade.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 

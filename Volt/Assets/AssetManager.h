@@ -64,6 +64,6 @@ private:
     DISALLOW_COPY_AND_ASSIGN(AssetManager);
 };
 
-#define G_AssetManager AssetManager::Instance()
+#define G_AssetManager Volt::AssetManager::Instance()
 
 }
