@@ -75,16 +75,93 @@ public:
     void Save (Json::Value& node) const;
 };
 
-Vector2 operator+ (const Vector2& lhs, const Vector2& rhs);
-Vector2 operator- (const Vector2& lhs, const Vector2& rhs);
-Vector2 operator- (const Vector2& rhs);
+inline Vector2::Vector2 (const Vector2 &vector2)
+    : x(vector2.x), y(vector2.y) {
+}
 
-Vector2 operator* (float lhs, const Vector2& rhs);
-Vector2 operator* (const Vector2& lhs, float rhs);
-Vector2 operator/ (const Vector2& lhs, float rhs);
-Vector2 operator/ (float lhs, const Vector2& rhs);
+inline Vector2::Vector2 (const b2Vec2 &vec2)
+    : x(vec2.x), y(vec2.y) {
+}
 
-Vector2 operator* (const Vector2& lhs, const Vector2& rhs);
+inline Vector2::Vector2 ()
+    : x(0.0f), y(0.0f) {
+}
+
+inline Vector2::Vector2 (float x, float y)
+    : x(x), y(y) {
+}
+
+inline Vector2& Vector2::operator= (const Vector2& rhs){
+    if (&rhs != this) {
+        x = rhs.x;
+        y = rhs.y;
+    }
+    return *this;
+}
+
+inline bool Vector2::operator== (const Vector2& rhs) const {
+    return ((x == rhs.x) && (y == rhs.y));
+}
+
+inline bool Vector2::operator!= (const Vector2& rhs) const {
+    return ((x != rhs.x) || (y != rhs.y));
+}
+
+inline Vector2& Vector2::operator+= (const Vector2& rhs) {
+    x = x + rhs.x;
+    y = y + rhs.y;
+    return *this;
+}
+
+inline Vector2& Vector2::operator-= (const Vector2& rhs) {
+    x = x - rhs.x;
+    y = y - rhs.y;
+    return *this;
+}
+
+inline Vector2& Vector2::operator*= (float rhs) {
+    x = x * rhs;
+    y = y * rhs;
+    return *this;
+}
+
+inline Vector2& Vector2::operator/= (float rhs) {
+    x = x / rhs;
+    y = y / rhs;
+    return *this;
+}
+
+inline Vector2 operator+ (const Vector2& lhs, const Vector2& rhs) {
+    return Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
+}
+
+inline Vector2 operator- (const Vector2& lhs, const Vector2& rhs) {
+    return Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+inline Vector2 operator- (const Vector2 &rhs) {
+    return Vector2(-rhs.x, -rhs.y);
+}
+
+inline Vector2 operator* (float lhs, const Vector2& rhs) {
+    return Vector2(lhs * rhs.x, lhs * rhs.y);
+}
+
+inline Vector2 operator* (const Vector2& lhs, float rhs) {
+    return Vector2(lhs.x * rhs, lhs.y * rhs);
+}
+
+inline Vector2 operator/ (const Vector2& lhs, float rhs) {
+    return Vector2(lhs.x / rhs, lhs.y / rhs);
+}
+
+inline Vector2 operator* (const Vector2& lhs, const Vector2& rhs) {
+    return Vector2(lhs.x * rhs.x, lhs.y * rhs.y);
+}
+
+inline Vector2 operator/ (float lhs, const Vector2 &rhs) {
+    return Vector2(lhs / rhs.x, lhs / rhs.y);
+}
 
 ostream& operator<< (ostream& stream, const Vector2& other);
 istream& operator>> (istream& stream, Vector2& other);
