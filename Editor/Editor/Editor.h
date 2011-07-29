@@ -231,6 +231,7 @@ private:
     void UpdateTitle ();
 
     void Delete ();
+    void Screenshot ();
 
     int CheckModified ();
     Entity* GetTopEntityAtPoint (Vector2 screenPos);

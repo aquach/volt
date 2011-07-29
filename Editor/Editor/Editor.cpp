@@ -410,6 +410,22 @@ void Editor::Render () {
     }
 }
 
+void Editor::Screenshot () {
+    QImage image = m_viewport->grabFrameBuffer();
+    int hour, min, sec;
+    long usec;
+    Volt::GetTimestamp(&hour, &min, &sec, &usec);
+    QString filename =
+        tr("screenshot_%1_%2_%3.png").arg(hour).arg(min).arg(sec);
+    bool success = image.save(filename);
+    if (success) {
+        statusBar()->showMessage(tr("Saved screenshot to %1").arg(filename));
+    } else {
+        statusBar()->showMessage("Failed to save screenshot.");
+
+    }
+}
+
 void Editor::keyPressEvent (QKeyEvent *event) {
     switch (event->key()) {
         case Qt::Key_Escape:
@@ -421,6 +437,9 @@ void Editor::keyPressEvent (QKeyEvent *event) {
         case Qt::Key_F2:
             // Reload all shaders.
             G_AssetManager->ReloadShaders();
+        break;
+        case Qt::Key_F9:
+            Screenshot();
         break;
         default:
             event->ignore();
@@ -749,13 +768,13 @@ void Editor::OpenRecent () {
 
 void Editor::SelectAll () {
     Volt::Scene::Layers entitiesByLayer = m_scene->GetEntities();
-        FOR_ (Volt::Scene::Layers::iterator, layer, entitiesByLayer) {
-            FOR_(list<Volt::Entity*>::iterator, i, layer->second) {
-                Entity* e = dynamic_cast<Entity*>(*i);
-                if (e != NULL)
-                    G_SelectionManager->SelectEntity(e);
-            }
+    FOR_ (Volt::Scene::Layers::iterator, layer, entitiesByLayer) {
+        FOR_(list<Volt::Entity*>::iterator, i, layer->second) {
+            Entity* e = dynamic_cast<Entity*>(*i);
+            if (e != NULL)
+                G_SelectionManager->SelectEntity(e);
         }
+    }
 }
 
 void Editor::Create (QString entityName) {
@@ -895,5 +914,6 @@ void Editor::RecomputeLightmap () {
             l->InvalidateStaticMap();
         }
     }
+    OnModified();
 
 }

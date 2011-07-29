@@ -91,6 +91,7 @@ void Light::Update () {
 
 void Light::InvalidateStaticMap () {
     m_staticMap = NULL;
+    m_strokes.clear();
     m_nearbyEntities.clear();
     UpdateNearbyEntities();
 }
@@ -103,7 +104,7 @@ void Light::Render () {
 
     // Render strokes only if painted mode is on and the light is static.
     if (m_painted && m_static) {
-        Graphics::SetBlend(Graphics::BLEND_ALPHA);
+        Graphics::SetBlend(Graphics::BLEND_ADDITIVE);
         Graphics::BindTexture(m_strokeTexture);
         glPushMatrix();
         Graphics::Translate(position());
@@ -184,20 +185,27 @@ void Light::GenerateStrokes () {
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     Graphics::BindTexture(NULL);
 
-    m_strokes.resize(300);
-    for (uint i = 0; i < m_strokes.size(); i++) {
-        float startRadius = Volt::Random::RangeFloat(0.3, 1);
-
-        // Store dist for falloff color.
-        float dist = startRadius / 4;
+    // Prevent all-black lights from infinite-looping.
+    uint failures = 0;
+    int numStrokes = (int)(10.0f * m_maxDistance * m_maxDistance * m_coneAngle
+        / 360);
+    m_strokes.resize(numStrokes);
+    for (uint i = 0; i < m_strokes.size() && failures < m_strokes.size() * 5;
+         i++) {
 
         // Strokes start and end at a pair of (r, theta) coords.
-        float endRadius = startRadius + Volt::Random::RangeFloat(-1, 1) * 0.1;
-        startRadius *= m_maxDistance * 0.8f;
-        endRadius *= m_maxDistance * 0.8f;
+        float startRadius = Volt::Random::RangeFloat(0.5, m_maxDistance * 0.8f);
+        float endRadius = startRadius + Volt::Random::RangeFloat(-1, 1) * 0.3;
+
+        // Store dist for falloff color.
+        float dist = startRadius / m_maxDistance;
 
         float startAngle = Volt::Random::RangeFloat(0, 360);
-        float endAngle = startAngle + Volt::Random::RangeFloat(20, 40);
+
+        // Shorten end angle linearly with distance so large distances don't make
+        // really stretched out strokes.
+        float modifier = m_maxDistance / 5;
+        float endAngle = startAngle + Volt::Random::RangeFloat(20, 40) / modifier;
 
         // Ensure that the arc is actually connected by light.
         bool interrupted = false;
@@ -217,6 +225,7 @@ void Light::GenerateStrokes () {
         }
 
         if (interrupted) {
+            failures++;
             i--;
             continue;
         }
@@ -227,16 +236,24 @@ void Light::GenerateStrokes () {
         pos1 *= startRadius;
         pos2.SetFromAngleDegrees(endAngle);
         pos2 *= endRadius;
+        float strokeLength = (pos2 - pos1).Length();
+
+        if (strokeLength < 0.4f) {
+            failures++;
+            i--;
+            continue;
+        }
 
         Vector2 perp = (pos2 - pos1).GetPerpendicularRight();
         perp.Normalize();
-        perp *= CLAMP((pos2 - pos1).Length() * 0.3f, 0.05, 0.25f);
+        perp *= CLAMP(strokeLength * 0.3f, 0.05, 0.25f);
         stroke.vertices[0] = pos1 - perp;
         stroke.vertices[1] = pos1 + perp;
         stroke.vertices[2] = pos2 + perp;
         stroke.vertices[3] = pos2 - perp;
-        stroke.color = (m_color - Volt::Color::Random() * 0.1) * (1 - dist);
+        stroke.color = (m_color - Volt::Color::Random() * 0.2) * (1 - dist);
     }
+    LOG(INFO) << "Generated " << m_strokes.size() << " strokes.";
 
     delete[] image;
 }
