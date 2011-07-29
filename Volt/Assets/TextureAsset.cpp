@@ -78,6 +78,9 @@ bool TextureAsset::Load (const DataItem& item, FilterType filterType,
     m_texId = glTexture;
     m_width = newSurface->w;
     m_height = newSurface->h;
+    m_filterType = filterType;
+    m_repeatX = repeatX;
+    m_repeatY = repeatY;
 
     SDL_FreeSurface(newSurface);
     SDL_FreeSurface(tex);
