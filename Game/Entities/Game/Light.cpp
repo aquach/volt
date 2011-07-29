@@ -80,9 +80,9 @@ void Light::Render () {
         Graphics::SetColor(stroke->color);
         Vector2 pos1, pos2;
         pos1.SetFromAngleDegrees(stroke->startAngle);
-        pos1 *= stroke->radius;
+        pos1 *= stroke->startRadius;
         pos2.SetFromAngleDegrees(stroke->endAngle);
-        pos2 *= stroke->radius;
+        pos2 *= stroke->endRadius;
 
         Vector2 perp = (pos2 - pos1).GetPerpendicularRight();
         perp.Normalize();
@@ -151,8 +151,12 @@ void Light::CreateStrokes () {
     Graphics::BindTexture(NULL);
 
     for (int i = 0; i < 300; i++) {
-        float r = Volt::Random::RangeFloat(0, 1);
-        r *= m_maxDistance * 0.6f;
+        float r = Volt::Random::RangeFloat(0.3, 1);
+        float dist = r / 4;
+        float r2 = r + Volt::Random::RangeFloat(-1, 1) * 0.1;
+        r *= m_maxDistance * 0.7f;
+        r2 *= m_maxDistance * 0.7f;
+
         float startAngle = Volt::Random::RangeFloat(0, 360);
         float endAngle = startAngle + Volt::Random::RangeFloat(20, 40);
 
@@ -178,10 +182,11 @@ void Light::CreateStrokes () {
         }
 
         LightStroke stroke;
-        stroke.radius = r;
+        stroke.startRadius = r;
         stroke.startAngle = startAngle;
+        stroke.endRadius = r2;
         stroke.endAngle = endAngle;
-        stroke.color = m_color - Volt::Color::Random() * 0.1;
+        stroke.color = (m_color - Volt::Color::Random() * 0.1) * (1 - dist);
         m_strokes.push_back(stroke);
     }
 }

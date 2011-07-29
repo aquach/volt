@@ -9,8 +9,9 @@
 class LightManager;
 
 struct LightStroke {
-    float radius;
+    float startRadius;
     float startAngle;
+    float endRadius;
     float endAngle;
     Volt::Color color;
     float thickness;

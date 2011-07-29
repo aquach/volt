@@ -4,6 +4,29 @@
 	[
 		
 		{
+			"color" : 
+			{
+				"a" : 1.0,
+				"b" : 0.007843137718737125,
+				"g" : 0.7843137383460999,
+				"r" : 0.9176470637321472
+			},
+			"enabled" : true,
+			"maxDistance" : 5.0,
+			"name" : "",
+			"occludesLight" : true,
+			"static" : true,
+			"staticMap" : "generated_lightmaps/.bmp",
+			"transform" : 
+			{
+				"position" : [ 5.871326446533203, -0.03168559074401855 ],
+				"rotation" : 0.0,
+				"scale" : [ 1.0, 1.0 ]
+			},
+			"type" : "Light"
+		},
+		
+		{
 			"occludesLight" : true,
 			"texture" : "",
 			"textureCoords" : 
@@ -14,7 +37,7 @@
 			],
 			"transform" : 
 			{
-				"position" : [ 3.426665306091309, 0.7533335685729980 ],
+				"position" : [ 5.526665687561035, 1.553333282470703 ],
 				"rotation" : 0.0,
 				"scale" : [ 1.0, 1.0 ]
 			},
@@ -46,29 +69,6 @@
 		},
 		
 		{
-			"color" : 
-			{
-				"a" : 1.0,
-				"b" : 0.007843137718737125,
-				"g" : 0.7843137383460999,
-				"r" : 0.9176470637321472
-			},
-			"enabled" : true,
-			"maxDistance" : 5.0,
-			"name" : "",
-			"occludesLight" : true,
-			"static" : true,
-			"staticMap" : "generated_lightmaps/.bmp",
-			"transform" : 
-			{
-				"position" : [ 4.359999656677246, -0.2133336067199707 ],
-				"rotation" : 0.0,
-				"scale" : [ 1.0, 1.0 ]
-			},
-			"type" : "Light"
-		},
-		
-		{
 			"occludesLight" : true,
 			"texture" : "",
 			"textureCoords" : 
@@ -79,7 +79,7 @@
 			],
 			"transform" : 
 			{
-				"position" : [ 5.526665687561035, 1.553333282470703 ],
+				"position" : [ 3.426665306091309, 0.7533335685729980 ],
 				"rotation" : 0.0,
 				"scale" : [ 1.0, 1.0 ]
 			},
