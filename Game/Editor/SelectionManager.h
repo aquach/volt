@@ -6,6 +6,12 @@
 class Entity;
 class Triangle;
 
+class SelectionListener {
+public:
+    virtual void OnEntitySelected (Entity* e) = 0;
+    virtual void OnEntityDeselected (Entity* e) = 0;
+    virtual void OnDeselectAll () = 0;
+};
 /**
  *  Manages selecting vertices of triangles or entities. Any number of either
  *  can be selected, but not some of both types.
@@ -48,6 +54,8 @@ public:
     void SelectEntity (Entity* entity) {
         m_selectedEntities.insert(entity);
         m_selectedVertices.clear();
+        FOR_(set<SelectionListener*>::iterator, i, m_selectionListeners)
+            (*i)->OnEntitySelected(entity);
     }
     void DeselectVertex (Triangle* triangle, int vertex) {
         Vertex v = { triangle, vertex };
@@ -55,16 +63,27 @@ public:
     }
     void DeselectEntity (Entity* entity) {
         m_selectedEntities.erase(entity);
+        FOR_(set<SelectionListener*>::iterator, i, m_selectionListeners)
+            (*i)->OnEntityDeselected(entity);
     }
     void DeselectAll () {
         m_selectedVertices.clear();
         m_selectedEntities.clear();
+        FOR_(set<SelectionListener*>::iterator, i, m_selectionListeners)
+            (*i)->OnDeselectAll();
     }
 
     int numSelectedEntities () const { return m_selectedEntities.size(); }
     int numSelectedVertices () const { return m_selectedVertices.size(); }
 
     void Render ();
+
+    void AddSelectionListener (SelectionListener* listener) {
+        m_selectionListeners.insert(listener);
+    }
+    void RemoveSelectionListener (SelectionListener* listener) {
+        m_selectionListeners.erase(listener);
+    }
 
 private:
     struct Vertex {
@@ -81,7 +100,7 @@ private:
     };
     set<Vertex> m_selectedVertices;
     set<Entity*> m_selectedEntities;
-
+    set<SelectionListener*> m_selectionListeners;
     bool m_showVertices;
 
     static SelectionManager* instance;

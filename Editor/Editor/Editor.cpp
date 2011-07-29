@@ -31,6 +31,19 @@ enum ModeButtonType {
     MODE_SCALE
 };
 
+void Editor::EditorSelectionListener::OnEntitySelected (Entity* e) {
+    m_e->m_propertyModel->SetEntity(e);
+    m_e->m_properties->resizeColumnsToContents();
+}
+
+void Editor::EditorSelectionListener::OnEntityDeselected (Entity* e) {
+    m_e->m_propertyModel->SetEntity(NULL);
+}
+
+void Editor::EditorSelectionListener::OnDeselectAll () {
+    m_e->m_propertyModel->SetEntity(NULL);
+}
+
 Editor::Editor (const Volt::DataSource* source)
     : m_scene(NULL),
       m_graphics(NULL),
@@ -81,6 +94,12 @@ Editor::Editor (const Volt::DataSource* source)
 
     m_scene = new EditorScene;
     m_scene->m_editor = this;
+
+    m_selectionManager = new SelectionManager;
+    SelectionManager::Register(m_selectionManager);
+
+    m_selectionListener = new Editor::EditorSelectionListener(this);
+    G_SelectionManager->AddSelectionListener(m_selectionListener);
 
     QAction* action;
     QPushButton* button;
@@ -306,9 +325,6 @@ Editor::Editor (const Volt::DataSource* source)
     m_modeFsm->AddState(new Editor::ScaleState(this), "ScaleMode");
     m_modeFsm->TransitionTo("PanMode");
 
-    m_selectionManager = new SelectionManager;
-    SelectionManager::Register(m_selectionManager);
-
     m_updateTimer = startTimer((int)(SECONDS_PER_UPDATE * 1000));
     m_autosaveTimer = startTimer((int)(SECONDS_PER_AUTOSAVE * 1000));
 }
@@ -327,6 +343,9 @@ void Editor::ReloadBrushes () {
 }
 
 Editor::~Editor () {
+    G_SelectionManager->RemoveSelectionListener(m_selectionListener);
+    delete m_selectionListener;
+    delete m_selectionManager;
     delete m_propertyModel;
     delete m_scene;
     delete m_graphics;

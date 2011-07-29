@@ -3,6 +3,7 @@
 #include "Editor/Core/Core.h"
 #include <QMainWindow>
 #include "Volt/Game/FSM.h"
+#include "Game/Editor/SelectionManager.h"
 
 namespace Volt {
     class AppTime;
@@ -15,6 +16,7 @@ namespace Volt {
 extern const char* EDITOR_TITLE;
 
 class EditorScene;
+class EditorSelectionListener;
 class Entity;
 class GLWidget;
 class PropertyModel;
@@ -212,6 +214,17 @@ private:
         QPoint m_lastPoint;
     };
 
+    class EditorSelectionListener : public SelectionListener {
+    public:
+        EditorSelectionListener (Editor* e) : m_e(e) { }
+
+        virtual void OnEntitySelected (Entity* e);
+        virtual void OnEntityDeselected (Entity* e);
+        virtual void OnDeselectAll ();
+    private:
+        Editor* m_e;
+    };
+
     void AddRecentDocument (string filename);
     void LoadRecentDocuments ();
     void OpenFile (string filename);
@@ -253,6 +266,7 @@ private:
     int m_updateTimer;
     QTableView* m_properties;
     QComboBox* m_brushesCombo;
+    EditorSelectionListener* m_selectionListener;
 
     Volt::AppTime* m_appTime;
 };
