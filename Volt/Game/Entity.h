@@ -25,11 +25,6 @@ public:
     virtual Entity* Clone () const { return NULL; };
     void CopyFrom (const Entity* other);
 
-    void SetGraphic (Graphic* graphic);
-
-    void SetParent (Entity* parent);
-    Entity* parent () const { return m_parent; }
-
     Scene* scene () const { return m_scene; }
 
     bool HasTag (const string& tag) const {
@@ -90,7 +85,6 @@ private:
 
     int m_layer;
     Scene* m_scene;
-    Entity* m_parent;
 
     set<string> m_tags;
 

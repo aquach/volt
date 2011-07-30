@@ -9,9 +9,12 @@ SET(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
 
 IF(UNIX)
     FIND_PACKAGE(OpenGL REQUIRED)
+    FIND_PACKAGE(PythonLibs REQUIRED)
     FIND_PACKAGE(SDL REQUIRED)
     FIND_PACKAGE(SDL_image REQUIRED)
-    FIND_PACKAGE(PythonLibs REQUIRED)
+    FIND_PACKAGE(SWIG REQUIRED)
+    INCLUDE(${SWIG_USE_FILE})
+    INCLUDE_DIRECTORIES(/usr/include/python2.7)
     set(CMAKE_CXX_FLAGS "-g -Wall -Wno-reorder")
 ENDIF()
 
@@ -70,11 +73,29 @@ LIST(REMOVE_ITEM Game_SOURCES Game/main.cpp)
 ADD_LIBRARY(gamelib ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
 
+# Volt SWIG bindings
+SET(CMAKE_SWIG_OUTDIR ${CMAKE_SOURCE_DIR}/Volt/Python)
+SET_SOURCE_FILES_PROPERTIES(Volt/Volt.i PROPERTIES CPLUSPLUS ON)
+FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Volt)
+SWIG_ADD_MODULE(pyvolt python Volt/Volt.i)
+SWIG_LINK_LIBRARIES(pyvolt volt)
+
+# Game SWIG bindings
+SET(CMAKE_SWIG_OUTDIR ${CMAKE_SOURCE_DIR}/Game/Python)
+SET(SWIG_SRCS Game/Game.i)
+FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Game)
+SET_SOURCE_FILES_PROPERTIES(Game/Game.i PROPERTIES CPLUSPLUS ON)
+SWIG_ADD_MODULE(pygame python Game/Game.i)
+SWIG_LINK_LIBRARIES(pygame gamelib)
+
 # Game
 
 file(GLOB_RECURSE Game_SOURCES Game/main.cpp)
 ADD_EXECUTABLE(game ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(game gamelib ${VOLT_DEPENDENCIES} volt)
+# This makes the swig bindings regenerated every time.
+#ADD_DEPENDENCIES(game ${SWIG_MODULE_pyvolt_REAL_NAME}
+#                      ${SWIG_MODULE_pygame_REAL_NAME})
 
 # Editor
 
@@ -96,4 +117,6 @@ IF(UNIX)
     SET_SOURCE_FILES_PROPERTIES(${source} PROPERTIES COMPILE_FLAGS -O2)
     ADD_EXECUTABLE(benchmark_pushAttrib ${source})
     TARGET_LINK_LIBRARIES(benchmark_pushAttrib SDL GL volt)
-ENDIF()    
+ENDIF()
+
+
