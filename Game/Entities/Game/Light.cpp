@@ -6,7 +6,7 @@
 
 REGISTER_ENTITY_(Light);
 
-const char* Light::STATIC_MAP_FOLDER = "generated_lightmaps";
+const char* Light::STATIC_MAP_FOLDER = "Textures/generated_lightmaps";
 const float REFRESH_TIME = 1.0f;
 
 void LightStroke::Load (const Json::Value& node) {
@@ -52,7 +52,7 @@ Light::Light ()
     AddTag("Light");
     CreatePhysicsBody();
 
-    m_strokeTexture = G_AssetManager->GetTexture("lightstroke.png");
+    m_strokeTexture = G_AssetManager->GetTexture("Textures/lightstroke.png");
 }
 
 Light::~Light () {

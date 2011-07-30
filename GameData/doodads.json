@@ -2,7 +2,7 @@
 	{
 		"id": 1,
 		"name": "Test Doodad",
-		"texture": "hoers.jpg",
+		"texture": "Textures/hoers.jpg",
 		"textureCoords": [
 			[0, 0],
 			[1, 0],
@@ -14,7 +14,7 @@
 	{
 		"id": 2,
 		"name": "Test Doodad 2",
-		"texture": "logo2.png",
+		"texture": "Textures/logo2.png",
 		"textureCoords": [
 			[0, 0],
 			[1, 0],
@@ -26,7 +26,7 @@
 	{
 		"id": 3,
 		"name": "Test Doodad 5",
-		"texture": "magneton_avatar.png",
+		"texture": "Textures/magneton_avatar.png",
 		"textureCoords": [
 			[0, 0],
 			[1, 0],

@@ -111,38 +111,38 @@ LightManager::LightManager () :
         m_shaders[i] = new Volt::GpuProgram;
 
     m_shaders[SHADER_PARABOLIC]->Attach(
-        G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("Shaders/standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_PARABOLIC]->Attach(
-        G_AssetManager->GetShader("parabolic.frag",
+        G_AssetManager->GetShader("Shaders/parabolic.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_SHADOW]->Attach(
-        G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("Shaders/standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_SHADOW]->Attach(
-        G_AssetManager->GetShader("reduce.frag",
+        G_AssetManager->GetShader("Shaders/reduce.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_LIGHT]->Attach(
-        G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("Shaders/standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_LIGHT]->Attach(
-        G_AssetManager->GetShader("light.frag",
+        G_AssetManager->GetShader("Shaders/light.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_BLUR]->Attach(
-        G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("Shaders/standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_BLUR]->Attach(
-        G_AssetManager->GetShader("blur.frag",
+        G_AssetManager->GetShader("Shaders/blur.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 
     m_shaders[SHADER_ATTENUATE]->Attach(
-        G_AssetManager->GetShader("standard.vert",
+        G_AssetManager->GetShader("Shaders/standard.vert",
                                         Volt::ShaderAsset::SHADER_VERTEX));
     m_shaders[SHADER_ATTENUATE]->Attach(
-        G_AssetManager->GetShader("attenuate.frag",
+        G_AssetManager->GetShader("Shaders/attenuate.frag",
                                         Volt::ShaderAsset::SHADER_FRAGMENT));
 }
 

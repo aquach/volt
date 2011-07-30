@@ -86,7 +86,7 @@ void Triangle::Render () {
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::BindTexture(G_AssetManager->GetTexture("brush.png"));
+    Graphics::BindTexture(G_AssetManager->GetTexture("Textures/brush.png"));
     for (int i = 0; i < m_strokes.size(); i++) {
         glPushMatrix();
         Graphics::Translate(Vector2(m_strokes[i].transform.position.x
