@@ -4,6 +4,7 @@
 #include "Volt/Assets/AssetRef.h"
 #include "Volt/Assets/DataAsset.h"
 #include "Volt/Assets/FontAsset.h"
+#include "Volt/Assets/ScriptAsset.h"
 #include "Volt/Assets/ShaderAsset.h"
 #include "Volt/Assets/SoundAsset.h"
 #include "Volt/Assets/TextureAsset.h"
@@ -14,6 +15,7 @@ class DataSource;
 
 typedef AssetRef<DataAsset> DataAssetRef;
 typedef AssetRef<FontAsset> FontAssetRef;
+typedef AssetRef<ScriptAsset> ScriptAssetRef;
 typedef AssetRef<ShaderAsset> ShaderAssetRef;
 typedef AssetRef<SoundAsset> SoundAssetRef;
 typedef AssetRef<TextureAsset> TextureAssetRef;
@@ -38,6 +40,7 @@ public:
         SoundAsset::SoundType type = SoundAsset::SOUND_SINGLE,
         float globalVolume = 1.0);
     DataAssetRef GetData (const string& path);
+    ScriptAssetRef GetScript (const string& path);
 
     void GarbageCollect ();
 

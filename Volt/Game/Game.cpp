@@ -1,4 +1,5 @@
 #include "Volt/Game/Game.h"
+#include <python2.7/Python.h>
 #include <SDL/SDL.h>
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/DataSource.h"
@@ -9,6 +10,7 @@
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Game/Scene.h"
 #include "Volt/Game/AppTime.h"
+#include "Volt/Python/Python.h"
 
 #define MIN_DELTA_TIME (1.0f / 60.0f)
 #define MAX_DELTA_TIME (1.0f / 30.0f)
@@ -63,10 +65,13 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
         Graphics::CheckErrors();
         Graphics::CheckState();
     #endif
+
+    Python::Initialize();
 }
 
 Game::~Game () {
     LOG(INFO) << "Closing game...";
+    Python::Terminate();
     if (m_currentScene != NULL) {
         m_currentScene->OnEnd();
         delete m_currentScene;
@@ -107,6 +112,9 @@ void Game::Run () {
 
         m_physicsManager->Update();
 
+        Py_BEGIN_ALLOW_THREADS
+        Py_END_ALLOW_THREADS
+
         if (m_currentScene != NULL) {
             m_currentScene->Update();
             m_currentScene->Render();
@@ -123,11 +131,6 @@ void Game::Run () {
             m_currentScene->m_game = this;
             m_currentScene->OnBegin();
         }
-
-        // This consumes a ton of CPU.
-        //char buffer[64];
-        //sprintf(buffer, "%s - %d FPS", m_name.c_str(), (int)fps());
-        //m_window->SetTitle(buffer);
 
         m_lastTick = tick;
     }

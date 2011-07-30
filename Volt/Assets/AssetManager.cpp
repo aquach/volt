@@ -62,6 +62,32 @@ FontAssetRef AssetManager::GetFont (
     return FontAssetRef(font);
 }
 
+ScriptAssetRef AssetManager::GetScript (const string& path) {
+
+    ScriptAssetRef asset = GetAssetByKey<ScriptAsset>(path);
+    if (asset.HasAsset())
+        return asset;
+
+    DataItem item;
+    if (!m_dataSource->LoadDataItem(path, &item)) {
+        LOG(ERROR) << "Failed to load script item " << path;
+        return NULL;
+    }
+
+    ScriptAsset* script = new ScriptAsset;
+    script->m_manager = this;
+    if (!script->Load(item)) {
+        LOG(ERROR) << "Failed to load script " << path;
+        delete script;
+        return NULL;
+    }
+
+    m_assets[script->assetKey()] = script;
+
+    return ScriptAssetRef(script);
+}
+
+
 DataAssetRef AssetManager::GetData (const string& path) {
 
     DataAssetRef asset = GetAssetByKey<DataAsset>(path);

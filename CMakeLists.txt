@@ -11,6 +11,7 @@ IF(UNIX)
     FIND_PACKAGE(OpenGL REQUIRED)
     FIND_PACKAGE(SDL REQUIRED)
     FIND_PACKAGE(SDL_image REQUIRED)
+    FIND_PACKAGE(PythonLibs REQUIRED)
     set(CMAKE_CXX_FLAGS "-g -Wall -Wno-reorder")
 ENDIF()
 
@@ -29,7 +30,7 @@ IF(WIN32)
 ENDIF()
 
 IF(UNIX)
-    SET(VOLT_DEPENDENCIES SDL SDL_image json GL GLU GLEW openal ogg vorbisfile ${LIBBOX2D})
+    SET(VOLT_DEPENDENCIES SDL SDL_image json GL GLU GLEW openal ogg vorbisfile python2.7 ${LIBBOX2D})
 ELSEIF(WIN32)
     SET(VOLT_DEPENDENCIES SDL SDL_image SDLmain json OpenGL32 GLEW32 OpenAL32 glu32
         debug libogg_static_d optimized libogg_static
