@@ -66,6 +66,383 @@ except AttributeError:
     _newclass = 0
 
 
+class Color(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Color, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Color, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_Color(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_getmethods__["RGB"] = lambda x: _pygame.Color_RGB
+    if _newclass:RGB = staticmethod(_pygame.Color_RGB)
+    __swig_getmethods__["RGBA"] = lambda x: _pygame.Color_RGBA
+    if _newclass:RGBA = staticmethod(_pygame.Color_RGBA)
+    __swig_getmethods__["Random"] = lambda x: _pygame.Color_Random
+    if _newclass:Random = staticmethod(_pygame.Color_Random)
+    def Clamp(self): return _pygame.Color_Clamp(self)
+    def Intensity(self): return _pygame.Color_Intensity(self)
+    def __ne__(self, *args): return _pygame.Color___ne__(self, *args)
+    def Load(self, *args): return _pygame.Color_Load(self, *args)
+    def Save(self, *args): return _pygame.Color_Save(self, *args)
+    __swig_setmethods__["r"] = _pygame.Color_r_set
+    __swig_getmethods__["r"] = _pygame.Color_r_get
+    if _newclass:r = _swig_property(_pygame.Color_r_get, _pygame.Color_r_set)
+    __swig_setmethods__["g"] = _pygame.Color_g_set
+    __swig_getmethods__["g"] = _pygame.Color_g_get
+    if _newclass:g = _swig_property(_pygame.Color_g_get, _pygame.Color_g_set)
+    __swig_setmethods__["b"] = _pygame.Color_b_set
+    __swig_getmethods__["b"] = _pygame.Color_b_get
+    if _newclass:b = _swig_property(_pygame.Color_b_get, _pygame.Color_b_set)
+    __swig_setmethods__["a"] = _pygame.Color_a_set
+    __swig_getmethods__["a"] = _pygame.Color_a_get
+    if _newclass:a = _swig_property(_pygame.Color_a_get, _pygame.Color_a_set)
+    __swig_setmethods__["white"] = _pygame.Color_white_set
+    __swig_getmethods__["white"] = _pygame.Color_white_get
+    if _newclass:white = _swig_property(_pygame.Color_white_get, _pygame.Color_white_set)
+    __swig_setmethods__["grey"] = _pygame.Color_grey_set
+    __swig_getmethods__["grey"] = _pygame.Color_grey_get
+    if _newclass:grey = _swig_property(_pygame.Color_grey_get, _pygame.Color_grey_set)
+    __swig_setmethods__["black"] = _pygame.Color_black_set
+    __swig_getmethods__["black"] = _pygame.Color_black_get
+    if _newclass:black = _swig_property(_pygame.Color_black_get, _pygame.Color_black_set)
+    __swig_setmethods__["red"] = _pygame.Color_red_set
+    __swig_getmethods__["red"] = _pygame.Color_red_get
+    if _newclass:red = _swig_property(_pygame.Color_red_get, _pygame.Color_red_set)
+    __swig_setmethods__["green"] = _pygame.Color_green_set
+    __swig_getmethods__["green"] = _pygame.Color_green_get
+    if _newclass:green = _swig_property(_pygame.Color_green_get, _pygame.Color_green_set)
+    __swig_setmethods__["blue"] = _pygame.Color_blue_set
+    __swig_getmethods__["blue"] = _pygame.Color_blue_get
+    if _newclass:blue = _swig_property(_pygame.Color_blue_get, _pygame.Color_blue_set)
+    __swig_setmethods__["yellow"] = _pygame.Color_yellow_set
+    __swig_getmethods__["yellow"] = _pygame.Color_yellow_get
+    if _newclass:yellow = _swig_property(_pygame.Color_yellow_get, _pygame.Color_yellow_set)
+    __swig_setmethods__["orange"] = _pygame.Color_orange_set
+    __swig_getmethods__["orange"] = _pygame.Color_orange_get
+    if _newclass:orange = _swig_property(_pygame.Color_orange_get, _pygame.Color_orange_set)
+    __swig_setmethods__["purple"] = _pygame.Color_purple_set
+    __swig_getmethods__["purple"] = _pygame.Color_purple_get
+    if _newclass:purple = _swig_property(_pygame.Color_purple_get, _pygame.Color_purple_set)
+    __swig_destroy__ = _pygame.delete_Color
+    __del__ = lambda self : None;
+Color_swigregister = _pygame.Color_swigregister
+Color_swigregister(Color)
+
+def Color_RGB(*args):
+  return _pygame.Color_RGB(*args)
+Color_RGB = _pygame.Color_RGB
+
+def Color_RGBA(*args):
+  return _pygame.Color_RGBA(*args)
+Color_RGBA = _pygame.Color_RGBA
+
+def Color_Random():
+  return _pygame.Color_Random()
+Color_Random = _pygame.Color_Random
+cvar = _pygame.cvar
+
+
+def __add__(*args):
+  return _pygame.__add__(*args)
+__add__ = _pygame.__add__
+
+def __sub__(*args):
+  return _pygame.__sub__(*args)
+__sub__ = _pygame.__sub__
+INFINITY = _pygame.INFINITY
+
+def RoundToNearest(*args):
+  return _pygame.RoundToNearest(*args)
+RoundToNearest = _pygame.RoundToNearest
+class Random(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Random, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Random, name)
+    __repr__ = _swig_repr
+    __swig_getmethods__["Seed"] = lambda x: _pygame.Random_Seed
+    if _newclass:Seed = staticmethod(_pygame.Random_Seed)
+    __swig_getmethods__["Range"] = lambda x: _pygame.Random_Range
+    if _newclass:Range = staticmethod(_pygame.Random_Range)
+    __swig_getmethods__["Percent"] = lambda x: _pygame.Random_Percent
+    if _newclass:Percent = staticmethod(_pygame.Random_Percent)
+    __swig_getmethods__["CoinFlip"] = lambda x: _pygame.Random_CoinFlip
+    if _newclass:CoinFlip = staticmethod(_pygame.Random_CoinFlip)
+    __swig_getmethods__["RangeFloat"] = lambda x: _pygame.Random_RangeFloat
+    if _newclass:RangeFloat = staticmethod(_pygame.Random_RangeFloat)
+    def __init__(self): 
+        this = _pygame.new_Random()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_Random
+    __del__ = lambda self : None;
+Random_swigregister = _pygame.Random_swigregister
+Random_swigregister(Random)
+PI = cvar.PI
+E = cvar.E
+DEG2RAD = cvar.DEG2RAD
+RAD2DEG = cvar.RAD2DEG
+
+def Random_Seed(*args):
+  return _pygame.Random_Seed(*args)
+Random_Seed = _pygame.Random_Seed
+
+def Random_Range(*args):
+  return _pygame.Random_Range(*args)
+Random_Range = _pygame.Random_Range
+
+def Random_Percent():
+  return _pygame.Random_Percent()
+Random_Percent = _pygame.Random_Percent
+
+def Random_CoinFlip():
+  return _pygame.Random_CoinFlip()
+Random_CoinFlip = _pygame.Random_CoinFlip
+
+def Random_RangeFloat(*args):
+  return _pygame.Random_RangeFloat(*args)
+Random_RangeFloat = _pygame.Random_RangeFloat
+
+
+def GetMicroseconds():
+  return _pygame.GetMicroseconds()
+GetMicroseconds = _pygame.GetMicroseconds
+
+def GetTimestamp(*args):
+  return _pygame.GetTimestamp(*args)
+GetTimestamp = _pygame.GetTimestamp
+
+def SleepMicroseconds(*args):
+  return _pygame.SleepMicroseconds(*args)
+SleepMicroseconds = _pygame.SleepMicroseconds
+
+def GetExecutableDirectory(*args):
+  return _pygame.GetExecutableDirectory(*args)
+GetExecutableDirectory = _pygame.GetExecutableDirectory
+
+def GetAllFilesInDirectory(*args):
+  return _pygame.GetAllFilesInDirectory(*args)
+GetAllFilesInDirectory = _pygame.GetAllFilesInDirectory
+
+def PrintStackTrace():
+  return _pygame.PrintStackTrace()
+PrintStackTrace = _pygame.PrintStackTrace
+class Time(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Time, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Time, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_Time()
+        try: self.this.append(this)
+        except: self.this = this
+    def Start(self): return _pygame.Time_Start(self)
+    def GetMilliseconds(self): return _pygame.Time_GetMilliseconds(self)
+    __swig_destroy__ = _pygame.delete_Time
+    __del__ = lambda self : None;
+Time_swigregister = _pygame.Time_swigregister
+Time_swigregister(Time)
+
+class Vector2(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Vector2, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Vector2, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["x"] = _pygame.Vector2_x_set
+    __swig_getmethods__["x"] = _pygame.Vector2_x_get
+    if _newclass:x = _swig_property(_pygame.Vector2_x_get, _pygame.Vector2_x_set)
+    __swig_setmethods__["y"] = _pygame.Vector2_y_set
+    __swig_getmethods__["y"] = _pygame.Vector2_y_get
+    if _newclass:y = _swig_property(_pygame.Vector2_y_get, _pygame.Vector2_y_set)
+    __swig_setmethods__["zero"] = _pygame.Vector2_zero_set
+    __swig_getmethods__["zero"] = _pygame.Vector2_zero_get
+    if _newclass:zero = _swig_property(_pygame.Vector2_zero_get, _pygame.Vector2_zero_set)
+    __swig_setmethods__["one"] = _pygame.Vector2_one_set
+    __swig_getmethods__["one"] = _pygame.Vector2_one_get
+    if _newclass:one = _swig_property(_pygame.Vector2_one_get, _pygame.Vector2_one_set)
+    __swig_setmethods__["down"] = _pygame.Vector2_down_set
+    __swig_getmethods__["down"] = _pygame.Vector2_down_get
+    if _newclass:down = _swig_property(_pygame.Vector2_down_get, _pygame.Vector2_down_set)
+    __swig_setmethods__["up"] = _pygame.Vector2_up_set
+    __swig_getmethods__["up"] = _pygame.Vector2_up_get
+    if _newclass:up = _swig_property(_pygame.Vector2_up_get, _pygame.Vector2_up_set)
+    __swig_setmethods__["left"] = _pygame.Vector2_left_set
+    __swig_getmethods__["left"] = _pygame.Vector2_left_get
+    if _newclass:left = _swig_property(_pygame.Vector2_left_get, _pygame.Vector2_left_set)
+    __swig_setmethods__["right"] = _pygame.Vector2_right_set
+    __swig_getmethods__["right"] = _pygame.Vector2_right_get
+    if _newclass:right = _swig_property(_pygame.Vector2_right_get, _pygame.Vector2_right_set)
+    def __init__(self, *args): 
+        this = _pygame.new_Vector2(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def ToB2(self): return _pygame.Vector2_ToB2(self)
+    def Set(self, *args): return _pygame.Vector2_Set(self, *args)
+    def SetFromAngleDegrees(self, *args): return _pygame.Vector2_SetFromAngleDegrees(self, *args)
+    __swig_getmethods__["Random"] = lambda x: _pygame.Vector2_Random
+    if _newclass:Random = staticmethod(_pygame.Vector2_Random)
+    def LengthSquared(self): return _pygame.Vector2_LengthSquared(self)
+    def Length(self): return _pygame.Vector2_Length(self)
+    def GetNormalized(self): return _pygame.Vector2_GetNormalized(self)
+    def Normalize(self): return _pygame.Vector2_Normalize(self)
+    def Clamp(self, *args): return _pygame.Vector2_Clamp(self, *args)
+    def IsInRange(self, *args): return _pygame.Vector2_IsInRange(self, *args)
+    def DistanceTo(self, *args): return _pygame.Vector2_DistanceTo(self, *args)
+    def GetPerpendicularLeft(self): return _pygame.Vector2_GetPerpendicularLeft(self)
+    def GetPerpendicularRight(self): return _pygame.Vector2_GetPerpendicularRight(self)
+    def Dot(self, *args): return _pygame.Vector2_Dot(self, *args)
+    def Cross(self, *args): return _pygame.Vector2_Cross(self, *args)
+    def Reflect(self, *args): return _pygame.Vector2_Reflect(self, *args)
+    def Project(self, *args): return _pygame.Vector2_Project(self, *args)
+    def Rotate(self, *args): return _pygame.Vector2_Rotate(self, *args)
+    def GetAngleRadians(self): return _pygame.Vector2_GetAngleRadians(self)
+    def GetAngleDegrees(self): return _pygame.Vector2_GetAngleDegrees(self)
+    def AngleTo(self, *args): return _pygame.Vector2_AngleTo(self, *args)
+    def xx(self): return _pygame.Vector2_xx(self)
+    def yy(self): return _pygame.Vector2_yy(self)
+    def yx(self): return _pygame.Vector2_yx(self)
+    def __eq__(self, *args): return _pygame.Vector2___eq__(self, *args)
+    def __ne__(self, *args): return _pygame.Vector2___ne__(self, *args)
+    def __iadd__(self, *args): return _pygame.Vector2___iadd__(self, *args)
+    def __isub__(self, *args): return _pygame.Vector2___isub__(self, *args)
+    def __imul__(self, *args): return _pygame.Vector2___imul__(self, *args)
+    def __idiv__(self, *args): return _pygame.Vector2___idiv__(self, *args)
+    def __add__(self, *args): return _pygame.Vector2___add__(self, *args)
+    def __sub__(self, *args): return _pygame.Vector2___sub__(self, *args)
+    def __neg__(self): return _pygame.Vector2___neg__(self)
+    def __div__(self, *args): return _pygame.Vector2___div__(self, *args)
+    def __mul__(self, *args): return _pygame.Vector2___mul__(self, *args)
+    def Load(self, *args): return _pygame.Vector2_Load(self, *args)
+    def Save(self, *args): return _pygame.Vector2_Save(self, *args)
+    __swig_destroy__ = _pygame.delete_Vector2
+    __del__ = lambda self : None;
+Vector2_swigregister = _pygame.Vector2_swigregister
+Vector2_swigregister(Vector2)
+
+def Vector2_Random():
+  return _pygame.Vector2_Random()
+Vector2_Random = _pygame.Vector2_Random
+
+class Transform(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Transform, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Transform, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_Transform(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def LerpTransform(self, *args): return _pygame.Transform_LerpTransform(self, *args)
+    def GetDirectionVector(self): return _pygame.Transform_GetDirectionVector(self)
+    __swig_setmethods__["position"] = _pygame.Transform_position_set
+    __swig_getmethods__["position"] = _pygame.Transform_position_get
+    if _newclass:position = _swig_property(_pygame.Transform_position_get, _pygame.Transform_position_set)
+    __swig_setmethods__["rotation"] = _pygame.Transform_rotation_set
+    __swig_getmethods__["rotation"] = _pygame.Transform_rotation_get
+    if _newclass:rotation = _swig_property(_pygame.Transform_rotation_get, _pygame.Transform_rotation_set)
+    __swig_setmethods__["scale"] = _pygame.Transform_scale_set
+    __swig_getmethods__["scale"] = _pygame.Transform_scale_get
+    if _newclass:scale = _swig_property(_pygame.Transform_scale_get, _pygame.Transform_scale_set)
+    def Apply(self, *args): return _pygame.Transform_Apply(self, *args)
+    def ApplyInverse(self, *args): return _pygame.Transform_ApplyInverse(self, *args)
+    def Load(self, *args): return _pygame.Transform_Load(self, *args)
+    def Save(self, *args): return _pygame.Transform_Save(self, *args)
+    def xAxis(self): return _pygame.Transform_xAxis(self)
+    def yAxis(self): return _pygame.Transform_yAxis(self)
+    def Multiply(self, *args): return _pygame.Transform_Multiply(self, *args)
+    __swig_destroy__ = _pygame.delete_Transform
+    __del__ = lambda self : None;
+Transform_swigregister = _pygame.Transform_swigregister
+Transform_swigregister(Transform)
+
+def __mul__(*args):
+  return _pygame.__mul__(*args)
+__mul__ = _pygame.__mul__
+
+def __div__(*args):
+  return _pygame.__div__(*args)
+__div__ = _pygame.__div__
+
+def __rshift__(*args):
+  return _pygame.__rshift__(*args)
+__rshift__ = _pygame.__rshift__
+
+class BBox(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, BBox, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, BBox, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["min"] = _pygame.BBox_min_set
+    __swig_getmethods__["min"] = _pygame.BBox_min_get
+    if _newclass:min = _swig_property(_pygame.BBox_min_get, _pygame.BBox_min_set)
+    __swig_setmethods__["max"] = _pygame.BBox_max_set
+    __swig_getmethods__["max"] = _pygame.BBox_max_get
+    if _newclass:max = _swig_property(_pygame.BBox_max_get, _pygame.BBox_max_set)
+    def __init__(self, *args): 
+        this = _pygame.new_BBox(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def center(self): return _pygame.BBox_center(self)
+    def extents(self): return _pygame.BBox_extents(self)
+    def Union(self, *args): return _pygame.BBox_Union(self, *args)
+    def IsInside(self, *args): return _pygame.BBox_IsInside(self, *args)
+    def BoundingCircle(self, *args): return _pygame.BBox_BoundingCircle(self, *args)
+    def Intersects(self, *args): return _pygame.BBox_Intersects(self, *args)
+    def Expand(self, *args): return _pygame.BBox_Expand(self, *args)
+    __swig_destroy__ = _pygame.delete_BBox
+    __del__ = lambda self : None;
+BBox_swigregister = _pygame.BBox_swigregister
+BBox_swigregister(BBox)
+
+class Vector3(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Vector3, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Vector3, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["x"] = _pygame.Vector3_x_set
+    __swig_getmethods__["x"] = _pygame.Vector3_x_get
+    if _newclass:x = _swig_property(_pygame.Vector3_x_get, _pygame.Vector3_x_set)
+    __swig_setmethods__["y"] = _pygame.Vector3_y_set
+    __swig_getmethods__["y"] = _pygame.Vector3_y_get
+    if _newclass:y = _swig_property(_pygame.Vector3_y_get, _pygame.Vector3_y_set)
+    __swig_setmethods__["z"] = _pygame.Vector3_z_set
+    __swig_getmethods__["z"] = _pygame.Vector3_z_get
+    if _newclass:z = _swig_property(_pygame.Vector3_z_get, _pygame.Vector3_z_set)
+    __swig_setmethods__["zero"] = _pygame.Vector3_zero_set
+    __swig_getmethods__["zero"] = _pygame.Vector3_zero_get
+    if _newclass:zero = _swig_property(_pygame.Vector3_zero_get, _pygame.Vector3_zero_set)
+    __swig_setmethods__["one"] = _pygame.Vector3_one_set
+    __swig_getmethods__["one"] = _pygame.Vector3_one_get
+    if _newclass:one = _swig_property(_pygame.Vector3_one_get, _pygame.Vector3_one_set)
+    __swig_setmethods__["down"] = _pygame.Vector3_down_set
+    __swig_getmethods__["down"] = _pygame.Vector3_down_get
+    if _newclass:down = _swig_property(_pygame.Vector3_down_get, _pygame.Vector3_down_set)
+    __swig_setmethods__["up"] = _pygame.Vector3_up_set
+    __swig_getmethods__["up"] = _pygame.Vector3_up_get
+    if _newclass:up = _swig_property(_pygame.Vector3_up_get, _pygame.Vector3_up_set)
+    __swig_setmethods__["left"] = _pygame.Vector3_left_set
+    __swig_getmethods__["left"] = _pygame.Vector3_left_get
+    if _newclass:left = _swig_property(_pygame.Vector3_left_get, _pygame.Vector3_left_set)
+    __swig_setmethods__["right"] = _pygame.Vector3_right_set
+    __swig_getmethods__["right"] = _pygame.Vector3_right_get
+    if _newclass:right = _swig_property(_pygame.Vector3_right_get, _pygame.Vector3_right_set)
+    def __init__(self, *args): 
+        this = _pygame.new_Vector3(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_Vector3
+    __del__ = lambda self : None;
+Vector3_swigregister = _pygame.Vector3_swigregister
+Vector3_swigregister(Vector3)
+
 class VoltEntity(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, VoltEntity, name, value)
@@ -112,10 +489,128 @@ class VoltEntity(_object):
 VoltEntity_swigregister = _pygame.VoltEntity_swigregister
 VoltEntity_swigregister(VoltEntity)
 
+class Game(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Game, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Game, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_Game(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_Game
+    __del__ = lambda self : None;
+    def Run(self): return _pygame.Game_Run(self)
+    def Quit(self): return _pygame.Game_Quit(self)
+    def fps(self): return _pygame.Game_fps(self)
+    def currentScene(self): return _pygame.Game_currentScene(self)
+    def SetScene(self, *args): return _pygame.Game_SetScene(self, *args)
+    __swig_getmethods__["Register"] = lambda x: _pygame.Game_Register
+    if _newclass:Register = staticmethod(_pygame.Game_Register)
+    __swig_getmethods__["Instance"] = lambda x: _pygame.Game_Instance
+    if _newclass:Instance = staticmethod(_pygame.Game_Instance)
+    def OnKeyEvent(self, *args): return _pygame.Game_OnKeyEvent(self, *args)
+    def OnMouseButtonEvent(self, *args): return _pygame.Game_OnMouseButtonEvent(self, *args)
+    def OnMouseMoveEvent(self, *args): return _pygame.Game_OnMouseMoveEvent(self, *args)
+Game_swigregister = _pygame.Game_swigregister
+Game_swigregister(Game)
 
 def __lshift__(*args):
   return _pygame.__lshift__(*args)
 __lshift__ = _pygame.__lshift__
+
+def Game_Register(*args):
+  return _pygame.Game_Register(*args)
+Game_Register = _pygame.Game_Register
+
+def Game_Instance():
+  return _pygame.Game_Instance()
+Game_Instance = _pygame.Game_Instance
+
+class Camera(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Camera, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Camera, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_Camera()
+        try: self.this.append(this)
+        except: self.this = this
+    def ApplyMatrix(self): return _pygame.Camera_ApplyMatrix(self)
+    def Update(self): return _pygame.Camera_Update(self)
+    def SetLayers(self, *args): return _pygame.Camera_SetLayers(self, *args)
+    def backLayer(self): return _pygame.Camera_backLayer(self)
+    def frontLayer(self): return _pygame.Camera_frontLayer(self)
+    def WatchEntity(self, *args): return _pygame.Camera_WatchEntity(self, *args)
+    def WorldToScreen(self, *args): return _pygame.Camera_WorldToScreen(self, *args)
+    def ScreenToWorld(self, *args): return _pygame.Camera_ScreenToWorld(self, *args)
+    def worldBounds(self): return _pygame.Camera_worldBounds(self)
+    __swig_setmethods__["transform"] = _pygame.Camera_transform_set
+    __swig_getmethods__["transform"] = _pygame.Camera_transform_get
+    if _newclass:transform = _swig_property(_pygame.Camera_transform_get, _pygame.Camera_transform_set)
+    __swig_destroy__ = _pygame.delete_Camera
+    __del__ = lambda self : None;
+Camera_swigregister = _pygame.Camera_swigregister
+Camera_swigregister(Camera)
+
+class SceneListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SceneListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SceneListener, name)
+    __repr__ = _swig_repr
+    def OnEntityAdded(self, *args): return _pygame.SceneListener_OnEntityAdded(self, *args)
+    def OnEntityRemoved(self, *args): return _pygame.SceneListener_OnEntityRemoved(self, *args)
+    def __init__(self): 
+        this = _pygame.new_SceneListener()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_SceneListener
+    __del__ = lambda self : None;
+SceneListener_swigregister = _pygame.SceneListener_swigregister
+SceneListener_swigregister(SceneListener)
+
+class Scene(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Scene, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Scene, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_Scene()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_Scene
+    __del__ = lambda self : None;
+    def Render(self): return _pygame.Scene_Render(self)
+    def Update(self): return _pygame.Scene_Update(self)
+    def OnBegin(self): return _pygame.Scene_OnBegin(self)
+    def OnEnd(self): return _pygame.Scene_OnEnd(self)
+    def OnPreRender(self): return _pygame.Scene_OnPreRender(self)
+    def OnPostRender(self): return _pygame.Scene_OnPostRender(self)
+    def Add(self, *args): return _pygame.Scene_Add(self, *args)
+    def Remove(self, *args): return _pygame.Scene_Remove(self, *args)
+    def RemoveAll(self): return _pygame.Scene_RemoveAll(self)
+    def OnEntityLayerChange(self, *args): return _pygame.Scene_OnEntityLayerChange(self, *args)
+    def OnKeyEvent(self, *args): return _pygame.Scene_OnKeyEvent(self, *args)
+    def OnMouseButtonEvent(self, *args): return _pygame.Scene_OnMouseButtonEvent(self, *args)
+    def OnMouseMoveEvent(self, *args): return _pygame.Scene_OnMouseMoveEvent(self, *args)
+    def numFilters(self): return _pygame.Scene_numFilters(self)
+    def AddFilter(self, *args): return _pygame.Scene_AddFilter(self, *args)
+    def RemoveFilter(self, *args): return _pygame.Scene_RemoveFilter(self, *args)
+    def camera(self): return _pygame.Scene_camera(self)
+    def GetEntitiesAtPoint(self, *args): return _pygame.Scene_GetEntitiesAtPoint(self, *args)
+    def GetEntitiesInArea(self, *args): return _pygame.Scene_GetEntitiesInArea(self, *args)
+    def GetLayerEntityCounts(self, *args): return _pygame.Scene_GetLayerEntityCounts(self, *args)
+    def GetEntities(self, *args): return _pygame.Scene_GetEntities(self, *args)
+    def SetHook(self, *args): return _pygame.Scene_SetHook(self, *args)
+    def AddSceneListener(self, *args): return _pygame.Scene_AddSceneListener(self, *args)
+    def RemoveSceneListener(self, *args): return _pygame.Scene_RemoveSceneListener(self, *args)
+Scene_swigregister = _pygame.Scene_swigregister
+Scene_swigregister(Scene)
+
 class Entity(VoltEntity):
     __swig_setmethods__ = {}
     for _s in [VoltEntity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -228,7 +723,6 @@ class Light(Entity):
     if _newclass:STATIC_MAP_FOLDER = _swig_property(_pygame.Light_STATIC_MAP_FOLDER_get, _pygame.Light_STATIC_MAP_FOLDER_set)
 Light_swigregister = _pygame.Light_swigregister
 Light_swigregister(Light)
-cvar = _pygame.cvar
 
 class Player(Creature):
     __swig_setmethods__ = {}

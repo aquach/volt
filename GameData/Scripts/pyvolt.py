@@ -66,34 +66,6 @@ except AttributeError:
     _newclass = 0
 
 
-class BBox(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, BBox, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, BBox, name)
-    __repr__ = _swig_repr
-    __swig_setmethods__["min"] = _pyvolt.BBox_min_set
-    __swig_getmethods__["min"] = _pyvolt.BBox_min_get
-    if _newclass:min = _swig_property(_pyvolt.BBox_min_get, _pyvolt.BBox_min_set)
-    __swig_setmethods__["max"] = _pyvolt.BBox_max_set
-    __swig_getmethods__["max"] = _pyvolt.BBox_max_get
-    if _newclass:max = _swig_property(_pyvolt.BBox_max_get, _pyvolt.BBox_max_set)
-    def __init__(self, *args): 
-        this = _pyvolt.new_BBox(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def center(self): return _pyvolt.BBox_center(self)
-    def extents(self): return _pyvolt.BBox_extents(self)
-    def Union(self, *args): return _pyvolt.BBox_Union(self, *args)
-    def IsInside(self, *args): return _pyvolt.BBox_IsInside(self, *args)
-    def BoundingCircle(self, *args): return _pyvolt.BBox_BoundingCircle(self, *args)
-    def Intersects(self, *args): return _pyvolt.BBox_Intersects(self, *args)
-    def Expand(self, *args): return _pyvolt.BBox_Expand(self, *args)
-    __swig_destroy__ = _pyvolt.delete_BBox
-    __del__ = lambda self : None;
-BBox_swigregister = _pyvolt.BBox_swigregister
-BBox_swigregister(BBox)
-
 class Color(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Color, name, value)
@@ -172,6 +144,14 @@ def Color_Random():
 Color_Random = _pyvolt.Color_Random
 cvar = _pyvolt.cvar
 
+
+def __add__(*args):
+  return _pyvolt.__add__(*args)
+__add__ = _pyvolt.__add__
+
+def __sub__(*args):
+  return _pyvolt.__sub__(*args)
+__sub__ = _pyvolt.__sub__
 INFINITY = _pyvolt.INFINITY
 
 def RoundToNearest(*args):
@@ -267,39 +247,6 @@ class Time(_object):
 Time_swigregister = _pyvolt.Time_swigregister
 Time_swigregister(Time)
 
-class Transform(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Transform, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, Transform, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _pyvolt.new_Transform(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def LerpTransform(self, *args): return _pyvolt.Transform_LerpTransform(self, *args)
-    def GetDirectionVector(self): return _pyvolt.Transform_GetDirectionVector(self)
-    __swig_setmethods__["position"] = _pyvolt.Transform_position_set
-    __swig_getmethods__["position"] = _pyvolt.Transform_position_get
-    if _newclass:position = _swig_property(_pyvolt.Transform_position_get, _pyvolt.Transform_position_set)
-    __swig_setmethods__["rotation"] = _pyvolt.Transform_rotation_set
-    __swig_getmethods__["rotation"] = _pyvolt.Transform_rotation_get
-    if _newclass:rotation = _swig_property(_pyvolt.Transform_rotation_get, _pyvolt.Transform_rotation_set)
-    __swig_setmethods__["scale"] = _pyvolt.Transform_scale_set
-    __swig_getmethods__["scale"] = _pyvolt.Transform_scale_get
-    if _newclass:scale = _swig_property(_pyvolt.Transform_scale_get, _pyvolt.Transform_scale_set)
-    def Apply(self, *args): return _pyvolt.Transform_Apply(self, *args)
-    def ApplyInverse(self, *args): return _pyvolt.Transform_ApplyInverse(self, *args)
-    def Load(self, *args): return _pyvolt.Transform_Load(self, *args)
-    def Save(self, *args): return _pyvolt.Transform_Save(self, *args)
-    def xAxis(self): return _pyvolt.Transform_xAxis(self)
-    def yAxis(self): return _pyvolt.Transform_yAxis(self)
-    def Multiply(self, *args): return _pyvolt.Transform_Multiply(self, *args)
-    __swig_destroy__ = _pyvolt.delete_Transform
-    __del__ = lambda self : None;
-Transform_swigregister = _pyvolt.Transform_swigregister
-Transform_swigregister(Transform)
-
 class Vector2(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Vector2, name, value)
@@ -365,6 +312,11 @@ class Vector2(_object):
     def __isub__(self, *args): return _pyvolt.Vector2___isub__(self, *args)
     def __imul__(self, *args): return _pyvolt.Vector2___imul__(self, *args)
     def __idiv__(self, *args): return _pyvolt.Vector2___idiv__(self, *args)
+    def __add__(self, *args): return _pyvolt.Vector2___add__(self, *args)
+    def __sub__(self, *args): return _pyvolt.Vector2___sub__(self, *args)
+    def __neg__(self): return _pyvolt.Vector2___neg__(self)
+    def __div__(self, *args): return _pyvolt.Vector2___div__(self, *args)
+    def __mul__(self, *args): return _pyvolt.Vector2___mul__(self, *args)
     def Load(self, *args): return _pyvolt.Vector2_Load(self, *args)
     def Save(self, *args): return _pyvolt.Vector2_Save(self, *args)
     __swig_destroy__ = _pyvolt.delete_Vector2
@@ -375,6 +327,79 @@ Vector2_swigregister(Vector2)
 def Vector2_Random():
   return _pyvolt.Vector2_Random()
 Vector2_Random = _pyvolt.Vector2_Random
+
+class Transform(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Transform, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Transform, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pyvolt.new_Transform(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def LerpTransform(self, *args): return _pyvolt.Transform_LerpTransform(self, *args)
+    def GetDirectionVector(self): return _pyvolt.Transform_GetDirectionVector(self)
+    __swig_setmethods__["position"] = _pyvolt.Transform_position_set
+    __swig_getmethods__["position"] = _pyvolt.Transform_position_get
+    if _newclass:position = _swig_property(_pyvolt.Transform_position_get, _pyvolt.Transform_position_set)
+    __swig_setmethods__["rotation"] = _pyvolt.Transform_rotation_set
+    __swig_getmethods__["rotation"] = _pyvolt.Transform_rotation_get
+    if _newclass:rotation = _swig_property(_pyvolt.Transform_rotation_get, _pyvolt.Transform_rotation_set)
+    __swig_setmethods__["scale"] = _pyvolt.Transform_scale_set
+    __swig_getmethods__["scale"] = _pyvolt.Transform_scale_get
+    if _newclass:scale = _swig_property(_pyvolt.Transform_scale_get, _pyvolt.Transform_scale_set)
+    def Apply(self, *args): return _pyvolt.Transform_Apply(self, *args)
+    def ApplyInverse(self, *args): return _pyvolt.Transform_ApplyInverse(self, *args)
+    def Load(self, *args): return _pyvolt.Transform_Load(self, *args)
+    def Save(self, *args): return _pyvolt.Transform_Save(self, *args)
+    def xAxis(self): return _pyvolt.Transform_xAxis(self)
+    def yAxis(self): return _pyvolt.Transform_yAxis(self)
+    def Multiply(self, *args): return _pyvolt.Transform_Multiply(self, *args)
+    __swig_destroy__ = _pyvolt.delete_Transform
+    __del__ = lambda self : None;
+Transform_swigregister = _pyvolt.Transform_swigregister
+Transform_swigregister(Transform)
+
+def __mul__(*args):
+  return _pyvolt.__mul__(*args)
+__mul__ = _pyvolt.__mul__
+
+def __div__(*args):
+  return _pyvolt.__div__(*args)
+__div__ = _pyvolt.__div__
+
+def __rshift__(*args):
+  return _pyvolt.__rshift__(*args)
+__rshift__ = _pyvolt.__rshift__
+
+class BBox(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, BBox, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, BBox, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["min"] = _pyvolt.BBox_min_set
+    __swig_getmethods__["min"] = _pyvolt.BBox_min_get
+    if _newclass:min = _swig_property(_pyvolt.BBox_min_get, _pyvolt.BBox_min_set)
+    __swig_setmethods__["max"] = _pyvolt.BBox_max_set
+    __swig_getmethods__["max"] = _pyvolt.BBox_max_get
+    if _newclass:max = _swig_property(_pyvolt.BBox_max_get, _pyvolt.BBox_max_set)
+    def __init__(self, *args): 
+        this = _pyvolt.new_BBox(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def center(self): return _pyvolt.BBox_center(self)
+    def extents(self): return _pyvolt.BBox_extents(self)
+    def Union(self, *args): return _pyvolt.BBox_Union(self, *args)
+    def IsInside(self, *args): return _pyvolt.BBox_IsInside(self, *args)
+    def BoundingCircle(self, *args): return _pyvolt.BBox_BoundingCircle(self, *args)
+    def Intersects(self, *args): return _pyvolt.BBox_Intersects(self, *args)
+    def Expand(self, *args): return _pyvolt.BBox_Expand(self, *args)
+    __swig_destroy__ = _pyvolt.delete_BBox
+    __del__ = lambda self : None;
+BBox_swigregister = _pyvolt.BBox_swigregister
+BBox_swigregister(BBox)
 
 class Vector3(_object):
     __swig_setmethods__ = {}
@@ -417,26 +442,6 @@ class Vector3(_object):
     __del__ = lambda self : None;
 Vector3_swigregister = _pyvolt.Vector3_swigregister
 Vector3_swigregister(Vector3)
-
-def __add__(*args):
-  return _pyvolt.__add__(*args)
-__add__ = _pyvolt.__add__
-
-def __sub__(*args):
-  return _pyvolt.__sub__(*args)
-__sub__ = _pyvolt.__sub__
-
-def __mul__(*args):
-  return _pyvolt.__mul__(*args)
-__mul__ = _pyvolt.__mul__
-
-def __div__(*args):
-  return _pyvolt.__div__(*args)
-__div__ = _pyvolt.__div__
-
-def __rshift__(*args):
-  return _pyvolt.__rshift__(*args)
-__rshift__ = _pyvolt.__rshift__
 
 class Entity(_object):
     __swig_setmethods__ = {}
@@ -484,9 +489,127 @@ class Entity(_object):
 Entity_swigregister = _pyvolt.Entity_swigregister
 Entity_swigregister(Entity)
 
-
+class Game(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Game, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Game, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pyvolt.new_Game(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pyvolt.delete_Game
+    __del__ = lambda self : None;
+    def Run(self): return _pyvolt.Game_Run(self)
+    def Quit(self): return _pyvolt.Game_Quit(self)
+    def fps(self): return _pyvolt.Game_fps(self)
+    def currentScene(self): return _pyvolt.Game_currentScene(self)
+    def SetScene(self, *args): return _pyvolt.Game_SetScene(self, *args)
+    __swig_getmethods__["Register"] = lambda x: _pyvolt.Game_Register
+    if _newclass:Register = staticmethod(_pyvolt.Game_Register)
+    __swig_getmethods__["Instance"] = lambda x: _pyvolt.Game_Instance
+    if _newclass:Instance = staticmethod(_pyvolt.Game_Instance)
+    def OnKeyEvent(self, *args): return _pyvolt.Game_OnKeyEvent(self, *args)
+    def OnMouseButtonEvent(self, *args): return _pyvolt.Game_OnMouseButtonEvent(self, *args)
+    def OnMouseMoveEvent(self, *args): return _pyvolt.Game_OnMouseMoveEvent(self, *args)
+Game_swigregister = _pyvolt.Game_swigregister
+Game_swigregister(Game)
 
 def __lshift__(*args):
   return _pyvolt.__lshift__(*args)
 __lshift__ = _pyvolt.__lshift__
+
+def Game_Register(*args):
+  return _pyvolt.Game_Register(*args)
+Game_Register = _pyvolt.Game_Register
+
+def Game_Instance():
+  return _pyvolt.Game_Instance()
+Game_Instance = _pyvolt.Game_Instance
+
+class Camera(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Camera, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Camera, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pyvolt.new_Camera()
+        try: self.this.append(this)
+        except: self.this = this
+    def ApplyMatrix(self): return _pyvolt.Camera_ApplyMatrix(self)
+    def Update(self): return _pyvolt.Camera_Update(self)
+    def SetLayers(self, *args): return _pyvolt.Camera_SetLayers(self, *args)
+    def backLayer(self): return _pyvolt.Camera_backLayer(self)
+    def frontLayer(self): return _pyvolt.Camera_frontLayer(self)
+    def WatchEntity(self, *args): return _pyvolt.Camera_WatchEntity(self, *args)
+    def WorldToScreen(self, *args): return _pyvolt.Camera_WorldToScreen(self, *args)
+    def ScreenToWorld(self, *args): return _pyvolt.Camera_ScreenToWorld(self, *args)
+    def worldBounds(self): return _pyvolt.Camera_worldBounds(self)
+    __swig_setmethods__["transform"] = _pyvolt.Camera_transform_set
+    __swig_getmethods__["transform"] = _pyvolt.Camera_transform_get
+    if _newclass:transform = _swig_property(_pyvolt.Camera_transform_get, _pyvolt.Camera_transform_set)
+    __swig_destroy__ = _pyvolt.delete_Camera
+    __del__ = lambda self : None;
+Camera_swigregister = _pyvolt.Camera_swigregister
+Camera_swigregister(Camera)
+
+class SceneListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SceneListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SceneListener, name)
+    __repr__ = _swig_repr
+    def OnEntityAdded(self, *args): return _pyvolt.SceneListener_OnEntityAdded(self, *args)
+    def OnEntityRemoved(self, *args): return _pyvolt.SceneListener_OnEntityRemoved(self, *args)
+    def __init__(self): 
+        this = _pyvolt.new_SceneListener()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pyvolt.delete_SceneListener
+    __del__ = lambda self : None;
+SceneListener_swigregister = _pyvolt.SceneListener_swigregister
+SceneListener_swigregister(SceneListener)
+
+class Scene(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Scene, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Scene, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pyvolt.new_Scene()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pyvolt.delete_Scene
+    __del__ = lambda self : None;
+    def Render(self): return _pyvolt.Scene_Render(self)
+    def Update(self): return _pyvolt.Scene_Update(self)
+    def OnBegin(self): return _pyvolt.Scene_OnBegin(self)
+    def OnEnd(self): return _pyvolt.Scene_OnEnd(self)
+    def OnPreRender(self): return _pyvolt.Scene_OnPreRender(self)
+    def OnPostRender(self): return _pyvolt.Scene_OnPostRender(self)
+    def Add(self, *args): return _pyvolt.Scene_Add(self, *args)
+    def Remove(self, *args): return _pyvolt.Scene_Remove(self, *args)
+    def RemoveAll(self): return _pyvolt.Scene_RemoveAll(self)
+    def OnEntityLayerChange(self, *args): return _pyvolt.Scene_OnEntityLayerChange(self, *args)
+    def OnKeyEvent(self, *args): return _pyvolt.Scene_OnKeyEvent(self, *args)
+    def OnMouseButtonEvent(self, *args): return _pyvolt.Scene_OnMouseButtonEvent(self, *args)
+    def OnMouseMoveEvent(self, *args): return _pyvolt.Scene_OnMouseMoveEvent(self, *args)
+    def numFilters(self): return _pyvolt.Scene_numFilters(self)
+    def AddFilter(self, *args): return _pyvolt.Scene_AddFilter(self, *args)
+    def RemoveFilter(self, *args): return _pyvolt.Scene_RemoveFilter(self, *args)
+    def camera(self): return _pyvolt.Scene_camera(self)
+    def GetEntitiesAtPoint(self, *args): return _pyvolt.Scene_GetEntitiesAtPoint(self, *args)
+    def GetEntitiesInArea(self, *args): return _pyvolt.Scene_GetEntitiesInArea(self, *args)
+    def GetLayerEntityCounts(self, *args): return _pyvolt.Scene_GetLayerEntityCounts(self, *args)
+    def GetEntities(self, *args): return _pyvolt.Scene_GetEntities(self, *args)
+    def SetHook(self, *args): return _pyvolt.Scene_SetHook(self, *args)
+    def AddSceneListener(self, *args): return _pyvolt.Scene_AddSceneListener(self, *args)
+    def RemoveSceneListener(self, *args): return _pyvolt.Scene_RemoveSceneListener(self, *args)
+Scene_swigregister = _pyvolt.Scene_swigregister
+Scene_swigregister(Scene)
+
+
 

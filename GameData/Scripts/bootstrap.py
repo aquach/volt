@@ -38,6 +38,3 @@ sys.meta_path.append(GameImporter())
 
 import pyvolt
 import pygame
-
-v = pyvolt.Vector2(2, 3)
-a = pyvolt.Vector2(4, 6)

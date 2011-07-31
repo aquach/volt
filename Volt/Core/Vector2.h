@@ -71,6 +71,13 @@ public:
     Vector2& operator*= (float rhs);
     Vector2& operator/= (float rhs);
 
+    Vector2 operator+ (const Vector2& rhs) const;
+    Vector2 operator- (const Vector2& rhs) const;
+    Vector2 operator- () const;
+    Vector2 operator* (float rhs) const;
+    Vector2 operator/ (float rhs) const;
+    Vector2 operator* (const Vector2& rhs) const;
+
     void Load (const Json::Value& node);
     void Save (Json::Value& node) const;
 };
@@ -131,32 +138,32 @@ inline Vector2& Vector2::operator/= (float rhs) {
     return *this;
 }
 
-inline Vector2 operator+ (const Vector2& lhs, const Vector2& rhs) {
-    return Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
+inline Vector2 Vector2::operator+ (const Vector2& rhs) const {
+    return Vector2(x + rhs.x, y + rhs.y);
 }
 
-inline Vector2 operator- (const Vector2& lhs, const Vector2& rhs) {
-    return Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
+inline Vector2 Vector2::operator- (const Vector2& rhs) const {
+    return Vector2(x - rhs.x, y - rhs.y);
 }
 
-inline Vector2 operator- (const Vector2 &rhs) {
-    return Vector2(-rhs.x, -rhs.y);
+inline Vector2 Vector2::operator- () const {
+    return Vector2(-x, -y);
 }
 
 inline Vector2 operator* (float lhs, const Vector2& rhs) {
     return Vector2(lhs * rhs.x, lhs * rhs.y);
 }
 
-inline Vector2 operator* (const Vector2& lhs, float rhs) {
-    return Vector2(lhs.x * rhs, lhs.y * rhs);
+inline Vector2 Vector2::operator* (float rhs) const {
+    return Vector2(x * rhs, y * rhs);
 }
 
-inline Vector2 operator/ (const Vector2& lhs, float rhs) {
-    return Vector2(lhs.x / rhs, lhs.y / rhs);
+inline Vector2 Vector2::operator/ (float rhs) const {
+    return Vector2(x / rhs, y / rhs);
 }
 
-inline Vector2 operator* (const Vector2& lhs, const Vector2& rhs) {
-    return Vector2(lhs.x * rhs.x, lhs.y * rhs.y);
+inline Vector2 Vector2::operator* (const Vector2& rhs) const {
+    return Vector2(x * rhs.x, y * rhs.y);
 }
 
 inline Vector2 operator/ (float lhs, const Vector2 &rhs) {

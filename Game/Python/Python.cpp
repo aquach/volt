@@ -29,8 +29,6 @@ void Initialize (int argc, char** argv) {
     PyEval_InitThreads();
     Py_InitModule("pyvoltbootstrap", PyVoltBootstrapMethods);
 
-    // TODO: Setup bootstrap correctly to import all modules.
-    // Try to get some test scripts going.
     PyRun_SimpleString(
         G_AssetManager->GetScript("Scripts/bootstrap.py")->script().c_str());
 }
