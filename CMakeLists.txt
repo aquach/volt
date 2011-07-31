@@ -12,8 +12,6 @@ IF(UNIX)
     FIND_PACKAGE(PythonLibs REQUIRED)
     FIND_PACKAGE(SDL REQUIRED)
     FIND_PACKAGE(SDL_image REQUIRED)
-    FIND_PACKAGE(SWIG REQUIRED)
-    INCLUDE(${SWIG_USE_FILE})
     INCLUDE_DIRECTORIES(/usr/include/python2.7)
     set(CMAKE_CXX_FLAGS "-g -Wall -Wno-reorder")
 ENDIF()
@@ -73,29 +71,31 @@ LIST(REMOVE_ITEM Game_SOURCES Game/main.cpp)
 ADD_LIBRARY(gamelib ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
 
-# Volt SWIG bindings
-SET(CMAKE_SWIG_OUTDIR ${CMAKE_SOURCE_DIR}/Volt/Python)
-SET_SOURCE_FILES_PROPERTIES(Volt/Volt.i PROPERTIES CPLUSPLUS ON)
-FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Volt)
-SWIG_ADD_MODULE(pyvolt python Volt/Volt.i)
-SWIG_LINK_LIBRARIES(pyvolt volt)
+# Game SWIG bindings.
+SET(PYGAME ${CMAKE_SOURCE_DIR}/Game/Python/Game_wrap.cxx)
+ADD_CUSTOM_COMMAND(
+    OUTPUT ${PYGAME}
+    COMMAND cd ${CMAKE_SOURCE_DIR}/Game/Python/ && ./swig.sh
+    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Volt.i ${CMAKE_SOURCE_DIR}/Game/Python/Game.i
+)
+ADD_CUSTOM_TARGET(pygame DEPENDS ${PYGAME})
 
-# Game SWIG bindings
-SET(CMAKE_SWIG_OUTDIR ${CMAKE_SOURCE_DIR}/Game/Python)
-SET(SWIG_SRCS Game/Game.i)
-FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Game)
-SET_SOURCE_FILES_PROPERTIES(Game/Game.i PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_MODULE(pygame python Game/Game.i)
-SWIG_LINK_LIBRARIES(pygame gamelib)
+ADD_LIBRARY(pygamelib SHARED Game/Python/Game_wrap.cxx)
+SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME _pygame PREFIX "")
+TARGET_LINK_LIBRARIES(pygamelib gamelib)
+ADD_DEPENDENCIES(pygamelib pygame)
 
+ADD_LIBRARY(pyvoltlib SHARED Game/Python/Volt_wrap.cxx)
+SET_TARGET_PROPERTIES(pyvoltlib PROPERTIES OUTPUT_NAME _pyvolt PREFIX "")
+TARGET_LINK_LIBRARIES(pyvoltlib gamelib)
+ADD_DEPENDENCIES(pyvoltlib pygame)
+    
 # Game
 
 file(GLOB_RECURSE Game_SOURCES Game/main.cpp)
 ADD_EXECUTABLE(game ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(game gamelib ${VOLT_DEPENDENCIES} volt)
-# This makes the swig bindings regenerated every time.
-#ADD_DEPENDENCIES(game ${SWIG_MODULE_pyvolt_REAL_NAME}
-#                      ${SWIG_MODULE_pygame_REAL_NAME})
+ADD_DEPENDENCIES(game pygamelib pyvoltlib)
 
 # Editor
 

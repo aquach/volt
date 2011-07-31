@@ -22,7 +22,7 @@ class Game {
 public:
     Game (const string& name, const DataSource* source, int w = 1024,
           int h = 768, bool fullscreen = false);
-    ~Game ();
+    virtual ~Game ();
 
     void Run ();
     void Quit ();
