@@ -42,6 +42,8 @@ public:
     DataAssetRef GetData (const string& path);
     ScriptAssetRef GetScript (const string& path);
 
+    bool assetExists (const string& path) const;
+
     void GarbageCollect ();
 
     void ReloadAll ();

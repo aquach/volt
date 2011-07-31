@@ -81,6 +81,11 @@ PackDataSource::~PackDataSource () {
     delete[] m_data;
 }
 
+bool PackDataSource::itemExists (const string& itemPath) const {
+    map<string, PackItem>::const_iterator i = m_files.find(itemPath);
+    return i != m_files.end();
+}
+
 bool PackDataSource::LoadDataItem (const string& itemPath,
                                    DataItem* item) const {
     CHECK_NOTNULL(item);

@@ -36,6 +36,7 @@ public:
 
     virtual bool LoadDataItem (const string& itemPath,
                                DataItem* item) const = 0;
+    virtual bool itemExists (const string& itemPath) const = 0;
 
     string sourcePath () const { return m_sourcePath; }
 

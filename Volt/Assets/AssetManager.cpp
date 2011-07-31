@@ -234,4 +234,8 @@ void AssetManager::GarbageCollect () {
     }
 }
 
+bool AssetManager::assetExists (const string& path) const {
+    return m_dataSource->itemExists(path);
+}
+
 }

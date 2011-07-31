@@ -7,7 +7,10 @@ namespace Python {
 static PyObject* getCode (PyObject* self, PyObject* args) {
     char* path;
     if (!PyArg_ParseTuple(args, "s", &path))
-        return NULL;
+        return Py_BuildValue("");
+
+    if (!G_AssetManager->assetExists(path))
+        return Py_BuildValue("");
 
     return Py_BuildValue(
         "s",

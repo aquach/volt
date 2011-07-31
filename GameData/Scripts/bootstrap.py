@@ -5,10 +5,11 @@ import time
 import sys
 import pyvoltbootstrap
 
-# Add paths.
+# Add path for shared libraries.
 exeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.insert(0, exeDir)
 
+# Custom importer that calls into AssetManager.
 class GameImporter(object):
     def moduleNameToFilename(self, moduleName):
         return 'Scripts/' + moduleName + '.py'

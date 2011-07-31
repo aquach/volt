@@ -28,8 +28,10 @@ public:
     virtual ~PackDataSource ();
 
     virtual bool LoadDataItem (const string& itemPath, DataItem* item) const;
+    virtual bool itemExists (const string& itemPath) const;
 
     void WriteToDirectory (const string& dirPath);
+
 
     /** Builds a pack file out of a list of filenames (relative to the source
      *  path, an absolute path to where the filenames are stored). */

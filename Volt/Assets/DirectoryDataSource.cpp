@@ -39,6 +39,12 @@ bool DirectoryDataSource::LoadDataItem (const string& itemPath,
     return true;
 }
 
+bool DirectoryDataSource::itemExists (const string& itemPath) const {
+    string path = sourcePath() + "/" + itemPath;
+    ifstream file(path.c_str(), ifstream::binary);
+    return file.is_open();
+}
+
 void DirectoryDataSource::WriteToPackFile (const string& packFilename) {
     vector<string> files;
     GetAllFilesInDirectory(sourcePath(), &files);
