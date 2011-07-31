@@ -58,7 +58,6 @@ void Scene::Update () {
 }
 
 void Scene::Add (Entity* entity, int layer) {
-    LOG(INFO) << "Adding " << *entity;
     entity->m_layer = layer;
     m_entitiesToAdd.insert(entity);
 }
@@ -112,7 +111,6 @@ void Scene::ResolveEntityChanges () {
         if (i == m_entitiesToAdd.end())
             break;
         Entity* entity = *i;
-        LOG(INFO) << "Really adding " << *entity;
 
         m_layers[entity->layer()].push_back(entity);
         entity->m_scene = this;

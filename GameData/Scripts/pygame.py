@@ -798,5 +798,32 @@ class Triangle(Entity):
 Triangle_swigregister = _pygame.Triangle_swigregister
 Triangle_swigregister(Triangle)
 
+class EntityFactory(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, EntityFactory, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, EntityFactory, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_EntityFactory()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_EntityFactory
+    __del__ = lambda self : None;
+    __swig_getmethods__["Create"] = lambda x: _pygame.EntityFactory_Create
+    if _newclass:Create = staticmethod(_pygame.EntityFactory_Create)
+    __swig_getmethods__["GetEntityTypes"] = lambda x: _pygame.EntityFactory_GetEntityTypes
+    if _newclass:GetEntityTypes = staticmethod(_pygame.EntityFactory_GetEntityTypes)
+EntityFactory_swigregister = _pygame.EntityFactory_swigregister
+EntityFactory_swigregister(EntityFactory)
+
+def EntityFactory_Create(*args):
+  return _pygame.EntityFactory_Create(*args)
+EntityFactory_Create = _pygame.EntityFactory_Create
+
+def EntityFactory_GetEntityTypes(*args):
+  return _pygame.EntityFactory_GetEntityTypes(*args)
+EntityFactory_GetEntityTypes = _pygame.EntityFactory_GetEntityTypes
+
 
 

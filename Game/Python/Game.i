@@ -7,8 +7,11 @@
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Triangle.h"
+#include "Game/Editor/EntityFactory.h"
 
 %}
+
+%ignore DECLARE_ENTITY_;
 
 %rename(VoltEntity) Volt::Entity;
 %include "Volt.i"
@@ -18,3 +21,4 @@
 %include "Game/Entities/Game/Light.h"
 %include "Game/Entities/Game/Player.h"
 %include "Game/Entities/Game/Triangle.h"
+%include "Game/Editor/EntityFactory.h"

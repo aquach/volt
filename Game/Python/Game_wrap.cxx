@@ -2686,50 +2686,52 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_Creature swig_types[1]
 #define SWIGTYPE_p_CreatureHitListener swig_types[2]
 #define SWIGTYPE_p_Entity swig_types[3]
-#define SWIGTYPE_p_Json__Value swig_types[4]
-#define SWIGTYPE_p_Layers swig_types[5]
-#define SWIGTYPE_p_Light swig_types[6]
-#define SWIGTYPE_p_LightStroke swig_types[7]
-#define SWIGTYPE_p_Player swig_types[8]
-#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[9]
-#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[10]
-#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[11]
-#define SWIGTYPE_p_Triangle swig_types[12]
-#define SWIGTYPE_p_Vector2 swig_types[13]
-#define SWIGTYPE_p_Volt__BBox swig_types[14]
-#define SWIGTYPE_p_Volt__Camera swig_types[15]
-#define SWIGTYPE_p_Volt__Color swig_types[16]
-#define SWIGTYPE_p_Volt__DataSource swig_types[17]
-#define SWIGTYPE_p_Volt__Entity swig_types[18]
-#define SWIGTYPE_p_Volt__Filter swig_types[19]
-#define SWIGTYPE_p_Volt__Game swig_types[20]
-#define SWIGTYPE_p_Volt__Random swig_types[21]
-#define SWIGTYPE_p_Volt__Scene swig_types[22]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[23]
-#define SWIGTYPE_p_Volt__SceneListener swig_types[24]
-#define SWIGTYPE_p_Volt__Time swig_types[25]
-#define SWIGTYPE_p_Volt__Transform swig_types[26]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[27]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[28]
-#define SWIGTYPE_p_Weapon swig_types[29]
-#define SWIGTYPE_p_b2Body swig_types[30]
-#define SWIGTYPE_p_b2BodyDef swig_types[31]
-#define SWIGTYPE_p_b2BodyType swig_types[32]
-#define SWIGTYPE_p_b2Contact swig_types[33]
-#define SWIGTYPE_p_b2Vec2 swig_types[34]
-#define SWIGTYPE_p_char swig_types[35]
-#define SWIGTYPE_p_float swig_types[36]
-#define SWIGTYPE_p_int swig_types[37]
-#define SWIGTYPE_p_istream swig_types[38]
-#define SWIGTYPE_p_long swig_types[39]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[40]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[41]
-#define SWIGTYPE_p_ostream swig_types[42]
-#define SWIGTYPE_p_vectorT_Property_p_t swig_types[43]
-#define SWIGTYPE_p_vectorT_Volt__Entity_p_t swig_types[44]
-#define SWIGTYPE_p_vectorT_std__string_t swig_types[45]
-static swig_type_info *swig_types[47];
-static swig_module_info swig_module = {swig_types, 46, 0, 0, 0, 0};
+#define SWIGTYPE_p_EntityFactory swig_types[4]
+#define SWIGTYPE_p_Json__Value swig_types[5]
+#define SWIGTYPE_p_Layers swig_types[6]
+#define SWIGTYPE_p_Light swig_types[7]
+#define SWIGTYPE_p_LightStroke swig_types[8]
+#define SWIGTYPE_p_Player swig_types[9]
+#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[10]
+#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[11]
+#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[12]
+#define SWIGTYPE_p_Triangle swig_types[13]
+#define SWIGTYPE_p_Types swig_types[14]
+#define SWIGTYPE_p_Vector2 swig_types[15]
+#define SWIGTYPE_p_Volt__BBox swig_types[16]
+#define SWIGTYPE_p_Volt__Camera swig_types[17]
+#define SWIGTYPE_p_Volt__Color swig_types[18]
+#define SWIGTYPE_p_Volt__DataSource swig_types[19]
+#define SWIGTYPE_p_Volt__Entity swig_types[20]
+#define SWIGTYPE_p_Volt__Filter swig_types[21]
+#define SWIGTYPE_p_Volt__Game swig_types[22]
+#define SWIGTYPE_p_Volt__Random swig_types[23]
+#define SWIGTYPE_p_Volt__Scene swig_types[24]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[25]
+#define SWIGTYPE_p_Volt__SceneListener swig_types[26]
+#define SWIGTYPE_p_Volt__Time swig_types[27]
+#define SWIGTYPE_p_Volt__Transform swig_types[28]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[29]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[30]
+#define SWIGTYPE_p_Weapon swig_types[31]
+#define SWIGTYPE_p_b2Body swig_types[32]
+#define SWIGTYPE_p_b2BodyDef swig_types[33]
+#define SWIGTYPE_p_b2BodyType swig_types[34]
+#define SWIGTYPE_p_b2Contact swig_types[35]
+#define SWIGTYPE_p_b2Vec2 swig_types[36]
+#define SWIGTYPE_p_char swig_types[37]
+#define SWIGTYPE_p_float swig_types[38]
+#define SWIGTYPE_p_int swig_types[39]
+#define SWIGTYPE_p_istream swig_types[40]
+#define SWIGTYPE_p_long swig_types[41]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[42]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[43]
+#define SWIGTYPE_p_ostream swig_types[44]
+#define SWIGTYPE_p_vectorT_Property_p_t swig_types[45]
+#define SWIGTYPE_p_vectorT_Volt__Entity_p_t swig_types[46]
+#define SWIGTYPE_p_vectorT_std__string_t swig_types[47]
+static swig_type_info *swig_types[49];
+static swig_module_info swig_module = {swig_types, 48, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2832,6 +2834,7 @@ namespace swig {
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Triangle.h"
+#include "Game/Editor/EntityFactory.h"
 
 
 
@@ -13996,6 +13999,92 @@ SWIGINTERN PyObject *Triangle_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObj
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_EntityFactory(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EntityFactory *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_EntityFactory")) SWIG_fail;
+  result = (EntityFactory *)new EntityFactory();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_EntityFactory, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_EntityFactory(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EntityFactory *arg1 = (EntityFactory *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityFactory",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EntityFactory, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityFactory" "', argument " "1"" of type '" "EntityFactory *""'"); 
+  }
+  arg1 = reinterpret_cast< EntityFactory * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_EntityFactory_Create(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::string arg1 ;
+  PyObject * obj0 = 0 ;
+  Entity *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:EntityFactory_Create",&obj0)) SWIG_fail;
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "EntityFactory_Create" "', argument " "1"" of type '" "std::string""'"); 
+    }
+    arg1 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = (Entity *)EntityFactory::Create(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Entity, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_EntityFactory_GetEntityTypes(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  vector< std::string > *arg1 = (vector< std::string > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:EntityFactory_GetEntityTypes",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_vectorT_std__string_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EntityFactory_GetEntityTypes" "', argument " "1"" of type '" "vector< std::string > *""'"); 
+  }
+  arg1 = reinterpret_cast< vector< std::string > * >(argp1);
+  EntityFactory::GetEntityTypes(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *EntityFactory_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_EntityFactory, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"new_Color", _wrap_new_Color, METH_VARARGS, NULL},
@@ -14346,6 +14435,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Triangle_OnScaleChanged", _wrap_Triangle_OnScaleChanged, METH_VARARGS, NULL},
 	 { (char *)"Triangle_GetProperties", _wrap_Triangle_GetProperties, METH_VARARGS, NULL},
 	 { (char *)"Triangle_swigregister", Triangle_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_EntityFactory", _wrap_new_EntityFactory, METH_VARARGS, NULL},
+	 { (char *)"delete_EntityFactory", _wrap_delete_EntityFactory, METH_VARARGS, NULL},
+	 { (char *)"EntityFactory_Create", _wrap_EntityFactory_Create, METH_VARARGS, NULL},
+	 { (char *)"EntityFactory_GetEntityTypes", _wrap_EntityFactory_GetEntityTypes, METH_VARARGS, NULL},
+	 { (char *)"EntityFactory_swigregister", EntityFactory_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -14386,6 +14480,7 @@ static swig_type_info _swigt__p_BrushStroke = {"_p_BrushStroke", "BrushStroke *"
 static swig_type_info _swigt__p_Creature = {"_p_Creature", "Creature *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CreatureHitListener = {"_p_CreatureHitListener", "CreatureHitListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Entity = {"_p_Entity", "Entity *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_EntityFactory = {"_p_EntityFactory", "EntityFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Json__Value = {"_p_Json__Value", "Json::Value *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Layers = {"_p_Layers", "Layers *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Light = {"_p_Light", "Light *", 0, 0, (void*)0, 0};
@@ -14395,6 +14490,7 @@ static swig_type_info _swigt__p_SDL_KeyboardEvent = {"_p_SDL_KeyboardEvent", "SD
 static swig_type_info _swigt__p_SDL_MouseButtonEvent = {"_p_SDL_MouseButtonEvent", "SDL_MouseButtonEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SDL_MouseMotionEvent = {"_p_SDL_MouseMotionEvent", "SDL_MouseMotionEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Triangle = {"_p_Triangle", "Triangle *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Types = {"_p_Types", "Types *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Vector2 = {"_p_Vector2", "Vector2 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__BBox = {"_p_Volt__BBox", "Volt::BBox *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Camera = {"_p_Volt__Camera", "Volt::Camera *", 0, 0, (void*)0, 0};
@@ -14434,6 +14530,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Creature,
   &_swigt__p_CreatureHitListener,
   &_swigt__p_Entity,
+  &_swigt__p_EntityFactory,
   &_swigt__p_Json__Value,
   &_swigt__p_Layers,
   &_swigt__p_Light,
@@ -14443,6 +14540,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_SDL_MouseButtonEvent,
   &_swigt__p_SDL_MouseMotionEvent,
   &_swigt__p_Triangle,
+  &_swigt__p_Types,
   &_swigt__p_Vector2,
   &_swigt__p_Volt__BBox,
   &_swigt__p_Volt__Camera,
@@ -14482,6 +14580,7 @@ static swig_cast_info _swigc__p_BrushStroke[] = {  {&_swigt__p_BrushStroke, 0, 0
 static swig_cast_info _swigc__p_Creature[] = {  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Creature, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CreatureHitListener[] = {  {&_swigt__p_CreatureHitListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Entity, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Entity, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_EntityFactory[] = {  {&_swigt__p_EntityFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Json__Value[] = {  {&_swigt__p_Json__Value, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Layers[] = {  {&_swigt__p_Layers, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Light[] = {  {&_swigt__p_Light, 0, 0, 0},{0, 0, 0, 0}};
@@ -14491,6 +14590,7 @@ static swig_cast_info _swigc__p_SDL_KeyboardEvent[] = {  {&_swigt__p_SDL_Keyboar
 static swig_cast_info _swigc__p_SDL_MouseButtonEvent[] = {  {&_swigt__p_SDL_MouseButtonEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SDL_MouseMotionEvent[] = {  {&_swigt__p_SDL_MouseMotionEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Triangle[] = {  {&_swigt__p_Triangle, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Types[] = {  {&_swigt__p_Types, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Vector2[] = {  {&_swigt__p_Vector2, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__BBox[] = {  {&_swigt__p_Volt__BBox, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Camera[] = {  {&_swigt__p_Volt__Camera, 0, 0, 0},{0, 0, 0, 0}};
@@ -14530,6 +14630,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Creature,
   _swigc__p_CreatureHitListener,
   _swigc__p_Entity,
+  _swigc__p_EntityFactory,
   _swigc__p_Json__Value,
   _swigc__p_Layers,
   _swigc__p_Light,
@@ -14539,6 +14640,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_SDL_MouseButtonEvent,
   _swigc__p_SDL_MouseMotionEvent,
   _swigc__p_Triangle,
+  _swigc__p_Types,
   _swigc__p_Vector2,
   _swigc__p_Volt__BBox,
   _swigc__p_Volt__Camera,

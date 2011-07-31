@@ -15,7 +15,7 @@
 #include "Game/Game/LevelManager.h"
 #include "Game/Game/LightManager.h"
 #include "Game/Game/GamePerfHook.h"
-#include <Python.h>
+#include "Game/Python/Python.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
@@ -76,8 +76,7 @@ void GameScene::Update () {
 }
 
 void GameScene::OnBegin () {
-    PyRun_SimpleString(
-            G_AssetManager->GetScript("Scripts/test.py")->script().c_str());
+    Python::RunGameScriptFile("test.py");
 }
 
 void GameScene::OnEnd () {

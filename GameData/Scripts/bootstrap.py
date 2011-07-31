@@ -1,7 +1,5 @@
 import imp
 import os
-import threading
-import time
 import sys
 import pyvoltbootstrap
 
@@ -13,7 +11,7 @@ sys.path.insert(0, exeDir)
 class GameImporter(object):
     def moduleNameToFilename(self, moduleName):
         return 'Scripts/' + moduleName + '.py'
-        
+
     def find_module(self, fullname, path=None):
         path = self.moduleNameToFilename(fullname)
         code = pyvoltbootstrap.getCode(path)
@@ -38,3 +36,4 @@ sys.meta_path.append(GameImporter())
 
 import pyvolt
 import pygame
+import pygameutil

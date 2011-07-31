@@ -1,3 +1,4 @@
+#include "Game/Core/Core.h"
 #include "Volt/Assets/AssetManager.h"
 
 namespace Python {
@@ -5,6 +6,6 @@ namespace Python {
 void Initialize (int argc, char** argv);
 void Terminate ();
 
-void ExecuteGameScriptFile (Volt::ScriptAssetRef script);
-void ExecuteGameScript (string script);
+void RunGameScriptFile (string scriptPath);
+void RunGameScript (string script);
 }
