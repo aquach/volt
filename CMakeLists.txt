@@ -78,8 +78,7 @@ SET(PYGAME ${CMAKE_SOURCE_DIR}/Game/Python/Game_wrap.cxx)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${PYGAME}
     COMMAND cd ${CMAKE_SOURCE_DIR}/Game/Python/ && ./swig.sh
-    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Volt.i
-            ${CMAKE_SOURCE_DIR}/Game/Python/Game.i
+    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Game.i
             $(Python_SOURCEHEADERS)
 )
 ADD_CUSTOM_TARGET(pygame DEPENDS ${PYGAME})
