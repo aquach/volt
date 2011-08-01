@@ -18,7 +18,12 @@ for i in xrange(0, 5):
 
 entities = scene().GetAllTagged('Sign')
 
+tweens = []
+for tri in triangles:
+    tweens.append(TweenVector.Linear(tri.position(), Vector2(3, 3), 4))
+
 while True:
-    for tri in triangles:
-        tri.SetPosition(tri.position() + Vector2(0.1, 0.1))
-    time.sleep(0.05)
+    for i, tri in enumerate(triangles):
+        tweens[i].Update(0.01)
+        tri.SetPosition(tweens[i].value())
+    time.sleep(0.01)

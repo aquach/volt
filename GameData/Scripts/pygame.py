@@ -403,6 +403,132 @@ def __rshift__(*args):
   return _pygame.__rshift__(*args)
 __rshift__ = _pygame.__rshift__
 
+class TweenVector(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TweenVector, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, TweenVector, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    def Update(self, *args): return _pygame.TweenVector_Update(self, *args)
+    def value(self): return _pygame.TweenVector_value(self)
+    def finished(self): return _pygame.TweenVector_finished(self)
+    __swig_getmethods__["NoTween"] = lambda x: _pygame.TweenVector_NoTween
+    if _newclass:NoTween = staticmethod(_pygame.TweenVector_NoTween)
+    __swig_getmethods__["Linear"] = lambda x: _pygame.TweenVector_Linear
+    if _newclass:Linear = staticmethod(_pygame.TweenVector_Linear)
+    __swig_getmethods__["QuadraticIn"] = lambda x: _pygame.TweenVector_QuadraticIn
+    if _newclass:QuadraticIn = staticmethod(_pygame.TweenVector_QuadraticIn)
+    __swig_getmethods__["QuadraticOut"] = lambda x: _pygame.TweenVector_QuadraticOut
+    if _newclass:QuadraticOut = staticmethod(_pygame.TweenVector_QuadraticOut)
+    __swig_getmethods__["QuadraticInOut"] = lambda x: _pygame.TweenVector_QuadraticInOut
+    if _newclass:QuadraticInOut = staticmethod(_pygame.TweenVector_QuadraticInOut)
+    __swig_getmethods__["SinIn"] = lambda x: _pygame.TweenVector_SinIn
+    if _newclass:SinIn = staticmethod(_pygame.TweenVector_SinIn)
+    __swig_getmethods__["SinOut"] = lambda x: _pygame.TweenVector_SinOut
+    if _newclass:SinOut = staticmethod(_pygame.TweenVector_SinOut)
+    __swig_getmethods__["SinInOut"] = lambda x: _pygame.TweenVector_SinInOut
+    if _newclass:SinInOut = staticmethod(_pygame.TweenVector_SinInOut)
+    __swig_destroy__ = _pygame.delete_TweenVector
+    __del__ = lambda self : None;
+TweenVector_swigregister = _pygame.TweenVector_swigregister
+TweenVector_swigregister(TweenVector)
+
+def TweenVector_NoTween(*args):
+  return _pygame.TweenVector_NoTween(*args)
+TweenVector_NoTween = _pygame.TweenVector_NoTween
+
+def TweenVector_Linear(*args):
+  return _pygame.TweenVector_Linear(*args)
+TweenVector_Linear = _pygame.TweenVector_Linear
+
+def TweenVector_QuadraticIn(*args):
+  return _pygame.TweenVector_QuadraticIn(*args)
+TweenVector_QuadraticIn = _pygame.TweenVector_QuadraticIn
+
+def TweenVector_QuadraticOut(*args):
+  return _pygame.TweenVector_QuadraticOut(*args)
+TweenVector_QuadraticOut = _pygame.TweenVector_QuadraticOut
+
+def TweenVector_QuadraticInOut(*args):
+  return _pygame.TweenVector_QuadraticInOut(*args)
+TweenVector_QuadraticInOut = _pygame.TweenVector_QuadraticInOut
+
+def TweenVector_SinIn(*args):
+  return _pygame.TweenVector_SinIn(*args)
+TweenVector_SinIn = _pygame.TweenVector_SinIn
+
+def TweenVector_SinOut(*args):
+  return _pygame.TweenVector_SinOut(*args)
+TweenVector_SinOut = _pygame.TweenVector_SinOut
+
+def TweenVector_SinInOut(*args):
+  return _pygame.TweenVector_SinInOut(*args)
+TweenVector_SinInOut = _pygame.TweenVector_SinInOut
+
+class TweenFloat(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TweenFloat, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, TweenFloat, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    def Update(self, *args): return _pygame.TweenFloat_Update(self, *args)
+    def value(self): return _pygame.TweenFloat_value(self)
+    def finished(self): return _pygame.TweenFloat_finished(self)
+    __swig_getmethods__["NoTween"] = lambda x: _pygame.TweenFloat_NoTween
+    if _newclass:NoTween = staticmethod(_pygame.TweenFloat_NoTween)
+    __swig_getmethods__["Linear"] = lambda x: _pygame.TweenFloat_Linear
+    if _newclass:Linear = staticmethod(_pygame.TweenFloat_Linear)
+    __swig_getmethods__["QuadraticIn"] = lambda x: _pygame.TweenFloat_QuadraticIn
+    if _newclass:QuadraticIn = staticmethod(_pygame.TweenFloat_QuadraticIn)
+    __swig_getmethods__["QuadraticOut"] = lambda x: _pygame.TweenFloat_QuadraticOut
+    if _newclass:QuadraticOut = staticmethod(_pygame.TweenFloat_QuadraticOut)
+    __swig_getmethods__["QuadraticInOut"] = lambda x: _pygame.TweenFloat_QuadraticInOut
+    if _newclass:QuadraticInOut = staticmethod(_pygame.TweenFloat_QuadraticInOut)
+    __swig_getmethods__["SinIn"] = lambda x: _pygame.TweenFloat_SinIn
+    if _newclass:SinIn = staticmethod(_pygame.TweenFloat_SinIn)
+    __swig_getmethods__["SinOut"] = lambda x: _pygame.TweenFloat_SinOut
+    if _newclass:SinOut = staticmethod(_pygame.TweenFloat_SinOut)
+    __swig_getmethods__["SinInOut"] = lambda x: _pygame.TweenFloat_SinInOut
+    if _newclass:SinInOut = staticmethod(_pygame.TweenFloat_SinInOut)
+    __swig_destroy__ = _pygame.delete_TweenFloat
+    __del__ = lambda self : None;
+TweenFloat_swigregister = _pygame.TweenFloat_swigregister
+TweenFloat_swigregister(TweenFloat)
+
+def TweenFloat_NoTween(*args):
+  return _pygame.TweenFloat_NoTween(*args)
+TweenFloat_NoTween = _pygame.TweenFloat_NoTween
+
+def TweenFloat_Linear(*args):
+  return _pygame.TweenFloat_Linear(*args)
+TweenFloat_Linear = _pygame.TweenFloat_Linear
+
+def TweenFloat_QuadraticIn(*args):
+  return _pygame.TweenFloat_QuadraticIn(*args)
+TweenFloat_QuadraticIn = _pygame.TweenFloat_QuadraticIn
+
+def TweenFloat_QuadraticOut(*args):
+  return _pygame.TweenFloat_QuadraticOut(*args)
+TweenFloat_QuadraticOut = _pygame.TweenFloat_QuadraticOut
+
+def TweenFloat_QuadraticInOut(*args):
+  return _pygame.TweenFloat_QuadraticInOut(*args)
+TweenFloat_QuadraticInOut = _pygame.TweenFloat_QuadraticInOut
+
+def TweenFloat_SinIn(*args):
+  return _pygame.TweenFloat_SinIn(*args)
+TweenFloat_SinIn = _pygame.TweenFloat_SinIn
+
+def TweenFloat_SinOut(*args):
+  return _pygame.TweenFloat_SinOut(*args)
+TweenFloat_SinOut = _pygame.TweenFloat_SinOut
+
+def TweenFloat_SinInOut(*args):
+  return _pygame.TweenFloat_SinInOut(*args)
+TweenFloat_SinInOut = _pygame.TweenFloat_SinInOut
+
 class BBox(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, BBox, name, value)

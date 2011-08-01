@@ -15,7 +15,7 @@ public:
     T value () const { return m_value; }
     bool finished () const { return m_t >= m_duration; }
 
-    static Tween<T> None (T start, T end, float duration);
+    static Tween<T> NoTween (T start, T end, float duration);
     static Tween<T> Linear (T start, T end, float duration);
     static Tween<T> QuadraticIn (T start, T end, float duration);
     static Tween<T> QuadraticOut (T start, T end, float duration);
@@ -114,6 +114,11 @@ template<typename T> void Tween<T>::Update (float dt) {
         default:
         break;
     }
+}
+
+template <typename T> Tween<T> Tween<T>::NoTween (T start, T end,
+                                                 float duration) {
+    return Tween<T>(EASE_NONE, start, end, duration);
 }
 
 template <typename T> Tween<T> Tween<T>::Linear (T start, T end,

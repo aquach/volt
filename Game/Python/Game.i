@@ -8,6 +8,7 @@
 #include "Volt/Core/System.h"
 #include "Volt/Core/Time.h"
 #include "Volt/Core/Transform.h"
+#include "Volt/Core/Tween.h"
 #include "Volt/Core/Vector2.h"
 
 #include "Volt/Game/Entity.h"
@@ -37,6 +38,11 @@
 %include "Volt/Core/Time.h"
 %include "Volt/Core/Vector2.h"
 %include "Volt/Core/Transform.h"
+
+%include "Volt/Core/Tween.h"
+%template(TweenVector) Volt::Tween<Volt::Vector2>;
+%template(TweenFloat) Volt::Tween<float>;
+
 %include "Volt/Core/BBox.h"
 %include "Volt/Core/Vector3.h"
 %include "Volt/Game/Entity.h"

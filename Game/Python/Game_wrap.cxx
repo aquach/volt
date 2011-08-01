@@ -2714,37 +2714,39 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_Volt__SceneListener swig_types[26]
 #define SWIGTYPE_p_Volt__Time swig_types[27]
 #define SWIGTYPE_p_Volt__Transform swig_types[28]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[29]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[30]
-#define SWIGTYPE_p_Weapon swig_types[31]
-#define SWIGTYPE_p_allocator_type swig_types[32]
-#define SWIGTYPE_p_b2Body swig_types[33]
-#define SWIGTYPE_p_b2BodyDef swig_types[34]
-#define SWIGTYPE_p_b2BodyType swig_types[35]
-#define SWIGTYPE_p_b2Contact swig_types[36]
-#define SWIGTYPE_p_b2Vec2 swig_types[37]
-#define SWIGTYPE_p_char swig_types[38]
-#define SWIGTYPE_p_const_reference swig_types[39]
-#define SWIGTYPE_p_difference_type swig_types[40]
-#define SWIGTYPE_p_float swig_types[41]
-#define SWIGTYPE_p_int swig_types[42]
-#define SWIGTYPE_p_istream swig_types[43]
-#define SWIGTYPE_p_long swig_types[44]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[45]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[46]
-#define SWIGTYPE_p_ostream swig_types[47]
-#define SWIGTYPE_p_p_PyObject swig_types[48]
-#define SWIGTYPE_p_reference swig_types[49]
-#define SWIGTYPE_p_size_type swig_types[50]
-#define SWIGTYPE_p_std__invalid_argument swig_types[51]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[52]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[53]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[54]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[55]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[56]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[57]
-static swig_type_info *swig_types[59];
-static swig_module_info swig_module = {swig_types, 58, 0, 0, 0, 0};
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[29]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[30]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[31]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[32]
+#define SWIGTYPE_p_Weapon swig_types[33]
+#define SWIGTYPE_p_allocator_type swig_types[34]
+#define SWIGTYPE_p_b2Body swig_types[35]
+#define SWIGTYPE_p_b2BodyDef swig_types[36]
+#define SWIGTYPE_p_b2BodyType swig_types[37]
+#define SWIGTYPE_p_b2Contact swig_types[38]
+#define SWIGTYPE_p_b2Vec2 swig_types[39]
+#define SWIGTYPE_p_char swig_types[40]
+#define SWIGTYPE_p_const_reference swig_types[41]
+#define SWIGTYPE_p_difference_type swig_types[42]
+#define SWIGTYPE_p_float swig_types[43]
+#define SWIGTYPE_p_int swig_types[44]
+#define SWIGTYPE_p_istream swig_types[45]
+#define SWIGTYPE_p_long swig_types[46]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[47]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[48]
+#define SWIGTYPE_p_ostream swig_types[49]
+#define SWIGTYPE_p_p_PyObject swig_types[50]
+#define SWIGTYPE_p_reference swig_types[51]
+#define SWIGTYPE_p_size_type swig_types[52]
+#define SWIGTYPE_p_std__invalid_argument swig_types[53]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[54]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[55]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[56]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[57]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[58]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[59]
+static swig_type_info *swig_types[61];
+static swig_module_info swig_module = {swig_types, 60, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2848,6 +2850,7 @@ namespace swig {
 #include "Volt/Core/System.h"
 #include "Volt/Core/Time.h"
 #include "Volt/Core/Transform.h"
+#include "Volt/Core/Tween.h"
 #include "Volt/Core/Vector2.h"
 
 #include "Volt/Game/Entity.h"
@@ -9934,6 +9937,978 @@ fail:
   return NULL;
 }
 
+
+SWIGINTERN PyObject *_wrap_TweenVector_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:TweenVector_Update",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_Update" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenVector_Update" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->Update(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_value(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Vector2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenVector_value",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_value" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  result = ((Volt::Tween< Volt::Vector2 > const *)arg1)->value();
+  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_finished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenVector_finished",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_finished" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  result = (bool)((Volt::Tween< Volt::Vector2 > const *)arg1)->finished();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_NoTween(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_NoTween",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_NoTween" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_NoTween" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_NoTween" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_NoTween" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_NoTween" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR NoTween(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_Linear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_Linear",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_Linear" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_Linear" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_Linear" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_Linear" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_Linear" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR Linear(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_QuadraticIn(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_QuadraticIn",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_QuadraticIn" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_QuadraticIn" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_QuadraticIn" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_QuadraticIn" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_QuadraticIn" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR QuadraticIn(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_QuadraticOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_QuadraticOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_QuadraticOut" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_QuadraticOut" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_QuadraticOut" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_QuadraticOut" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_QuadraticOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR QuadraticOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_QuadraticInOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_QuadraticInOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_QuadraticInOut" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_QuadraticInOut" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_QuadraticInOut" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_QuadraticInOut" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_QuadraticInOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR QuadraticInOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_SinIn(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_SinIn",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_SinIn" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_SinIn" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_SinIn" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_SinIn" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_SinIn" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR SinIn(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_SinOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_SinOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_SinOut" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_SinOut" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_SinOut" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_SinOut" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_SinOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR SinOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_SinInOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 arg1 ;
+  Volt::Vector2 arg2 ;
+  float arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenVector_SinInOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_SinInOut" "', argument " "1"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_SinInOut" "', argument " "1"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TweenVector_SinInOut" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TweenVector_SinInOut" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenVector_SinInOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< Volt::Vector2 >::SWIGTEMPLATEDISAMBIGUATOR SinInOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< Volt::Vector2 >(static_cast< const Volt::Tween< Volt::Vector2 >& >(result))), SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_TweenVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_TweenVector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_TweenVector" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *TweenVector_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_TweenFloat_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:TweenFloat_Update",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenFloat_Update" "', argument " "1"" of type '" "Volt::Tween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_Update" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->Update(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_value(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenFloat_value",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenFloat_value" "', argument " "1"" of type '" "Volt::Tween< float > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  result = (float)((Volt::Tween< float > const *)arg1)->value();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_finished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenFloat_finished",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenFloat_finished" "', argument " "1"" of type '" "Volt::Tween< float > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  result = (bool)((Volt::Tween< float > const *)arg1)->finished();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_NoTween(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_NoTween",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_NoTween" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_NoTween" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_NoTween" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR NoTween(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_Linear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_Linear",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_Linear" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_Linear" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_Linear" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR Linear(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_QuadraticIn(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_QuadraticIn",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_QuadraticIn" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_QuadraticIn" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_QuadraticIn" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR QuadraticIn(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_QuadraticOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_QuadraticOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_QuadraticOut" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_QuadraticOut" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_QuadraticOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR QuadraticOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_QuadraticInOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_QuadraticInOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_QuadraticInOut" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_QuadraticInOut" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_QuadraticInOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR QuadraticInOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_SinIn(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_SinIn",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_SinIn" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_SinIn" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_SinIn" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR SinIn(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_SinOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_SinOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_SinOut" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_SinOut" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_SinOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR SinOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_SinInOut(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  SwigValueWrapper< Volt::Tween< float > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:TweenFloat_SinInOut",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "TweenFloat_SinInOut" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_SinInOut" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "TweenFloat_SinInOut" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  result = Volt::Tween< float >::SWIGTEMPLATEDISAMBIGUATOR SinInOut(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj((new Volt::Tween< float >(static_cast< const Volt::Tween< float >& >(result))), SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_TweenFloat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_TweenFloat",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_TweenFloat" "', argument " "1"" of type '" "Volt::Tween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *TweenFloat_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__TweenT_float_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
 
 SWIGINTERN PyObject *_wrap_BBox_min_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
@@ -18291,6 +19266,32 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Transform_Multiply", _wrap_Transform_Multiply, METH_VARARGS, NULL},
 	 { (char *)"delete_Transform", _wrap_delete_Transform, METH_VARARGS, NULL},
 	 { (char *)"Transform_swigregister", Transform_swigregister, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_Update", _wrap_TweenVector_Update, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_value", _wrap_TweenVector_value, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_finished", _wrap_TweenVector_finished, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_NoTween", _wrap_TweenVector_NoTween, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_Linear", _wrap_TweenVector_Linear, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_QuadraticIn", _wrap_TweenVector_QuadraticIn, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_QuadraticOut", _wrap_TweenVector_QuadraticOut, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_QuadraticInOut", _wrap_TweenVector_QuadraticInOut, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_SinIn", _wrap_TweenVector_SinIn, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_SinOut", _wrap_TweenVector_SinOut, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_SinInOut", _wrap_TweenVector_SinInOut, METH_VARARGS, NULL},
+	 { (char *)"delete_TweenVector", _wrap_delete_TweenVector, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_swigregister", TweenVector_swigregister, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_Update", _wrap_TweenFloat_Update, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_value", _wrap_TweenFloat_value, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_finished", _wrap_TweenFloat_finished, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_NoTween", _wrap_TweenFloat_NoTween, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_Linear", _wrap_TweenFloat_Linear, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_QuadraticIn", _wrap_TweenFloat_QuadraticIn, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_QuadraticOut", _wrap_TweenFloat_QuadraticOut, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_QuadraticInOut", _wrap_TweenFloat_QuadraticInOut, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_SinIn", _wrap_TweenFloat_SinIn, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_SinOut", _wrap_TweenFloat_SinOut, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_SinInOut", _wrap_TweenFloat_SinInOut, METH_VARARGS, NULL},
+	 { (char *)"delete_TweenFloat", _wrap_delete_TweenFloat, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_swigregister", TweenFloat_swigregister, METH_VARARGS, NULL},
 	 { (char *)"BBox_min_set", _wrap_BBox_min_set, METH_VARARGS, NULL},
 	 { (char *)"BBox_min_get", _wrap_BBox_min_get, METH_VARARGS, NULL},
 	 { (char *)"BBox_max_set", _wrap_BBox_max_set, METH_VARARGS, NULL},
@@ -18612,6 +19613,8 @@ static swig_type_info _swigt__p_Volt__SceneHook = {"_p_Volt__SceneHook", "Volt::
 static swig_type_info _swigt__p_Volt__SceneListener = {"_p_Volt__SceneListener", "Volt::SceneListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Time = {"_p_Volt__Time", "Volt::Time *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Transform = {"_p_Volt__Transform", "Volt::Transform *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__TweenT_Volt__Vector2_t = {"_p_Volt__TweenT_Volt__Vector2_t", "Volt::Tween< Volt::Vector2 > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__TweenT_float_t = {"_p_Volt__TweenT_float_t", "Volt::Tween< float > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Vector2 = {"_p_Volt__Vector2", "Volt::Vector2 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Vector3 = {"_p_Volt__Vector3", "Volt::Vector3 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Weapon = {"_p_Weapon", "Weapon *", 0, 0, (void*)0, 0};
@@ -18672,6 +19675,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__SceneListener,
   &_swigt__p_Volt__Time,
   &_swigt__p_Volt__Transform,
+  &_swigt__p_Volt__TweenT_Volt__Vector2_t,
+  &_swigt__p_Volt__TweenT_float_t,
   &_swigt__p_Volt__Vector2,
   &_swigt__p_Volt__Vector3,
   &_swigt__p_Weapon,
@@ -18732,6 +19737,8 @@ static swig_cast_info _swigc__p_Volt__SceneHook[] = {  {&_swigt__p_Volt__SceneHo
 static swig_cast_info _swigc__p_Volt__SceneListener[] = {  {&_swigt__p_Volt__SceneListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Time[] = {  {&_swigt__p_Volt__Time, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Transform[] = {  {&_swigt__p_Volt__Transform, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__TweenT_Volt__Vector2_t[] = {  {&_swigt__p_Volt__TweenT_Volt__Vector2_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__TweenT_float_t[] = {  {&_swigt__p_Volt__TweenT_float_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Vector2[] = {  {&_swigt__p_Volt__Vector2, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Vector3[] = {  {&_swigt__p_Volt__Vector3, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Weapon[] = {  {&_swigt__p_Weapon, 0, 0, 0},{0, 0, 0, 0}};
@@ -18792,6 +19799,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__SceneListener,
   _swigc__p_Volt__Time,
   _swigc__p_Volt__Transform,
+  _swigc__p_Volt__TweenT_Volt__Vector2_t,
+  _swigc__p_Volt__TweenT_float_t,
   _swigc__p_Volt__Vector2,
   _swigc__p_Volt__Vector3,
   _swigc__p_Weapon,
