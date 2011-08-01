@@ -1,6 +1,8 @@
-%module pygame
+%module(directors="1") pygame;
 
 %{
+
+#include <Box2D/Box2D.h>
 #include "Volt/Core/BBox.h"
 #include "Volt/Core/Color.h"
 #include "Volt/Core/Math.h"
@@ -11,9 +13,11 @@
 #include "Volt/Core/Tween.h"
 #include "Volt/Core/Vector2.h"
 
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Graphics/Camera.h"
+#include "Volt/Graphics/Graphics.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Game/Entity.h"
@@ -31,6 +35,9 @@
 %include <std_string.i>
 %include <std_vector.i>
 
+%include <Box2D/Common/b2Math.h>
+%include <Box2D/Dynamics/b2Body.h>
+
 %include "Volt/Core/Color.h"
 %include "Volt/Core/Math.h"
 %include "Volt/Core/Random.h"
@@ -45,13 +52,18 @@
 
 %include "Volt/Core/BBox.h"
 %include "Volt/Core/Vector3.h"
+%include "Volt/Game/AppTime.h"
 %include "Volt/Game/Entity.h"
 %include "Volt/Game/Game.h"
 %include "Volt/Graphics/Camera.h"
+//%include "Volt/Graphics/Graphics.h"
 %include "Volt/Game/Scene.h"
 
+%feature("director") Entity;
 %include "Game/Game/Entity.h"
 %include "Game/Entities/Game/Creature.h"
+
+%ignore Light::STATIC_MAP_FOLDER;
 %include "Game/Entities/Game/Light.h"
 %include "Game/Entities/Game/Player.h"
 %include "Game/Entities/Game/Triangle.h"

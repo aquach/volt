@@ -66,6 +66,13 @@ except AttributeError:
     _newclass = 0
 
 
+try:
+    import weakref
+    weakref_proxy = weakref.proxy
+except:
+    weakref_proxy = lambda x: x
+
+
 class SwigPyIterator(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
@@ -94,6 +101,359 @@ class SwigPyIterator(_object):
     def __iter__(self): return self
 SwigPyIterator_swigregister = _pygame.SwigPyIterator_swigregister
 SwigPyIterator_swigregister(SwigPyIterator)
+
+
+def b2IsValid(*args):
+  return _pygame.b2IsValid(*args)
+b2IsValid = _pygame.b2IsValid
+
+def b2InvSqrt(*args):
+  return _pygame.b2InvSqrt(*args)
+b2InvSqrt = _pygame.b2InvSqrt
+class b2Vec2(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Vec2, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Vec2, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_b2Vec2(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def SetZero(self): return _pygame.b2Vec2_SetZero(self)
+    def Set(self, *args): return _pygame.b2Vec2_Set(self, *args)
+    def __neg__(self): return _pygame.b2Vec2___neg__(self)
+    def __call__(self, *args): return _pygame.b2Vec2___call__(self, *args)
+    def __iadd__(self, *args): return _pygame.b2Vec2___iadd__(self, *args)
+    def __isub__(self, *args): return _pygame.b2Vec2___isub__(self, *args)
+    def __imul__(self, *args): return _pygame.b2Vec2___imul__(self, *args)
+    def Length(self): return _pygame.b2Vec2_Length(self)
+    def LengthSquared(self): return _pygame.b2Vec2_LengthSquared(self)
+    def Normalize(self): return _pygame.b2Vec2_Normalize(self)
+    def IsValid(self): return _pygame.b2Vec2_IsValid(self)
+    __swig_setmethods__["x"] = _pygame.b2Vec2_x_set
+    __swig_getmethods__["x"] = _pygame.b2Vec2_x_get
+    if _newclass:x = _swig_property(_pygame.b2Vec2_x_get, _pygame.b2Vec2_x_set)
+    __swig_setmethods__["y"] = _pygame.b2Vec2_y_set
+    __swig_getmethods__["y"] = _pygame.b2Vec2_y_get
+    if _newclass:y = _swig_property(_pygame.b2Vec2_y_get, _pygame.b2Vec2_y_set)
+    __swig_destroy__ = _pygame.delete_b2Vec2
+    __del__ = lambda self : None;
+b2Vec2_swigregister = _pygame.b2Vec2_swigregister
+b2Vec2_swigregister(b2Vec2)
+
+class b2Vec3(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Vec3, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Vec3, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_b2Vec3(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def SetZero(self): return _pygame.b2Vec3_SetZero(self)
+    def Set(self, *args): return _pygame.b2Vec3_Set(self, *args)
+    def __neg__(self): return _pygame.b2Vec3___neg__(self)
+    def __iadd__(self, *args): return _pygame.b2Vec3___iadd__(self, *args)
+    def __isub__(self, *args): return _pygame.b2Vec3___isub__(self, *args)
+    def __imul__(self, *args): return _pygame.b2Vec3___imul__(self, *args)
+    __swig_setmethods__["x"] = _pygame.b2Vec3_x_set
+    __swig_getmethods__["x"] = _pygame.b2Vec3_x_get
+    if _newclass:x = _swig_property(_pygame.b2Vec3_x_get, _pygame.b2Vec3_x_set)
+    __swig_setmethods__["y"] = _pygame.b2Vec3_y_set
+    __swig_getmethods__["y"] = _pygame.b2Vec3_y_get
+    if _newclass:y = _swig_property(_pygame.b2Vec3_y_get, _pygame.b2Vec3_y_set)
+    __swig_setmethods__["z"] = _pygame.b2Vec3_z_set
+    __swig_getmethods__["z"] = _pygame.b2Vec3_z_get
+    if _newclass:z = _swig_property(_pygame.b2Vec3_z_get, _pygame.b2Vec3_z_set)
+    __swig_destroy__ = _pygame.delete_b2Vec3
+    __del__ = lambda self : None;
+b2Vec3_swigregister = _pygame.b2Vec3_swigregister
+b2Vec3_swigregister(b2Vec3)
+
+class b2Mat22(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Mat22, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Mat22, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_b2Mat22(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def Set(self, *args): return _pygame.b2Mat22_Set(self, *args)
+    def SetIdentity(self): return _pygame.b2Mat22_SetIdentity(self)
+    def SetZero(self): return _pygame.b2Mat22_SetZero(self)
+    def GetAngle(self): return _pygame.b2Mat22_GetAngle(self)
+    def GetInverse(self): return _pygame.b2Mat22_GetInverse(self)
+    def Solve(self, *args): return _pygame.b2Mat22_Solve(self, *args)
+    __swig_setmethods__["col1"] = _pygame.b2Mat22_col1_set
+    __swig_getmethods__["col1"] = _pygame.b2Mat22_col1_get
+    if _newclass:col1 = _swig_property(_pygame.b2Mat22_col1_get, _pygame.b2Mat22_col1_set)
+    __swig_setmethods__["col2"] = _pygame.b2Mat22_col2_set
+    __swig_getmethods__["col2"] = _pygame.b2Mat22_col2_get
+    if _newclass:col2 = _swig_property(_pygame.b2Mat22_col2_get, _pygame.b2Mat22_col2_set)
+    __swig_destroy__ = _pygame.delete_b2Mat22
+    __del__ = lambda self : None;
+b2Mat22_swigregister = _pygame.b2Mat22_swigregister
+b2Mat22_swigregister(b2Mat22)
+
+class b2Mat33(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Mat33, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Mat33, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_b2Mat33(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def SetZero(self): return _pygame.b2Mat33_SetZero(self)
+    def Solve33(self, *args): return _pygame.b2Mat33_Solve33(self, *args)
+    def Solve22(self, *args): return _pygame.b2Mat33_Solve22(self, *args)
+    __swig_setmethods__["col1"] = _pygame.b2Mat33_col1_set
+    __swig_getmethods__["col1"] = _pygame.b2Mat33_col1_get
+    if _newclass:col1 = _swig_property(_pygame.b2Mat33_col1_get, _pygame.b2Mat33_col1_set)
+    __swig_setmethods__["col2"] = _pygame.b2Mat33_col2_set
+    __swig_getmethods__["col2"] = _pygame.b2Mat33_col2_get
+    if _newclass:col2 = _swig_property(_pygame.b2Mat33_col2_get, _pygame.b2Mat33_col2_set)
+    __swig_setmethods__["col3"] = _pygame.b2Mat33_col3_set
+    __swig_getmethods__["col3"] = _pygame.b2Mat33_col3_get
+    if _newclass:col3 = _swig_property(_pygame.b2Mat33_col3_get, _pygame.b2Mat33_col3_set)
+    __swig_destroy__ = _pygame.delete_b2Mat33
+    __del__ = lambda self : None;
+b2Mat33_swigregister = _pygame.b2Mat33_swigregister
+b2Mat33_swigregister(b2Mat33)
+
+class b2Transform(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Transform, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Transform, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_b2Transform(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def SetIdentity(self): return _pygame.b2Transform_SetIdentity(self)
+    def Set(self, *args): return _pygame.b2Transform_Set(self, *args)
+    def GetAngle(self): return _pygame.b2Transform_GetAngle(self)
+    __swig_setmethods__["position"] = _pygame.b2Transform_position_set
+    __swig_getmethods__["position"] = _pygame.b2Transform_position_get
+    if _newclass:position = _swig_property(_pygame.b2Transform_position_get, _pygame.b2Transform_position_set)
+    __swig_setmethods__["R"] = _pygame.b2Transform_R_set
+    __swig_getmethods__["R"] = _pygame.b2Transform_R_get
+    if _newclass:R = _swig_property(_pygame.b2Transform_R_get, _pygame.b2Transform_R_set)
+    __swig_destroy__ = _pygame.delete_b2Transform
+    __del__ = lambda self : None;
+b2Transform_swigregister = _pygame.b2Transform_swigregister
+b2Transform_swigregister(b2Transform)
+
+class b2Sweep(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Sweep, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Sweep, name)
+    __repr__ = _swig_repr
+    def GetTransform(self, *args): return _pygame.b2Sweep_GetTransform(self, *args)
+    def Advance(self, *args): return _pygame.b2Sweep_Advance(self, *args)
+    def Normalize(self): return _pygame.b2Sweep_Normalize(self)
+    __swig_setmethods__["localCenter"] = _pygame.b2Sweep_localCenter_set
+    __swig_getmethods__["localCenter"] = _pygame.b2Sweep_localCenter_get
+    if _newclass:localCenter = _swig_property(_pygame.b2Sweep_localCenter_get, _pygame.b2Sweep_localCenter_set)
+    __swig_setmethods__["c0"] = _pygame.b2Sweep_c0_set
+    __swig_getmethods__["c0"] = _pygame.b2Sweep_c0_get
+    if _newclass:c0 = _swig_property(_pygame.b2Sweep_c0_get, _pygame.b2Sweep_c0_set)
+    __swig_setmethods__["c"] = _pygame.b2Sweep_c_set
+    __swig_getmethods__["c"] = _pygame.b2Sweep_c_get
+    if _newclass:c = _swig_property(_pygame.b2Sweep_c_get, _pygame.b2Sweep_c_set)
+    __swig_setmethods__["a0"] = _pygame.b2Sweep_a0_set
+    __swig_getmethods__["a0"] = _pygame.b2Sweep_a0_get
+    if _newclass:a0 = _swig_property(_pygame.b2Sweep_a0_get, _pygame.b2Sweep_a0_set)
+    __swig_setmethods__["a"] = _pygame.b2Sweep_a_set
+    __swig_getmethods__["a"] = _pygame.b2Sweep_a_get
+    if _newclass:a = _swig_property(_pygame.b2Sweep_a_get, _pygame.b2Sweep_a_set)
+    def __init__(self): 
+        this = _pygame.new_b2Sweep()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_b2Sweep
+    __del__ = lambda self : None;
+b2Sweep_swigregister = _pygame.b2Sweep_swigregister
+b2Sweep_swigregister(b2Sweep)
+
+
+def b2Distance(*args):
+  return _pygame.b2Distance(*args)
+b2Distance = _pygame.b2Distance
+
+def b2DistanceSquared(*args):
+  return _pygame.b2DistanceSquared(*args)
+b2DistanceSquared = _pygame.b2DistanceSquared
+
+def b2Min(*args):
+  return _pygame.b2Min(*args)
+b2Min = _pygame.b2Min
+
+def b2Max(*args):
+  return _pygame.b2Max(*args)
+b2Max = _pygame.b2Max
+
+def b2Clamp(*args):
+  return _pygame.b2Clamp(*args)
+b2Clamp = _pygame.b2Clamp
+
+def b2NextPowerOfTwo(*args):
+  return _pygame.b2NextPowerOfTwo(*args)
+b2NextPowerOfTwo = _pygame.b2NextPowerOfTwo
+
+def b2IsPowerOfTwo(*args):
+  return _pygame.b2IsPowerOfTwo(*args)
+b2IsPowerOfTwo = _pygame.b2IsPowerOfTwo
+b2_staticBody = _pygame.b2_staticBody
+b2_kinematicBody = _pygame.b2_kinematicBody
+b2_dynamicBody = _pygame.b2_dynamicBody
+class b2BodyDef(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2BodyDef, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2BodyDef, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_b2BodyDef()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_setmethods__["type"] = _pygame.b2BodyDef_type_set
+    __swig_getmethods__["type"] = _pygame.b2BodyDef_type_get
+    if _newclass:type = _swig_property(_pygame.b2BodyDef_type_get, _pygame.b2BodyDef_type_set)
+    __swig_setmethods__["position"] = _pygame.b2BodyDef_position_set
+    __swig_getmethods__["position"] = _pygame.b2BodyDef_position_get
+    if _newclass:position = _swig_property(_pygame.b2BodyDef_position_get, _pygame.b2BodyDef_position_set)
+    __swig_setmethods__["angle"] = _pygame.b2BodyDef_angle_set
+    __swig_getmethods__["angle"] = _pygame.b2BodyDef_angle_get
+    if _newclass:angle = _swig_property(_pygame.b2BodyDef_angle_get, _pygame.b2BodyDef_angle_set)
+    __swig_setmethods__["linearVelocity"] = _pygame.b2BodyDef_linearVelocity_set
+    __swig_getmethods__["linearVelocity"] = _pygame.b2BodyDef_linearVelocity_get
+    if _newclass:linearVelocity = _swig_property(_pygame.b2BodyDef_linearVelocity_get, _pygame.b2BodyDef_linearVelocity_set)
+    __swig_setmethods__["angularVelocity"] = _pygame.b2BodyDef_angularVelocity_set
+    __swig_getmethods__["angularVelocity"] = _pygame.b2BodyDef_angularVelocity_get
+    if _newclass:angularVelocity = _swig_property(_pygame.b2BodyDef_angularVelocity_get, _pygame.b2BodyDef_angularVelocity_set)
+    __swig_setmethods__["linearDamping"] = _pygame.b2BodyDef_linearDamping_set
+    __swig_getmethods__["linearDamping"] = _pygame.b2BodyDef_linearDamping_get
+    if _newclass:linearDamping = _swig_property(_pygame.b2BodyDef_linearDamping_get, _pygame.b2BodyDef_linearDamping_set)
+    __swig_setmethods__["angularDamping"] = _pygame.b2BodyDef_angularDamping_set
+    __swig_getmethods__["angularDamping"] = _pygame.b2BodyDef_angularDamping_get
+    if _newclass:angularDamping = _swig_property(_pygame.b2BodyDef_angularDamping_get, _pygame.b2BodyDef_angularDamping_set)
+    __swig_setmethods__["allowSleep"] = _pygame.b2BodyDef_allowSleep_set
+    __swig_getmethods__["allowSleep"] = _pygame.b2BodyDef_allowSleep_get
+    if _newclass:allowSleep = _swig_property(_pygame.b2BodyDef_allowSleep_get, _pygame.b2BodyDef_allowSleep_set)
+    __swig_setmethods__["awake"] = _pygame.b2BodyDef_awake_set
+    __swig_getmethods__["awake"] = _pygame.b2BodyDef_awake_get
+    if _newclass:awake = _swig_property(_pygame.b2BodyDef_awake_get, _pygame.b2BodyDef_awake_set)
+    __swig_setmethods__["fixedRotation"] = _pygame.b2BodyDef_fixedRotation_set
+    __swig_getmethods__["fixedRotation"] = _pygame.b2BodyDef_fixedRotation_get
+    if _newclass:fixedRotation = _swig_property(_pygame.b2BodyDef_fixedRotation_get, _pygame.b2BodyDef_fixedRotation_set)
+    __swig_setmethods__["bullet"] = _pygame.b2BodyDef_bullet_set
+    __swig_getmethods__["bullet"] = _pygame.b2BodyDef_bullet_get
+    if _newclass:bullet = _swig_property(_pygame.b2BodyDef_bullet_get, _pygame.b2BodyDef_bullet_set)
+    __swig_setmethods__["active"] = _pygame.b2BodyDef_active_set
+    __swig_getmethods__["active"] = _pygame.b2BodyDef_active_get
+    if _newclass:active = _swig_property(_pygame.b2BodyDef_active_get, _pygame.b2BodyDef_active_set)
+    __swig_setmethods__["userData"] = _pygame.b2BodyDef_userData_set
+    __swig_getmethods__["userData"] = _pygame.b2BodyDef_userData_get
+    if _newclass:userData = _swig_property(_pygame.b2BodyDef_userData_get, _pygame.b2BodyDef_userData_set)
+    __swig_setmethods__["inertiaScale"] = _pygame.b2BodyDef_inertiaScale_set
+    __swig_getmethods__["inertiaScale"] = _pygame.b2BodyDef_inertiaScale_get
+    if _newclass:inertiaScale = _swig_property(_pygame.b2BodyDef_inertiaScale_get, _pygame.b2BodyDef_inertiaScale_set)
+    __swig_destroy__ = _pygame.delete_b2BodyDef
+    __del__ = lambda self : None;
+b2BodyDef_swigregister = _pygame.b2BodyDef_swigregister
+b2BodyDef_swigregister(b2BodyDef)
+cvar = _pygame.cvar
+b2Vec2_zero = cvar.b2Vec2_zero
+b2Mat22_identity = cvar.b2Mat22_identity
+b2Transform_identity = cvar.b2Transform_identity
+
+def b2Dot(*args):
+  return _pygame.b2Dot(*args)
+b2Dot = _pygame.b2Dot
+
+def b2Cross(*args):
+  return _pygame.b2Cross(*args)
+b2Cross = _pygame.b2Cross
+
+def b2Mul(*args):
+  return _pygame.b2Mul(*args)
+b2Mul = _pygame.b2Mul
+
+def b2MulT(*args):
+  return _pygame.b2MulT(*args)
+b2MulT = _pygame.b2MulT
+
+def b2Abs(*args):
+  return _pygame.b2Abs(*args)
+b2Abs = _pygame.b2Abs
+
+class b2Body(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, b2Body, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, b2Body, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    def CreateFixture(self, *args): return _pygame.b2Body_CreateFixture(self, *args)
+    def DestroyFixture(self, *args): return _pygame.b2Body_DestroyFixture(self, *args)
+    def SetTransform(self, *args): return _pygame.b2Body_SetTransform(self, *args)
+    def GetTransform(self): return _pygame.b2Body_GetTransform(self)
+    def GetPosition(self): return _pygame.b2Body_GetPosition(self)
+    def GetAngle(self): return _pygame.b2Body_GetAngle(self)
+    def GetWorldCenter(self): return _pygame.b2Body_GetWorldCenter(self)
+    def GetLocalCenter(self): return _pygame.b2Body_GetLocalCenter(self)
+    def SetLinearVelocity(self, *args): return _pygame.b2Body_SetLinearVelocity(self, *args)
+    def GetLinearVelocity(self): return _pygame.b2Body_GetLinearVelocity(self)
+    def SetAngularVelocity(self, *args): return _pygame.b2Body_SetAngularVelocity(self, *args)
+    def GetAngularVelocity(self): return _pygame.b2Body_GetAngularVelocity(self)
+    def ApplyForce(self, *args): return _pygame.b2Body_ApplyForce(self, *args)
+    def ApplyTorque(self, *args): return _pygame.b2Body_ApplyTorque(self, *args)
+    def ApplyLinearImpulse(self, *args): return _pygame.b2Body_ApplyLinearImpulse(self, *args)
+    def ApplyAngularImpulse(self, *args): return _pygame.b2Body_ApplyAngularImpulse(self, *args)
+    def GetMass(self): return _pygame.b2Body_GetMass(self)
+    def GetInertia(self): return _pygame.b2Body_GetInertia(self)
+    def GetMassData(self, *args): return _pygame.b2Body_GetMassData(self, *args)
+    def SetMassData(self, *args): return _pygame.b2Body_SetMassData(self, *args)
+    def ResetMassData(self): return _pygame.b2Body_ResetMassData(self)
+    def GetWorldPoint(self, *args): return _pygame.b2Body_GetWorldPoint(self, *args)
+    def GetWorldVector(self, *args): return _pygame.b2Body_GetWorldVector(self, *args)
+    def GetLocalPoint(self, *args): return _pygame.b2Body_GetLocalPoint(self, *args)
+    def GetLocalVector(self, *args): return _pygame.b2Body_GetLocalVector(self, *args)
+    def GetLinearVelocityFromWorldPoint(self, *args): return _pygame.b2Body_GetLinearVelocityFromWorldPoint(self, *args)
+    def GetLinearVelocityFromLocalPoint(self, *args): return _pygame.b2Body_GetLinearVelocityFromLocalPoint(self, *args)
+    def GetLinearDamping(self): return _pygame.b2Body_GetLinearDamping(self)
+    def SetLinearDamping(self, *args): return _pygame.b2Body_SetLinearDamping(self, *args)
+    def GetAngularDamping(self): return _pygame.b2Body_GetAngularDamping(self)
+    def SetAngularDamping(self, *args): return _pygame.b2Body_SetAngularDamping(self, *args)
+    def SetType(self, *args): return _pygame.b2Body_SetType(self, *args)
+    def GetType(self): return _pygame.b2Body_GetType(self)
+    def SetBullet(self, *args): return _pygame.b2Body_SetBullet(self, *args)
+    def IsBullet(self): return _pygame.b2Body_IsBullet(self)
+    def SetSleepingAllowed(self, *args): return _pygame.b2Body_SetSleepingAllowed(self, *args)
+    def IsSleepingAllowed(self): return _pygame.b2Body_IsSleepingAllowed(self)
+    def SetAwake(self, *args): return _pygame.b2Body_SetAwake(self, *args)
+    def IsAwake(self): return _pygame.b2Body_IsAwake(self)
+    def SetActive(self, *args): return _pygame.b2Body_SetActive(self, *args)
+    def IsActive(self): return _pygame.b2Body_IsActive(self)
+    def SetFixedRotation(self, *args): return _pygame.b2Body_SetFixedRotation(self, *args)
+    def IsFixedRotation(self): return _pygame.b2Body_IsFixedRotation(self)
+    def GetFixtureList(self, *args): return _pygame.b2Body_GetFixtureList(self, *args)
+    def GetJointList(self, *args): return _pygame.b2Body_GetJointList(self, *args)
+    def GetContactList(self, *args): return _pygame.b2Body_GetContactList(self, *args)
+    def GetNext(self, *args): return _pygame.b2Body_GetNext(self, *args)
+    def GetUserData(self): return _pygame.b2Body_GetUserData(self)
+    def SetUserData(self, *args): return _pygame.b2Body_SetUserData(self, *args)
+    def GetWorld(self, *args): return _pygame.b2Body_GetWorld(self, *args)
+b2Body_swigregister = _pygame.b2Body_swigregister
+b2Body_swigregister(b2Body)
 
 class Color(_object):
     __swig_setmethods__ = {}
@@ -171,7 +531,6 @@ Color_RGBA = _pygame.Color_RGBA
 def Color_Random():
   return _pygame.Color_Random()
 Color_Random = _pygame.Color_Random
-cvar = _pygame.cvar
 
 
 def __add__(*args):
@@ -599,6 +958,35 @@ class Vector3(_object):
 Vector3_swigregister = _pygame.Vector3_swigregister
 Vector3_swigregister(Vector3)
 
+class AppTime(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AppTime, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, AppTime, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_AppTime()
+        try: self.this.append(this)
+        except: self.this = this
+    def dt(self): return _pygame.AppTime_dt(self)
+    def SetDt(self, *args): return _pygame.AppTime_SetDt(self, *args)
+    __swig_getmethods__["Register"] = lambda x: _pygame.AppTime_Register
+    if _newclass:Register = staticmethod(_pygame.AppTime_Register)
+    __swig_getmethods__["Instance"] = lambda x: _pygame.AppTime_Instance
+    if _newclass:Instance = staticmethod(_pygame.AppTime_Instance)
+    __swig_destroy__ = _pygame.delete_AppTime
+    __del__ = lambda self : None;
+AppTime_swigregister = _pygame.AppTime_swigregister
+AppTime_swigregister(AppTime)
+
+def AppTime_Register(*args):
+  return _pygame.AppTime_Register(*args)
+AppTime_Register = _pygame.AppTime_Register
+
+def AppTime_Instance():
+  return _pygame.AppTime_Instance()
+AppTime_Instance = _pygame.AppTime_Instance
+
 class VoltEntity(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, VoltEntity, name, value)
@@ -779,8 +1167,15 @@ class Entity(VoltEntity):
     __swig_getmethods__ = {}
     for _s in [VoltEntity]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, Entity, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
+    def __init__(self): 
+        if self.__class__ == Entity:
+            _self = None
+        else:
+            _self = self
+        this = _pygame.new_Entity(_self, )
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _pygame.delete_Entity
     __del__ = lambda self : None;
     def OnAccessed(self, *args): return _pygame.Entity_OnAccessed(self, *args)
@@ -790,6 +1185,10 @@ class Entity(VoltEntity):
     def Load(self, *args): return _pygame.Entity_Load(self, *args)
     def Save(self, *args): return _pygame.Entity_Save(self, *args)
     def CopyFrom(self, *args): return _pygame.Entity_CopyFrom(self, *args)
+    def __disown__(self):
+        self.this.disown()
+        _pygame.disown_Entity(self)
+        return weakref_proxy(self)
 Entity_swigregister = _pygame.Entity_swigregister
 Entity_swigregister(Entity)
 
@@ -879,9 +1278,6 @@ class Light(Entity):
     def InvalidateStaticMap(self): return _pygame.Light_InvalidateStaticMap(self)
     def GenerateStrokes(self): return _pygame.Light_GenerateStrokes(self)
     def renderBounds(self): return _pygame.Light_renderBounds(self)
-    __swig_setmethods__["STATIC_MAP_FOLDER"] = _pygame.Light_STATIC_MAP_FOLDER_set
-    __swig_getmethods__["STATIC_MAP_FOLDER"] = _pygame.Light_STATIC_MAP_FOLDER_get
-    if _newclass:STATIC_MAP_FOLDER = _swig_property(_pygame.Light_STATIC_MAP_FOLDER_get, _pygame.Light_STATIC_MAP_FOLDER_set)
 Light_swigregister = _pygame.Light_swigregister
 Light_swigregister(Light)
 

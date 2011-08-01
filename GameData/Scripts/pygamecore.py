@@ -34,5 +34,29 @@ class Scene(Wrapper):
         self._wrapped_obj.GetAllTagged(tag, entities)
         return entities
 
+'''Handy method to get scene pointer.'''
 def scene():
     return Scene(pygame.Game.Instance().currentScene())
+
+def dt():
+    return pygame.AppTime.Instance().dt()
+
+class PyEntity(pygame.Entity):
+    ''' Wrapper class for defining your own entities.'''
+    def __init__(self):
+        pygame.Entity.__init__(self)
+        # Disown pointer from Python because we're probably going to give
+        # it to the Scene to handle.
+        self.__disown__()
+
+    def OnAdded(self):
+        pass
+
+    def OnRemoved(self):
+        pass
+        
+    def Update(self):
+        pass
+
+    def Render(self):
+        pass

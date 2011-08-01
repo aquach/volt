@@ -1,6 +1,7 @@
 #!/bin/sh
 
-INCLUDE_DIR=../../
-OUT_DIR=../../GameData/Scripts
+INCLUDE_DIR="-I../../ -I../../Contrib/Box2D_v2.1.2/Box2D/"
+OUT_DIR="../../GameData/Scripts"
+SWIGFLAGS="-Wall -python -c++ $INCLUDE_DIR -outdir $OUT_DIR"
 
-swig -Wall -python -c++ -I$INCLUDE_DIR -outdir $OUT_DIR Game.i
+swig $SWIGFLAGS Game.i

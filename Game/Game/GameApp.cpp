@@ -8,5 +8,4 @@ GameApp::GameApp (string name, int argc, char** argv,
 }
 
 GameApp::~GameApp () {
-    Python::Terminate();
 }

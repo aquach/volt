@@ -9,6 +9,7 @@
  * ----------------------------------------------------------------------------- */
 
 #define SWIGPYTHON
+#define SWIG_DIRECTORS
 #define SWIG_PYTHON_DIRECTOR_NO_VTABLE
 
 
@@ -2682,6 +2683,481 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 
   #define SWIG_exception(code, msg) do { SWIG_Error(code, msg); SWIG_fail;; } while(0) 
 
+/* -----------------------------------------------------------------------------
+ * See the LICENSE file for information on copyright, usage and redistribution
+ * of SWIG, and the README file for authors - http://www.swig.org/release.html.
+ *
+ * director.swg
+ *
+ * This file contains support for director classes that proxy
+ * method calls from C++ to Python extensions.
+ * ----------------------------------------------------------------------------- */
+
+#ifndef SWIG_DIRECTOR_PYTHON_HEADER_
+#define SWIG_DIRECTOR_PYTHON_HEADER_
+
+#ifdef __cplusplus
+
+#include <string>
+#include <iostream>
+#include <exception>
+#include <vector>
+#include <map>
+
+
+/*
+  Use -DSWIG_PYTHON_DIRECTOR_NO_VTABLE if you don't want to generate a 'virtual
+  table', and avoid multiple GetAttr calls to retrieve the python
+  methods.
+*/
+
+#ifndef SWIG_PYTHON_DIRECTOR_NO_VTABLE
+#ifndef SWIG_PYTHON_DIRECTOR_VTABLE
+#define SWIG_PYTHON_DIRECTOR_VTABLE
+#endif
+#endif
+
+
+
+/*
+  Use -DSWIG_DIRECTOR_NO_UEH if you prefer to avoid the use of the
+  Undefined Exception Handler provided by swift
+*/
+#ifndef SWIG_DIRECTOR_NO_UEH
+#ifndef SWIG_DIRECTOR_UEH
+#define SWIG_DIRECTOR_UEH
+#endif
+#endif
+
+
+/*
+  Use -DSWIG_DIRECTOR_STATIC if you prefer to avoid the use of the
+  'Swig' namespace. This could be useful for multi-modules projects.
+*/
+#ifdef SWIG_DIRECTOR_STATIC
+/* Force anonymous (static) namespace */
+#define Swig
+#endif
+
+
+/*
+  Use -DSWIG_DIRECTOR_NORTTI if you prefer to avoid the use of the
+  native C++ RTTI and dynamic_cast<>. But be aware that directors
+  could stop working when using this option.
+*/
+#ifdef SWIG_DIRECTOR_NORTTI
+/* 
+   When we don't use the native C++ RTTI, we implement a minimal one
+   only for Directors.
+*/
+# ifndef SWIG_DIRECTOR_RTDIR
+# define SWIG_DIRECTOR_RTDIR
+#include <map>
+
+namespace Swig {
+  class Director;
+  SWIGINTERN std::map<void*,Director*>& get_rtdir_map() {
+    static std::map<void*,Director*> rtdir_map;
+    return rtdir_map;
+  }
+
+  SWIGINTERNINLINE void set_rtdir(void *vptr, Director *rtdir) {
+    get_rtdir_map()[vptr] = rtdir;
+  }
+
+  SWIGINTERNINLINE Director *get_rtdir(void *vptr) {
+    std::map<void*,Director*>::const_iterator pos = get_rtdir_map().find(vptr);
+    Director *rtdir = (pos != get_rtdir_map().end()) ? pos->second : 0;
+    return rtdir;
+  }
+}
+# endif /* SWIG_DIRECTOR_RTDIR */
+
+# define SWIG_DIRECTOR_CAST(Arg) Swig::get_rtdir(static_cast<void*>(Arg))
+# define SWIG_DIRECTOR_RGTR(Arg1, Arg2) Swig::set_rtdir(static_cast<void*>(Arg1), Arg2)
+
+#else
+
+# define SWIG_DIRECTOR_CAST(Arg) dynamic_cast<Swig::Director*>(Arg)
+# define SWIG_DIRECTOR_RGTR(Arg1, Arg2)
+
+#endif /* SWIG_DIRECTOR_NORTTI */
+
+extern "C" {
+  struct swig_type_info;
+}
+
+namespace Swig {  
+
+  /* memory handler */
+  struct GCItem 
+  {
+    virtual ~GCItem() {}
+
+    virtual int get_own() const
+    {
+      return 0;
+    }
+  };
+
+  struct GCItem_var
+  {
+    GCItem_var(GCItem *item = 0) : _item(item)
+    {
+    }
+
+    GCItem_var& operator=(GCItem *item)
+    {
+      GCItem *tmp = _item;
+      _item = item;
+      delete tmp;
+      return *this;
+    }
+
+    ~GCItem_var() 
+    {
+      delete _item;
+    }
+    
+    GCItem * operator->() const
+    {
+      return _item;
+    }
+    
+  private:
+    GCItem *_item;
+  };
+  
+  struct GCItem_Object : GCItem
+  {
+    GCItem_Object(int own) : _own(own)
+    {
+    }
+    
+    virtual ~GCItem_Object() 
+    {
+    }
+
+    int get_own() const
+    {
+      return _own;
+    }
+    
+  private:
+    int _own;
+  };
+
+  template <typename Type>
+  struct GCItem_T : GCItem
+  {
+    GCItem_T(Type *ptr) : _ptr(ptr)
+    {
+    }
+    
+    virtual ~GCItem_T() 
+    {
+      delete _ptr;
+    }
+    
+  private:
+    Type *_ptr;
+  };
+
+  template <typename Type>
+  struct GCArray_T : GCItem
+  {
+    GCArray_T(Type *ptr) : _ptr(ptr)
+    {
+    }
+    
+    virtual ~GCArray_T() 
+    {
+      delete[] _ptr;
+    }
+    
+  private:
+    Type *_ptr;
+  };
+
+  /* base class for director exceptions */
+  class DirectorException {
+  protected:
+    std::string swig_msg;
+  public:
+    DirectorException(PyObject *error, const char* hdr ="", const char* msg ="") 
+      : swig_msg(hdr)
+    {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK; 
+      if (strlen(msg)) {
+        swig_msg += " ";
+        swig_msg += msg;
+      }
+      if (!PyErr_Occurred()) {
+        PyErr_SetString(error, getMessage());
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK; 
+    }
+
+    const char *getMessage() const
+    { 
+      return swig_msg.c_str(); 
+    }
+
+    static void raise(PyObject *error, const char *msg) 
+    {
+      throw DirectorException(error, msg);
+    }
+
+    static void raise(const char *msg) 
+    {
+      raise(PyExc_RuntimeError, msg);
+    }
+  };
+
+  /* unknown exception handler  */
+  class UnknownExceptionHandler 
+  {
+#ifdef SWIG_DIRECTOR_UEH
+    static void handler()  {
+      try {
+        throw;
+      } catch (DirectorException& e) {
+        std::cerr << "Swig Director exception caught:" << std::endl
+                  << e.getMessage() << std::endl;
+      } catch (std::exception& e) {
+        std::cerr << "std::exception caught: "<< e.what() << std::endl;
+      } catch (...) {
+        std::cerr << "Unknown exception caught." << std::endl;
+      }
+      
+      std::cerr << std::endl
+                << "Python interpreter traceback:" << std::endl;
+      PyErr_Print();
+      std::cerr << std::endl;
+      
+      std::cerr << "This exception was caught by the SWIG unexpected exception handler." << std::endl
+                << "Try using %feature(\"director:except\") to avoid reaching this point." << std::endl
+                << std::endl
+                << "Exception is being re-thrown, program will like abort/terminate." << std::endl;
+      throw;
+    }
+
+  public:
+    
+    std::unexpected_handler old;
+    UnknownExceptionHandler(std::unexpected_handler nh = handler)
+    {
+      old = std::set_unexpected(nh);
+    }
+
+    ~UnknownExceptionHandler()
+    {
+      std::set_unexpected(old);
+    }
+#endif
+  };
+
+  /* type mismatch in the return value from a python method call */
+  class DirectorTypeMismatchException : public Swig::DirectorException {
+  public:
+    DirectorTypeMismatchException(PyObject *error, const char* msg="") 
+      : Swig::DirectorException(error, "Swig director type mismatch", msg)
+    {
+    }
+
+    DirectorTypeMismatchException(const char* msg="") 
+      : Swig::DirectorException(PyExc_TypeError, "Swig director type mismatch", msg)
+    {
+    }
+
+    static void raise(PyObject *error, const char *msg)
+    {
+      throw DirectorTypeMismatchException(error, msg);
+    }
+
+    static void raise(const char *msg)
+    {
+      throw DirectorTypeMismatchException(msg);
+    }
+  };
+
+  /* any python exception that occurs during a director method call */
+  class DirectorMethodException : public Swig::DirectorException {
+  public:
+    DirectorMethodException(const char* msg = "") 
+      : DirectorException(PyExc_RuntimeError, "Swig director method error.", msg)
+    {
+    }    
+
+    static void raise(const char *msg)
+    {
+      throw DirectorMethodException(msg);
+    }
+  };
+
+  /* attempt to call a pure virtual method via a director method */
+  class DirectorPureVirtualException : public Swig::DirectorException
+  {
+  public:
+    DirectorPureVirtualException(const char* msg = "") 
+      : DirectorException(PyExc_RuntimeError, "Swig director pure virtual method called", msg)
+    { 
+    }
+
+    static void raise(const char *msg) 
+    {
+      throw DirectorPureVirtualException(msg);
+    }
+  };
+
+
+#if defined(SWIG_PYTHON_THREADS)
+/*  __THREAD__ is the old macro to activate some thread support */
+# if !defined(__THREAD__)
+#   define __THREAD__ 1
+# endif
+#endif
+
+#ifdef __THREAD__
+# include "pythread.h"
+  class Guard
+  {
+    PyThread_type_lock & mutex_;
+    
+  public:
+    Guard(PyThread_type_lock & mutex) : mutex_(mutex)
+    {
+      PyThread_acquire_lock(mutex_, WAIT_LOCK);
+    }
+    
+    ~Guard()
+    {
+      PyThread_release_lock(mutex_);
+    }
+  };
+# define SWIG_GUARD(mutex) Guard _guard(mutex)
+#else
+# define SWIG_GUARD(mutex) 
+#endif
+
+  /* director base class */
+  class Director {
+  private:
+    /* pointer to the wrapped python object */
+    PyObject* swig_self;
+    /* flag indicating whether the object is owned by python or c++ */
+    mutable bool swig_disown_flag;
+
+    /* decrement the reference count of the wrapped python object */
+    void swig_decref() const { 
+      if (swig_disown_flag) {
+        SWIG_PYTHON_THREAD_BEGIN_BLOCK; 
+        Py_DECREF(swig_self); 
+        SWIG_PYTHON_THREAD_END_BLOCK; 
+      }
+    }
+
+  public:
+    /* wrap a python object, optionally taking ownership */
+    Director(PyObject* self) : swig_self(self), swig_disown_flag(false) {
+      swig_incref();
+    }
+
+
+    /* discard our reference at destruction */
+    virtual ~Director() {
+      swig_decref(); 
+    }
+
+
+    /* return a pointer to the wrapped python object */
+    PyObject *swig_get_self() const { 
+      return swig_self; 
+    }
+
+    /* acquire ownership of the wrapped python object (the sense of "disown"
+     * is from python) */
+    void swig_disown() const { 
+      if (!swig_disown_flag) { 
+        swig_disown_flag=true;
+        swig_incref(); 
+      } 
+    }
+
+    /* increase the reference count of the wrapped python object */
+    void swig_incref() const { 
+      if (swig_disown_flag) {
+        Py_INCREF(swig_self); 
+      }
+    }
+
+    /* methods to implement pseudo protected director members */
+    virtual bool swig_get_inner(const char* /* name */) const {
+      return true;
+    }
+    
+    virtual void swig_set_inner(const char* /* name */, bool /* val */) const {
+    }
+
+  /* ownership management */
+  private:
+    typedef std::map<void*, GCItem_var> ownership_map;
+    mutable ownership_map owner;
+#ifdef __THREAD__
+    static PyThread_type_lock swig_mutex_own;
+#endif
+
+  public:
+    template <typename Type>
+    void swig_acquire_ownership_array(Type *vptr)  const
+    {
+      if (vptr) {
+        SWIG_GUARD(swig_mutex_own);
+        owner[vptr] = new GCArray_T<Type>(vptr);
+      }
+    }
+    
+    template <typename Type>
+    void swig_acquire_ownership(Type *vptr)  const
+    {
+      if (vptr) {
+        SWIG_GUARD(swig_mutex_own);
+        owner[vptr] = new GCItem_T<Type>(vptr);
+      }
+    }
+
+    void swig_acquire_ownership_obj(void *vptr, int own) const
+    {
+      if (vptr && own) {
+        SWIG_GUARD(swig_mutex_own);
+        owner[vptr] = new GCItem_Object(own);
+      }
+    }
+    
+    int swig_release_ownership(void *vptr) const
+    {
+      int own = 0;
+      if (vptr) {
+        SWIG_GUARD(swig_mutex_own);
+        ownership_map::iterator iter = owner.find(vptr);
+        if (iter != owner.end()) {
+          own = iter->second->get_own();
+          owner.erase(iter);
+        }
+      }
+      return own;
+    }
+  };
+
+#ifdef __THREAD__
+  PyThread_type_lock Director::swig_mutex_own = PyThread_allocate_lock();
+#endif
+}
+
+#endif /* __cplusplus */
+
+
+#endif
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
@@ -2701,52 +3177,68 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_Triangle swig_types[13]
 #define SWIGTYPE_p_Types swig_types[14]
 #define SWIGTYPE_p_Vector2 swig_types[15]
-#define SWIGTYPE_p_Volt__BBox swig_types[16]
-#define SWIGTYPE_p_Volt__Camera swig_types[17]
-#define SWIGTYPE_p_Volt__Color swig_types[18]
-#define SWIGTYPE_p_Volt__DataSource swig_types[19]
-#define SWIGTYPE_p_Volt__Entity swig_types[20]
-#define SWIGTYPE_p_Volt__Filter swig_types[21]
-#define SWIGTYPE_p_Volt__Game swig_types[22]
-#define SWIGTYPE_p_Volt__Random swig_types[23]
-#define SWIGTYPE_p_Volt__Scene swig_types[24]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[25]
-#define SWIGTYPE_p_Volt__SceneListener swig_types[26]
-#define SWIGTYPE_p_Volt__Time swig_types[27]
-#define SWIGTYPE_p_Volt__Transform swig_types[28]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[29]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[30]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[31]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[32]
-#define SWIGTYPE_p_Weapon swig_types[33]
-#define SWIGTYPE_p_allocator_type swig_types[34]
-#define SWIGTYPE_p_b2Body swig_types[35]
-#define SWIGTYPE_p_b2BodyDef swig_types[36]
-#define SWIGTYPE_p_b2BodyType swig_types[37]
+#define SWIGTYPE_p_Volt__AppTime swig_types[16]
+#define SWIGTYPE_p_Volt__BBox swig_types[17]
+#define SWIGTYPE_p_Volt__Camera swig_types[18]
+#define SWIGTYPE_p_Volt__Color swig_types[19]
+#define SWIGTYPE_p_Volt__DataSource swig_types[20]
+#define SWIGTYPE_p_Volt__Entity swig_types[21]
+#define SWIGTYPE_p_Volt__Filter swig_types[22]
+#define SWIGTYPE_p_Volt__Game swig_types[23]
+#define SWIGTYPE_p_Volt__Random swig_types[24]
+#define SWIGTYPE_p_Volt__Scene swig_types[25]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[26]
+#define SWIGTYPE_p_Volt__SceneListener swig_types[27]
+#define SWIGTYPE_p_Volt__Time swig_types[28]
+#define SWIGTYPE_p_Volt__Transform swig_types[29]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[30]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[31]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[32]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[33]
+#define SWIGTYPE_p_Weapon swig_types[34]
+#define SWIGTYPE_p_allocator_type swig_types[35]
+#define SWIGTYPE_p_b2Body swig_types[36]
+#define SWIGTYPE_p_b2BodyDef swig_types[37]
 #define SWIGTYPE_p_b2Contact swig_types[38]
-#define SWIGTYPE_p_b2Vec2 swig_types[39]
-#define SWIGTYPE_p_char swig_types[40]
-#define SWIGTYPE_p_const_reference swig_types[41]
-#define SWIGTYPE_p_difference_type swig_types[42]
-#define SWIGTYPE_p_float swig_types[43]
-#define SWIGTYPE_p_int swig_types[44]
-#define SWIGTYPE_p_istream swig_types[45]
-#define SWIGTYPE_p_long swig_types[46]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[47]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[48]
-#define SWIGTYPE_p_ostream swig_types[49]
-#define SWIGTYPE_p_p_PyObject swig_types[50]
-#define SWIGTYPE_p_reference swig_types[51]
-#define SWIGTYPE_p_size_type swig_types[52]
-#define SWIGTYPE_p_std__invalid_argument swig_types[53]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[54]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[55]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[56]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[57]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[58]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[59]
-static swig_type_info *swig_types[61];
-static swig_module_info swig_module = {swig_types, 60, 0, 0, 0, 0};
+#define SWIGTYPE_p_b2ContactEdge swig_types[39]
+#define SWIGTYPE_p_b2Fixture swig_types[40]
+#define SWIGTYPE_p_b2FixtureDef swig_types[41]
+#define SWIGTYPE_p_b2JointEdge swig_types[42]
+#define SWIGTYPE_p_b2MassData swig_types[43]
+#define SWIGTYPE_p_b2Mat22 swig_types[44]
+#define SWIGTYPE_p_b2Mat33 swig_types[45]
+#define SWIGTYPE_p_b2Shape swig_types[46]
+#define SWIGTYPE_p_b2Sweep swig_types[47]
+#define SWIGTYPE_p_b2Transform swig_types[48]
+#define SWIGTYPE_p_b2Vec2 swig_types[49]
+#define SWIGTYPE_p_b2Vec3 swig_types[50]
+#define SWIGTYPE_p_b2World swig_types[51]
+#define SWIGTYPE_p_char swig_types[52]
+#define SWIGTYPE_p_const_reference swig_types[53]
+#define SWIGTYPE_p_difference_type swig_types[54]
+#define SWIGTYPE_p_float swig_types[55]
+#define SWIGTYPE_p_float32 swig_types[56]
+#define SWIGTYPE_p_int swig_types[57]
+#define SWIGTYPE_p_int32 swig_types[58]
+#define SWIGTYPE_p_istream swig_types[59]
+#define SWIGTYPE_p_long swig_types[60]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[61]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[62]
+#define SWIGTYPE_p_ostream swig_types[63]
+#define SWIGTYPE_p_p_PyObject swig_types[64]
+#define SWIGTYPE_p_reference swig_types[65]
+#define SWIGTYPE_p_size_type swig_types[66]
+#define SWIGTYPE_p_std__invalid_argument swig_types[67]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[68]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[69]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[70]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[71]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[72]
+#define SWIGTYPE_p_uint32 swig_types[73]
+#define SWIGTYPE_p_void swig_types[74]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[75]
+static swig_type_info *swig_types[77];
+static swig_module_info swig_module = {swig_types, 76, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2843,6 +3335,8 @@ namespace swig {
 }
 
 
+
+#include <Box2D/Box2D.h>
 #include "Volt/Core/BBox.h"
 #include "Volt/Core/Color.h"
 #include "Volt/Core/Math.h"
@@ -2853,9 +3347,11 @@ namespace swig {
 #include "Volt/Core/Tween.h"
 #include "Volt/Core/Vector2.h"
 
+#include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Graphics/Camera.h"
+#include "Volt/Graphics/Graphics.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Game/Entity.h"
@@ -3215,19 +3711,10 @@ SWIG_AsVal_ptrdiff_t (PyObject * obj, ptrdiff_t *val)
 #include <vector>
 
 
-SWIGINTERN int
-SWIG_AsVal_float (PyObject * obj, float *val)
-{
-  double v;
-  int res = SWIG_AsVal_double (obj, &v);
-  if (SWIG_IsOK(res)) {
-    if ((v < -FLT_MAX || v > FLT_MAX)) {
-      return SWIG_OverflowError;
-    } else {
-      if (val) *val = static_cast< float >(v);
-    }
-  }  
-  return res;
+SWIGINTERNINLINE PyObject *
+SWIG_From_int  (int value)
+{    
+  return SWIG_From_long  (value);
 }
 
 
@@ -3257,6 +3744,33 @@ SWIG_AsVal_int (PyObject * obj, int *val)
 }
 
 
+SWIGINTERN int
+SWIG_AsVal_bool (PyObject *obj, bool *val)
+{
+  int r = PyObject_IsTrue(obj);
+  if (r == -1)
+    return SWIG_ERROR;
+  if (val) *val = r ? true : false;
+  return SWIG_OK;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_float (PyObject * obj, float *val)
+{
+  double v;
+  int res = SWIG_AsVal_double (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if ((v < -FLT_MAX || v > FLT_MAX)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = static_cast< float >(v);
+    }
+  }  
+  return res;
+}
+
+
   #define SWIG_From_double   PyFloat_FromDouble 
 
 
@@ -3280,13 +3794,6 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
     }
   }  
   return res;
-}
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_From_int  (int value)
-{    
-  return SWIG_From_long  (value);
 }
 
 
@@ -3458,17 +3965,6 @@ SWIG_FromCharPtr(const char *cptr)
 SWIGINTERN void Volt_Entity_SetVelocity(Volt::Entity *self,Volt::Vector2 velocity){
         self->body()->SetLinearVelocity(velocity.ToB2());
     }
-
-SWIGINTERN int
-SWIG_AsVal_bool (PyObject *obj, bool *val)
-{
-  int r = PyObject_IsTrue(obj);
-  if (r == -1)
-    return SWIG_ERROR;
-  if (val) *val = r ? true : false;
-  return SWIG_OK;
-}
-
 
 namespace swig {  
   template <class Type>
@@ -4558,6 +5054,366 @@ SWIGINTERN void std_vector_Sl_Volt_Entity_Sm__Sg____setitem____SWIG_1(std::vecto
 SWIGINTERN void std_vector_Sl_Volt_Entity_Sm__Sg__append(std::vector< Volt::Entity * > *self,std::vector< Volt::Entity * >::value_type x){
       self->push_back(x);
     }
+
+
+/* ---------------------------------------------------
+ * C++ director class methods
+ * --------------------------------------------------- */
+
+#include "Game_wrap.h"
+
+SwigDirector_Entity::SwigDirector_Entity(PyObject *self): Entity(), Swig::Director(self) {
+  SWIG_DIRECTOR_RGTR((Entity *)this, this); 
+}
+
+
+
+
+SwigDirector_Entity::~SwigDirector_Entity() {
+}
+
+Volt::Entity *SwigDirector_Entity::Clone() const {
+  void *swig_argp ;
+  int swig_res ;
+  swig_owntype own ;
+  
+  Volt::Entity *c_result;
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 0;
+  const char * const swig_method_name = "Clone";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Clone", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Clone'");
+    }
+  }
+  swig_res = SWIG_ConvertPtrAndOwn(result, &swig_argp, SWIGTYPE_p_Volt__Entity,  0  | SWIG_POINTER_DISOWN, &own);
+  if (!SWIG_IsOK(swig_res)) {
+    Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""Volt::Entity *""'");
+  }
+  c_result = reinterpret_cast< Volt::Entity * >(swig_argp);
+  swig_acquire_ownership_obj(SWIG_as_voidptr(c_result), own /* & TODO: SWIG_POINTER_OWN */);
+  return (Volt::Entity *) c_result;
+}
+
+
+void SwigDirector_Entity::Update() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 1;
+  const char * const swig_method_name = "Update";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Update", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Update'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::Render() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 2;
+  const char * const swig_method_name = "Render";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Render", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Render'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::OnAdded() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 3;
+  const char * const swig_method_name = "OnAdded";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnAdded", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnAdded'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::OnRemoved() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 4;
+  const char * const swig_method_name = "OnRemoved";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnRemoved", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnRemoved'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::BeginContact(Volt::Entity *other, b2Contact *contact) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+  swig::SwigVar_PyObject obj1;
+  obj1 = SWIG_NewPointerObj(SWIG_as_voidptr(contact), SWIGTYPE_p_b2Contact,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 5;
+  const char * const swig_method_name = "BeginContact";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"BeginContact", (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.BeginContact'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::EndContact(Volt::Entity *other, b2Contact *contact) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+  swig::SwigVar_PyObject obj1;
+  obj1 = SWIG_NewPointerObj(SWIG_as_voidptr(contact), SWIGTYPE_p_b2Contact,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 6;
+  const char * const swig_method_name = "EndContact";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"EndContact", (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.EndContact'");
+    }
+  }
+}
+
+
+bool SwigDirector_Entity::PreSolve(Volt::Entity *other) {
+  bool c_result;
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 7;
+  const char * const swig_method_name = "PreSolve";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"PreSolve", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.PreSolve'");
+    }
+  }
+  bool swig_val;
+  int swig_res = SWIG_AsVal_bool(result, &swig_val);
+  if (!SWIG_IsOK(swig_res)) {
+    Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""bool""'");
+  }
+  c_result = static_cast< bool >(swig_val);
+  return (bool) c_result;
+}
+
+
+bool SwigDirector_Entity::CanCollideWith(Volt::Entity *other) {
+  bool c_result;
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 8;
+  const char * const swig_method_name = "CanCollideWith";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"CanCollideWith", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.CanCollideWith'");
+    }
+  }
+  bool swig_val;
+  int swig_res = SWIG_AsVal_bool(result, &swig_val);
+  if (!SWIG_IsOK(swig_res)) {
+    Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""bool""'");
+  }
+  c_result = static_cast< bool >(swig_val);
+  return (bool) c_result;
+}
+
+
+void SwigDirector_Entity::OnScaleChanged() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 9;
+  const char * const swig_method_name = "OnScaleChanged";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnScaleChanged", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnScaleChanged'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::Load(Json::Value const &node) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(&node), SWIGTYPE_p_Json__Value,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 10;
+  const char * const swig_method_name = "Load";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"Load", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Load'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::Save(Json::Value &node) const {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(&node), SWIGTYPE_p_Json__Value,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 11;
+  const char * const swig_method_name = "Save";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"Save", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Save'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::OnAccessed(Entity *accessor) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(accessor), SWIGTYPE_p_Entity,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 12;
+  const char * const swig_method_name = "OnAccessed";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"OnAccessed", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnAccessed'");
+    }
+  }
+}
+
+
+void SwigDirector_Entity::GetProperties(std::vector< Property * > *properties) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(properties), SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 13;
+  const char * const swig_method_name = "GetProperties";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"GetProperties", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    if (error != NULL) {
+      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.GetProperties'");
+    }
+  }
+}
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -5402,6 +6258,6777 @@ SWIGINTERN PyObject *SwigPyIterator_swigregister(PyObject *SWIGUNUSEDPARM(self),
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_swig__SwigPyIterator, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_b2IsValid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2IsValid",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2IsValid" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2IsValid" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = (bool)b2IsValid(arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2InvSqrt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2InvSqrt",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2InvSqrt" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2InvSqrt" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = b2InvSqrt(arg1);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Abs__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Abs",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Abs" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Abs" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = b2Abs(arg1);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Vec2__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2Vec2")) SWIG_fail;
+  result = (b2Vec2 *)new b2Vec2();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Vec2__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  float32 arg2 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:new_b2Vec2",&obj0,&obj1)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Vec2" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Vec2" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_b2Vec2" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Vec2" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (b2Vec2 *)new b2Vec2(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Vec2(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 0) {
+    return _wrap_new_b2Vec2__SWIG_0(self, args);
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_float32, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_float32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_new_b2Vec2__SWIG_1(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_b2Vec2'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Vec2()\n"
+    "    b2Vec2(float32,float32)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_SetZero(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_SetZero",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_SetZero" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  (arg1)->SetZero();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_Set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  float32 arg2 ;
+  float32 arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Vec2_Set",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_Set" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2_Set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2_Set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Vec2_Set" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2_Set" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  (arg1)->Set(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___neg__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2___neg__",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2___neg__" "', argument " "1"" of type '" "b2Vec2 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result = ((b2Vec2 const *)arg1)->operator -();
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___call____SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  int32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2___call__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2___call__" "', argument " "1"" of type '" "b2Vec2 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_int32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2___call__" "', argument " "2"" of type '" "int32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2___call__" "', argument " "2"" of type '" "int32""'");
+    } else {
+      int32 * temp = reinterpret_cast< int32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = ((b2Vec2 const *)arg1)->operator ()(arg2);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___call____SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  int32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2___call__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2___call__" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_int32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2___call__" "', argument " "2"" of type '" "int32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2___call__" "', argument " "2"" of type '" "int32""'");
+    } else {
+      int32 * temp = reinterpret_cast< int32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (float32 *) &(arg1)->operator ()(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_float32, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___call__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_int32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Vec2___call____SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_int32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Vec2___call____SWIG_1(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Vec2___call__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    operator ()(b2Vec2 const *,int32)\n"
+    "    operator ()(b2Vec2 *,int32)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___iadd__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2___iadd__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2___iadd__" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2___iadd__" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2___iadd__" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  (arg1)->operator +=((b2Vec2 const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___isub__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2___isub__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2___isub__" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2___isub__" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2___isub__" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  (arg1)->operator -=((b2Vec2 const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2___imul__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2___imul__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2___imul__" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2___imul__" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2___imul__" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->operator *=(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_Length(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_Length",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_Length" "', argument " "1"" of type '" "b2Vec2 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result = ((b2Vec2 const *)arg1)->Length();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_LengthSquared(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_LengthSquared",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_LengthSquared" "', argument " "1"" of type '" "b2Vec2 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result = ((b2Vec2 const *)arg1)->LengthSquared();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_Normalize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_Normalize",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_Normalize" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result = (arg1)->Normalize();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_IsValid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_IsValid",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_IsValid" "', argument " "1"" of type '" "b2Vec2 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result = (bool)((b2Vec2 const *)arg1)->IsValid();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_x_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2_x_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_x_set" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2_x_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2_x_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->x = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_x_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_x_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_x_get" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result =  ((arg1)->x);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_y_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec2_y_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_y_set" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec2_y_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec2_y_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->y = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec2_y_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec2_y_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec2_y_get" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result =  ((arg1)->y);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2Vec2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2Vec2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec2, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2Vec2" "', argument " "1"" of type '" "b2Vec2 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Vec2_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Vec2, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_b2Vec3__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2Vec3")) SWIG_fail;
+  result = (b2Vec3 *)new b2Vec3();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec3, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Vec3__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  float32 arg2 ;
+  float32 arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  b2Vec3 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_b2Vec3",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Vec3" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Vec3" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_b2Vec3" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Vec3" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_b2Vec3" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Vec3" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  result = (b2Vec3 *)new b2Vec3(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec3, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Vec3(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 0) {
+    return _wrap_new_b2Vec3__SWIG_0(self, args);
+  }
+  if (argc == 3) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_float32, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_float32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_float32, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_b2Vec3__SWIG_1(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_b2Vec3'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Vec3()\n"
+    "    b2Vec3(float32,float32,float32)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_SetZero(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec3_SetZero",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_SetZero" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  (arg1)->SetZero();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_Set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  float32 arg2 ;
+  float32 arg3 ;
+  float32 arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  void *argp4 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:b2Vec3_Set",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_Set" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3_Set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3_Set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Vec3_Set" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3_Set" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  {
+    res4 = SWIG_ConvertPtr(obj3, &argp4, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res4)) {
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "b2Vec3_Set" "', argument " "4"" of type '" "float32""'"); 
+    }  
+    if (!argp4) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3_Set" "', argument " "4"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp4);
+      arg4 = *temp;
+      if (SWIG_IsNewObj(res4)) delete temp;
+    }
+  }
+  (arg1)->Set(arg2,arg3,arg4);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3___neg__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec3 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec3___neg__",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3___neg__" "', argument " "1"" of type '" "b2Vec3 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  result = ((b2Vec3 const *)arg1)->operator -();
+  resultobj = SWIG_NewPointerObj((new b2Vec3(static_cast< const b2Vec3& >(result))), SWIGTYPE_p_b2Vec3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3___iadd__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  b2Vec3 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec3___iadd__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3___iadd__" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3___iadd__" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3___iadd__" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  (arg1)->operator +=((b2Vec3 const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3___isub__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  b2Vec3 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec3___isub__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3___isub__" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3___isub__" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3___isub__" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  (arg1)->operator -=((b2Vec3 const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3___imul__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec3___imul__",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3___imul__" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3___imul__" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3___imul__" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->operator *=(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_x_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec3_x_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_x_set" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3_x_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3_x_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->x = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_x_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec3_x_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_x_get" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  result =  ((arg1)->x);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_y_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec3_y_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_y_set" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3_y_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3_y_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->y = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_y_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec3_y_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_y_get" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  result =  ((arg1)->y);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_z_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Vec3_z_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_z_set" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Vec3_z_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Vec3_z_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->z = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Vec3_z_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Vec3_z_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Vec3_z_get" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  result =  ((arg1)->z);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2Vec3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2Vec3",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Vec3, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2Vec3" "', argument " "1"" of type '" "b2Vec3 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Vec3_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Vec3, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_b2Mat22__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2Mat22")) SWIG_fail;
+  result = (b2Mat22 *)new b2Mat22();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat22, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Mat22__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Mat22 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:new_b2Mat22",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Mat22" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_b2Mat22" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = (b2Mat22 *)new b2Mat22((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat22, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Mat22__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  float32 arg2 ;
+  float32 arg3 ;
+  float32 arg4 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  void *argp4 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  b2Mat22 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:new_b2Mat22",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Mat22" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_b2Mat22" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_b2Mat22" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  {
+    res4 = SWIG_ConvertPtr(obj3, &argp4, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res4)) {
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "new_b2Mat22" "', argument " "4"" of type '" "float32""'"); 
+    }  
+    if (!argp4) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "4"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp4);
+      arg4 = *temp;
+      if (SWIG_IsNewObj(res4)) delete temp;
+    }
+  }
+  result = (b2Mat22 *)new b2Mat22(arg1,arg2,arg3,arg4);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat22, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Mat22__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Mat22 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_b2Mat22",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Mat22" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat22" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = (b2Mat22 *)new b2Mat22(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat22, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Mat22(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[5];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 4); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 0) {
+    return _wrap_new_b2Mat22__SWIG_0(self, args);
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_float32, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_b2Mat22__SWIG_3(self, args);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_new_b2Mat22__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_float32, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_float32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_float32, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_float32, 0);
+          _v = SWIG_CheckState(res);
+          if (_v) {
+            return _wrap_new_b2Mat22__SWIG_2(self, args);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_b2Mat22'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Mat22()\n"
+    "    b2Mat22(b2Vec2 const &,b2Vec2 const &)\n"
+    "    b2Mat22(float32,float32,float32,float32)\n"
+    "    b2Mat22(float32)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_Set__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  b2Vec2 *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Mat22_Set",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_Set" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat22_Set" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mat22_Set" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Mat22_Set" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mat22_Set" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg3 = reinterpret_cast< b2Vec2 * >(argp3);
+  (arg1)->Set((b2Vec2 const &)*arg2,(b2Vec2 const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_Set__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat22_Set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_Set" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat22_Set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mat22_Set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->Set(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_Set(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_float32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Mat22_Set__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_b2Vec2, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_b2Mat22_Set__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Mat22_Set'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    Set(b2Mat22 *,b2Vec2 const &,b2Vec2 const &)\n"
+    "    Set(b2Mat22 *,float32)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_SetIdentity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat22_SetIdentity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_SetIdentity" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  (arg1)->SetIdentity();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_SetZero(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat22_SetZero",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_SetZero" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  (arg1)->SetZero();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_GetAngle(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat22_GetAngle",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_GetAngle" "', argument " "1"" of type '" "b2Mat22 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  result = ((b2Mat22 const *)arg1)->GetAngle();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_GetInverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Mat22 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat22_GetInverse",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_GetInverse" "', argument " "1"" of type '" "b2Mat22 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  result = ((b2Mat22 const *)arg1)->GetInverse();
+  resultobj = SWIG_NewPointerObj((new b2Mat22(static_cast< const b2Mat22& >(result))), SWIGTYPE_p_b2Mat22, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_Solve(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat22_Solve",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_Solve" "', argument " "1"" of type '" "b2Mat22 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat22_Solve" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mat22_Solve" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Mat22 const *)arg1)->Solve((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_col1_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat22_col1_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_col1_set" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat22_col1_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->col1 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_col1_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat22_col1_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_col1_get" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->col1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_col2_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat22_col2_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_col2_set" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat22_col2_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->col2 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat22_col2_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat22_col2_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat22_col2_get" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->col2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2Mat22(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2Mat22",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat22, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2Mat22" "', argument " "1"" of type '" "b2Mat22 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Mat22_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Mat22, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_b2Mat33__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2Mat33")) SWIG_fail;
+  result = (b2Mat33 *)new b2Mat33();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat33, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Mat33__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = 0 ;
+  b2Vec3 *arg2 = 0 ;
+  b2Vec3 *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  b2Mat33 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_b2Mat33",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Mat33" "', argument " "1"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat33" "', argument " "1"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_b2Mat33" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat33" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_b2Mat33" "', argument " "3"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Mat33" "', argument " "3"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg3 = reinterpret_cast< b2Vec3 * >(argp3);
+  result = (b2Mat33 *)new b2Mat33((b2Vec3 const &)*arg1,(b2Vec3 const &)*arg2,(b2Vec3 const &)*arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat33, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Mat33(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 0) {
+    return _wrap_new_b2Mat33__SWIG_0(self, args);
+  }
+  if (argc == 3) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec3, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_b2Vec3, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_b2Mat33__SWIG_1(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_b2Mat33'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Mat33()\n"
+    "    b2Mat33(b2Vec3 const &,b2Vec3 const &,b2Vec3 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_SetZero(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat33_SetZero",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_SetZero" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  (arg1)->SetZero();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_Solve33(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  b2Vec3 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec3 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat33_Solve33",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_Solve33" "', argument " "1"" of type '" "b2Mat33 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat33_Solve33" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mat33_Solve33" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  result = ((b2Mat33 const *)arg1)->Solve33((b2Vec3 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec3(static_cast< const b2Vec3& >(result))), SWIGTYPE_p_b2Vec3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_Solve22(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat33_Solve22",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_Solve22" "', argument " "1"" of type '" "b2Mat33 const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat33_Solve22" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mat33_Solve22" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Mat33 const *)arg1)->Solve22((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_col1_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  b2Vec3 *arg2 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat33_col1_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_col1_set" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat33_col1_set" "', argument " "2"" of type '" "b2Vec3 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  if (arg1) (arg1)->col1 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_col1_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec3 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat33_col1_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_col1_get" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  result = (b2Vec3 *)& ((arg1)->col1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec3, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_col2_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  b2Vec3 *arg2 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat33_col2_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_col2_set" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat33_col2_set" "', argument " "2"" of type '" "b2Vec3 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  if (arg1) (arg1)->col2 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_col2_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec3 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat33_col2_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_col2_get" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  result = (b2Vec3 *)& ((arg1)->col2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec3, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_col3_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  b2Vec3 *arg2 = (b2Vec3 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mat33_col3_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_col3_set" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec3, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mat33_col3_set" "', argument " "2"" of type '" "b2Vec3 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  if (arg1) (arg1)->col3 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mat33_col3_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec3 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Mat33_col3_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mat33_col3_get" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  result = (b2Vec3 *)& ((arg1)->col3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec3, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2Mat33(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = (b2Mat33 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2Mat33",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Mat33, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2Mat33" "', argument " "1"" of type '" "b2Mat33 *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Mat33_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Mat33, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_b2Transform__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2Transform")) SWIG_fail;
+  result = (b2Transform *)new b2Transform();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Transform, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Transform__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Mat22 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Transform *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:new_b2Transform",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_b2Transform" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Transform" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_b2Transform" "', argument " "2"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_b2Transform" "', argument " "2"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Mat22 * >(argp2);
+  result = (b2Transform *)new b2Transform((b2Vec2 const &)*arg1,(b2Mat22 const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Transform, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Transform(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 0) {
+    return _wrap_new_b2Transform__SWIG_0(self, args);
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Mat22, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_new_b2Transform__SWIG_1(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_b2Transform'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Transform()\n"
+    "    b2Transform(b2Vec2 const &,b2Mat22 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_SetIdentity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Transform_SetIdentity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_SetIdentity" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  (arg1)->SetIdentity();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_Set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  float32 arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Transform_Set",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_Set" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Transform_Set" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Transform_Set" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Transform_Set" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Transform_Set" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  (arg1)->Set((b2Vec2 const &)*arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_GetAngle(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Transform_GetAngle",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_GetAngle" "', argument " "1"" of type '" "b2Transform const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  result = ((b2Transform const *)arg1)->GetAngle();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_position_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Transform_position_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_position_set" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Transform_position_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->position = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_position_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Transform_position_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_position_get" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->position);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_R_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  b2Mat22 *arg2 = (b2Mat22 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Transform_R_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_R_set" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Mat22, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Transform_R_set" "', argument " "2"" of type '" "b2Mat22 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Mat22 * >(argp2);
+  if (arg1) (arg1)->R = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Transform_R_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Mat22 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Transform_R_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Transform_R_get" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  result = (b2Mat22 *)& ((arg1)->R);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Mat22, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2Transform(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = (b2Transform *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2Transform",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Transform, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2Transform" "', argument " "1"" of type '" "b2Transform *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Transform_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Transform, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_b2Sweep_GetTransform(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  b2Transform *arg2 = (b2Transform *) 0 ;
+  float32 arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Sweep_GetTransform",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_GetTransform" "', argument " "1"" of type '" "b2Sweep const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Transform, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_GetTransform" "', argument " "2"" of type '" "b2Transform *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Transform * >(argp2);
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Sweep_GetTransform" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Sweep_GetTransform" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  ((b2Sweep const *)arg1)->GetTransform(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_Advance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Sweep_Advance",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_Advance" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_Advance" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Sweep_Advance" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->Advance(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_Normalize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Sweep_Normalize",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_Normalize" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  (arg1)->Normalize();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_localCenter_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Sweep_localCenter_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_localCenter_set" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_localCenter_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->localCenter = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_localCenter_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Sweep_localCenter_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_localCenter_get" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->localCenter);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_c0_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Sweep_c0_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_c0_set" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_c0_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->c0 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_c0_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Sweep_c0_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_c0_get" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->c0);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_c_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Sweep_c_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_c_set" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_c_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->c = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_c_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Sweep_c_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_c_get" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->c);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_a0_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Sweep_a0_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_a0_set" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_a0_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Sweep_a0_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->a0 = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_a0_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Sweep_a0_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_a0_get" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  result =  ((arg1)->a0);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_a_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Sweep_a_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_a_set" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Sweep_a_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Sweep_a_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->a = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Sweep_a_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Sweep_a_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Sweep_a_get" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  result =  ((arg1)->a);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2Sweep(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2Sweep")) SWIG_fail;
+  result = (b2Sweep *)new b2Sweep();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Sweep, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2Sweep(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Sweep *arg1 = (b2Sweep *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2Sweep",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Sweep, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2Sweep" "', argument " "1"" of type '" "b2Sweep *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Sweep * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Sweep_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Sweep, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN int Swig_var_b2Vec2_zero_set(PyObject *) {
+  SWIG_Error(SWIG_AttributeError,"Variable b2Vec2_zero is read-only.");
+  return 1;
+}
+
+
+SWIGINTERN PyObject *Swig_var_b2Vec2_zero_get(void) {
+  PyObject *pyobj = 0;
+  
+  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(&b2Vec2_zero), SWIGTYPE_p_b2Vec2,  0 );
+  return pyobj;
+}
+
+
+SWIGINTERN int Swig_var_b2Mat22_identity_set(PyObject *) {
+  SWIG_Error(SWIG_AttributeError,"Variable b2Mat22_identity is read-only.");
+  return 1;
+}
+
+
+SWIGINTERN PyObject *Swig_var_b2Mat22_identity_get(void) {
+  PyObject *pyobj = 0;
+  
+  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(&b2Mat22_identity), SWIGTYPE_p_b2Mat22,  0 );
+  return pyobj;
+}
+
+
+SWIGINTERN int Swig_var_b2Transform_identity_set(PyObject *) {
+  SWIG_Error(SWIG_AttributeError,"Variable b2Transform_identity is read-only.");
+  return 1;
+}
+
+
+SWIGINTERN PyObject *Swig_var_b2Transform_identity_get(void) {
+  PyObject *pyobj = 0;
+  
+  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(&b2Transform_identity), SWIGTYPE_p_b2Transform,  0 );
+  return pyobj;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Dot__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Dot",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Dot" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Dot" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Dot" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Dot" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Dot((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Cross__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Cross",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Cross" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Cross" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Cross((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Cross__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Cross",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Cross" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Cross" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = b2Cross((b2Vec2 const &)*arg1,arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Cross__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float32 arg1 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Cross",&obj0,&obj1)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Cross" "', argument " "1"" of type '" "float32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "1"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Cross" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Cross(arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mul__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mul",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mul" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mul" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Mul((b2Mat22 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2MulT__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2MulT",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2MulT" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2MulT" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2MulT" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2MulT" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2MulT((b2Mat22 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Distance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Distance",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Distance" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Distance" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Distance" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Distance" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Distance((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2DistanceSquared(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2DistanceSquared",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2DistanceSquared" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2DistanceSquared" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2DistanceSquared" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2DistanceSquared" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2DistanceSquared((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Dot__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = 0 ;
+  b2Vec3 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Dot",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Dot" "', argument " "1"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Dot" "', argument " "1"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Dot" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Dot" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  result = b2Dot((b2Vec3 const &)*arg1,(b2Vec3 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Dot(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Dot__SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec3, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Dot__SWIG_1(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Dot'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Dot(b2Vec2 const &,b2Vec2 const &)\n"
+    "    b2Dot(b2Vec3 const &,b2Vec3 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Cross__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec3 *arg1 = 0 ;
+  b2Vec3 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec3 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Cross",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Cross" "', argument " "1"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "1"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec3 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Cross" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Cross" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  result = b2Cross((b2Vec3 const &)*arg1,(b2Vec3 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec3(static_cast< const b2Vec3& >(result))), SWIGTYPE_p_b2Vec3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Cross(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Cross__SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_float32, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Cross__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_float32, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Cross__SWIG_2(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec3, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Cross__SWIG_3(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Cross'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Cross(b2Vec2 const &,b2Vec2 const &)\n"
+    "    b2Cross(b2Vec2 const &,float32)\n"
+    "    b2Cross(float32,b2Vec2 const &)\n"
+    "    b2Cross(b2Vec3 const &,b2Vec3 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mul__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = 0 ;
+  b2Mat22 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Mat22 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mul",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mul" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mul" "', argument " "2"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "2"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Mat22 * >(argp2);
+  result = b2Mul((b2Mat22 const &)*arg1,(b2Mat22 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Mat22(static_cast< const b2Mat22& >(result))), SWIGTYPE_p_b2Mat22, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2MulT__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = 0 ;
+  b2Mat22 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Mat22 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2MulT",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2MulT" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2MulT" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2MulT" "', argument " "2"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2MulT" "', argument " "2"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Mat22 * >(argp2);
+  result = b2MulT((b2Mat22 const &)*arg1,(b2Mat22 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Mat22(static_cast< const b2Mat22& >(result))), SWIGTYPE_p_b2Mat22, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mul__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat33 *arg1 = 0 ;
+  b2Vec3 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec3 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mul",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Mat33,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mul" "', argument " "1"" of type '" "b2Mat33 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "1"" of type '" "b2Mat33 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat33 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec3,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mul" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "2"" of type '" "b2Vec3 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec3 * >(argp2);
+  result = b2Mul((b2Mat33 const &)*arg1,(b2Vec3 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec3(static_cast< const b2Vec3& >(result))), SWIGTYPE_p_b2Vec3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mul__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Mul",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Transform,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Mul" "', argument " "1"" of type '" "b2Transform const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "1"" of type '" "b2Transform const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Mul" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Mul" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Mul((b2Transform const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Mul(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Mul__SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Mat22, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Mul__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Mat33, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Mul__SWIG_2(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Transform, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Mul__SWIG_3(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Mul'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Mul(b2Mat22 const &,b2Vec2 const &)\n"
+    "    b2Mul(b2Mat22 const &,b2Mat22 const &)\n"
+    "    b2Mul(b2Mat33 const &,b2Vec3 const &)\n"
+    "    b2Mul(b2Transform const &,b2Vec2 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2MulT__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Transform *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2MulT",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Transform,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2MulT" "', argument " "1"" of type '" "b2Transform const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2MulT" "', argument " "1"" of type '" "b2Transform const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Transform * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2MulT" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2MulT" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2MulT((b2Transform const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2MulT(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2MulT__SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Mat22, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2MulT__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Transform, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2Vec2, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2MulT__SWIG_2(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2MulT'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2MulT(b2Mat22 const &,b2Vec2 const &)\n"
+    "    b2MulT(b2Mat22 const &,b2Mat22 const &)\n"
+    "    b2MulT(b2Transform const &,b2Vec2 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Abs__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Abs",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Abs" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Abs" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  result = b2Abs((b2Vec2 const &)*arg1);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Abs__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Mat22 *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Mat22 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Abs",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Mat22,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Abs" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Abs" "', argument " "1"" of type '" "b2Mat22 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Mat22 * >(argp1);
+  result = b2Abs((b2Mat22 const &)*arg1);
+  resultobj = SWIG_NewPointerObj((new b2Mat22(static_cast< const b2Mat22& >(result))), SWIGTYPE_p_b2Mat22, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Abs(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_float32, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Abs__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Vec2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Abs__SWIG_1(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_b2Mat22, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Abs__SWIG_2(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Abs'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    b2Abs(float32)\n"
+    "    b2Abs(b2Vec2 const &)\n"
+    "    b2Abs(b2Mat22 const &)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Min(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Min",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Min" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Min" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Min" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Min" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Min((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Max(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Max",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Max" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Max" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Max" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Max" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = b2Max((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Clamp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Vec2 *arg1 = 0 ;
+  b2Vec2 *arg2 = 0 ;
+  b2Vec2 *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Clamp",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Clamp" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Clamp" "', argument " "1"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg1 = reinterpret_cast< b2Vec2 * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Clamp" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Clamp" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Clamp" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Clamp" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg3 = reinterpret_cast< b2Vec2 * >(argp3);
+  result = b2Clamp((b2Vec2 const &)*arg1,(b2Vec2 const &)*arg2,(b2Vec2 const &)*arg3);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2NextPowerOfTwo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  uint32 arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2NextPowerOfTwo",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_uint32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2NextPowerOfTwo" "', argument " "1"" of type '" "uint32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2NextPowerOfTwo" "', argument " "1"" of type '" "uint32""'");
+    } else {
+      uint32 * temp = reinterpret_cast< uint32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = b2NextPowerOfTwo(arg1);
+  resultobj = SWIG_NewPointerObj((new uint32(static_cast< const uint32& >(result))), SWIGTYPE_p_uint32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2IsPowerOfTwo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  uint32 arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2IsPowerOfTwo",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_uint32,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2IsPowerOfTwo" "', argument " "1"" of type '" "uint32""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2IsPowerOfTwo" "', argument " "1"" of type '" "uint32""'");
+    } else {
+      uint32 * temp = reinterpret_cast< uint32 * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = (bool)b2IsPowerOfTwo(arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_b2BodyDef(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_b2BodyDef")) SWIG_fail;
+  result = (b2BodyDef *)new b2BodyDef();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2BodyDef, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_type_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  b2BodyType arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_type_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_type_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2BodyDef_type_set" "', argument " "2"" of type '" "b2BodyType""'");
+  } 
+  arg2 = static_cast< b2BodyType >(val2);
+  if (arg1) (arg1)->type = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_type_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2BodyType result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_type_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_type_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (b2BodyType) ((arg1)->type);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_position_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_position_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_position_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_position_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->position = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_position_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_position_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_position_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->position);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_angle_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_angle_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_angle_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_angle_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2BodyDef_angle_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->angle = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_angle_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_angle_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_angle_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result =  ((arg1)->angle);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_linearVelocity_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  b2Vec2 *arg2 = (b2Vec2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_linearVelocity_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_linearVelocity_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Vec2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_linearVelocity_set" "', argument " "2"" of type '" "b2Vec2 *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  if (arg1) (arg1)->linearVelocity = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_linearVelocity_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_linearVelocity_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_linearVelocity_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (b2Vec2 *)& ((arg1)->linearVelocity);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_angularVelocity_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_angularVelocity_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_angularVelocity_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_angularVelocity_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2BodyDef_angularVelocity_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->angularVelocity = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_angularVelocity_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_angularVelocity_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_angularVelocity_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result =  ((arg1)->angularVelocity);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_linearDamping_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_linearDamping_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_linearDamping_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_linearDamping_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2BodyDef_linearDamping_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->linearDamping = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_linearDamping_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_linearDamping_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_linearDamping_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result =  ((arg1)->linearDamping);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_angularDamping_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_angularDamping_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_angularDamping_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_angularDamping_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2BodyDef_angularDamping_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->angularDamping = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_angularDamping_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_angularDamping_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_angularDamping_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result =  ((arg1)->angularDamping);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_allowSleep_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_allowSleep_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_allowSleep_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2BodyDef_allowSleep_set" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  if (arg1) (arg1)->allowSleep = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_allowSleep_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_allowSleep_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_allowSleep_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (bool) ((arg1)->allowSleep);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_awake_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_awake_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_awake_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2BodyDef_awake_set" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  if (arg1) (arg1)->awake = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_awake_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_awake_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_awake_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (bool) ((arg1)->awake);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_fixedRotation_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_fixedRotation_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_fixedRotation_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2BodyDef_fixedRotation_set" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  if (arg1) (arg1)->fixedRotation = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_fixedRotation_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_fixedRotation_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_fixedRotation_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (bool) ((arg1)->fixedRotation);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_bullet_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_bullet_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_bullet_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2BodyDef_bullet_set" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  if (arg1) (arg1)->bullet = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_bullet_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_bullet_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_bullet_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (bool) ((arg1)->bullet);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_active_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_active_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_active_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2BodyDef_active_set" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  if (arg1) (arg1)->active = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_active_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_active_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_active_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (bool) ((arg1)->active);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_userData_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_userData_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_userData_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1,SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_userData_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->userData = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_userData_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  void *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_userData_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_userData_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result = (void *) ((arg1)->userData);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_inertiaScale_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2BodyDef_inertiaScale_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_inertiaScale_set" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2BodyDef_inertiaScale_set" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2BodyDef_inertiaScale_set" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->inertiaScale = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2BodyDef_inertiaScale_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2BodyDef_inertiaScale_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2BodyDef_inertiaScale_get" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  result =  ((arg1)->inertiaScale);
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_b2BodyDef(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2BodyDef *arg1 = (b2BodyDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_b2BodyDef",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2BodyDef, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_b2BodyDef" "', argument " "1"" of type '" "b2BodyDef *""'"); 
+  }
+  arg1 = reinterpret_cast< b2BodyDef * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2BodyDef_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2BodyDef, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_b2Body_CreateFixture__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2FixtureDef *arg2 = (b2FixtureDef *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Fixture *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_CreateFixture",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_CreateFixture" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2FixtureDef, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_CreateFixture" "', argument " "2"" of type '" "b2FixtureDef const *""'"); 
+  }
+  arg2 = reinterpret_cast< b2FixtureDef * >(argp2);
+  result = (b2Fixture *)(arg1)->CreateFixture((b2FixtureDef const *)arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Fixture, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_CreateFixture__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Shape *arg2 = (b2Shape *) 0 ;
+  float32 arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  b2Fixture *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Body_CreateFixture",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_CreateFixture" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Shape, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_CreateFixture" "', argument " "2"" of type '" "b2Shape const *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Shape * >(argp2);
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Body_CreateFixture" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_CreateFixture" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  result = (b2Fixture *)(arg1)->CreateFixture((b2Shape const *)arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Fixture, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_CreateFixture(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_b2FixtureDef, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_b2Body_CreateFixture__SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_b2Shape, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_float32, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_b2Body_CreateFixture__SWIG_1(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Body_CreateFixture'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CreateFixture(b2Body *,b2FixtureDef const *)\n"
+    "    CreateFixture(b2Body *,b2Shape const *,float32)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_DestroyFixture(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Fixture *arg2 = (b2Fixture *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_DestroyFixture",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_DestroyFixture" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2Fixture, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_DestroyFixture" "', argument " "2"" of type '" "b2Fixture *""'"); 
+  }
+  arg2 = reinterpret_cast< b2Fixture * >(argp2);
+  (arg1)->DestroyFixture(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetTransform(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  float32 arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Body_SetTransform",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetTransform" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetTransform" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_SetTransform" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Body_SetTransform" "', argument " "3"" of type '" "float32""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_SetTransform" "', argument " "3"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  (arg1)->SetTransform((b2Vec2 const &)*arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetTransform(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Transform *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetTransform",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetTransform" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Transform *) &((b2Body const *)arg1)->GetTransform();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Transform, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetPosition(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetPosition",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetPosition" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Vec2 *) &((b2Body const *)arg1)->GetPosition();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetAngle(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetAngle",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetAngle" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetAngle();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetWorldCenter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetWorldCenter",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetWorldCenter" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Vec2 *) &((b2Body const *)arg1)->GetWorldCenter();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLocalCenter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetLocalCenter",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLocalCenter" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Vec2 *) &((b2Body const *)arg1)->GetLocalCenter();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Vec2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetLinearVelocity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetLinearVelocity",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetLinearVelocity" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetLinearVelocity" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_SetLinearVelocity" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  (arg1)->SetLinearVelocity((b2Vec2 const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLinearVelocity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetLinearVelocity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLinearVelocity" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetLinearVelocity();
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetAngularVelocity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetAngularVelocity",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetAngularVelocity" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetAngularVelocity" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_SetAngularVelocity" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->SetAngularVelocity(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetAngularVelocity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetAngularVelocity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetAngularVelocity" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetAngularVelocity();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_ApplyForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  b2Vec2 *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Body_ApplyForce",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_ApplyForce" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_ApplyForce" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_ApplyForce" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Body_ApplyForce" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_ApplyForce" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg3 = reinterpret_cast< b2Vec2 * >(argp3);
+  (arg1)->ApplyForce((b2Vec2 const &)*arg2,(b2Vec2 const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_ApplyTorque(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_ApplyTorque",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_ApplyTorque" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_ApplyTorque" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_ApplyTorque" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->ApplyTorque(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_ApplyLinearImpulse(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  b2Vec2 *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:b2Body_ApplyLinearImpulse",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_ApplyLinearImpulse" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_ApplyLinearImpulse" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_ApplyLinearImpulse" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "b2Body_ApplyLinearImpulse" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_ApplyLinearImpulse" "', argument " "3"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg3 = reinterpret_cast< b2Vec2 * >(argp3);
+  (arg1)->ApplyLinearImpulse((b2Vec2 const &)*arg2,(b2Vec2 const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_ApplyAngularImpulse(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_ApplyAngularImpulse",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_ApplyAngularImpulse" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_ApplyAngularImpulse" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_ApplyAngularImpulse" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->ApplyAngularImpulse(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetMass(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetMass",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetMass" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetMass();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetInertia(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetInertia",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetInertia" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetInertia();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetMassData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2MassData *arg2 = (b2MassData *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetMassData",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetMassData" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2MassData, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetMassData" "', argument " "2"" of type '" "b2MassData *""'"); 
+  }
+  arg2 = reinterpret_cast< b2MassData * >(argp2);
+  ((b2Body const *)arg1)->GetMassData(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetMassData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2MassData *arg2 = (b2MassData *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetMassData",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetMassData" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_b2MassData, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetMassData" "', argument " "2"" of type '" "b2MassData const *""'"); 
+  }
+  arg2 = reinterpret_cast< b2MassData * >(argp2);
+  (arg1)->SetMassData((b2MassData const *)arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_ResetMassData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_ResetMassData",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_ResetMassData" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  (arg1)->ResetMassData();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetWorldPoint(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetWorldPoint",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetWorldPoint" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetWorldPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_GetWorldPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Body const *)arg1)->GetWorldPoint((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetWorldVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetWorldVector",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetWorldVector" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetWorldVector" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_GetWorldVector" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Body const *)arg1)->GetWorldVector((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLocalPoint(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetLocalPoint",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLocalPoint" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetLocalPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_GetLocalPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Body const *)arg1)->GetLocalPoint((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLocalVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetLocalVector",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLocalVector" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetLocalVector" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_GetLocalVector" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Body const *)arg1)->GetLocalVector((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLinearVelocityFromWorldPoint(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetLinearVelocityFromWorldPoint",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLinearVelocityFromWorldPoint" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetLinearVelocityFromWorldPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_GetLinearVelocityFromWorldPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Body const *)arg1)->GetLinearVelocityFromWorldPoint((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLinearVelocityFromLocalPoint(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2Vec2 *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  b2Vec2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_GetLinearVelocityFromLocalPoint",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLinearVelocityFromLocalPoint" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2Vec2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_GetLinearVelocityFromLocalPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_GetLinearVelocityFromLocalPoint" "', argument " "2"" of type '" "b2Vec2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< b2Vec2 * >(argp2);
+  result = ((b2Body const *)arg1)->GetLinearVelocityFromLocalPoint((b2Vec2 const &)*arg2);
+  resultobj = SWIG_NewPointerObj((new b2Vec2(static_cast< const b2Vec2& >(result))), SWIGTYPE_p_b2Vec2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetLinearDamping(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetLinearDamping",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetLinearDamping" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetLinearDamping();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetLinearDamping(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetLinearDamping",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetLinearDamping" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetLinearDamping" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_SetLinearDamping" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->SetLinearDamping(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetAngularDamping(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetAngularDamping",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetAngularDamping" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = ((b2Body const *)arg1)->GetAngularDamping();
+  resultobj = SWIG_NewPointerObj((new float32(static_cast< const float32& >(result))), SWIGTYPE_p_float32, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetAngularDamping(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  float32 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetAngularDamping",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetAngularDamping" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_float32,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetAngularDamping" "', argument " "2"" of type '" "float32""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "b2Body_SetAngularDamping" "', argument " "2"" of type '" "float32""'");
+    } else {
+      float32 * temp = reinterpret_cast< float32 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->SetAngularDamping(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetType(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  b2BodyType arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetType",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetType" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2Body_SetType" "', argument " "2"" of type '" "b2BodyType""'");
+  } 
+  arg2 = static_cast< b2BodyType >(val2);
+  (arg1)->SetType(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetType(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2BodyType result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetType",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetType" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2BodyType)((b2Body const *)arg1)->GetType();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetBullet(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetBullet",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetBullet" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2Body_SetBullet" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetBullet(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_IsBullet(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_IsBullet",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_IsBullet" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (bool)((b2Body const *)arg1)->IsBullet();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetSleepingAllowed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetSleepingAllowed",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetSleepingAllowed" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2Body_SetSleepingAllowed" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetSleepingAllowed(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_IsSleepingAllowed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_IsSleepingAllowed",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_IsSleepingAllowed" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (bool)((b2Body const *)arg1)->IsSleepingAllowed();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetAwake(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetAwake",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetAwake" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2Body_SetAwake" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetAwake(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_IsAwake(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_IsAwake",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_IsAwake" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (bool)((b2Body const *)arg1)->IsAwake();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetActive(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetActive",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetActive" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2Body_SetActive" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetActive(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_IsActive(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_IsActive",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_IsActive" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (bool)((b2Body const *)arg1)->IsActive();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetFixedRotation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetFixedRotation",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetFixedRotation" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "b2Body_SetFixedRotation" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetFixedRotation(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_IsFixedRotation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_IsFixedRotation",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_IsFixedRotation" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (bool)((b2Body const *)arg1)->IsFixedRotation();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetFixtureList__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Fixture *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetFixtureList",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetFixtureList" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Fixture *)(arg1)->GetFixtureList();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Fixture, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetFixtureList__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Fixture *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetFixtureList",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetFixtureList" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Fixture *)((b2Body const *)arg1)->GetFixtureList();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Fixture, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetFixtureList(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetFixtureList__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetFixtureList__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Body_GetFixtureList'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    GetFixtureList(b2Body *)\n"
+    "    GetFixtureList(b2Body const *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetJointList__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2JointEdge *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetJointList",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetJointList" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2JointEdge *)(arg1)->GetJointList();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2JointEdge, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetJointList__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2JointEdge *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetJointList",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetJointList" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2JointEdge *)((b2Body const *)arg1)->GetJointList();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2JointEdge, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetJointList(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetJointList__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetJointList__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Body_GetJointList'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    GetJointList(b2Body *)\n"
+    "    GetJointList(b2Body const *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetContactList__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2ContactEdge *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetContactList",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetContactList" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2ContactEdge *)(arg1)->GetContactList();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2ContactEdge, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetContactList__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2ContactEdge *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetContactList",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetContactList" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2ContactEdge *)((b2Body const *)arg1)->GetContactList();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2ContactEdge, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetContactList(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetContactList__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetContactList__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Body_GetContactList'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    GetContactList(b2Body *)\n"
+    "    GetContactList(b2Body const *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetNext__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Body *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetNext",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetNext" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Body *)(arg1)->GetNext();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Body, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetNext__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2Body *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetNext",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetNext" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2Body *)((b2Body const *)arg1)->GetNext();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Body, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetNext(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetNext__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetNext__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Body_GetNext'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    GetNext(b2Body *)\n"
+    "    GetNext(b2Body const *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetUserData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  void *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetUserData",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetUserData" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (void *)((b2Body const *)arg1)->GetUserData();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_SetUserData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:b2Body_SetUserData",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_SetUserData" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1,SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "b2Body_SetUserData" "', argument " "2"" of type '" "void *""'"); 
+  }
+  (arg1)->SetUserData(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetWorld__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2World *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetWorld",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetWorld" "', argument " "1"" of type '" "b2Body *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2World *)(arg1)->GetWorld();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2World, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetWorld__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  b2Body *arg1 = (b2Body *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2World *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:b2Body_GetWorld",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_b2Body, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "b2Body_GetWorld" "', argument " "1"" of type '" "b2Body const *""'"); 
+  }
+  arg1 = reinterpret_cast< b2Body * >(argp1);
+  result = (b2World *)((b2Body const *)arg1)->GetWorld();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2World, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_b2Body_GetWorld(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetWorld__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_b2Body, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_b2Body_GetWorld__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'b2Body_GetWorld'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    GetWorld(b2Body *)\n"
+    "    GetWorld(b2Body const *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *b2Body_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_b2Body, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -12046,6 +19673,133 @@ SWIGINTERN PyObject *Vector3_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObje
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_AppTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::AppTime *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_AppTime")) SWIG_fail;
+  result = (Volt::AppTime *)new Volt::AppTime();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__AppTime, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_AppTime_dt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::AppTime *arg1 = (Volt::AppTime *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:AppTime_dt",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__AppTime, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "AppTime_dt" "', argument " "1"" of type '" "Volt::AppTime const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::AppTime * >(argp1);
+  result = (float)((Volt::AppTime const *)arg1)->dt();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_AppTime_SetDt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::AppTime *arg1 = (Volt::AppTime *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:AppTime_SetDt",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__AppTime, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "AppTime_SetDt" "', argument " "1"" of type '" "Volt::AppTime *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::AppTime * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "AppTime_SetDt" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SetDt(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_AppTime_Register(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::AppTime *arg1 = (Volt::AppTime *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:AppTime_Register",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__AppTime, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "AppTime_Register" "', argument " "1"" of type '" "Volt::AppTime *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::AppTime * >(argp1);
+  Volt::AppTime::Register(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_AppTime_Instance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::AppTime *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":AppTime_Instance")) SWIG_fail;
+  result = (Volt::AppTime *)Volt::AppTime::Instance();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__AppTime, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_AppTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::AppTime *arg1 = (Volt::AppTime *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_AppTime",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__AppTime, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_AppTime" "', argument " "1"" of type '" "Volt::AppTime *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::AppTime * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *AppTime_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__AppTime, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_delete_VoltEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
@@ -12538,8 +20292,8 @@ SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody__SWIG_1(PyObject *SWIGUNUSEDPAR
   b2BodyType arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   b2Body *result = 0 ;
@@ -12550,19 +20304,11 @@ SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody__SWIG_1(PyObject *SWIGUNUSEDPAR
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CreateBody" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Entity * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2BodyType,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_CreateBody" "', argument " "2"" of type '" "b2BodyType""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "VoltEntity_CreateBody" "', argument " "2"" of type '" "b2BodyType""'");
-    } else {
-      b2BodyType * temp = reinterpret_cast< b2BodyType * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "VoltEntity_CreateBody" "', argument " "2"" of type '" "b2BodyType""'");
+  } 
+  arg2 = static_cast< b2BodyType >(val2);
   result = (b2Body *)(arg1)->CreateBody(arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2Body, 0 |  0 );
   return resultobj;
@@ -12600,8 +20346,10 @@ SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody(PyObject *self, PyObject *args)
     int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Volt__Entity, 0);
     _v = SWIG_CheckState(res);
     if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2BodyType, 0);
-      _v = SWIG_CheckState(res);
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
       if (_v) {
         return _wrap_VoltEntity_CreateBody__SWIG_1(self, args);
       }
@@ -15432,6 +23180,29 @@ SWIGINTERN PyObject *Scene_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_Entity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  PyObject *arg1 = (PyObject *) 0 ;
+  PyObject * obj0 = 0 ;
+  Entity *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_Entity",&obj0)) SWIG_fail;
+  arg1 = obj0;
+  if ( arg1 != Py_None ) {
+    /* subclassed */
+    result = (Entity *)new SwigDirector_Entity(arg1); 
+  } else {
+    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+    SWIG_fail;
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Entity, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_Entity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Entity *arg1 = (Entity *) 0 ;
@@ -15463,6 +23234,8 @@ SWIGINTERN PyObject *_wrap_Entity_OnAccessed(PyObject *SWIGUNUSEDPARM(self), PyO
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"OO:Entity_OnAccessed",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
@@ -15475,7 +23248,17 @@ SWIGINTERN PyObject *_wrap_Entity_OnAccessed(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Entity_OnAccessed" "', argument " "2"" of type '" "Entity *""'"); 
   }
   arg2 = reinterpret_cast< Entity * >(argp2);
-  (arg1)->OnAccessed(arg2);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Entity::OnAccessed(arg2);
+    } else {
+      (arg1)->OnAccessed(arg2);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -15493,6 +23276,8 @@ SWIGINTERN PyObject *_wrap_Entity_GetProperties(PyObject *SWIGUNUSEDPARM(self), 
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"OO:Entity_GetProperties",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
@@ -15505,7 +23290,17 @@ SWIGINTERN PyObject *_wrap_Entity_GetProperties(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Entity_GetProperties" "', argument " "2"" of type '" "std::vector< Property * > *""'"); 
   }
   arg2 = reinterpret_cast< std::vector< Property * > * >(argp2);
-  (arg1)->GetProperties(arg2);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Entity::GetProperties(arg2);
+    } else {
+      (arg1)->GetProperties(arg2);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -15575,6 +23370,8 @@ SWIGINTERN PyObject *_wrap_Entity_Load(PyObject *SWIGUNUSEDPARM(self), PyObject 
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"OO:Entity_Load",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
@@ -15590,7 +23387,17 @@ SWIGINTERN PyObject *_wrap_Entity_Load(PyObject *SWIGUNUSEDPARM(self), PyObject 
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Entity_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
   }
   arg2 = reinterpret_cast< Json::Value * >(argp2);
-  (arg1)->Load((Json::Value const &)*arg2);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Entity::Load((Json::Value const &)*arg2);
+    } else {
+      (arg1)->Load((Json::Value const &)*arg2);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -15608,6 +23415,8 @@ SWIGINTERN PyObject *_wrap_Entity_Save(PyObject *SWIGUNUSEDPARM(self), PyObject 
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"OO:Entity_Save",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
@@ -15623,7 +23432,17 @@ SWIGINTERN PyObject *_wrap_Entity_Save(PyObject *SWIGUNUSEDPARM(self), PyObject 
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Entity_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
   }
   arg2 = reinterpret_cast< Json::Value * >(argp2);
-  ((Entity const *)arg1)->Save(*arg2);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      ((Entity const *)arg1)->Entity::Save(*arg2);
+    } else {
+      ((Entity const *)arg1)->Save(*arg2);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -15654,6 +23473,31 @@ SWIGINTERN PyObject *_wrap_Entity_CopyFrom(PyObject *SWIGUNUSEDPARM(self), PyObj
   }
   arg2 = reinterpret_cast< Entity * >(argp2);
   (arg1)->CopyFrom((Entity const *)arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_disown_Entity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Entity *arg1 = (Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:disown_Entity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "disown_Entity" "', argument " "1"" of type '" "Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Entity * >(argp1);
+  {
+    Swig::Director *director = dynamic_cast<Swig::Director *>(arg1);
+    if (director) director->swig_disown();
+  }
+  
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -16552,48 +24396,6 @@ fail:
 }
 
 
-SWIGINTERN int Swig_var_Light_STATIC_MAP_FOLDER_set(PyObject *_val) {
-  {
-    char *cptr = 0; size_t csize = 0; int alloc = SWIG_NEWOBJ;
-    int res = SWIG_AsCharPtrAndSize(_val, &cptr, &csize, &alloc);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""Light::STATIC_MAP_FOLDER""' of type '""char const *""'");
-    }
-    if (alloc == SWIG_NEWOBJ) {
-      Light::STATIC_MAP_FOLDER = cptr;
-    } else {
-      Light::STATIC_MAP_FOLDER = csize ? (char const *)reinterpret_cast< char* >(memcpy((new char[csize]), cptr, sizeof(char)*(csize))) : 0;
-    }
-  }
-  return 0;
-fail:
-  return 1;
-}
-
-
-SWIGINTERN PyObject *Swig_var_Light_STATIC_MAP_FOLDER_get(void) {
-  PyObject *pyobj = 0;
-  
-  pyobj = SWIG_FromCharPtr(Light::STATIC_MAP_FOLDER);
-  return pyobj;
-}
-
-
-SWIGINTERN PyObject *_wrap_Light_STATIC_MAP_FOLDER_get(PyObject *SWIGUNUSEDPARM(self), PyObject *SWIGUNUSEDPARM(args)) {
-  return Swig_var_Light_STATIC_MAP_FOLDER_get();
-}
-
-
-SWIGINTERN PyObject *_wrap_Light_STATIC_MAP_FOLDER_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *value;
-  int res;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:set",&value)) return NULL;
-  res = Swig_var_Light_STATIC_MAP_FOLDER_set(value);
-  return !res ? SWIG_Py_Void() : NULL;
-}
-
-
 SWIGINTERN PyObject *Light_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
@@ -17368,6 +25170,7 @@ SWIGINTERN PyObject *_wrap_EntityFactory_Create(PyObject *SWIGUNUSEDPARM(self), 
   PyObject *resultobj = 0;
   std::string arg1 ;
   PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
   Entity *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)"O:EntityFactory_Create",&obj0)) SWIG_fail;
@@ -17381,7 +25184,13 @@ SWIGINTERN PyObject *_wrap_EntityFactory_Create(PyObject *SWIGUNUSEDPARM(self), 
     if (SWIG_IsNewObj(res)) delete ptr;
   }
   result = (Entity *)EntityFactory::Create(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Entity, 0 |  0 );
+  director = SWIG_DIRECTOR_CAST(result);
+  if (director) {
+    resultobj = director->swig_get_self();
+    Py_INCREF(resultobj);
+  } else {
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Entity, 0 |  0 );
+  }
   return resultobj;
 fail:
   return NULL;
@@ -19129,6 +26938,186 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"SwigPyIterator___add__", _wrap_SwigPyIterator___add__, METH_VARARGS, NULL},
 	 { (char *)"SwigPyIterator___sub__", _wrap_SwigPyIterator___sub__, METH_VARARGS, NULL},
 	 { (char *)"SwigPyIterator_swigregister", SwigPyIterator_swigregister, METH_VARARGS, NULL},
+	 { (char *)"b2IsValid", _wrap_b2IsValid, METH_VARARGS, NULL},
+	 { (char *)"b2InvSqrt", _wrap_b2InvSqrt, METH_VARARGS, NULL},
+	 { (char *)"new_b2Vec2", _wrap_new_b2Vec2, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_SetZero", _wrap_b2Vec2_SetZero, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_Set", _wrap_b2Vec2_Set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2___neg__", _wrap_b2Vec2___neg__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2___call__", _wrap_b2Vec2___call__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2___iadd__", _wrap_b2Vec2___iadd__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2___isub__", _wrap_b2Vec2___isub__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2___imul__", _wrap_b2Vec2___imul__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_Length", _wrap_b2Vec2_Length, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_LengthSquared", _wrap_b2Vec2_LengthSquared, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_Normalize", _wrap_b2Vec2_Normalize, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_IsValid", _wrap_b2Vec2_IsValid, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_x_set", _wrap_b2Vec2_x_set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_x_get", _wrap_b2Vec2_x_get, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_y_set", _wrap_b2Vec2_y_set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_y_get", _wrap_b2Vec2_y_get, METH_VARARGS, NULL},
+	 { (char *)"delete_b2Vec2", _wrap_delete_b2Vec2, METH_VARARGS, NULL},
+	 { (char *)"b2Vec2_swigregister", b2Vec2_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_b2Vec3", _wrap_new_b2Vec3, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_SetZero", _wrap_b2Vec3_SetZero, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_Set", _wrap_b2Vec3_Set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3___neg__", _wrap_b2Vec3___neg__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3___iadd__", _wrap_b2Vec3___iadd__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3___isub__", _wrap_b2Vec3___isub__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3___imul__", _wrap_b2Vec3___imul__, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_x_set", _wrap_b2Vec3_x_set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_x_get", _wrap_b2Vec3_x_get, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_y_set", _wrap_b2Vec3_y_set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_y_get", _wrap_b2Vec3_y_get, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_z_set", _wrap_b2Vec3_z_set, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_z_get", _wrap_b2Vec3_z_get, METH_VARARGS, NULL},
+	 { (char *)"delete_b2Vec3", _wrap_delete_b2Vec3, METH_VARARGS, NULL},
+	 { (char *)"b2Vec3_swigregister", b2Vec3_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_b2Mat22", _wrap_new_b2Mat22, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_Set", _wrap_b2Mat22_Set, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_SetIdentity", _wrap_b2Mat22_SetIdentity, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_SetZero", _wrap_b2Mat22_SetZero, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_GetAngle", _wrap_b2Mat22_GetAngle, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_GetInverse", _wrap_b2Mat22_GetInverse, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_Solve", _wrap_b2Mat22_Solve, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_col1_set", _wrap_b2Mat22_col1_set, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_col1_get", _wrap_b2Mat22_col1_get, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_col2_set", _wrap_b2Mat22_col2_set, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_col2_get", _wrap_b2Mat22_col2_get, METH_VARARGS, NULL},
+	 { (char *)"delete_b2Mat22", _wrap_delete_b2Mat22, METH_VARARGS, NULL},
+	 { (char *)"b2Mat22_swigregister", b2Mat22_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_b2Mat33", _wrap_new_b2Mat33, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_SetZero", _wrap_b2Mat33_SetZero, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_Solve33", _wrap_b2Mat33_Solve33, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_Solve22", _wrap_b2Mat33_Solve22, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_col1_set", _wrap_b2Mat33_col1_set, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_col1_get", _wrap_b2Mat33_col1_get, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_col2_set", _wrap_b2Mat33_col2_set, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_col2_get", _wrap_b2Mat33_col2_get, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_col3_set", _wrap_b2Mat33_col3_set, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_col3_get", _wrap_b2Mat33_col3_get, METH_VARARGS, NULL},
+	 { (char *)"delete_b2Mat33", _wrap_delete_b2Mat33, METH_VARARGS, NULL},
+	 { (char *)"b2Mat33_swigregister", b2Mat33_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_b2Transform", _wrap_new_b2Transform, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_SetIdentity", _wrap_b2Transform_SetIdentity, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_Set", _wrap_b2Transform_Set, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_GetAngle", _wrap_b2Transform_GetAngle, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_position_set", _wrap_b2Transform_position_set, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_position_get", _wrap_b2Transform_position_get, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_R_set", _wrap_b2Transform_R_set, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_R_get", _wrap_b2Transform_R_get, METH_VARARGS, NULL},
+	 { (char *)"delete_b2Transform", _wrap_delete_b2Transform, METH_VARARGS, NULL},
+	 { (char *)"b2Transform_swigregister", b2Transform_swigregister, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_GetTransform", _wrap_b2Sweep_GetTransform, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_Advance", _wrap_b2Sweep_Advance, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_Normalize", _wrap_b2Sweep_Normalize, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_localCenter_set", _wrap_b2Sweep_localCenter_set, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_localCenter_get", _wrap_b2Sweep_localCenter_get, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_c0_set", _wrap_b2Sweep_c0_set, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_c0_get", _wrap_b2Sweep_c0_get, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_c_set", _wrap_b2Sweep_c_set, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_c_get", _wrap_b2Sweep_c_get, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_a0_set", _wrap_b2Sweep_a0_set, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_a0_get", _wrap_b2Sweep_a0_get, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_a_set", _wrap_b2Sweep_a_set, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_a_get", _wrap_b2Sweep_a_get, METH_VARARGS, NULL},
+	 { (char *)"new_b2Sweep", _wrap_new_b2Sweep, METH_VARARGS, NULL},
+	 { (char *)"delete_b2Sweep", _wrap_delete_b2Sweep, METH_VARARGS, NULL},
+	 { (char *)"b2Sweep_swigregister", b2Sweep_swigregister, METH_VARARGS, NULL},
+	 { (char *)"b2Distance", _wrap_b2Distance, METH_VARARGS, NULL},
+	 { (char *)"b2DistanceSquared", _wrap_b2DistanceSquared, METH_VARARGS, NULL},
+	 { (char *)"b2Dot", _wrap_b2Dot, METH_VARARGS, NULL},
+	 { (char *)"b2Cross", _wrap_b2Cross, METH_VARARGS, NULL},
+	 { (char *)"b2Mul", _wrap_b2Mul, METH_VARARGS, NULL},
+	 { (char *)"b2MulT", _wrap_b2MulT, METH_VARARGS, NULL},
+	 { (char *)"b2Abs", _wrap_b2Abs, METH_VARARGS, NULL},
+	 { (char *)"b2Min", _wrap_b2Min, METH_VARARGS, NULL},
+	 { (char *)"b2Max", _wrap_b2Max, METH_VARARGS, NULL},
+	 { (char *)"b2Clamp", _wrap_b2Clamp, METH_VARARGS, NULL},
+	 { (char *)"b2NextPowerOfTwo", _wrap_b2NextPowerOfTwo, METH_VARARGS, NULL},
+	 { (char *)"b2IsPowerOfTwo", _wrap_b2IsPowerOfTwo, METH_VARARGS, NULL},
+	 { (char *)"new_b2BodyDef", _wrap_new_b2BodyDef, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_type_set", _wrap_b2BodyDef_type_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_type_get", _wrap_b2BodyDef_type_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_position_set", _wrap_b2BodyDef_position_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_position_get", _wrap_b2BodyDef_position_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_angle_set", _wrap_b2BodyDef_angle_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_angle_get", _wrap_b2BodyDef_angle_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_linearVelocity_set", _wrap_b2BodyDef_linearVelocity_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_linearVelocity_get", _wrap_b2BodyDef_linearVelocity_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_angularVelocity_set", _wrap_b2BodyDef_angularVelocity_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_angularVelocity_get", _wrap_b2BodyDef_angularVelocity_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_linearDamping_set", _wrap_b2BodyDef_linearDamping_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_linearDamping_get", _wrap_b2BodyDef_linearDamping_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_angularDamping_set", _wrap_b2BodyDef_angularDamping_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_angularDamping_get", _wrap_b2BodyDef_angularDamping_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_allowSleep_set", _wrap_b2BodyDef_allowSleep_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_allowSleep_get", _wrap_b2BodyDef_allowSleep_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_awake_set", _wrap_b2BodyDef_awake_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_awake_get", _wrap_b2BodyDef_awake_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_fixedRotation_set", _wrap_b2BodyDef_fixedRotation_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_fixedRotation_get", _wrap_b2BodyDef_fixedRotation_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_bullet_set", _wrap_b2BodyDef_bullet_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_bullet_get", _wrap_b2BodyDef_bullet_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_active_set", _wrap_b2BodyDef_active_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_active_get", _wrap_b2BodyDef_active_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_userData_set", _wrap_b2BodyDef_userData_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_userData_get", _wrap_b2BodyDef_userData_get, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_inertiaScale_set", _wrap_b2BodyDef_inertiaScale_set, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_inertiaScale_get", _wrap_b2BodyDef_inertiaScale_get, METH_VARARGS, NULL},
+	 { (char *)"delete_b2BodyDef", _wrap_delete_b2BodyDef, METH_VARARGS, NULL},
+	 { (char *)"b2BodyDef_swigregister", b2BodyDef_swigregister, METH_VARARGS, NULL},
+	 { (char *)"b2Body_CreateFixture", _wrap_b2Body_CreateFixture, METH_VARARGS, NULL},
+	 { (char *)"b2Body_DestroyFixture", _wrap_b2Body_DestroyFixture, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetTransform", _wrap_b2Body_SetTransform, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetTransform", _wrap_b2Body_GetTransform, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetPosition", _wrap_b2Body_GetPosition, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetAngle", _wrap_b2Body_GetAngle, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetWorldCenter", _wrap_b2Body_GetWorldCenter, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLocalCenter", _wrap_b2Body_GetLocalCenter, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetLinearVelocity", _wrap_b2Body_SetLinearVelocity, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLinearVelocity", _wrap_b2Body_GetLinearVelocity, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetAngularVelocity", _wrap_b2Body_SetAngularVelocity, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetAngularVelocity", _wrap_b2Body_GetAngularVelocity, METH_VARARGS, NULL},
+	 { (char *)"b2Body_ApplyForce", _wrap_b2Body_ApplyForce, METH_VARARGS, NULL},
+	 { (char *)"b2Body_ApplyTorque", _wrap_b2Body_ApplyTorque, METH_VARARGS, NULL},
+	 { (char *)"b2Body_ApplyLinearImpulse", _wrap_b2Body_ApplyLinearImpulse, METH_VARARGS, NULL},
+	 { (char *)"b2Body_ApplyAngularImpulse", _wrap_b2Body_ApplyAngularImpulse, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetMass", _wrap_b2Body_GetMass, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetInertia", _wrap_b2Body_GetInertia, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetMassData", _wrap_b2Body_GetMassData, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetMassData", _wrap_b2Body_SetMassData, METH_VARARGS, NULL},
+	 { (char *)"b2Body_ResetMassData", _wrap_b2Body_ResetMassData, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetWorldPoint", _wrap_b2Body_GetWorldPoint, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetWorldVector", _wrap_b2Body_GetWorldVector, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLocalPoint", _wrap_b2Body_GetLocalPoint, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLocalVector", _wrap_b2Body_GetLocalVector, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLinearVelocityFromWorldPoint", _wrap_b2Body_GetLinearVelocityFromWorldPoint, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLinearVelocityFromLocalPoint", _wrap_b2Body_GetLinearVelocityFromLocalPoint, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetLinearDamping", _wrap_b2Body_GetLinearDamping, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetLinearDamping", _wrap_b2Body_SetLinearDamping, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetAngularDamping", _wrap_b2Body_GetAngularDamping, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetAngularDamping", _wrap_b2Body_SetAngularDamping, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetType", _wrap_b2Body_SetType, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetType", _wrap_b2Body_GetType, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetBullet", _wrap_b2Body_SetBullet, METH_VARARGS, NULL},
+	 { (char *)"b2Body_IsBullet", _wrap_b2Body_IsBullet, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetSleepingAllowed", _wrap_b2Body_SetSleepingAllowed, METH_VARARGS, NULL},
+	 { (char *)"b2Body_IsSleepingAllowed", _wrap_b2Body_IsSleepingAllowed, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetAwake", _wrap_b2Body_SetAwake, METH_VARARGS, NULL},
+	 { (char *)"b2Body_IsAwake", _wrap_b2Body_IsAwake, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetActive", _wrap_b2Body_SetActive, METH_VARARGS, NULL},
+	 { (char *)"b2Body_IsActive", _wrap_b2Body_IsActive, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetFixedRotation", _wrap_b2Body_SetFixedRotation, METH_VARARGS, NULL},
+	 { (char *)"b2Body_IsFixedRotation", _wrap_b2Body_IsFixedRotation, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetFixtureList", _wrap_b2Body_GetFixtureList, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetJointList", _wrap_b2Body_GetJointList, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetContactList", _wrap_b2Body_GetContactList, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetNext", _wrap_b2Body_GetNext, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetUserData", _wrap_b2Body_GetUserData, METH_VARARGS, NULL},
+	 { (char *)"b2Body_SetUserData", _wrap_b2Body_SetUserData, METH_VARARGS, NULL},
+	 { (char *)"b2Body_GetWorld", _wrap_b2Body_GetWorld, METH_VARARGS, NULL},
+	 { (char *)"b2Body_swigregister", b2Body_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Color", _wrap_new_Color, METH_VARARGS, NULL},
 	 { (char *)"Color_RGB", _wrap_Color_RGB, METH_VARARGS, NULL},
 	 { (char *)"Color_RGBA", _wrap_Color_RGBA, METH_VARARGS, NULL},
@@ -19327,6 +27316,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_Vector3", _wrap_new_Vector3, METH_VARARGS, NULL},
 	 { (char *)"delete_Vector3", _wrap_delete_Vector3, METH_VARARGS, NULL},
 	 { (char *)"Vector3_swigregister", Vector3_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_AppTime", _wrap_new_AppTime, METH_VARARGS, NULL},
+	 { (char *)"AppTime_dt", _wrap_AppTime_dt, METH_VARARGS, NULL},
+	 { (char *)"AppTime_SetDt", _wrap_AppTime_SetDt, METH_VARARGS, NULL},
+	 { (char *)"AppTime_Register", _wrap_AppTime_Register, METH_VARARGS, NULL},
+	 { (char *)"AppTime_Instance", _wrap_AppTime_Instance, METH_VARARGS, NULL},
+	 { (char *)"delete_AppTime", _wrap_delete_AppTime, METH_VARARGS, NULL},
+	 { (char *)"AppTime_swigregister", AppTime_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_VoltEntity", _wrap_delete_VoltEntity, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_layer", _wrap_VoltEntity_layer, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_IsOnLayer", _wrap_VoltEntity_IsOnLayer, METH_VARARGS, NULL},
@@ -19428,6 +27424,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Scene_GetFirstTagged", _wrap_Scene_GetFirstTagged, METH_VARARGS, NULL},
 	 { (char *)"Scene_GetAllTagged", _wrap_Scene_GetAllTagged, METH_VARARGS, NULL},
 	 { (char *)"Scene_swigregister", Scene_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_Entity", _wrap_new_Entity, METH_VARARGS, NULL},
 	 { (char *)"delete_Entity", _wrap_delete_Entity, METH_VARARGS, NULL},
 	 { (char *)"Entity_OnAccessed", _wrap_Entity_OnAccessed, METH_VARARGS, NULL},
 	 { (char *)"Entity_GetProperties", _wrap_Entity_GetProperties, METH_VARARGS, NULL},
@@ -19436,6 +27433,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Entity_Load", _wrap_Entity_Load, METH_VARARGS, NULL},
 	 { (char *)"Entity_Save", _wrap_Entity_Save, METH_VARARGS, NULL},
 	 { (char *)"Entity_CopyFrom", _wrap_Entity_CopyFrom, METH_VARARGS, NULL},
+	 { (char *)"disown_Entity", _wrap_disown_Entity, METH_VARARGS, NULL},
 	 { (char *)"Entity_swigregister", Entity_swigregister, METH_VARARGS, NULL},
 	 { (char *)"CreatureHitListener_OnHit", _wrap_CreatureHitListener_OnHit, METH_VARARGS, NULL},
 	 { (char *)"delete_CreatureHitListener", _wrap_delete_CreatureHitListener, METH_VARARGS, NULL},
@@ -19475,8 +27473,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Light_InvalidateStaticMap", _wrap_Light_InvalidateStaticMap, METH_VARARGS, NULL},
 	 { (char *)"Light_GenerateStrokes", _wrap_Light_GenerateStrokes, METH_VARARGS, NULL},
 	 { (char *)"Light_renderBounds", _wrap_Light_renderBounds, METH_VARARGS, NULL},
-	 { (char *)"Light_STATIC_MAP_FOLDER_get", _wrap_Light_STATIC_MAP_FOLDER_get, METH_VARARGS, NULL},
-	 { (char *)"Light_STATIC_MAP_FOLDER_set", _wrap_Light_STATIC_MAP_FOLDER_set, METH_VARARGS, NULL},
 	 { (char *)"Light_swigregister", Light_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Player", _wrap_new_Player, METH_VARARGS, NULL},
 	 { (char *)"delete_Player", _wrap_delete_Player, METH_VARARGS, NULL},
@@ -19554,9 +27550,6 @@ static PyMethodDef SwigMethods[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static void *_p_PlayerTo_p_Creature(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((Creature *)  ((Player *) x));
-}
 static void *_p_EntityTo_p_Volt__Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Volt::Entity *)  ((Entity *) x));
 }
@@ -19584,6 +27577,9 @@ static void *_p_PlayerTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static void *_p_LightTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Entity *)  ((Light *) x));
 }
+static void *_p_PlayerTo_p_Creature(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Creature *)  ((Player *) x));
+}
 static swig_type_info _swigt__p_BrushStroke = {"_p_BrushStroke", "BrushStroke *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Creature = {"_p_Creature", "Creature *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CreatureHitListener = {"_p_CreatureHitListener", "CreatureHitListener *", 0, 0, (void*)0, 0};
@@ -19600,6 +27596,7 @@ static swig_type_info _swigt__p_SDL_MouseMotionEvent = {"_p_SDL_MouseMotionEvent
 static swig_type_info _swigt__p_Triangle = {"_p_Triangle", "Triangle *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Types = {"_p_Types", "Types *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Vector2 = {"_p_Vector2", "Vector2 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__AppTime = {"_p_Volt__AppTime", "Volt::AppTime *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__BBox = {"_p_Volt__BBox", "Volt::BBox *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Camera = {"_p_Volt__Camera", "Volt::Camera *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Color = {"_p_Volt__Color", "Volt::Color *", 0, 0, (void*)0, 0};
@@ -19621,14 +27618,27 @@ static swig_type_info _swigt__p_Weapon = {"_p_Weapon", "Weapon *", 0, 0, (void*)
 static swig_type_info _swigt__p_allocator_type = {"_p_allocator_type", "allocator_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_b2Body = {"_p_b2Body", "b2Body *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_b2BodyDef = {"_p_b2BodyDef", "b2BodyDef *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_b2BodyType = {"_p_b2BodyType", "b2BodyType *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_b2Contact = {"_p_b2Contact", "b2Contact *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2ContactEdge = {"_p_b2ContactEdge", "b2ContactEdge *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Fixture = {"_p_b2Fixture", "b2Fixture *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2FixtureDef = {"_p_b2FixtureDef", "b2FixtureDef *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2JointEdge = {"_p_b2JointEdge", "b2JointEdge *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2MassData = {"_p_b2MassData", "b2MassData *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Mat22 = {"_p_b2Mat22", "b2Mat22 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Mat33 = {"_p_b2Mat33", "b2Mat33 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Shape = {"_p_b2Shape", "b2Shape *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Sweep = {"_p_b2Sweep", "b2Sweep *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Transform = {"_p_b2Transform", "b2Transform *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_b2Vec2 = {"_p_b2Vec2", "b2Vec2 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2Vec3 = {"_p_b2Vec3", "b2Vec3 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_b2World = {"_p_b2World", "b2World *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_const_reference = {"_p_const_reference", "const_reference *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_difference_type = {"_p_difference_type", "difference_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_float = {"_p_float", "float *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_float32 = {"_p_float32", "float32 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int32 = {"_p_int32", "int32 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_istream = {"_p_istream", "istream *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long = {"_p_long", "long *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_mapT_int_int_t = {"_p_mapT_int_int_t", "map< int,int > *", 0, 0, (void*)0, 0};
@@ -19643,6 +27653,8 @@ static swig_type_info _swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt
 static swig_type_info _swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type = {"_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type", "std::vector< Volt::Entity * >::allocator_type *|std::allocator< Volt::Entity * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t = {"_p_std__vectorT_std__string_std__allocatorT_std__string_t_t", "std::vector< std::string > *|std::vector< std::string,std::allocator< std::string > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_swig__SwigPyIterator = {"_p_swig__SwigPyIterator", "swig::SwigPyIterator *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_uint32 = {"_p_uint32", "uint32 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type = {"_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type", "Volt::Entity *|std::vector< Volt::Entity * >::value_type", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
@@ -19662,6 +27674,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Triangle,
   &_swigt__p_Types,
   &_swigt__p_Vector2,
+  &_swigt__p_Volt__AppTime,
   &_swigt__p_Volt__BBox,
   &_swigt__p_Volt__Camera,
   &_swigt__p_Volt__Color,
@@ -19683,14 +27696,27 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_allocator_type,
   &_swigt__p_b2Body,
   &_swigt__p_b2BodyDef,
-  &_swigt__p_b2BodyType,
   &_swigt__p_b2Contact,
+  &_swigt__p_b2ContactEdge,
+  &_swigt__p_b2Fixture,
+  &_swigt__p_b2FixtureDef,
+  &_swigt__p_b2JointEdge,
+  &_swigt__p_b2MassData,
+  &_swigt__p_b2Mat22,
+  &_swigt__p_b2Mat33,
+  &_swigt__p_b2Shape,
+  &_swigt__p_b2Sweep,
+  &_swigt__p_b2Transform,
   &_swigt__p_b2Vec2,
+  &_swigt__p_b2Vec3,
+  &_swigt__p_b2World,
   &_swigt__p_char,
   &_swigt__p_const_reference,
   &_swigt__p_difference_type,
   &_swigt__p_float,
+  &_swigt__p_float32,
   &_swigt__p_int,
+  &_swigt__p_int32,
   &_swigt__p_istream,
   &_swigt__p_long,
   &_swigt__p_mapT_int_int_t,
@@ -19705,6 +27731,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type,
   &_swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t,
   &_swigt__p_swig__SwigPyIterator,
+  &_swigt__p_uint32,
+  &_swigt__p_void,
   &_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type,
 };
 
@@ -19724,6 +27752,7 @@ static swig_cast_info _swigc__p_SDL_MouseMotionEvent[] = {  {&_swigt__p_SDL_Mous
 static swig_cast_info _swigc__p_Triangle[] = {  {&_swigt__p_Triangle, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Types[] = {  {&_swigt__p_Types, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Vector2[] = {  {&_swigt__p_Vector2, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__AppTime[] = {  {&_swigt__p_Volt__AppTime, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__BBox[] = {  {&_swigt__p_Volt__BBox, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Camera[] = {  {&_swigt__p_Volt__Camera, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Color[] = {  {&_swigt__p_Volt__Color, 0, 0, 0},{0, 0, 0, 0}};
@@ -19745,14 +27774,27 @@ static swig_cast_info _swigc__p_Weapon[] = {  {&_swigt__p_Weapon, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_allocator_type[] = {  {&_swigt__p_allocator_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_b2Body[] = {  {&_swigt__p_b2Body, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_b2BodyDef[] = {  {&_swigt__p_b2BodyDef, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_b2BodyType[] = {  {&_swigt__p_b2BodyType, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_b2Contact[] = {  {&_swigt__p_b2Contact, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2ContactEdge[] = {  {&_swigt__p_b2ContactEdge, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Fixture[] = {  {&_swigt__p_b2Fixture, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2FixtureDef[] = {  {&_swigt__p_b2FixtureDef, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2JointEdge[] = {  {&_swigt__p_b2JointEdge, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2MassData[] = {  {&_swigt__p_b2MassData, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Mat22[] = {  {&_swigt__p_b2Mat22, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Mat33[] = {  {&_swigt__p_b2Mat33, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Shape[] = {  {&_swigt__p_b2Shape, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Sweep[] = {  {&_swigt__p_b2Sweep, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Transform[] = {  {&_swigt__p_b2Transform, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_b2Vec2[] = {  {&_swigt__p_b2Vec2, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2Vec3[] = {  {&_swigt__p_b2Vec3, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_b2World[] = {  {&_swigt__p_b2World, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_const_reference[] = {  {&_swigt__p_const_reference, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_difference_type[] = {  {&_swigt__p_difference_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_float[] = {  {&_swigt__p_float, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_float32[] = {  {&_swigt__p_float32, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_int32[] = {  {&_swigt__p_int32, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_istream[] = {  {&_swigt__p_istream, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_long[] = {  {&_swigt__p_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_mapT_int_int_t[] = {  {&_swigt__p_mapT_int_int_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -19767,7 +27809,9 @@ static swig_cast_info _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt
 static swig_cast_info _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type[] = {  {&_swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__string_std__allocatorT_std__string_t_t[] = {  {&_swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_uint32[] = {  {&_swigt__p_uint32, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type[] = {  {&_swigt__p_Triangle, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Light, 0, 0, 0},  {&_swigt__p_Player, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_BrushStroke,
@@ -19786,6 +27830,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Triangle,
   _swigc__p_Types,
   _swigc__p_Vector2,
+  _swigc__p_Volt__AppTime,
   _swigc__p_Volt__BBox,
   _swigc__p_Volt__Camera,
   _swigc__p_Volt__Color,
@@ -19807,14 +27852,27 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_allocator_type,
   _swigc__p_b2Body,
   _swigc__p_b2BodyDef,
-  _swigc__p_b2BodyType,
   _swigc__p_b2Contact,
+  _swigc__p_b2ContactEdge,
+  _swigc__p_b2Fixture,
+  _swigc__p_b2FixtureDef,
+  _swigc__p_b2JointEdge,
+  _swigc__p_b2MassData,
+  _swigc__p_b2Mat22,
+  _swigc__p_b2Mat33,
+  _swigc__p_b2Shape,
+  _swigc__p_b2Sweep,
+  _swigc__p_b2Transform,
   _swigc__p_b2Vec2,
+  _swigc__p_b2Vec3,
+  _swigc__p_b2World,
   _swigc__p_char,
   _swigc__p_const_reference,
   _swigc__p_difference_type,
   _swigc__p_float,
+  _swigc__p_float32,
   _swigc__p_int,
+  _swigc__p_int32,
   _swigc__p_istream,
   _swigc__p_long,
   _swigc__p_mapT_int_int_t,
@@ -19829,6 +27887,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type,
   _swigc__p_std__vectorT_std__string_std__allocatorT_std__string_t_t,
   _swigc__p_swig__SwigPyIterator,
+  _swigc__p_uint32,
+  _swigc__p_void,
   _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type,
 };
 
@@ -20424,6 +28484,12 @@ SWIG_init(void) {
   
   
   PyDict_SetItemString(d,(char*)"cvar", SWIG_globals());
+  SWIG_addvarlink(SWIG_globals(),(char*)"b2Vec2_zero",Swig_var_b2Vec2_zero_get, Swig_var_b2Vec2_zero_set);
+  SWIG_addvarlink(SWIG_globals(),(char*)"b2Mat22_identity",Swig_var_b2Mat22_identity_get, Swig_var_b2Mat22_identity_set);
+  SWIG_addvarlink(SWIG_globals(),(char*)"b2Transform_identity",Swig_var_b2Transform_identity_get, Swig_var_b2Transform_identity_set);
+  SWIG_Python_SetConstant(d, "b2_staticBody",SWIG_From_int(static_cast< int >(b2_staticBody)));
+  SWIG_Python_SetConstant(d, "b2_kinematicBody",SWIG_From_int(static_cast< int >(b2_kinematicBody)));
+  SWIG_Python_SetConstant(d, "b2_dynamicBody",SWIG_From_int(static_cast< int >(b2_dynamicBody)));
   SWIG_addvarlink(SWIG_globals(),(char*)"Color_white",Swig_var_Color_white_get, Swig_var_Color_white_set);
   SWIG_addvarlink(SWIG_globals(),(char*)"Color_grey",Swig_var_Color_grey_get, Swig_var_Color_grey_set);
   SWIG_addvarlink(SWIG_globals(),(char*)"Color_black",Swig_var_Color_black_get, Swig_var_Color_black_set);
@@ -20450,7 +28516,6 @@ SWIG_init(void) {
   SWIG_addvarlink(SWIG_globals(),(char*)"Vector3_up",Swig_var_Vector3_up_get, Swig_var_Vector3_up_set);
   SWIG_addvarlink(SWIG_globals(),(char*)"Vector3_left",Swig_var_Vector3_left_get, Swig_var_Vector3_left_set);
   SWIG_addvarlink(SWIG_globals(),(char*)"Vector3_right",Swig_var_Vector3_right_get, Swig_var_Vector3_right_set);
-  SWIG_addvarlink(SWIG_globals(),(char*)"Light_STATIC_MAP_FOLDER",Swig_var_Light_STATIC_MAP_FOLDER_get, Swig_var_Light_STATIC_MAP_FOLDER_set);
   SWIG_Python_SetConstant(d, "Triangle_NUM_VERTS",SWIG_From_int(static_cast< int >(Triangle::NUM_VERTS)));
 #if PY_VERSION_HEX >= 0x03000000
   return m;

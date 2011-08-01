@@ -106,10 +106,12 @@ void Game::Run () {
         m_window->UpdateInput();
         m_soundManager->Update();
 
-        m_physicsManager->Update();
-
         Py_BEGIN_ALLOW_THREADS
+        // Give time for threads to do work.
+        SleepMicroseconds(1000);
         Py_END_ALLOW_THREADS
+
+        m_physicsManager->Update();
 
         if (m_currentScene != NULL) {
             m_currentScene->Update();
