@@ -66,6 +66,35 @@ except AttributeError:
     _newclass = 0
 
 
+class SwigPyIterator(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_SwigPyIterator
+    __del__ = lambda self : None;
+    def value(self): return _pygame.SwigPyIterator_value(self)
+    def incr(self, n = 1): return _pygame.SwigPyIterator_incr(self, n)
+    def decr(self, n = 1): return _pygame.SwigPyIterator_decr(self, n)
+    def distance(self, *args): return _pygame.SwigPyIterator_distance(self, *args)
+    def equal(self, *args): return _pygame.SwigPyIterator_equal(self, *args)
+    def copy(self): return _pygame.SwigPyIterator_copy(self)
+    def next(self): return _pygame.SwigPyIterator_next(self)
+    def __next__(self): return _pygame.SwigPyIterator___next__(self)
+    def previous(self): return _pygame.SwigPyIterator_previous(self)
+    def advance(self, *args): return _pygame.SwigPyIterator_advance(self, *args)
+    def __eq__(self, *args): return _pygame.SwigPyIterator___eq__(self, *args)
+    def __ne__(self, *args): return _pygame.SwigPyIterator___ne__(self, *args)
+    def __iadd__(self, *args): return _pygame.SwigPyIterator___iadd__(self, *args)
+    def __isub__(self, *args): return _pygame.SwigPyIterator___isub__(self, *args)
+    def __add__(self, *args): return _pygame.SwigPyIterator___add__(self, *args)
+    def __sub__(self, *args): return _pygame.SwigPyIterator___sub__(self, *args)
+    def __iter__(self): return self
+SwigPyIterator_swigregister = _pygame.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
+
 class Color(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Color, name, value)
@@ -319,6 +348,7 @@ class Vector2(_object):
     def __mul__(self, *args): return _pygame.Vector2___mul__(self, *args)
     def Load(self, *args): return _pygame.Vector2_Load(self, *args)
     def Save(self, *args): return _pygame.Vector2_Save(self, *args)
+    def __str__(self): return _pygame.Vector2___str__(self)
     __swig_destroy__ = _pygame.delete_Vector2
     __del__ = lambda self : None;
 Vector2_swigregister = _pygame.Vector2_swigregister
@@ -486,6 +516,7 @@ class VoltEntity(_object):
     def OnScaleChanged(self): return _pygame.VoltEntity_OnScaleChanged(self)
     def Load(self, *args): return _pygame.VoltEntity_Load(self, *args)
     def Save(self, *args): return _pygame.VoltEntity_Save(self, *args)
+    def SetVelocity(self, *args): return _pygame.VoltEntity_SetVelocity(self, *args)
 VoltEntity_swigregister = _pygame.VoltEntity_swigregister
 VoltEntity_swigregister(VoltEntity)
 
@@ -594,6 +625,8 @@ class Scene(_object):
     def Remove(self, *args): return _pygame.Scene_Remove(self, *args)
     def RemoveAll(self): return _pygame.Scene_RemoveAll(self)
     def OnEntityLayerChange(self, *args): return _pygame.Scene_OnEntityLayerChange(self, *args)
+    def OnEntityTagAdd(self, *args): return _pygame.Scene_OnEntityTagAdd(self, *args)
+    def OnEntityTagRemove(self, *args): return _pygame.Scene_OnEntityTagRemove(self, *args)
     def OnKeyEvent(self, *args): return _pygame.Scene_OnKeyEvent(self, *args)
     def OnMouseButtonEvent(self, *args): return _pygame.Scene_OnMouseButtonEvent(self, *args)
     def OnMouseMoveEvent(self, *args): return _pygame.Scene_OnMouseMoveEvent(self, *args)
@@ -608,6 +641,8 @@ class Scene(_object):
     def SetHook(self, *args): return _pygame.Scene_SetHook(self, *args)
     def AddSceneListener(self, *args): return _pygame.Scene_AddSceneListener(self, *args)
     def RemoveSceneListener(self, *args): return _pygame.Scene_RemoveSceneListener(self, *args)
+    def GetFirstTagged(self, *args): return _pygame.Scene_GetFirstTagged(self, *args)
+    def GetAllTagged(self, *args): return _pygame.Scene_GetAllTagged(self, *args)
 Scene_swigregister = _pygame.Scene_swigregister
 Scene_swigregister(Scene)
 
@@ -824,6 +859,53 @@ EntityFactory_Create = _pygame.EntityFactory_Create
 def EntityFactory_GetEntityTypes(*args):
   return _pygame.EntityFactory_GetEntityTypes(*args)
 EntityFactory_GetEntityTypes = _pygame.EntityFactory_GetEntityTypes
+
+class EntityVector(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, EntityVector, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, EntityVector, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _pygame.EntityVector_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _pygame.EntityVector___nonzero__(self)
+    def __bool__(self): return _pygame.EntityVector___bool__(self)
+    def __len__(self): return _pygame.EntityVector___len__(self)
+    def pop(self): return _pygame.EntityVector_pop(self)
+    def __getslice__(self, *args): return _pygame.EntityVector___getslice__(self, *args)
+    def __setslice__(self, *args): return _pygame.EntityVector___setslice__(self, *args)
+    def __delslice__(self, *args): return _pygame.EntityVector___delslice__(self, *args)
+    def __delitem__(self, *args): return _pygame.EntityVector___delitem__(self, *args)
+    def __getitem__(self, *args): return _pygame.EntityVector___getitem__(self, *args)
+    def __setitem__(self, *args): return _pygame.EntityVector___setitem__(self, *args)
+    def append(self, *args): return _pygame.EntityVector_append(self, *args)
+    def empty(self): return _pygame.EntityVector_empty(self)
+    def size(self): return _pygame.EntityVector_size(self)
+    def clear(self): return _pygame.EntityVector_clear(self)
+    def swap(self, *args): return _pygame.EntityVector_swap(self, *args)
+    def get_allocator(self): return _pygame.EntityVector_get_allocator(self)
+    def begin(self): return _pygame.EntityVector_begin(self)
+    def end(self): return _pygame.EntityVector_end(self)
+    def rbegin(self): return _pygame.EntityVector_rbegin(self)
+    def rend(self): return _pygame.EntityVector_rend(self)
+    def pop_back(self): return _pygame.EntityVector_pop_back(self)
+    def erase(self, *args): return _pygame.EntityVector_erase(self, *args)
+    def __init__(self, *args): 
+        this = _pygame.new_EntityVector(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _pygame.EntityVector_push_back(self, *args)
+    def front(self): return _pygame.EntityVector_front(self)
+    def back(self): return _pygame.EntityVector_back(self)
+    def assign(self, *args): return _pygame.EntityVector_assign(self, *args)
+    def resize(self, *args): return _pygame.EntityVector_resize(self, *args)
+    def insert(self, *args): return _pygame.EntityVector_insert(self, *args)
+    def reserve(self, *args): return _pygame.EntityVector_reserve(self, *args)
+    def capacity(self): return _pygame.EntityVector_capacity(self)
+    __swig_destroy__ = _pygame.delete_EntityVector
+    __del__ = lambda self : None;
+EntityVector_swigregister = _pygame.EntityVector_swigregister
+EntityVector_swigregister(EntityVector)
 
 
 

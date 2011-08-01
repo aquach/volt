@@ -46,6 +46,8 @@ public:
 
     /* Called by Entities to tell the scene to update its state. */
     void OnEntityLayerChange (Entity* entity, int oldLayer, int newLayer);
+    void OnEntityTagAdd (Entity* entity, const string& tag);
+    void OnEntityTagRemove (Entity* entity, const string& tag);
 
     virtual void OnKeyEvent (SDL_KeyboardEvent event) { }
     virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event) { }
@@ -79,6 +81,9 @@ public:
         m_sceneListeners.erase(listener);
     }
 
+    Entity* GetFirstTagged (const string& tag);
+    void GetAllTagged (const string& tag, vector<Entity*>* entities);
+
 protected:
     Game* m_game;
     bool m_isPaused;
@@ -95,6 +100,9 @@ private:
     Layers m_layers;
     set<Entity*> m_entitiesToAdd;
     set<Entity*> m_entitiesToRemove;
+
+    typedef map<string, list<Entity*> > TagMap;
+    TagMap m_entityTags;
 
     typedef map<int, list<Filter*> > Filters;
     Filters m_bottomFilters;

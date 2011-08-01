@@ -30,12 +30,8 @@ public:
     bool HasTag (const string& tag) const {
         return m_tags.count(tag) == 1;
     }
-    void AddTag (const string& tag) {
-        m_tags.insert(tag);
-    }
-    void RemoveTag (const string& tag) {
-        m_tags.erase(tag);
-    }
+    void AddTag (const string& tag);
+    void RemoveTag (const string& tag);
     void GetTags (vector<string>* tags) const {
         tags->resize(m_tags.size());
         copy(m_tags.begin(), m_tags.end(), tags->begin());

@@ -1,9 +1,10 @@
 *~
-CMakeCache.txt
 *.a
 autom4te.cache
 Build/*
 !Build/*.dll
+BuildLog.htm
+CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
 *.dep
@@ -12,9 +13,9 @@ cmake_install.cmake
 *.geany
 *.idb
 *.ilk
+*.intermediate.manifest
 *.la
 .libs
-*.rule
 *.lo
 *.log
 *.ncb
@@ -24,6 +25,8 @@ Obj
 *.old
 *.pc
 *.pdb
+*.pyc
+*.rule
 *.suo
 Thumbs.db
 *unittest
@@ -32,6 +35,4 @@ UpgradeLog*
 *.user
 VS2008/Debug
 VS2008/Release
-BuildLog.htm
-*.intermediate.manifest
 workspace

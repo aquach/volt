@@ -18,7 +18,6 @@ Scene::Scene ()
 Scene::~Scene () {
     RemoveAll();
     ResolveEntityChanges();
-
     FOR_ (Filters::iterator, i, m_bottomFilters) {
         FOR_(list<Filter*>::iterator, filterIter, i->second)
             delete *filterIter;
@@ -35,6 +34,7 @@ void Scene::RemoveAll () {
 }
 
 void Scene::Update () {
+
     if (m_hook != NULL)
         m_hook->OnUpdateStart();
         
@@ -98,6 +98,10 @@ void Scene::ResolveEntityChanges () {
                 NotifyRemoveListeners(entity);
                 entity->OnRemoved();
                 entity->m_scene = NULL;
+                vector<string> tags;
+                entity->GetTags(&tags);
+                for (uint i = 0; i < tags.size(); i++)
+                    m_entityTags[tags[i]].remove(entity);
                 delete entity;
             }
         }
@@ -114,6 +118,10 @@ void Scene::ResolveEntityChanges () {
 
         m_layers[entity->layer()].push_back(entity);
         entity->m_scene = this;
+        vector<string> tags;
+        entity->GetTags(&tags);
+        for (uint i = 0; i < tags.size(); i++)
+            m_entityTags[tags[i]].push_back(entity);
         entity->OnAdded();
         NotifyAddListeners(entity);
         m_entitiesToAdd.erase(i);
@@ -338,6 +346,28 @@ void Scene::GetEntities (vector<Entity*>* entities) const {
 void Scene::SetHook (SceneHook* hook) {
     m_hook = hook;
     m_hook->m_scene = this;
+}
+
+Entity* Scene::GetFirstTagged (const string& tag) {
+    list<Entity*>& list = m_entityTags[tag];
+    if (list.size() == 0)
+        return NULL;
+    return list.front();
+}
+
+void Scene::GetAllTagged (const string& tag, vector<Entity*>* entities) {
+    list<Entity*>& list = m_entityTags[tag];
+    entities->resize(list.size());
+    copy(list.begin(), list.end(), entities->begin());
+}
+
+// TODO: Make sure all strings are const string&.
+void Scene::OnEntityTagAdd (Entity* entity, const string& tag) {
+    m_entityTags[tag].push_back(entity);
+}
+
+void Scene::OnEntityTagRemove (Entity* entity, const string& tag) {
+    m_entityTags[tag].remove(entity);
 }
 
 }

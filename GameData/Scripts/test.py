@@ -1,20 +1,24 @@
-import pygame
-import pyvolt
+from pygame import *
+from pygamecore import *
+
 import random
 import time
 
 triangles = []
 
 for i in xrange(0, 5):
-    a = pygame.EntityFactory.Create("Triangle")
+    a = EntityFactory.Create('Triangle')
     a.AddTag('barf' + str(i))
-    print a.position()
-    v = pyvolt.Vector2.Random() * 5
+    a.AddTag('fart')
+    v = Vector2.Random() * 5
     a.SetPosition(v)
-    pyvolt.Game.Instance().currentScene().Add(a)
+    scene().Add(a)
+    a.RemoveTag('fart')
     triangles.append(a)
 
-time.sleep(4)
+entities = scene().GetAllTagged('Sign')
 
-for tri in triangles:
-    tri.SetScale(pygame.Vector2(4, 4))
+while True:
+    for tri in triangles:
+        tri.SetPosition(tri.position() + Vector2(0.1, 0.1))
+    time.sleep(0.05)

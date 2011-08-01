@@ -72,11 +72,15 @@ ADD_LIBRARY(gamelib ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
 
 # Game SWIG bindings.
+# Coarse dependency on all Game and Volt headers.
+file(GLOB_RECURSE Python_SOURCEHEADERS Game/*.h Volt/*.h)
 SET(PYGAME ${CMAKE_SOURCE_DIR}/Game/Python/Game_wrap.cxx)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${PYGAME}
     COMMAND cd ${CMAKE_SOURCE_DIR}/Game/Python/ && ./swig.sh
-    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Volt.i ${CMAKE_SOURCE_DIR}/Game/Python/Game.i volt gamelib
+    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Volt.i
+            ${CMAKE_SOURCE_DIR}/Game/Python/Game.i
+            $(Python_SOURCEHEADERS)
 )
 ADD_CUSTOM_TARGET(pygame DEPENDS ${PYGAME})
 
@@ -85,17 +89,12 @@ SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME _pygame PREFIX "")
 TARGET_LINK_LIBRARIES(pygamelib gamelib)
 ADD_DEPENDENCIES(pygamelib pygame)
 
-ADD_LIBRARY(pyvoltlib SHARED Game/Python/Volt_wrap.cxx)
-SET_TARGET_PROPERTIES(pyvoltlib PROPERTIES OUTPUT_NAME _pyvolt PREFIX "")
-TARGET_LINK_LIBRARIES(pyvoltlib gamelib)
-ADD_DEPENDENCIES(pyvoltlib pygame)
-    
 # Game
 
 file(GLOB_RECURSE Game_SOURCES Game/main.cpp)
 ADD_EXECUTABLE(game ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(game gamelib ${VOLT_DEPENDENCIES} volt)
-ADD_DEPENDENCIES(game pygamelib pyvoltlib)
+ADD_DEPENDENCIES(game pygamelib)
 
 # Editor
 

@@ -25,15 +25,15 @@ class GameImporter(object):
             return sys.modules[fullname]
         mod = imp.new_module(fullname)
         mod.__loader__ = self
+        mod.__name__ = fullname
         sys.modules[fullname] = mod
-        mod.__file__ = fullname
         path = self.moduleNameToFilename(fullname)
+        mod.__file__ = path
         code = pyvoltbootstrap.getCode(path)
         exec code in mod.__dict__
         return mod
 
 sys.meta_path.append(GameImporter())
 
-import pyvolt
 import pygame
 import pygameutil

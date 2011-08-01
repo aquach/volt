@@ -15,6 +15,20 @@ Entity::~Entity () {
         G_PhysicsManager->world()->DestroyBody(m_body);
 }
 
+void Entity::AddTag (const string& tag) {
+    pair<set<string>::iterator, bool> result = m_tags.insert(tag);
+    if (result.second && m_scene != NULL) {
+        m_scene->OnEntityTagAdd(this, tag);
+    }
+}
+
+void Entity::RemoveTag (const string& tag) {
+    int numRemoved = m_tags.erase(tag);
+    if (numRemoved > 0 && m_scene != NULL) {
+        m_scene->OnEntityTagRemove(this, tag);
+    }
+}
+
 void Entity::UpdatePhysics () {
     if (m_body != NULL) {
         b2Vec2 pos = m_body->GetPosition();

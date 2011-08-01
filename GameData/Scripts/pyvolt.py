@@ -66,6 +66,35 @@ except AttributeError:
     _newclass = 0
 
 
+class SwigPyIterator(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _pyvolt.delete_SwigPyIterator
+    __del__ = lambda self : None;
+    def value(self): return _pyvolt.SwigPyIterator_value(self)
+    def incr(self, n = 1): return _pyvolt.SwigPyIterator_incr(self, n)
+    def decr(self, n = 1): return _pyvolt.SwigPyIterator_decr(self, n)
+    def distance(self, *args): return _pyvolt.SwigPyIterator_distance(self, *args)
+    def equal(self, *args): return _pyvolt.SwigPyIterator_equal(self, *args)
+    def copy(self): return _pyvolt.SwigPyIterator_copy(self)
+    def next(self): return _pyvolt.SwigPyIterator_next(self)
+    def __next__(self): return _pyvolt.SwigPyIterator___next__(self)
+    def previous(self): return _pyvolt.SwigPyIterator_previous(self)
+    def advance(self, *args): return _pyvolt.SwigPyIterator_advance(self, *args)
+    def __eq__(self, *args): return _pyvolt.SwigPyIterator___eq__(self, *args)
+    def __ne__(self, *args): return _pyvolt.SwigPyIterator___ne__(self, *args)
+    def __iadd__(self, *args): return _pyvolt.SwigPyIterator___iadd__(self, *args)
+    def __isub__(self, *args): return _pyvolt.SwigPyIterator___isub__(self, *args)
+    def __add__(self, *args): return _pyvolt.SwigPyIterator___add__(self, *args)
+    def __sub__(self, *args): return _pyvolt.SwigPyIterator___sub__(self, *args)
+    def __iter__(self): return self
+SwigPyIterator_swigregister = _pyvolt.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
+
 class Color(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Color, name, value)
@@ -319,6 +348,7 @@ class Vector2(_object):
     def __mul__(self, *args): return _pyvolt.Vector2___mul__(self, *args)
     def Load(self, *args): return _pyvolt.Vector2_Load(self, *args)
     def Save(self, *args): return _pyvolt.Vector2_Save(self, *args)
+    def __str__(self): return _pyvolt.Vector2___str__(self)
     __swig_destroy__ = _pyvolt.delete_Vector2
     __del__ = lambda self : None;
 Vector2_swigregister = _pyvolt.Vector2_swigregister
@@ -594,6 +624,8 @@ class Scene(_object):
     def Remove(self, *args): return _pyvolt.Scene_Remove(self, *args)
     def RemoveAll(self): return _pyvolt.Scene_RemoveAll(self)
     def OnEntityLayerChange(self, *args): return _pyvolt.Scene_OnEntityLayerChange(self, *args)
+    def OnEntityTagAdd(self, *args): return _pyvolt.Scene_OnEntityTagAdd(self, *args)
+    def OnEntityTagRemove(self, *args): return _pyvolt.Scene_OnEntityTagRemove(self, *args)
     def OnKeyEvent(self, *args): return _pyvolt.Scene_OnKeyEvent(self, *args)
     def OnMouseButtonEvent(self, *args): return _pyvolt.Scene_OnMouseButtonEvent(self, *args)
     def OnMouseMoveEvent(self, *args): return _pyvolt.Scene_OnMouseMoveEvent(self, *args)
@@ -608,6 +640,8 @@ class Scene(_object):
     def SetHook(self, *args): return _pyvolt.Scene_SetHook(self, *args)
     def AddSceneListener(self, *args): return _pyvolt.Scene_AddSceneListener(self, *args)
     def RemoveSceneListener(self, *args): return _pyvolt.Scene_RemoveSceneListener(self, *args)
+    def GetFirstTagged(self, *args): return _pyvolt.Scene_GetFirstTagged(self, *args)
+    def GetAllTagged(self, *args): return _pyvolt.Scene_GetAllTagged(self, *args)
 Scene_swigregister = _pyvolt.Scene_swigregister
 Scene_swigregister(Scene)
 

@@ -18,6 +18,8 @@ SDLWindow::SDLWindow (Game* game, const string& name, int w, int h,
 
     SDL_ShowCursor(SDL_DISABLE);
 
+    // VSync.
+    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);

@@ -7,9 +7,15 @@ def _filenameToModuleName (filename):
         filename = filename[:-3]
     return filename
 
-def runScriptFileThread(scriptName):
-    __import__(scriptName)
+class ScriptThread(threading.Thread):
+    def __init__(self, scriptName):
+        threading.Thread.__init__(self, name=scriptName)
+        self.scriptName = scriptName
+        self.daemon = True
+
+    def run(self):
+        __import__(self.scriptName)
 
 def runScriptFile(filename):
     scriptName = _filenameToModuleName(filename)
-    threading.Thread(target=runScriptFileThread, args=(scriptName,)).start()
+    ScriptThread(scriptName).start()
