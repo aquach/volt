@@ -9,10 +9,11 @@ class MyEntity(PyEntity):
         PyEntity.__init__(self)
         self.time = 0
         self.AddTag('MyEntity')
-        
+
     def Update(self):
         self.time += dt()
+        self.a += 4
         print 'update ' + str(self.time)
-    
-#e = MyEntity()
-#scene().Add(e)
+
+e = MyEntity()
+scene().Add(e)

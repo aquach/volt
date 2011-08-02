@@ -29,6 +29,13 @@
 
 %}
 
+// Print errors when something bad happens.
+%feature("director:except") {
+    if ($error != NULL) {
+        PyErr_PrintEx(0);
+    }
+}
+
 %ignore DECLARE_ENTITY_;
 %rename(VoltEntity) Volt::Entity;
 

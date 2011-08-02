@@ -5091,8 +5091,10 @@ Volt::Entity *SwigDirector_Entity::Clone() const {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Clone'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
   swig_res = SWIG_ConvertPtrAndOwn(result, &swig_argp, SWIGTYPE_p_Volt__Entity,  0  | SWIG_POINTER_DISOWN, &own);
@@ -5119,8 +5121,10 @@ void SwigDirector_Entity::Update() {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Update'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5140,8 +5144,10 @@ void SwigDirector_Entity::Render() {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Render'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5161,8 +5167,10 @@ void SwigDirector_Entity::OnAdded() {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnAdded'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5182,8 +5190,10 @@ void SwigDirector_Entity::OnRemoved() {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnRemoved'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5207,8 +5217,10 @@ void SwigDirector_Entity::BeginContact(Volt::Entity *other, b2Contact *contact) 
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.BeginContact'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5232,8 +5244,10 @@ void SwigDirector_Entity::EndContact(Volt::Entity *other, b2Contact *contact) {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.EndContact'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5256,8 +5270,10 @@ bool SwigDirector_Entity::PreSolve(Volt::Entity *other) {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.PreSolve'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
   bool swig_val;
@@ -5287,8 +5303,10 @@ bool SwigDirector_Entity::CanCollideWith(Volt::Entity *other) {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.CanCollideWith'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
   bool swig_val;
@@ -5315,8 +5333,10 @@ void SwigDirector_Entity::OnScaleChanged() {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnScaleChanged'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5338,8 +5358,10 @@ void SwigDirector_Entity::Load(Json::Value const &node) {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Load'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5361,8 +5383,10 @@ void SwigDirector_Entity::Save(Json::Value &node) const {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.Save'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5384,8 +5408,10 @@ void SwigDirector_Entity::OnAccessed(Entity *accessor) {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.OnAccessed'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
@@ -5407,8 +5433,10 @@ void SwigDirector_Entity::GetProperties(std::vector< Property * > *properties) {
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
-    if (error != NULL) {
-      Swig::DirectorMethodException::raise("Error detected when calling 'Entity.GetProperties'");
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
     }
   }
 }
