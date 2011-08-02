@@ -1,5 +1,5 @@
 #include "Python.h"
-#include <python2.7/Python.h>
+#include <Python.h>
 #include "Volt/Assets/AssetManager.h"
 
 namespace Python {

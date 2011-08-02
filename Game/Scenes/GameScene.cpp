@@ -16,6 +16,7 @@
 #include "Game/Game/LightManager.h"
 #include "Game/Game/GamePerfHook.h"
 #include "Game/Python/Python.h"
+#include "Game/Python/ScriptConsole.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
@@ -23,7 +24,10 @@ GameScene::GameScene ()
     : m_player(NULL),
       m_levelManager(NULL),
       m_conversationManager(NULL),
-      m_doodadManager(NULL) {
+      m_doodadManager(NULL),
+      m_scriptConsole(NULL) {
+
+    m_scriptConsole = new ScriptConsole(this);
 
     Volt::G_PhysicsManager->SetGravity(Vector2(0, 30));
     Volt::G_PhysicsManager->SetDebugDraw(true);
@@ -75,6 +79,11 @@ void GameScene::Update () {
     m_conversationManager->Update();
 }
 
+void GameScene::Render () {
+    Scene::Render();
+    m_scriptConsole->Render();
+}
+
 void GameScene::OnBegin () {
     Python::RunGameScriptFile("test.py");
 }
@@ -87,6 +96,10 @@ void GameScene::SetPlayerInputLock (bool lock) {
 }
 
 void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
+    bool handled = m_scriptConsole->OnKeyEvent(event);
+    if (handled)
+        return;
+
     m_conversationManager->OnKeyEvent(event);
     m_player->OnKeyEvent(event);
     if (event.type == SDL_KEYDOWN) {

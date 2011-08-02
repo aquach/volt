@@ -8,7 +8,7 @@
 
 class LevelManager {
 public:
-    LevelManager ();
+    LevelManager (); // TODO: Take scene in onstructor.
     ~LevelManager ();
 
     //void Update ();

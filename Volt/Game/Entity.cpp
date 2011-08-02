@@ -7,7 +7,8 @@ namespace Volt {
 Entity::Entity ()
     : m_layer(0),
       m_scene(NULL),
-      m_body(NULL) {
+      m_body(NULL),
+      m_visible(true) {
 }
 
 Entity::~Entity () {
@@ -118,15 +119,18 @@ void Entity::SetLayer (int layer) {
 
 void Entity::CopyFrom (const Entity* other) {
     m_transform = other->m_transform;
+    m_visible = other->m_visible;
 }
 
 void Entity::Load (const Json::Value& node) {
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
+    m_visible = node.get("visible", true).asBool();
 }
 
 void Entity::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
+    node["visible"] = m_visible;
 }
 
 void Entity::AddContactListener (EntityContactListener* listener) {

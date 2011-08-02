@@ -77,6 +77,10 @@ public:
     Vector2 scale () const { return m_transform.scale; }
     void SetScale (Vector2 scale);
 
+    /* A simple flag for whether or not the entity will be rendered at all. */
+    bool visible () const { return m_visible; }
+    void setVisible (bool visible) { m_visible = visible; }
+
     virtual void OnScaleChanged () { }
 
     virtual void Load (const Json::Value& node);
@@ -97,6 +101,7 @@ private:
 
     int m_layer;
     Scene* m_scene;
+    bool m_visible;
 
     set<string> m_tags;
     set<EntityContactListener*> m_contactListeners;

@@ -8,13 +8,14 @@ class LevelManager;
 class LightManager;
 class MessageBox;
 class Player;
+class ScriptConsole;
 
 class GameScene : public Volt::Scene {
 public:
     GameScene ();
     virtual ~GameScene ();
 
-    //virtual void Render ();
+    virtual void Render ();
     virtual void Update ();
 
     virtual void OnBegin ();
@@ -34,4 +35,5 @@ private:
     LightManager* m_lightManager;
     ConversationManager* m_conversationManager;
     DoodadManager* m_doodadManager;
+    ScriptConsole* m_scriptConsole;
 };
