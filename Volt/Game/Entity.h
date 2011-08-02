@@ -7,17 +7,18 @@
 /* A thing in the game with game logic. */
 namespace Volt {
 
+class Entity;
 class Graphic;
 class Scene;
 
+class EntityContactListener {
+public:
+    virtual void OnContactBegin (Entity* other, b2Contact* contact) = 0;
+    virtual void OnContactEnd (Entity* other, b2Contact* contact) = 0;
+};
+
 class Entity {
 public:
-    class EntityContactListener {
-    public:
-        virtual void OnContactBegin (Entity* other, b2Contact* contact) = 0;
-        virtual void OnContactEnd (Entity* other, b2Contact* contact) = 0;
-    };
-
     Entity ();
     virtual ~Entity ();
 

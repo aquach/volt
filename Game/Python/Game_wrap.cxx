@@ -3183,7 +3183,7 @@ namespace Swig {
 #define SWIGTYPE_p_Volt__Color swig_types[19]
 #define SWIGTYPE_p_Volt__DataSource swig_types[20]
 #define SWIGTYPE_p_Volt__Entity swig_types[21]
-#define SWIGTYPE_p_Volt__Entity__EntityContactListener swig_types[22]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[22]
 #define SWIGTYPE_p_Volt__FSM swig_types[23]
 #define SWIGTYPE_p_Volt__FSMState swig_types[24]
 #define SWIGTYPE_p_Volt__Filter swig_types[25]
@@ -5068,6 +5068,67 @@ SWIGINTERN void std_vector_Sl_Volt_Entity_Sm__Sg__append(std::vector< Volt::Enti
  * --------------------------------------------------- */
 
 #include "Game_wrap.h"
+
+SwigDirector_EntityContactListener::SwigDirector_EntityContactListener(PyObject *self): Volt::EntityContactListener(), Swig::Director(self) {
+  SWIG_DIRECTOR_RGTR((Volt::EntityContactListener *)this, this); 
+}
+
+
+
+
+void SwigDirector_EntityContactListener::OnContactBegin(Volt::Entity *other, b2Contact *contact) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+  swig::SwigVar_PyObject obj1;
+  obj1 = SWIG_NewPointerObj(SWIG_as_voidptr(contact), SWIGTYPE_p_b2Contact,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call EntityContactListener.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 0;
+  const char * const swig_method_name = "OnContactBegin";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"OnContactBegin", (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
+    }
+  }
+}
+
+
+void SwigDirector_EntityContactListener::OnContactEnd(Volt::Entity *other, b2Contact *contact) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+  swig::SwigVar_PyObject obj1;
+  obj1 = SWIG_NewPointerObj(SWIG_as_voidptr(contact), SWIGTYPE_p_b2Contact,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call EntityContactListener.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 1;
+  const char * const swig_method_name = "OnContactEnd";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"OnContactEnd", (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
+    }
+  }
+}
+
 
 SwigDirector_FSMState::SwigDirector_FSMState(PyObject *self): Volt::FSMState(), Swig::Director(self) {
   SWIG_DIRECTOR_RGTR((Volt::FSMState *)this, this); 
@@ -20208,6 +20269,184 @@ SWIGINTERN PyObject *AppTime_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObje
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_EntityContactListener_OnContactBegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
+  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
+  b2Contact *arg3 = (b2Contact *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:EntityContactListener_OnContactBegin",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__EntityContactListener, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EntityContactListener_OnContactBegin" "', argument " "1"" of type '" "Volt::EntityContactListener *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::EntityContactListener * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "EntityContactListener_OnContactBegin" "', argument " "2"" of type '" "Volt::Entity *""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_b2Contact, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "EntityContactListener_OnContactBegin" "', argument " "3"" of type '" "b2Contact *""'"); 
+  }
+  arg3 = reinterpret_cast< b2Contact * >(argp3);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      Swig::DirectorPureVirtualException::raise("Volt::EntityContactListener::OnContactBegin");
+    } else {
+      (arg1)->OnContactBegin(arg2,arg3);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_EntityContactListener_OnContactEnd(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
+  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
+  b2Contact *arg3 = (b2Contact *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:EntityContactListener_OnContactEnd",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__EntityContactListener, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EntityContactListener_OnContactEnd" "', argument " "1"" of type '" "Volt::EntityContactListener *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::EntityContactListener * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "EntityContactListener_OnContactEnd" "', argument " "2"" of type '" "Volt::Entity *""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_b2Contact, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "EntityContactListener_OnContactEnd" "', argument " "3"" of type '" "b2Contact *""'"); 
+  }
+  arg3 = reinterpret_cast< b2Contact * >(argp3);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      Swig::DirectorPureVirtualException::raise("Volt::EntityContactListener::OnContactEnd");
+    } else {
+      (arg1)->OnContactEnd(arg2,arg3);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_EntityContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  PyObject *arg1 = (PyObject *) 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::EntityContactListener *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_EntityContactListener",&obj0)) SWIG_fail;
+  arg1 = obj0;
+  if ( arg1 != Py_None ) {
+    /* subclassed */
+    result = (Volt::EntityContactListener *)new SwigDirector_EntityContactListener(arg1); 
+  } else {
+    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+    SWIG_fail;
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__EntityContactListener, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_EntityContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityContactListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__EntityContactListener, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityContactListener" "', argument " "1"" of type '" "Volt::EntityContactListener *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::EntityContactListener * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_disown_EntityContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:disown_EntityContactListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__EntityContactListener, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "disown_EntityContactListener" "', argument " "1"" of type '" "Volt::EntityContactListener *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::EntityContactListener * >(argp1);
+  {
+    Swig::Director *director = dynamic_cast<Swig::Director *>(arg1);
+    if (director) director->swig_disown();
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *EntityContactListener_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__EntityContactListener, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_delete_VoltEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
@@ -21261,7 +21500,7 @@ fail:
 SWIGINTERN PyObject *_wrap_VoltEntity_AddContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
-  Volt::Entity::EntityContactListener *arg2 = (Volt::Entity::EntityContactListener *) 0 ;
+  Volt::EntityContactListener *arg2 = (Volt::EntityContactListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -21275,11 +21514,11 @@ SWIGINTERN PyObject *_wrap_VoltEntity_AddContactListener(PyObject *SWIGUNUSEDPAR
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_AddContactListener" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Entity * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity__EntityContactListener, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__EntityContactListener, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_AddContactListener" "', argument " "2"" of type '" "Volt::Entity::EntityContactListener *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_AddContactListener" "', argument " "2"" of type '" "Volt::EntityContactListener *""'"); 
   }
-  arg2 = reinterpret_cast< Volt::Entity::EntityContactListener * >(argp2);
+  arg2 = reinterpret_cast< Volt::EntityContactListener * >(argp2);
   (arg1)->AddContactListener(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -21291,7 +21530,7 @@ fail:
 SWIGINTERN PyObject *_wrap_VoltEntity_RemoveContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
-  Volt::Entity::EntityContactListener *arg2 = (Volt::Entity::EntityContactListener *) 0 ;
+  Volt::EntityContactListener *arg2 = (Volt::EntityContactListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -21305,11 +21544,11 @@ SWIGINTERN PyObject *_wrap_VoltEntity_RemoveContactListener(PyObject *SWIGUNUSED
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_RemoveContactListener" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Entity * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity__EntityContactListener, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__EntityContactListener, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_RemoveContactListener" "', argument " "2"" of type '" "Volt::Entity::EntityContactListener *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_RemoveContactListener" "', argument " "2"" of type '" "Volt::EntityContactListener *""'"); 
   }
-  arg2 = reinterpret_cast< Volt::Entity::EntityContactListener * >(argp2);
+  arg2 = reinterpret_cast< Volt::EntityContactListener * >(argp2);
   (arg1)->RemoveContactListener(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -24951,84 +25190,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Player_BeginContact(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Player *arg1 = (Player *) 0 ;
-  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
-  b2Contact *arg3 = (b2Contact *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Player_BeginContact",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Player, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Player_BeginContact" "', argument " "1"" of type '" "Player *""'"); 
-  }
-  arg1 = reinterpret_cast< Player * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Player_BeginContact" "', argument " "2"" of type '" "Volt::Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
-  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_b2Contact, 0 |  0 );
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Player_BeginContact" "', argument " "3"" of type '" "b2Contact *""'"); 
-  }
-  arg3 = reinterpret_cast< b2Contact * >(argp3);
-  (arg1)->BeginContact(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Player_EndContact(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Player *arg1 = (Player *) 0 ;
-  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
-  b2Contact *arg3 = (b2Contact *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Player_EndContact",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Player, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Player_EndContact" "', argument " "1"" of type '" "Player *""'"); 
-  }
-  arg1 = reinterpret_cast< Player * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Player_EndContact" "', argument " "2"" of type '" "Volt::Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
-  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_b2Contact, 0 |  0 );
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Player_EndContact" "', argument " "3"" of type '" "b2Contact *""'"); 
-  }
-  arg3 = reinterpret_cast< b2Contact * >(argp3);
-  (arg1)->EndContact(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_Player_IsOnGround(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Player *arg1 = (Player *) 0 ;
@@ -27729,6 +27890,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"AppTime_Instance", _wrap_AppTime_Instance, METH_VARARGS, NULL},
 	 { (char *)"delete_AppTime", _wrap_delete_AppTime, METH_VARARGS, NULL},
 	 { (char *)"AppTime_swigregister", AppTime_swigregister, METH_VARARGS, NULL},
+	 { (char *)"EntityContactListener_OnContactBegin", _wrap_EntityContactListener_OnContactBegin, METH_VARARGS, NULL},
+	 { (char *)"EntityContactListener_OnContactEnd", _wrap_EntityContactListener_OnContactEnd, METH_VARARGS, NULL},
+	 { (char *)"new_EntityContactListener", _wrap_new_EntityContactListener, METH_VARARGS, NULL},
+	 { (char *)"delete_EntityContactListener", _wrap_delete_EntityContactListener, METH_VARARGS, NULL},
+	 { (char *)"disown_EntityContactListener", _wrap_disown_EntityContactListener, METH_VARARGS, NULL},
+	 { (char *)"EntityContactListener_swigregister", EntityContactListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_VoltEntity", _wrap_delete_VoltEntity, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_layer", _wrap_VoltEntity_layer, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_IsOnLayer", _wrap_VoltEntity_IsOnLayer, METH_VARARGS, NULL},
@@ -27885,8 +28052,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Player_OnKeyEvent", _wrap_Player_OnKeyEvent, METH_VARARGS, NULL},
 	 { (char *)"Player_OnAdded", _wrap_Player_OnAdded, METH_VARARGS, NULL},
 	 { (char *)"Player_OnRemoved", _wrap_Player_OnRemoved, METH_VARARGS, NULL},
-	 { (char *)"Player_BeginContact", _wrap_Player_BeginContact, METH_VARARGS, NULL},
-	 { (char *)"Player_EndContact", _wrap_Player_EndContact, METH_VARARGS, NULL},
 	 { (char *)"Player_IsOnGround", _wrap_Player_IsOnGround, METH_VARARGS, NULL},
 	 { (char *)"Player_SetInputLock", _wrap_Player_SetInputLock, METH_VARARGS, NULL},
 	 { (char *)"Player_swigregister", Player_swigregister, METH_VARARGS, NULL},
@@ -28006,7 +28171,7 @@ static swig_type_info _swigt__p_Volt__Camera = {"_p_Volt__Camera", "Volt::Camera
 static swig_type_info _swigt__p_Volt__Color = {"_p_Volt__Color", "Volt::Color *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__DataSource = {"_p_Volt__DataSource", "Volt::DataSource *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Entity = {"_p_Volt__Entity", "Volt::Entity *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Volt__Entity__EntityContactListener = {"_p_Volt__Entity__EntityContactListener", "Volt::Entity::EntityContactListener *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__EntityContactListener = {"_p_Volt__EntityContactListener", "Volt::EntityContactListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__FSM = {"_p_Volt__FSM", "Volt::FSM *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__FSMState = {"_p_Volt__FSMState", "Volt::FSMState *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Filter = {"_p_Volt__Filter", "Volt::Filter *", 0, 0, (void*)0, 0};
@@ -28087,7 +28252,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__Color,
   &_swigt__p_Volt__DataSource,
   &_swigt__p_Volt__Entity,
-  &_swigt__p_Volt__Entity__EntityContactListener,
+  &_swigt__p_Volt__EntityContactListener,
   &_swigt__p_Volt__FSM,
   &_swigt__p_Volt__FSMState,
   &_swigt__p_Volt__Filter,
@@ -28168,7 +28333,7 @@ static swig_cast_info _swigc__p_Volt__Camera[] = {  {&_swigt__p_Volt__Camera, 0,
 static swig_cast_info _swigc__p_Volt__Color[] = {  {&_swigt__p_Volt__Color, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataSource[] = {  {&_swigt__p_Volt__DataSource, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Volt__Entity__EntityContactListener[] = {  {&_swigt__p_Volt__Entity__EntityContactListener, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__EntityContactListener[] = {  {&_swigt__p_Volt__EntityContactListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__FSM[] = {  {&_swigt__p_Volt__FSM, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__FSMState[] = {  {&_swigt__p_Volt__FSMState, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Filter[] = {  {&_swigt__p_Volt__Filter, 0, 0, 0},{0, 0, 0, 0}};
@@ -28249,7 +28414,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__Color,
   _swigc__p_Volt__DataSource,
   _swigc__p_Volt__Entity,
-  _swigc__p_Volt__Entity__EntityContactListener,
+  _swigc__p_Volt__EntityContactListener,
   _swigc__p_Volt__FSM,
   _swigc__p_Volt__FSMState,
   _swigc__p_Volt__Filter,

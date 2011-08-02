@@ -13,6 +13,10 @@ Entity::Entity ()
 Entity::~Entity () {
     if (m_body != NULL)
         G_PhysicsManager->world()->DestroyBody(m_body);
+    FOR_(set<EntityContactListener*>::iterator, i,
+         m_contactListeners) {
+        delete (*i);
+    }
 }
 
 void Entity::AddTag (const string& tag) {
@@ -134,14 +138,14 @@ void Entity::RemoveContactListener (EntityContactListener* listener) {
 }
 
 void Entity::BeginContact (Entity* other, b2Contact* contact) {
-    FOR_(set<Entity::EntityContactListener*>::iterator, i,
+    FOR_(set<EntityContactListener*>::iterator, i,
          m_contactListeners) {
         (*i)->OnContactBegin(other, contact);
     }
 }
 
 void Entity::EndContact (Entity* other, b2Contact* contact) {
-    FOR_(set<Entity::EntityContactListener*>::iterator, i,
+    FOR_(set<EntityContactListener*>::iterator, i,
          m_contactListeners) {
         (*i)->OnContactEnd(other, contact);
     }

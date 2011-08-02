@@ -24,9 +24,6 @@ public:
     virtual void OnAdded ();
     virtual void OnRemoved ();
 
-    virtual void BeginContact (Volt::Entity* other, b2Contact* contact);
-    virtual void EndContact (Volt::Entity* other, b2Contact* contact);
-
     bool IsOnGround () const;
 
     void SetInputLock (bool lock) { m_inputLock = lock; }
@@ -62,8 +59,22 @@ private:
 
         virtual void OnKeyEvent (SDL_KeyboardEvent event);
     };
+    class ContactListener : public Volt::EntityContactListener {
+    public:
+        explicit ContactListener (Player* p) : m_p(p) { }
+        virtual void OnContactBegin (Volt::Entity* other, b2Contact* contact) {
+            m_p->OnContactBegin(other, contact);
+        }
+        virtual void OnContactEnd (Volt::Entity* other, b2Contact* contact) {
+            m_p->OnContactEnd(other, contact);
+        }
+    private:
+        Player* m_p;
+    };
 
     /* Physics */
+    void OnContactBegin (Volt::Entity* other, b2Contact* contact);
+    void OnContactEnd (Volt::Entity* other, b2Contact* contact);
     void UpdateJump ();
 
     Volt::FSM* m_fsm;

@@ -27,3 +27,18 @@ class PyEntity(pygame.Entity):
 
     def Render(self):
         pass
+
+class PyEntityContactListener(pygame.EntityContactListener):
+        def __init__(self, entity, beginCallback, endCallback):
+            pygame.EntityContactListener.__init__(self)
+            self.entity = entity
+            self.beginCallback = beginCallback
+            self.endCallback = endCallback
+
+        def OnContactBegin(self, other, contact):
+            if self.beginCallback:
+                self.beginCallback(self.entity, other, contact)
+
+        def OnContactEnd(self, other, contact):
+            if self.endCallback:
+                self.endCallback(self.entity, other, contact)

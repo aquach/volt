@@ -75,6 +75,7 @@
 %include "Volt/Game/AppTime.h"
 
 %rename(VoltEntity) Volt::Entity;
+%feature("director") EntityContactListener;
 %include "Volt/Game/Entity.h"
 
 %feature("director") FSMState;
@@ -129,8 +130,15 @@ namespace std {
 
     %pythoncode {
         def OnTouched(self, callback):
-            pass
+            pylistener = PyEntityContactListener(self, callback, None)
+            pylistener.__disown__()
+            self.AddContactListener(pylistener)
+            return pylistener
     }
+}
+
+%pythoncode {
+    from pygamecore import *
 }
 
 %extend Volt::Vector2 {

@@ -181,6 +181,9 @@ Player::Player ()
     m_fsm->AddState(new Player::LadderState(this), "Ladder");
     m_fsm->TransitionTo("Normal");
 
+    ContactListener* listener = new ContactListener(this);
+    AddContactListener(listener);
+
     if (m_debugDraw) {
         m_debugLabel = new Volt::Label(DEBUG_FONT_LARGE,
                                        G_Window->width(), 0);
@@ -260,7 +263,7 @@ void Player::Render () {
     glPopMatrix();
 }
 
-void Player::BeginContact (Volt::Entity* other, b2Contact* contact) {
+void Player::OnContactBegin (Volt::Entity* other, b2Contact* contact) {
     Ladder* ladder;
 
     // Hack to limit scope to just triangles.
@@ -283,7 +286,7 @@ void Player::BeginContact (Volt::Entity* other, b2Contact* contact) {
     }
 }
 
-void Player::EndContact (Volt::Entity* other, b2Contact* contact) {
+void Player::OnContactEnd (Volt::Entity* other, b2Contact* contact) {
     if (dynamic_cast<Triangle*>(other) != NULL) {
         for (int i = 0; i < 4; i++)
             if (m_sideContacts[i] == other->body())

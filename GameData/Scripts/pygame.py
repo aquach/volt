@@ -1014,6 +1014,31 @@ def AppTime_Instance():
   return _pygame.AppTime_Instance()
 AppTime_Instance = _pygame.AppTime_Instance
 
+class EntityContactListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, EntityContactListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, EntityContactListener, name)
+    __repr__ = _swig_repr
+    def OnContactBegin(self, *args): return _pygame.EntityContactListener_OnContactBegin(self, *args)
+    def OnContactEnd(self, *args): return _pygame.EntityContactListener_OnContactEnd(self, *args)
+    def __init__(self): 
+        if self.__class__ == EntityContactListener:
+            _self = None
+        else:
+            _self = self
+        this = _pygame.new_EntityContactListener(_self, )
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_EntityContactListener
+    __del__ = lambda self : None;
+    def __disown__(self):
+        self.this.disown()
+        _pygame.disown_EntityContactListener(self)
+        return weakref_proxy(self)
+EntityContactListener_swigregister = _pygame.EntityContactListener_swigregister
+EntityContactListener_swigregister(EntityContactListener)
+
 class VoltEntity(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, VoltEntity, name, value)
@@ -1061,7 +1086,10 @@ class VoltEntity(_object):
     def RemoveContactListener(self, *args): return _pygame.VoltEntity_RemoveContactListener(self, *args)
     def __str__(self): return _pygame.VoltEntity___str__(self)
     def OnTouched(self, callback):
-        pass
+        pylistener = PyEntityContactListener(self, callback, None)
+        pylistener.__disown__()
+        self.AddContactListener(pylistener)
+        return pylistener
 
 VoltEntity_swigregister = _pygame.VoltEntity_swigregister
 VoltEntity_swigregister(VoltEntity)
@@ -1337,8 +1365,6 @@ class Player(Creature):
     def OnKeyEvent(self, *args): return _pygame.Player_OnKeyEvent(self, *args)
     def OnAdded(self): return _pygame.Player_OnAdded(self)
     def OnRemoved(self): return _pygame.Player_OnRemoved(self)
-    def BeginContact(self, *args): return _pygame.Player_BeginContact(self, *args)
-    def EndContact(self, *args): return _pygame.Player_EndContact(self, *args)
     def IsOnGround(self): return _pygame.Player_IsOnGround(self)
     def SetInputLock(self, *args): return _pygame.Player_SetInputLock(self, *args)
 Player_swigregister = _pygame.Player_swigregister
@@ -1465,6 +1491,8 @@ class EntityVector(_object):
     __del__ = lambda self : None;
 EntityVector_swigregister = _pygame.EntityVector_swigregister
 EntityVector_swigregister(EntityVector)
+
+from pygamecore import *
 
 
 

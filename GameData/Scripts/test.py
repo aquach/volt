@@ -1,5 +1,4 @@
 from pygame import *
-from pygamecore import *
 
 import random
 import time
@@ -45,8 +44,10 @@ class MyEntity(PyEntity):
 e = MyEntity()
 scene().Add(e)
 
-def onTouched(ladder, hit):
+def onTouched(ladder, hit, contact):
     print 'hit a', hit
+    print 'REMOVING'
+    ladder.RemoveSelf()
 
 ladder = scene().GetAllTagged('Ladder')[1]
 ladder.OnTouched(onTouched)
