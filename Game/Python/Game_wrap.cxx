@@ -3163,7 +3163,7 @@ namespace Swig {
 
 #define SWIGTYPE_p_BrushStroke swig_types[0]
 #define SWIGTYPE_p_Creature swig_types[1]
-#define SWIGTYPE_p_CreatureHitListener swig_types[2]
+#define SWIGTYPE_p_Creature__CreatureHitListener swig_types[2]
 #define SWIGTYPE_p_Entity swig_types[3]
 #define SWIGTYPE_p_EntityFactory swig_types[4]
 #define SWIGTYPE_p_Json__Value swig_types[5]
@@ -3183,62 +3183,65 @@ namespace Swig {
 #define SWIGTYPE_p_Volt__Color swig_types[19]
 #define SWIGTYPE_p_Volt__DataSource swig_types[20]
 #define SWIGTYPE_p_Volt__Entity swig_types[21]
-#define SWIGTYPE_p_Volt__Filter swig_types[22]
-#define SWIGTYPE_p_Volt__Game swig_types[23]
-#define SWIGTYPE_p_Volt__Random swig_types[24]
-#define SWIGTYPE_p_Volt__Scene swig_types[25]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[26]
-#define SWIGTYPE_p_Volt__SceneListener swig_types[27]
-#define SWIGTYPE_p_Volt__Time swig_types[28]
-#define SWIGTYPE_p_Volt__Transform swig_types[29]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[30]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[31]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[32]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[33]
-#define SWIGTYPE_p_Weapon swig_types[34]
-#define SWIGTYPE_p_allocator_type swig_types[35]
-#define SWIGTYPE_p_b2Body swig_types[36]
-#define SWIGTYPE_p_b2BodyDef swig_types[37]
-#define SWIGTYPE_p_b2Contact swig_types[38]
-#define SWIGTYPE_p_b2ContactEdge swig_types[39]
-#define SWIGTYPE_p_b2Fixture swig_types[40]
-#define SWIGTYPE_p_b2FixtureDef swig_types[41]
-#define SWIGTYPE_p_b2JointEdge swig_types[42]
-#define SWIGTYPE_p_b2MassData swig_types[43]
-#define SWIGTYPE_p_b2Mat22 swig_types[44]
-#define SWIGTYPE_p_b2Mat33 swig_types[45]
-#define SWIGTYPE_p_b2Shape swig_types[46]
-#define SWIGTYPE_p_b2Sweep swig_types[47]
-#define SWIGTYPE_p_b2Transform swig_types[48]
-#define SWIGTYPE_p_b2Vec2 swig_types[49]
-#define SWIGTYPE_p_b2Vec3 swig_types[50]
-#define SWIGTYPE_p_b2World swig_types[51]
-#define SWIGTYPE_p_char swig_types[52]
-#define SWIGTYPE_p_const_reference swig_types[53]
-#define SWIGTYPE_p_difference_type swig_types[54]
-#define SWIGTYPE_p_float swig_types[55]
-#define SWIGTYPE_p_float32 swig_types[56]
-#define SWIGTYPE_p_int swig_types[57]
-#define SWIGTYPE_p_int32 swig_types[58]
-#define SWIGTYPE_p_istream swig_types[59]
-#define SWIGTYPE_p_long swig_types[60]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[61]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[62]
-#define SWIGTYPE_p_ostream swig_types[63]
-#define SWIGTYPE_p_p_PyObject swig_types[64]
-#define SWIGTYPE_p_reference swig_types[65]
-#define SWIGTYPE_p_size_type swig_types[66]
-#define SWIGTYPE_p_std__invalid_argument swig_types[67]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[68]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[69]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[70]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[71]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[72]
-#define SWIGTYPE_p_uint32 swig_types[73]
-#define SWIGTYPE_p_void swig_types[74]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[75]
-static swig_type_info *swig_types[77];
-static swig_module_info swig_module = {swig_types, 76, 0, 0, 0, 0};
+#define SWIGTYPE_p_Volt__Entity__EntityContactListener swig_types[22]
+#define SWIGTYPE_p_Volt__FSM swig_types[23]
+#define SWIGTYPE_p_Volt__FSMState swig_types[24]
+#define SWIGTYPE_p_Volt__Filter swig_types[25]
+#define SWIGTYPE_p_Volt__Game swig_types[26]
+#define SWIGTYPE_p_Volt__Random swig_types[27]
+#define SWIGTYPE_p_Volt__Scene swig_types[28]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[29]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[30]
+#define SWIGTYPE_p_Volt__Time swig_types[31]
+#define SWIGTYPE_p_Volt__Transform swig_types[32]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[33]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[34]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[35]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[36]
+#define SWIGTYPE_p_Weapon swig_types[37]
+#define SWIGTYPE_p_allocator_type swig_types[38]
+#define SWIGTYPE_p_b2Body swig_types[39]
+#define SWIGTYPE_p_b2BodyDef swig_types[40]
+#define SWIGTYPE_p_b2Contact swig_types[41]
+#define SWIGTYPE_p_b2ContactEdge swig_types[42]
+#define SWIGTYPE_p_b2Fixture swig_types[43]
+#define SWIGTYPE_p_b2FixtureDef swig_types[44]
+#define SWIGTYPE_p_b2JointEdge swig_types[45]
+#define SWIGTYPE_p_b2MassData swig_types[46]
+#define SWIGTYPE_p_b2Mat22 swig_types[47]
+#define SWIGTYPE_p_b2Mat33 swig_types[48]
+#define SWIGTYPE_p_b2Shape swig_types[49]
+#define SWIGTYPE_p_b2Sweep swig_types[50]
+#define SWIGTYPE_p_b2Transform swig_types[51]
+#define SWIGTYPE_p_b2Vec2 swig_types[52]
+#define SWIGTYPE_p_b2Vec3 swig_types[53]
+#define SWIGTYPE_p_b2World swig_types[54]
+#define SWIGTYPE_p_char swig_types[55]
+#define SWIGTYPE_p_const_reference swig_types[56]
+#define SWIGTYPE_p_difference_type swig_types[57]
+#define SWIGTYPE_p_float swig_types[58]
+#define SWIGTYPE_p_float32 swig_types[59]
+#define SWIGTYPE_p_int swig_types[60]
+#define SWIGTYPE_p_int32 swig_types[61]
+#define SWIGTYPE_p_istream swig_types[62]
+#define SWIGTYPE_p_long swig_types[63]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[64]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[65]
+#define SWIGTYPE_p_ostream swig_types[66]
+#define SWIGTYPE_p_p_PyObject swig_types[67]
+#define SWIGTYPE_p_reference swig_types[68]
+#define SWIGTYPE_p_size_type swig_types[69]
+#define SWIGTYPE_p_std__invalid_argument swig_types[70]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[71]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[72]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[73]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[74]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[75]
+#define SWIGTYPE_p_uint32 swig_types[76]
+#define SWIGTYPE_p_void swig_types[77]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[78]
+static swig_type_info *swig_types[80];
+static swig_module_info swig_module = {swig_types, 79, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3962,8 +3965,12 @@ SWIG_FromCharPtr(const char *cptr)
   return SWIG_FromCharPtrAndSize(cptr, (cptr ? strlen(cptr) : 0));
 }
 
-SWIGINTERN void Volt_Entity_SetVelocity(Volt::Entity *self,Volt::Vector2 velocity){
-        self->body()->SetLinearVelocity(velocity.ToB2());
+SWIGINTERN char *Volt_Entity___str__(Volt::Entity *self){
+        static char buffer[64];
+        stringstream str;
+        str << *self;
+        strcpy(buffer, str.str().c_str());
+        return buffer;
     }
 
 namespace swig {  
@@ -5062,6 +5069,85 @@ SWIGINTERN void std_vector_Sl_Volt_Entity_Sm__Sg__append(std::vector< Volt::Enti
 
 #include "Game_wrap.h"
 
+SwigDirector_FSMState::SwigDirector_FSMState(PyObject *self): Volt::FSMState(), Swig::Director(self) {
+  SWIG_DIRECTOR_RGTR((Volt::FSMState *)this, this); 
+}
+
+
+
+
+SwigDirector_FSMState::~SwigDirector_FSMState() {
+}
+
+void SwigDirector_FSMState::Update() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call FSMState.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 0;
+  const char * const swig_method_name = "Update";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Update", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
+    }
+  }
+}
+
+
+void SwigDirector_FSMState::OnEnter() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call FSMState.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 1;
+  const char * const swig_method_name = "OnEnter";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnEnter", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
+    }
+  }
+}
+
+
+void SwigDirector_FSMState::OnExit() {
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call FSMState.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 2;
+  const char * const swig_method_name = "OnExit";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnExit", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
+    }
+  }
+}
+
+
 SwigDirector_Entity::SwigDirector_Entity(PyObject *self): Entity(), Swig::Director(self) {
   SWIG_DIRECTOR_RGTR((Entity *)this, this); 
 }
@@ -5199,60 +5285,6 @@ void SwigDirector_Entity::OnRemoved() {
 }
 
 
-void SwigDirector_Entity::BeginContact(Volt::Entity *other, b2Contact *contact) {
-  swig::SwigVar_PyObject obj0;
-  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
-  swig::SwigVar_PyObject obj1;
-  obj1 = SWIG_NewPointerObj(SWIG_as_voidptr(contact), SWIGTYPE_p_b2Contact,  0 );
-  if (!swig_get_self()) {
-    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
-  }
-#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 5;
-  const char * const swig_method_name = "BeginContact";
-  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
-  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
-#else
-  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"BeginContact", (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
-#endif
-  if (result == NULL) {
-    PyObject *error = PyErr_Occurred();
-    {
-      if (error != NULL) {
-        PyErr_PrintEx(0);
-      }
-    }
-  }
-}
-
-
-void SwigDirector_Entity::EndContact(Volt::Entity *other, b2Contact *contact) {
-  swig::SwigVar_PyObject obj0;
-  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
-  swig::SwigVar_PyObject obj1;
-  obj1 = SWIG_NewPointerObj(SWIG_as_voidptr(contact), SWIGTYPE_p_b2Contact,  0 );
-  if (!swig_get_self()) {
-    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
-  }
-#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 6;
-  const char * const swig_method_name = "EndContact";
-  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
-  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
-#else
-  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"EndContact", (char *)"(OO)" ,(PyObject *)obj0,(PyObject *)obj1);
-#endif
-  if (result == NULL) {
-    PyObject *error = PyErr_Occurred();
-    {
-      if (error != NULL) {
-        PyErr_PrintEx(0);
-      }
-    }
-  }
-}
-
-
 bool SwigDirector_Entity::PreSolve(Volt::Entity *other) {
   bool c_result;
   swig::SwigVar_PyObject obj0;
@@ -5261,7 +5293,7 @@ bool SwigDirector_Entity::PreSolve(Volt::Entity *other) {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 7;
+  const size_t swig_method_index = 5;
   const char * const swig_method_name = "PreSolve";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -5294,7 +5326,7 @@ bool SwigDirector_Entity::CanCollideWith(Volt::Entity *other) {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 8;
+  const size_t swig_method_index = 6;
   const char * const swig_method_name = "CanCollideWith";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -5324,7 +5356,7 @@ void SwigDirector_Entity::OnScaleChanged() {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 9;
+  const size_t swig_method_index = 7;
   const char * const swig_method_name = "OnScaleChanged";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
@@ -5349,7 +5381,7 @@ void SwigDirector_Entity::Load(Json::Value const &node) {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 10;
+  const size_t swig_method_index = 8;
   const char * const swig_method_name = "Load";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -5374,7 +5406,7 @@ void SwigDirector_Entity::Save(Json::Value &node) const {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 11;
+  const size_t swig_method_index = 9;
   const char * const swig_method_name = "Save";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -5399,7 +5431,7 @@ void SwigDirector_Entity::OnAccessed(Entity *accessor) {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 12;
+  const size_t swig_method_index = 10;
   const char * const swig_method_name = "OnAccessed";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -5424,7 +5456,7 @@ void SwigDirector_Entity::GetProperties(std::vector< Property * > *properties) {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 13;
+  const size_t swig_method_index = 11;
   const char * const swig_method_name = "GetProperties";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -19701,6 +19733,354 @@ SWIGINTERN PyObject *Vector3_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObje
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_Camera(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_Camera")) SWIG_fail;
+  result = (Volt::Camera *)new Volt::Camera();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__Camera, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_ApplyMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_ApplyMatrix",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_ApplyMatrix" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  ((Volt::Camera const *)arg1)->ApplyMatrix();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_Update",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_Update" "', argument " "1"" of type '" "Volt::Camera *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  (arg1)->Update();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_SetLayers(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Camera_SetLayers",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_SetLayers" "', argument " "1"" of type '" "Volt::Camera *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Camera_SetLayers" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Camera_SetLayers" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  (arg1)->SetLayers(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_backLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_backLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_backLayer" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  result = (int)((Volt::Camera const *)arg1)->backLayer();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_frontLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_frontLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_frontLayer" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  result = (int)((Volt::Camera const *)arg1)->frontLayer();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_WatchEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_WatchEntity",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_WatchEntity" "', argument " "1"" of type '" "Volt::Camera *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_WatchEntity" "', argument " "2"" of type '" "Volt::Entity *""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
+  (arg1)->WatchEntity(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_WorldToScreen(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  Volt::Vector2 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  Volt::Vector2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_WorldToScreen",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_WorldToScreen" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_WorldToScreen" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Camera_WorldToScreen" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = ((Volt::Camera const *)arg1)->WorldToScreen(arg2);
+  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_ScreenToWorld(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  Volt::Vector2 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  Volt::Vector2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_ScreenToWorld",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_ScreenToWorld" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_ScreenToWorld" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Camera_ScreenToWorld" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = ((Volt::Camera const *)arg1)->ScreenToWorld(arg2);
+  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_worldBounds(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::BBox result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_worldBounds",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_worldBounds" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  result = ((Volt::Camera const *)arg1)->worldBounds();
+  resultobj = SWIG_NewPointerObj((new Volt::BBox(static_cast< const Volt::BBox& >(result))), SWIGTYPE_p_Volt__BBox, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_transform_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  Volt::Transform *arg2 = (Volt::Transform *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_transform_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_transform_set" "', argument " "1"" of type '" "Volt::Camera *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Transform, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_transform_set" "', argument " "2"" of type '" "Volt::Transform *""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::Transform * >(argp2);
+  if (arg1) (arg1)->transform = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_transform_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Transform *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_transform_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_transform_get" "', argument " "1"" of type '" "Volt::Camera *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  result = (Volt::Transform *)& ((arg1)->transform);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__Transform, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_Camera(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_Camera",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Camera" "', argument " "1"" of type '" "Volt::Camera *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *Camera_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__Camera, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_AppTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::AppTime *result = 0 ;
@@ -20878,38 +21258,82 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_VoltEntity_SetVelocity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_VoltEntity_AddContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
-  Volt::Vector2 arg2 ;
+  Volt::Entity::EntityContactListener *arg2 = (Volt::Entity::EntityContactListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
+  void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_SetVelocity",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_AddContactListener",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_SetVelocity" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_AddContactListener" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Entity * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_SetVelocity" "', argument " "2"" of type '" "Volt::Vector2""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "VoltEntity_SetVelocity" "', argument " "2"" of type '" "Volt::Vector2""'");
-    } else {
-      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity__EntityContactListener, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_AddContactListener" "', argument " "2"" of type '" "Volt::Entity::EntityContactListener *""'"); 
   }
-  Volt_Entity_SetVelocity(arg1,arg2);
+  arg2 = reinterpret_cast< Volt::Entity::EntityContactListener * >(argp2);
+  (arg1)->AddContactListener(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_VoltEntity_RemoveContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  Volt::Entity::EntityContactListener *arg2 = (Volt::Entity::EntityContactListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_RemoveContactListener",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_RemoveContactListener" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity__EntityContactListener, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_RemoveContactListener" "', argument " "2"" of type '" "Volt::Entity::EntityContactListener *""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::Entity::EntityContactListener * >(argp2);
+  (arg1)->RemoveContactListener(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_VoltEntity___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  char *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:VoltEntity___str__",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity___str__" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  result = (char *)Volt_Entity___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
   return resultobj;
 fail:
   return NULL;
@@ -21041,6 +21465,462 @@ fail:
   return Py_NotImplemented;
 }
 
+
+SWIGINTERN PyObject *_wrap_new_FSMState(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  PyObject *arg1 = (PyObject *) 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::FSMState *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_FSMState",&obj0)) SWIG_fail;
+  arg1 = obj0;
+  if ( arg1 != Py_None ) {
+    /* subclassed */
+    result = (Volt::FSMState *)new SwigDirector_FSMState(arg1); 
+  } else {
+    result = (Volt::FSMState *)new Volt::FSMState(); 
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__FSMState, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_FSMState(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_FSMState",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FSMState" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSMState_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:FSMState_Update",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSMState_Update" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Volt::FSMState::Update();
+    } else {
+      (arg1)->Update();
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSMState_OnEnter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:FSMState_OnEnter",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSMState_OnEnter" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Volt::FSMState::OnEnter();
+    } else {
+      (arg1)->OnEnter();
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSMState_OnExit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:FSMState_OnExit",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSMState_OnExit" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Volt::FSMState::OnExit();
+    } else {
+      (arg1)->OnExit();
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSMState_TransitionTo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:FSMState_TransitionTo",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSMState_TransitionTo" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "FSMState_TransitionTo" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->TransitionTo(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSMState_DelayTransitionTo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:FSMState_DelayTransitionTo",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSMState_DelayTransitionTo" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "FSMState_DelayTransitionTo" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->DelayTransitionTo(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_disown_FSMState(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSMState *arg1 = (Volt::FSMState *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:disown_FSMState",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "disown_FSMState" "', argument " "1"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSMState * >(argp1);
+  {
+    Swig::Director *director = dynamic_cast<Swig::Director *>(arg1);
+    if (director) director->swig_disown();
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *FSMState_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__FSMState, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_FSM(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_FSM")) SWIG_fail;
+  result = (Volt::FSM *)new Volt::FSM();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__FSM, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_FSM(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_FSM",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FSM" "', argument " "1"" of type '" "Volt::FSM *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSM_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:FSM_Update",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_Update" "', argument " "1"" of type '" "Volt::FSM *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  (arg1)->Update();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSM_TransitionTo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:FSM_TransitionTo",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_TransitionTo" "', argument " "1"" of type '" "Volt::FSM *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "FSM_TransitionTo" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->TransitionTo(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSM_DelayTransitionTo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:FSM_DelayTransitionTo",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_DelayTransitionTo" "', argument " "1"" of type '" "Volt::FSM *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "FSM_DelayTransitionTo" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->DelayTransitionTo(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSM_AddState(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  Volt::FSMState *arg2 = (Volt::FSMState *) 0 ;
+  std::string arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:FSM_AddState",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_AddState" "', argument " "1"" of type '" "Volt::FSM *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "FSM_AddState" "', argument " "2"" of type '" "Volt::FSMState *""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::FSMState * >(argp2);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj2, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "FSM_AddState" "', argument " "3"" of type '" "std::string""'"); 
+    }
+    arg3 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->AddState(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSM_stateName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:FSM_stateName",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_stateName" "', argument " "1"" of type '" "Volt::FSM const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  result = ((Volt::FSM const *)arg1)->stateName();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FSM_state(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::FSM *arg1 = (Volt::FSM *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  Volt::FSMState *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:FSM_state",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_state" "', argument " "1"" of type '" "Volt::FSM const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::FSM * >(argp1);
+  result = (Volt::FSMState *)((Volt::FSM const *)arg1)->state();
+  director = SWIG_DIRECTOR_CAST(result);
+  if (director) {
+    resultobj = director->swig_get_self();
+    Py_INCREF(resultobj);
+  } else {
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__FSMState, 0 |  0 );
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *FSM_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__FSM, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
 
 SWIGINTERN PyObject *_wrap_new_Game__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
@@ -21647,455 +22527,6 @@ SWIGINTERN PyObject *Game_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject 
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_Volt__Game, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
-SWIGINTERN PyObject *_wrap_new_Camera(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)":new_Camera")) SWIG_fail;
-  result = (Volt::Camera *)new Volt::Camera();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__Camera, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_ApplyMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Camera_ApplyMatrix",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_ApplyMatrix" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  ((Volt::Camera const *)arg1)->ApplyMatrix();
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Camera_Update",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_Update" "', argument " "1"" of type '" "Volt::Camera *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  (arg1)->Update();
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_SetLayers(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  int arg2 ;
-  int arg3 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Camera_SetLayers",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_SetLayers" "', argument " "1"" of type '" "Volt::Camera *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Camera_SetLayers" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = static_cast< int >(val2);
-  ecode3 = SWIG_AsVal_int(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Camera_SetLayers" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = static_cast< int >(val3);
-  (arg1)->SetLayers(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_backLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Camera_backLayer",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_backLayer" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  result = (int)((Volt::Camera const *)arg1)->backLayer();
-  resultobj = SWIG_From_int(static_cast< int >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_frontLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Camera_frontLayer",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_frontLayer" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  result = (int)((Volt::Camera const *)arg1)->frontLayer();
-  resultobj = SWIG_From_int(static_cast< int >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_WatchEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_WatchEntity",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_WatchEntity" "', argument " "1"" of type '" "Volt::Camera *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_WatchEntity" "', argument " "2"" of type '" "Volt::Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
-  (arg1)->WatchEntity(arg2);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_WorldToScreen(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  Volt::Vector2 arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  Volt::Vector2 result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_WorldToScreen",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_WorldToScreen" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_WorldToScreen" "', argument " "2"" of type '" "Volt::Vector2""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Camera_WorldToScreen" "', argument " "2"" of type '" "Volt::Vector2""'");
-    } else {
-      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  result = ((Volt::Camera const *)arg1)->WorldToScreen(arg2);
-  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_ScreenToWorld(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  Volt::Vector2 arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  Volt::Vector2 result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_ScreenToWorld",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_ScreenToWorld" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_ScreenToWorld" "', argument " "2"" of type '" "Volt::Vector2""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Camera_ScreenToWorld" "', argument " "2"" of type '" "Volt::Vector2""'");
-    } else {
-      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  result = ((Volt::Camera const *)arg1)->ScreenToWorld(arg2);
-  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_worldBounds(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  Volt::BBox result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Camera_worldBounds",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_worldBounds" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  result = ((Volt::Camera const *)arg1)->worldBounds();
-  resultobj = SWIG_NewPointerObj((new Volt::BBox(static_cast< const Volt::BBox& >(result))), SWIGTYPE_p_Volt__BBox, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_transform_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  Volt::Transform *arg2 = (Volt::Transform *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Camera_transform_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_transform_set" "', argument " "1"" of type '" "Volt::Camera *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Transform, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Camera_transform_set" "', argument " "2"" of type '" "Volt::Transform *""'"); 
-  }
-  arg2 = reinterpret_cast< Volt::Transform * >(argp2);
-  if (arg1) (arg1)->transform = *arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Camera_transform_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  Volt::Transform *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Camera_transform_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_transform_get" "', argument " "1"" of type '" "Volt::Camera *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  result = (Volt::Transform *)& ((arg1)->transform);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__Transform, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_Camera(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_Camera",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Camera" "', argument " "1"" of type '" "Volt::Camera *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
-  delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *Camera_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__Camera, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
-SWIGINTERN PyObject *_wrap_SceneListener_OnEntityAdded(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::SceneListener *arg1 = (Volt::SceneListener *) 0 ;
-  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:SceneListener_OnEntityAdded",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__SceneListener, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SceneListener_OnEntityAdded" "', argument " "1"" of type '" "Volt::SceneListener *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::SceneListener * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SceneListener_OnEntityAdded" "', argument " "2"" of type '" "Volt::Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
-  (arg1)->OnEntityAdded(arg2);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_SceneListener_OnEntityRemoved(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::SceneListener *arg1 = (Volt::SceneListener *) 0 ;
-  Volt::Entity *arg2 = (Volt::Entity *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:SceneListener_OnEntityRemoved",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__SceneListener, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SceneListener_OnEntityRemoved" "', argument " "1"" of type '" "Volt::SceneListener *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::SceneListener * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SceneListener_OnEntityRemoved" "', argument " "2"" of type '" "Volt::Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Volt::Entity * >(argp2);
-  (arg1)->OnEntityRemoved(arg2);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_new_SceneListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::SceneListener *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)":new_SceneListener")) SWIG_fail;
-  result = (Volt::SceneListener *)new Volt::SceneListener();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__SceneListener, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_SceneListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::SceneListener *arg1 = (Volt::SceneListener *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_SceneListener",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__SceneListener, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SceneListener" "', argument " "1"" of type '" "Volt::SceneListener *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::SceneListener * >(argp1);
-  delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *SceneListener_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__SceneListener, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -23060,7 +23491,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Scene_AddSceneListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Scene *arg1 = (Volt::Scene *) 0 ;
-  Volt::SceneListener *arg2 = (Volt::SceneListener *) 0 ;
+  Volt::Scene::SceneListener *arg2 = (Volt::Scene::SceneListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -23074,11 +23505,11 @@ SWIGINTERN PyObject *_wrap_Scene_AddSceneListener(PyObject *SWIGUNUSEDPARM(self)
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Scene_AddSceneListener" "', argument " "1"" of type '" "Volt::Scene *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Scene * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__SceneListener, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Scene__SceneListener, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Scene_AddSceneListener" "', argument " "2"" of type '" "Volt::SceneListener *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Scene_AddSceneListener" "', argument " "2"" of type '" "Volt::Scene::SceneListener *""'"); 
   }
-  arg2 = reinterpret_cast< Volt::SceneListener * >(argp2);
+  arg2 = reinterpret_cast< Volt::Scene::SceneListener * >(argp2);
   (arg1)->AddSceneListener(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -23090,7 +23521,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Scene_RemoveSceneListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Scene *arg1 = (Volt::Scene *) 0 ;
-  Volt::SceneListener *arg2 = (Volt::SceneListener *) 0 ;
+  Volt::Scene::SceneListener *arg2 = (Volt::Scene::SceneListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -23104,11 +23535,11 @@ SWIGINTERN PyObject *_wrap_Scene_RemoveSceneListener(PyObject *SWIGUNUSEDPARM(se
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Scene_RemoveSceneListener" "', argument " "1"" of type '" "Volt::Scene *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Scene * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__SceneListener, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Volt__Scene__SceneListener, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Scene_RemoveSceneListener" "', argument " "2"" of type '" "Volt::SceneListener *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Scene_RemoveSceneListener" "', argument " "2"" of type '" "Volt::Scene::SceneListener *""'"); 
   }
-  arg2 = reinterpret_cast< Volt::SceneListener * >(argp2);
+  arg2 = reinterpret_cast< Volt::Scene::SceneListener * >(argp2);
   (arg1)->RemoveSceneListener(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -23540,73 +23971,6 @@ SWIGINTERN PyObject *Entity_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObjec
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_CreatureHitListener_OnHit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  CreatureHitListener *arg1 = (CreatureHitListener *) 0 ;
-  Entity *arg2 = (Entity *) 0 ;
-  float arg3 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  float val3 ;
-  int ecode3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:CreatureHitListener_OnHit",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CreatureHitListener, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CreatureHitListener_OnHit" "', argument " "1"" of type '" "CreatureHitListener *""'"); 
-  }
-  arg1 = reinterpret_cast< CreatureHitListener * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CreatureHitListener_OnHit" "', argument " "2"" of type '" "Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Entity * >(argp2);
-  ecode3 = SWIG_AsVal_float(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CreatureHitListener_OnHit" "', argument " "3"" of type '" "float""'");
-  } 
-  arg3 = static_cast< float >(val3);
-  (arg1)->OnHit(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_CreatureHitListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  CreatureHitListener *arg1 = (CreatureHitListener *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_CreatureHitListener",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CreatureHitListener, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CreatureHitListener" "', argument " "1"" of type '" "CreatureHitListener *""'"); 
-  }
-  arg1 = reinterpret_cast< CreatureHitListener * >(argp1);
-  delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *CreatureHitListener_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_CreatureHitListener, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
 SWIGINTERN PyObject *_wrap_delete_Creature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Creature *arg1 = (Creature *) 0 ;
@@ -23703,7 +24067,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Creature_AddHitListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Creature *arg1 = (Creature *) 0 ;
-  CreatureHitListener *arg2 = (CreatureHitListener *) 0 ;
+  Creature::CreatureHitListener *arg2 = (Creature::CreatureHitListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -23717,11 +24081,11 @@ SWIGINTERN PyObject *_wrap_Creature_AddHitListener(PyObject *SWIGUNUSEDPARM(self
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_AddHitListener" "', argument " "1"" of type '" "Creature *""'"); 
   }
   arg1 = reinterpret_cast< Creature * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_CreatureHitListener, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Creature__CreatureHitListener, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Creature_AddHitListener" "', argument " "2"" of type '" "CreatureHitListener *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Creature_AddHitListener" "', argument " "2"" of type '" "Creature::CreatureHitListener *""'"); 
   }
-  arg2 = reinterpret_cast< CreatureHitListener * >(argp2);
+  arg2 = reinterpret_cast< Creature::CreatureHitListener * >(argp2);
   (arg1)->AddHitListener(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -23733,7 +24097,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Creature_RemoveHitListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Creature *arg1 = (Creature *) 0 ;
-  CreatureHitListener *arg2 = (CreatureHitListener *) 0 ;
+  Creature::CreatureHitListener *arg2 = (Creature::CreatureHitListener *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -23747,11 +24111,11 @@ SWIGINTERN PyObject *_wrap_Creature_RemoveHitListener(PyObject *SWIGUNUSEDPARM(s
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_RemoveHitListener" "', argument " "1"" of type '" "Creature *""'"); 
   }
   arg1 = reinterpret_cast< Creature * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_CreatureHitListener, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Creature__CreatureHitListener, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Creature_RemoveHitListener" "', argument " "2"" of type '" "CreatureHitListener *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Creature_RemoveHitListener" "', argument " "2"" of type '" "Creature::CreatureHitListener *""'"); 
   }
-  arg2 = reinterpret_cast< CreatureHitListener * >(argp2);
+  arg2 = reinterpret_cast< Creature::CreatureHitListener * >(argp2);
   (arg1)->RemoveHitListener(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -27344,6 +27708,20 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_Vector3", _wrap_new_Vector3, METH_VARARGS, NULL},
 	 { (char *)"delete_Vector3", _wrap_delete_Vector3, METH_VARARGS, NULL},
 	 { (char *)"Vector3_swigregister", Vector3_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_Camera", _wrap_new_Camera, METH_VARARGS, NULL},
+	 { (char *)"Camera_ApplyMatrix", _wrap_Camera_ApplyMatrix, METH_VARARGS, NULL},
+	 { (char *)"Camera_Update", _wrap_Camera_Update, METH_VARARGS, NULL},
+	 { (char *)"Camera_SetLayers", _wrap_Camera_SetLayers, METH_VARARGS, NULL},
+	 { (char *)"Camera_backLayer", _wrap_Camera_backLayer, METH_VARARGS, NULL},
+	 { (char *)"Camera_frontLayer", _wrap_Camera_frontLayer, METH_VARARGS, NULL},
+	 { (char *)"Camera_WatchEntity", _wrap_Camera_WatchEntity, METH_VARARGS, NULL},
+	 { (char *)"Camera_WorldToScreen", _wrap_Camera_WorldToScreen, METH_VARARGS, NULL},
+	 { (char *)"Camera_ScreenToWorld", _wrap_Camera_ScreenToWorld, METH_VARARGS, NULL},
+	 { (char *)"Camera_worldBounds", _wrap_Camera_worldBounds, METH_VARARGS, NULL},
+	 { (char *)"Camera_transform_set", _wrap_Camera_transform_set, METH_VARARGS, NULL},
+	 { (char *)"Camera_transform_get", _wrap_Camera_transform_get, METH_VARARGS, NULL},
+	 { (char *)"delete_Camera", _wrap_delete_Camera, METH_VARARGS, NULL},
+	 { (char *)"Camera_swigregister", Camera_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_AppTime", _wrap_new_AppTime, METH_VARARGS, NULL},
 	 { (char *)"AppTime_dt", _wrap_AppTime_dt, METH_VARARGS, NULL},
 	 { (char *)"AppTime_SetDt", _wrap_AppTime_SetDt, METH_VARARGS, NULL},
@@ -27386,9 +27764,29 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"VoltEntity_OnScaleChanged", _wrap_VoltEntity_OnScaleChanged, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_Load", _wrap_VoltEntity_Load, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_Save", _wrap_VoltEntity_Save, METH_VARARGS, NULL},
-	 { (char *)"VoltEntity_SetVelocity", _wrap_VoltEntity_SetVelocity, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_AddContactListener", _wrap_VoltEntity_AddContactListener, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_RemoveContactListener", _wrap_VoltEntity_RemoveContactListener, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity___str__", _wrap_VoltEntity___str__, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_swigregister", VoltEntity_swigregister, METH_VARARGS, NULL},
 	 { (char *)"__lshift__", _wrap___lshift__, METH_VARARGS, NULL},
+	 { (char *)"new_FSMState", _wrap_new_FSMState, METH_VARARGS, NULL},
+	 { (char *)"delete_FSMState", _wrap_delete_FSMState, METH_VARARGS, NULL},
+	 { (char *)"FSMState_Update", _wrap_FSMState_Update, METH_VARARGS, NULL},
+	 { (char *)"FSMState_OnEnter", _wrap_FSMState_OnEnter, METH_VARARGS, NULL},
+	 { (char *)"FSMState_OnExit", _wrap_FSMState_OnExit, METH_VARARGS, NULL},
+	 { (char *)"FSMState_TransitionTo", _wrap_FSMState_TransitionTo, METH_VARARGS, NULL},
+	 { (char *)"FSMState_DelayTransitionTo", _wrap_FSMState_DelayTransitionTo, METH_VARARGS, NULL},
+	 { (char *)"disown_FSMState", _wrap_disown_FSMState, METH_VARARGS, NULL},
+	 { (char *)"FSMState_swigregister", FSMState_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_FSM", _wrap_new_FSM, METH_VARARGS, NULL},
+	 { (char *)"delete_FSM", _wrap_delete_FSM, METH_VARARGS, NULL},
+	 { (char *)"FSM_Update", _wrap_FSM_Update, METH_VARARGS, NULL},
+	 { (char *)"FSM_TransitionTo", _wrap_FSM_TransitionTo, METH_VARARGS, NULL},
+	 { (char *)"FSM_DelayTransitionTo", _wrap_FSM_DelayTransitionTo, METH_VARARGS, NULL},
+	 { (char *)"FSM_AddState", _wrap_FSM_AddState, METH_VARARGS, NULL},
+	 { (char *)"FSM_stateName", _wrap_FSM_stateName, METH_VARARGS, NULL},
+	 { (char *)"FSM_state", _wrap_FSM_state, METH_VARARGS, NULL},
+	 { (char *)"FSM_swigregister", FSM_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Game", _wrap_new_Game, METH_VARARGS, NULL},
 	 { (char *)"delete_Game", _wrap_delete_Game, METH_VARARGS, NULL},
 	 { (char *)"Game_Run", _wrap_Game_Run, METH_VARARGS, NULL},
@@ -27402,25 +27800,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Game_OnMouseButtonEvent", _wrap_Game_OnMouseButtonEvent, METH_VARARGS, NULL},
 	 { (char *)"Game_OnMouseMoveEvent", _wrap_Game_OnMouseMoveEvent, METH_VARARGS, NULL},
 	 { (char *)"Game_swigregister", Game_swigregister, METH_VARARGS, NULL},
-	 { (char *)"new_Camera", _wrap_new_Camera, METH_VARARGS, NULL},
-	 { (char *)"Camera_ApplyMatrix", _wrap_Camera_ApplyMatrix, METH_VARARGS, NULL},
-	 { (char *)"Camera_Update", _wrap_Camera_Update, METH_VARARGS, NULL},
-	 { (char *)"Camera_SetLayers", _wrap_Camera_SetLayers, METH_VARARGS, NULL},
-	 { (char *)"Camera_backLayer", _wrap_Camera_backLayer, METH_VARARGS, NULL},
-	 { (char *)"Camera_frontLayer", _wrap_Camera_frontLayer, METH_VARARGS, NULL},
-	 { (char *)"Camera_WatchEntity", _wrap_Camera_WatchEntity, METH_VARARGS, NULL},
-	 { (char *)"Camera_WorldToScreen", _wrap_Camera_WorldToScreen, METH_VARARGS, NULL},
-	 { (char *)"Camera_ScreenToWorld", _wrap_Camera_ScreenToWorld, METH_VARARGS, NULL},
-	 { (char *)"Camera_worldBounds", _wrap_Camera_worldBounds, METH_VARARGS, NULL},
-	 { (char *)"Camera_transform_set", _wrap_Camera_transform_set, METH_VARARGS, NULL},
-	 { (char *)"Camera_transform_get", _wrap_Camera_transform_get, METH_VARARGS, NULL},
-	 { (char *)"delete_Camera", _wrap_delete_Camera, METH_VARARGS, NULL},
-	 { (char *)"Camera_swigregister", Camera_swigregister, METH_VARARGS, NULL},
-	 { (char *)"SceneListener_OnEntityAdded", _wrap_SceneListener_OnEntityAdded, METH_VARARGS, NULL},
-	 { (char *)"SceneListener_OnEntityRemoved", _wrap_SceneListener_OnEntityRemoved, METH_VARARGS, NULL},
-	 { (char *)"new_SceneListener", _wrap_new_SceneListener, METH_VARARGS, NULL},
-	 { (char *)"delete_SceneListener", _wrap_delete_SceneListener, METH_VARARGS, NULL},
-	 { (char *)"SceneListener_swigregister", SceneListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Scene", _wrap_new_Scene, METH_VARARGS, NULL},
 	 { (char *)"delete_Scene", _wrap_delete_Scene, METH_VARARGS, NULL},
 	 { (char *)"Scene_Render", _wrap_Scene_Render, METH_VARARGS, NULL},
@@ -27463,9 +27842,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Entity_CopyFrom", _wrap_Entity_CopyFrom, METH_VARARGS, NULL},
 	 { (char *)"disown_Entity", _wrap_disown_Entity, METH_VARARGS, NULL},
 	 { (char *)"Entity_swigregister", Entity_swigregister, METH_VARARGS, NULL},
-	 { (char *)"CreatureHitListener_OnHit", _wrap_CreatureHitListener_OnHit, METH_VARARGS, NULL},
-	 { (char *)"delete_CreatureHitListener", _wrap_delete_CreatureHitListener, METH_VARARGS, NULL},
-	 { (char *)"CreatureHitListener_swigregister", CreatureHitListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_Creature", _wrap_delete_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_Update", _wrap_Creature_Update, METH_VARARGS, NULL},
 	 { (char *)"Creature_Render", _wrap_Creature_Render, METH_VARARGS, NULL},
@@ -27610,7 +27986,7 @@ static void *_p_PlayerTo_p_Creature(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 }
 static swig_type_info _swigt__p_BrushStroke = {"_p_BrushStroke", "BrushStroke *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Creature = {"_p_Creature", "Creature *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_CreatureHitListener = {"_p_CreatureHitListener", "CreatureHitListener *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Creature__CreatureHitListener = {"_p_Creature__CreatureHitListener", "Creature::CreatureHitListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Entity = {"_p_Entity", "Entity *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_EntityFactory = {"_p_EntityFactory", "EntityFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Json__Value = {"_p_Json__Value", "Json::Value *", 0, 0, (void*)0, 0};
@@ -27630,12 +28006,15 @@ static swig_type_info _swigt__p_Volt__Camera = {"_p_Volt__Camera", "Volt::Camera
 static swig_type_info _swigt__p_Volt__Color = {"_p_Volt__Color", "Volt::Color *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__DataSource = {"_p_Volt__DataSource", "Volt::DataSource *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Entity = {"_p_Volt__Entity", "Volt::Entity *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__Entity__EntityContactListener = {"_p_Volt__Entity__EntityContactListener", "Volt::Entity::EntityContactListener *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__FSM = {"_p_Volt__FSM", "Volt::FSM *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__FSMState = {"_p_Volt__FSMState", "Volt::FSMState *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Filter = {"_p_Volt__Filter", "Volt::Filter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Game = {"_p_Volt__Game", "Volt::Game *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Random = {"_p_Volt__Random", "Volt::Random *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Scene = {"_p_Volt__Scene", "Volt::Scene *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__SceneHook = {"_p_Volt__SceneHook", "Volt::SceneHook *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Volt__SceneListener = {"_p_Volt__SceneListener", "Volt::SceneListener *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__Scene__SceneListener = {"_p_Volt__Scene__SceneListener", "Volt::Scene::SceneListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Time = {"_p_Volt__Time", "Volt::Time *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Transform = {"_p_Volt__Transform", "Volt::Transform *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__TweenT_Volt__Vector2_t = {"_p_Volt__TweenT_Volt__Vector2_t", "Volt::Tween< Volt::Vector2 > *", 0, 0, (void*)0, 0};
@@ -27688,7 +28067,7 @@ static swig_type_info _swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_BrushStroke,
   &_swigt__p_Creature,
-  &_swigt__p_CreatureHitListener,
+  &_swigt__p_Creature__CreatureHitListener,
   &_swigt__p_Entity,
   &_swigt__p_EntityFactory,
   &_swigt__p_Json__Value,
@@ -27708,12 +28087,15 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__Color,
   &_swigt__p_Volt__DataSource,
   &_swigt__p_Volt__Entity,
+  &_swigt__p_Volt__Entity__EntityContactListener,
+  &_swigt__p_Volt__FSM,
+  &_swigt__p_Volt__FSMState,
   &_swigt__p_Volt__Filter,
   &_swigt__p_Volt__Game,
   &_swigt__p_Volt__Random,
   &_swigt__p_Volt__Scene,
   &_swigt__p_Volt__SceneHook,
-  &_swigt__p_Volt__SceneListener,
+  &_swigt__p_Volt__Scene__SceneListener,
   &_swigt__p_Volt__Time,
   &_swigt__p_Volt__Transform,
   &_swigt__p_Volt__TweenT_Volt__Vector2_t,
@@ -27766,7 +28148,7 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_BrushStroke[] = {  {&_swigt__p_BrushStroke, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Creature[] = {  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Creature, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_CreatureHitListener[] = {  {&_swigt__p_CreatureHitListener, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Creature__CreatureHitListener[] = {  {&_swigt__p_Creature__CreatureHitListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Entity, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Entity, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EntityFactory[] = {  {&_swigt__p_EntityFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Json__Value[] = {  {&_swigt__p_Json__Value, 0, 0, 0},{0, 0, 0, 0}};
@@ -27786,12 +28168,15 @@ static swig_cast_info _swigc__p_Volt__Camera[] = {  {&_swigt__p_Volt__Camera, 0,
 static swig_cast_info _swigc__p_Volt__Color[] = {  {&_swigt__p_Volt__Color, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataSource[] = {  {&_swigt__p_Volt__DataSource, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__Entity__EntityContactListener[] = {  {&_swigt__p_Volt__Entity__EntityContactListener, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__FSM[] = {  {&_swigt__p_Volt__FSM, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__FSMState[] = {  {&_swigt__p_Volt__FSMState, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Filter[] = {  {&_swigt__p_Volt__Filter, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Game[] = {  {&_swigt__p_Volt__Game, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Random[] = {  {&_swigt__p_Volt__Random, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Scene[] = {  {&_swigt__p_Volt__Scene, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__SceneHook[] = {  {&_swigt__p_Volt__SceneHook, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Volt__SceneListener[] = {  {&_swigt__p_Volt__SceneListener, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__Scene__SceneListener[] = {  {&_swigt__p_Volt__Scene__SceneListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Time[] = {  {&_swigt__p_Volt__Time, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Transform[] = {  {&_swigt__p_Volt__Transform, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__TweenT_Volt__Vector2_t[] = {  {&_swigt__p_Volt__TweenT_Volt__Vector2_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -27844,7 +28229,7 @@ static swig_cast_info _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_BrushStroke,
   _swigc__p_Creature,
-  _swigc__p_CreatureHitListener,
+  _swigc__p_Creature__CreatureHitListener,
   _swigc__p_Entity,
   _swigc__p_EntityFactory,
   _swigc__p_Json__Value,
@@ -27864,12 +28249,15 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__Color,
   _swigc__p_Volt__DataSource,
   _swigc__p_Volt__Entity,
+  _swigc__p_Volt__Entity__EntityContactListener,
+  _swigc__p_Volt__FSM,
+  _swigc__p_Volt__FSMState,
   _swigc__p_Volt__Filter,
   _swigc__p_Volt__Game,
   _swigc__p_Volt__Random,
   _swigc__p_Volt__Scene,
   _swigc__p_Volt__SceneHook,
-  _swigc__p_Volt__SceneListener,
+  _swigc__p_Volt__Scene__SceneListener,
   _swigc__p_Volt__Time,
   _swigc__p_Volt__Transform,
   _swigc__p_Volt__TweenT_Volt__Vector2_t,

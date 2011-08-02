@@ -7,14 +7,16 @@ class HealthBar;
 class PowerBar;
 class Weapon;
 
-/* Subclass this to receive callbacks when the Creature takes damage. */
-class CreatureHitListener {
-public:
-    virtual void OnHit (Entity* agent, float damage) = 0;
-};
+
 
 class Creature : public Entity {
 public:
+    /* Subclass this to receive callbacks when the Creature takes damage. */
+    class CreatureHitListener {
+    public:
+        virtual void OnHit (Entity* agent, float damage) = 0;
+    };
+
     Creature ();
     virtual ~Creature () { }
 

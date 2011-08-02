@@ -1,0 +1,4 @@
+TODO List for Python API:
+* Script console thing. ` to open, history by pressing up.
+* Work out Listener API for OnTouched.
+* As scripts for things start to be written, refine API to make things easier.

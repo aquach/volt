@@ -958,6 +958,33 @@ class Vector3(_object):
 Vector3_swigregister = _pygame.Vector3_swigregister
 Vector3_swigregister(Vector3)
 
+class Camera(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Camera, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Camera, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_Camera()
+        try: self.this.append(this)
+        except: self.this = this
+    def ApplyMatrix(self): return _pygame.Camera_ApplyMatrix(self)
+    def Update(self): return _pygame.Camera_Update(self)
+    def SetLayers(self, *args): return _pygame.Camera_SetLayers(self, *args)
+    def backLayer(self): return _pygame.Camera_backLayer(self)
+    def frontLayer(self): return _pygame.Camera_frontLayer(self)
+    def WatchEntity(self, *args): return _pygame.Camera_WatchEntity(self, *args)
+    def WorldToScreen(self, *args): return _pygame.Camera_WorldToScreen(self, *args)
+    def ScreenToWorld(self, *args): return _pygame.Camera_ScreenToWorld(self, *args)
+    def worldBounds(self): return _pygame.Camera_worldBounds(self)
+    __swig_setmethods__["transform"] = _pygame.Camera_transform_set
+    __swig_getmethods__["transform"] = _pygame.Camera_transform_get
+    if _newclass:transform = _swig_property(_pygame.Camera_transform_get, _pygame.Camera_transform_set)
+    __swig_destroy__ = _pygame.delete_Camera
+    __del__ = lambda self : None;
+Camera_swigregister = _pygame.Camera_swigregister
+Camera_swigregister(Camera)
+
 class AppTime(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, AppTime, name, value)
@@ -1030,9 +1057,75 @@ class VoltEntity(_object):
     def OnScaleChanged(self): return _pygame.VoltEntity_OnScaleChanged(self)
     def Load(self, *args): return _pygame.VoltEntity_Load(self, *args)
     def Save(self, *args): return _pygame.VoltEntity_Save(self, *args)
-    def SetVelocity(self, *args): return _pygame.VoltEntity_SetVelocity(self, *args)
+    def AddContactListener(self, *args): return _pygame.VoltEntity_AddContactListener(self, *args)
+    def RemoveContactListener(self, *args): return _pygame.VoltEntity_RemoveContactListener(self, *args)
+    def __str__(self): return _pygame.VoltEntity___str__(self)
+    def OnTouched(self, callback):
+        pass
+
 VoltEntity_swigregister = _pygame.VoltEntity_swigregister
 VoltEntity_swigregister(VoltEntity)
+
+class FSMState(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, FSMState, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, FSMState, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        if self.__class__ == FSMState:
+            _self = None
+        else:
+            _self = self
+        this = _pygame.new_FSMState(_self, )
+        try: self.this.append(this)
+        except: self.this = this
+        self.__disown__()
+
+
+
+    __swig_destroy__ = _pygame.delete_FSMState
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.FSMState_Update(self)
+    def OnEnter(self): return _pygame.FSMState_OnEnter(self)
+    def OnExit(self): return _pygame.FSMState_OnExit(self)
+    def TransitionTo(self, *args): return _pygame.FSMState_TransitionTo(self, *args)
+    def DelayTransitionTo(self, *args): return _pygame.FSMState_DelayTransitionTo(self, *args)
+    def __disown__(self):
+        self.this.disown()
+        _pygame.disown_FSMState(self)
+        return weakref_proxy(self)
+FSMState_swigregister = _pygame.FSMState_swigregister
+FSMState_swigregister(FSMState)
+
+def __lshift__(*args):
+  return _pygame.__lshift__(*args)
+__lshift__ = _pygame.__lshift__
+
+class FSM(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, FSM, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, FSM, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_FSM()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_FSM
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.FSM_Update(self)
+    def TransitionTo(self, *args): return _pygame.FSM_TransitionTo(self, *args)
+    def DelayTransitionTo(self, *args): return _pygame.FSM_DelayTransitionTo(self, *args)
+    def AddState(self, *args): return _pygame.FSM_AddState(self, *args)
+    def stateName(self): return _pygame.FSM_stateName(self)
+    def state(self): return _pygame.FSM_state(self)
+    def AddStates(self, stateList):
+        for state in stateList:
+            self.AddState(state[0], state[1])
+
+FSM_swigregister = _pygame.FSM_swigregister
+FSM_swigregister(FSM)
 
 class Game(_object):
     __swig_setmethods__ = {}
@@ -1061,10 +1154,6 @@ class Game(_object):
 Game_swigregister = _pygame.Game_swigregister
 Game_swigregister(Game)
 
-def __lshift__(*args):
-  return _pygame.__lshift__(*args)
-__lshift__ = _pygame.__lshift__
-
 def Game_Register(*args):
   return _pygame.Game_Register(*args)
 Game_Register = _pygame.Game_Register
@@ -1072,50 +1161,6 @@ Game_Register = _pygame.Game_Register
 def Game_Instance():
   return _pygame.Game_Instance()
 Game_Instance = _pygame.Game_Instance
-
-class Camera(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Camera, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, Camera, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _pygame.new_Camera()
-        try: self.this.append(this)
-        except: self.this = this
-    def ApplyMatrix(self): return _pygame.Camera_ApplyMatrix(self)
-    def Update(self): return _pygame.Camera_Update(self)
-    def SetLayers(self, *args): return _pygame.Camera_SetLayers(self, *args)
-    def backLayer(self): return _pygame.Camera_backLayer(self)
-    def frontLayer(self): return _pygame.Camera_frontLayer(self)
-    def WatchEntity(self, *args): return _pygame.Camera_WatchEntity(self, *args)
-    def WorldToScreen(self, *args): return _pygame.Camera_WorldToScreen(self, *args)
-    def ScreenToWorld(self, *args): return _pygame.Camera_ScreenToWorld(self, *args)
-    def worldBounds(self): return _pygame.Camera_worldBounds(self)
-    __swig_setmethods__["transform"] = _pygame.Camera_transform_set
-    __swig_getmethods__["transform"] = _pygame.Camera_transform_get
-    if _newclass:transform = _swig_property(_pygame.Camera_transform_get, _pygame.Camera_transform_set)
-    __swig_destroy__ = _pygame.delete_Camera
-    __del__ = lambda self : None;
-Camera_swigregister = _pygame.Camera_swigregister
-Camera_swigregister(Camera)
-
-class SceneListener(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, SceneListener, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, SceneListener, name)
-    __repr__ = _swig_repr
-    def OnEntityAdded(self, *args): return _pygame.SceneListener_OnEntityAdded(self, *args)
-    def OnEntityRemoved(self, *args): return _pygame.SceneListener_OnEntityRemoved(self, *args)
-    def __init__(self): 
-        this = _pygame.new_SceneListener()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _pygame.delete_SceneListener
-    __del__ = lambda self : None;
-SceneListener_swigregister = _pygame.SceneListener_swigregister
-SceneListener_swigregister(SceneListener)
 
 class Scene(_object):
     __swig_setmethods__ = {}
@@ -1156,7 +1201,12 @@ class Scene(_object):
     def AddSceneListener(self, *args): return _pygame.Scene_AddSceneListener(self, *args)
     def RemoveSceneListener(self, *args): return _pygame.Scene_RemoveSceneListener(self, *args)
     def GetFirstTagged(self, *args): return _pygame.Scene_GetFirstTagged(self, *args)
-    def GetAllTagged(self, *args): return _pygame.Scene_GetAllTagged(self, *args)
+    def GetAllTagged(self, tag):
+        entities = EntityVector()
+        _pygame.Scene_GetAllTagged(self, tag, entities)
+        return entities
+
+
 Scene_swigregister = _pygame.Scene_swigregister
 Scene_swigregister(Scene)
 
@@ -1191,19 +1241,6 @@ class Entity(VoltEntity):
         return weakref_proxy(self)
 Entity_swigregister = _pygame.Entity_swigregister
 Entity_swigregister(Entity)
-
-class CreatureHitListener(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, CreatureHitListener, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, CreatureHitListener, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
-    __repr__ = _swig_repr
-    def OnHit(self, *args): return _pygame.CreatureHitListener_OnHit(self, *args)
-    __swig_destroy__ = _pygame.delete_CreatureHitListener
-    __del__ = lambda self : None;
-CreatureHitListener_swigregister = _pygame.CreatureHitListener_swigregister
-CreatureHitListener_swigregister(CreatureHitListener)
 
 class Creature(Entity):
     __swig_setmethods__ = {}

@@ -13,20 +13,20 @@ class Filter;
 class Game;
 class SceneHook;
 
-/* A listener that can be registered with the Scene to get notifications when
- * entities are added/removed. */
-class SceneListener {
-public:
-    virtual void OnEntityAdded (Entity* e) { };
-    virtual void OnEntityRemoved (Entity* e) { };
-};
-
 /**
  *  A scene of the game. Scenes can be startup screens, level screens, gameplay,
     etc.
  */
 class Scene {
 public:
+    /* A listener that can be registered with the Scene to get notifications
+     * when entities are added/removed. */
+    class SceneListener {
+    public:
+        virtual void OnEntityAdded (Entity* e) { };
+        virtual void OnEntityRemoved (Entity* e) { };
+    };
+
     typedef map<int, list<Entity* > > Layers;
 
     Scene ();

@@ -12,6 +12,12 @@ class Scene;
 
 class Entity {
 public:
+    class EntityContactListener {
+    public:
+        virtual void OnContactBegin (Entity* other, b2Contact* contact) = 0;
+        virtual void OnContactEnd (Entity* other, b2Contact* contact) = 0;
+    };
+
     Entity ();
     virtual ~Entity ();
 
@@ -49,8 +55,14 @@ public:
     b2Body* CreateBody (b2BodyType type);
     void DestroyBody ();
     b2Body* body () const { return m_body; }
-    virtual void BeginContact (Entity* other, b2Contact* contact) { }
-    virtual void EndContact (Entity* other, b2Contact* contact) { }
+
+    // These are called when entities enter and leave the bounding boxes of
+    // other entities. Do not call these directly.
+    void BeginContact (Entity* other, b2Contact* contact);
+    void EndContact (Entity* other, b2Contact* contact);
+
+    // This is called every frame that this entity touches another entity.
+    // Returns true if the contact should be registered.
     virtual bool PreSolve (Entity* other) { return true; }
     virtual bool CanCollideWith (Entity* other) { return true; }
 
@@ -69,6 +81,9 @@ public:
     virtual void Load (const Json::Value& node);
     virtual void Save (Json::Value& node) const;
 
+    void AddContactListener (EntityContactListener* listener);
+    void RemoveContactListener (EntityContactListener* listener);
+
 protected:
     b2Body* m_body;
     Transform m_transform;
@@ -83,6 +98,7 @@ private:
     Scene* m_scene;
 
     set<string> m_tags;
+    set<EntityContactListener*> m_contactListeners;
 
     DISALLOW_COPY_AND_ASSIGN(Entity);
 };

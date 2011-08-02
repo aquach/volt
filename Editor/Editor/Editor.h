@@ -214,7 +214,7 @@ private:
         QPoint m_lastPoint;
     };
 
-    class EditorSelectionListener : public SelectionListener {
+    class EditorSelectionListener : public SelectionManager::SelectionListener {
     public:
         EditorSelectionListener (Editor* e) : m_e(e) { }
 

@@ -54,7 +54,7 @@ public:
 private:
     friend class LightManager;
 
-    class LightSceneListener : public Volt::SceneListener {
+    class LightSceneListener : public Volt::Scene::SceneListener {
     public:
         LightSceneListener (Light* l) : m_light(l) { }
 

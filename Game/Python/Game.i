@@ -36,15 +36,25 @@
     }
 }
 
+// Global ignores.
 %ignore DECLARE_ENTITY_;
-%rename(VoltEntity) Volt::Entity;
+%ignore *::operator=;
+%ignore *::operator[];
+%ignore operator<<;
+%ignore operator+;
+%ignore operator-;
+%ignore operator*;
+%ignore operator==;
 
+// SWIG libs.
 %include <std_string.i>
 %include <std_vector.i>
 
+// Box2D libs.
 %include <Box2D/Common/b2Math.h>
 %include <Box2D/Dynamics/b2Body.h>
 
+// Volt.
 %include "Volt/Core/Color.h"
 %include "Volt/Core/Math.h"
 %include "Volt/Core/Random.h"
@@ -59,12 +69,31 @@
 
 %include "Volt/Core/BBox.h"
 %include "Volt/Core/Vector3.h"
-%include "Volt/Game/AppTime.h"
-%include "Volt/Game/Entity.h"
-%include "Volt/Game/Game.h"
+
 %include "Volt/Graphics/Camera.h"
-//%include "Volt/Graphics/Graphics.h"
+
+%include "Volt/Game/AppTime.h"
+
+%rename(VoltEntity) Volt::Entity;
+%include "Volt/Game/Entity.h"
+
+%feature("director") FSMState;
+%pythonappend Volt::FSMState::FSMState() %{
+   self.__disown__()
+%}
+%include "Volt/Game/FSM.h"
+
+%include "Volt/Game/Game.h"
+
+%feature("shadow") Volt::Scene::GetAllTagged(const string&, vector<Entity*>*) %{
+    def GetAllTagged(self, tag):
+        entities = EntityVector()
+        _pygame.Scene_GetAllTagged(self, tag, entities)
+        return entities
+%}
 %include "Volt/Game/Scene.h"
+
+// Game.
 
 %feature("director") Entity;
 %include "Game/Game/Entity.h"
@@ -80,8 +109,16 @@ namespace std {
     %template(EntityVector) vector<Volt::Entity*>;
 }
 
-// String representation of common classes.
-%extend Volt::Vector2 {
+// Extending classes for easier functionality.
+%extend Volt::FSM {
+    %pythoncode {
+        def AddStates(self, stateList):
+            for state in stateList:
+                self.AddState(state[0], state[1])
+    }
+}
+
+%extend Volt::Entity {
     char* __str__ () {
         static char buffer[64];
         stringstream str;
@@ -89,10 +126,19 @@ namespace std {
         strcpy(buffer, str.str().c_str());
         return buffer;
     }
+
+    %pythoncode {
+        def OnTouched(self, callback):
+            pass
+    }
 }
 
-%extend Volt::Entity {
-    void SetVelocity (Vector2 velocity) {
-        $self->body()->SetLinearVelocity(velocity.ToB2());
+%extend Volt::Vector2 {
+    char* __str__ () {
+        static char buffer[64];
+        stringstream str;
+        str << *$self;
+        strcpy(buffer, str.str().c_str());
+        return buffer;
     }
 }

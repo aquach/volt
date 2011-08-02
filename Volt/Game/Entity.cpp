@@ -125,4 +125,26 @@ void Entity::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
 }
 
+void Entity::AddContactListener (EntityContactListener* listener) {
+    m_contactListeners.insert(listener);
+}
+
+void Entity::RemoveContactListener (EntityContactListener* listener) {
+    m_contactListeners.erase(listener);
+}
+
+void Entity::BeginContact (Entity* other, b2Contact* contact) {
+    FOR_(set<Entity::EntityContactListener*>::iterator, i,
+         m_contactListeners) {
+        (*i)->OnContactBegin(other, contact);
+    }
+}
+
+void Entity::EndContact (Entity* other, b2Contact* contact) {
+    FOR_(set<Entity::EntityContactListener*>::iterator, i,
+         m_contactListeners) {
+        (*i)->OnContactEnd(other, contact);
+    }
+}
+
 }

@@ -6,18 +6,19 @@
 class Entity;
 class Triangle;
 
-class SelectionListener {
-public:
-    virtual void OnEntitySelected (Entity* e) = 0;
-    virtual void OnEntityDeselected (Entity* e) = 0;
-    virtual void OnDeselectAll () = 0;
-};
 /**
  *  Manages selecting vertices of triangles or entities. Any number of either
  *  can be selected, but not some of both types.
  */
 class SelectionManager {
 public:
+    class SelectionListener {
+    public:
+        virtual void OnEntitySelected (Entity* e) = 0;
+        virtual void OnEntityDeselected (Entity* e) = 0;
+        virtual void OnDeselectAll () = 0;
+    };
+
     SelectionManager () : m_showVertices(false) { }
     ~SelectionManager () { }
 
