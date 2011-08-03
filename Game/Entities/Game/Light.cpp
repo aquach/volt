@@ -76,7 +76,7 @@ void Light::UpdateNearbyEntities () {
 
 void Light::Update () {
     if (m_enabled && !m_static) {
-        m_nearbyEntitiesTimer -= Volt::G_Time->dt();
+        m_nearbyEntitiesTimer -= G_Time->dt();
         if (m_nearbyEntitiesTimer < 0) {
             m_nearbyEntitiesTimer = REFRESH_TIME;
             UpdateNearbyEntities();

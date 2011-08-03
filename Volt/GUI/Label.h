@@ -18,12 +18,13 @@ public:
 
     Label (FontAssetRef font, float x, float y)
         : m_font(font),
-          m_x(x),
-          m_y(y),
           m_anchorX(ANCHOR_LEFT),
           m_anchorY(ANCHOR_TOP),
           m_color(Color::white) {
+        m_transform.position.Set(x, y);
     }
+
+    FontAssetRef font () const { return m_font; }
 
     AnchorPosition anchorX () const { return m_anchorX; }
     AnchorPosition anchorY () const { return m_anchorY; }
@@ -47,8 +48,6 @@ private:
     FontAssetRef m_font;
     Color m_color;
     string m_text;
-    float m_x;
-    float m_y;
     AnchorPosition m_anchorX;
     AnchorPosition m_anchorY;
 };

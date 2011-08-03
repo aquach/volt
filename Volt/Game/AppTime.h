@@ -25,6 +25,6 @@ private:
     DISALLOW_COPY_AND_ASSIGN(AppTime);
 };
 
-#define G_Time AppTime::Instance()
+#define G_Time Volt::AppTime::Instance()
 
 }

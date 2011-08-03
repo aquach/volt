@@ -24,7 +24,7 @@ void MessageBox::Skip () {
 
 void MessageBox::Update () {
     if (HasCharactersRemaining()) {
-        m_nextCharTimer -= Volt::G_Time->dt();
+        m_nextCharTimer -= G_Time->dt();
         if (m_nextCharTimer <= 0) {
             m_nextCharTimer = SECONDS_PER_CHARACTER;
             m_textStream << m_def.text[m_currentCharacter++];

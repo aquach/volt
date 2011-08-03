@@ -236,7 +236,7 @@ void Player::UpdateJump () {
             m_jumpTimer = JUMP_TIME;
 
         if (m_jumpTimer > 0) {
-            m_jumpTimer -= Volt::G_Time->dt();
+            m_jumpTimer -= G_Time->dt();
             if (vel.y > -JUMP_MAX_VEL) {
                 m_body->ApplyLinearImpulse(b2Vec2(0, -JUMP_IMPULSE),
                                            m_body->GetWorldCenter());

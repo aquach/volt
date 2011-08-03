@@ -11,8 +11,8 @@ void Label::Render () {
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
     Graphics::SetColor(m_color);
 
-    float x = m_x;
-    float y = m_y;
+    float x = position().x;
+    float y = position().y;
 
     if (m_anchorX == ANCHOR_RIGHT)
         x -= m_font->GetTextWidth(m_text);

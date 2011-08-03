@@ -3,27 +3,32 @@
 #include "Game/Core/Core.h"
 #include <deque>
 #include "Volt/Graphics/Input.h"
+#include "Volt/Game/Entity.h"
 #include "Volt/Assets/AssetManager.h"
 
 namespace Volt {
     class Label;
-    class Scene;
 }
 
-class ScriptConsole {
+class ScriptConsole : public Volt::Entity {
 public:
-    explicit ScriptConsole (Volt::Scene* scene);
+    explicit ScriptConsole ();
     ~ScriptConsole ();
 
-    void Render ();
+    virtual void OnAdded ();
+    virtual void OnRemoved ();
+
+    virtual void Update ();
+    virtual void Render ();
 
     bool OnKeyEvent (SDL_KeyboardEvent event);
 
 private:
-    Volt::Scene* m_scene;
     deque<string> m_history;
     int m_historyLocation;
     string m_currentText;
+    int m_cursor;
+    float m_blinkTimer;
     bool m_visible;
     Volt::Label* m_label;
 };

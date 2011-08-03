@@ -31,8 +31,8 @@ Blobby::Blobby ()
 void Blobby::Update () {
     UpdatePhysics();
 
-    m_moveTimer -= Volt::G_Time->dt();
-    m_pauseTimer -= Volt::G_Time->dt();
+    m_moveTimer -= G_Time->dt();
+    m_pauseTimer -= G_Time->dt();
 
     m_controller->Update();
 

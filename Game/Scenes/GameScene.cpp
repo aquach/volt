@@ -27,7 +27,8 @@ GameScene::GameScene ()
       m_doodadManager(NULL),
       m_scriptConsole(NULL) {
 
-    m_scriptConsole = new ScriptConsole(this);
+    m_scriptConsole = new ScriptConsole;
+    Add(m_scriptConsole, -50);
 
     Volt::G_PhysicsManager->SetGravity(Vector2(0, 30));
     Volt::G_PhysicsManager->SetDebugDraw(true);
@@ -77,11 +78,6 @@ GameScene::~GameScene () {
 void GameScene::Update () {
     Scene::Update();
     m_conversationManager->Update();
-}
-
-void GameScene::Render () {
-    Scene::Render();
-    m_scriptConsole->Render();
 }
 
 void GameScene::OnBegin () {

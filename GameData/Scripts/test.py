@@ -51,3 +51,5 @@ def onTouched(ladder, hit, contact):
 
 ladder = scene().GetAllTagged('Ladder')[1]
 ladder.OnTouched(onTouched)
+
+print 'Finished'

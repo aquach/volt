@@ -176,7 +176,7 @@ void Scene::Render () {
             list<Entity*>& entityList = layer->second;
             FOR_ (list<Entity*>::iterator, i, entityList) {
                 if (!(*i)->visible())
-                    return;
+                    continue;
 
                 if (m_hook != NULL)
                     m_hook->OnEntityRenderStart(*i);

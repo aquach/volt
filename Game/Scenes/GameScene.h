@@ -15,7 +15,6 @@ public:
     GameScene ();
     virtual ~GameScene ();
 
-    virtual void Render ();
     virtual void Update ();
 
     virtual void OnBegin ();

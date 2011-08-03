@@ -63,7 +63,7 @@ ParticleSystem::~ParticleSystem () {
 }
 
 void ParticleSystem::Update () {
-    m_particleTimer += Volt::G_Time->dt();
+    m_particleTimer += G_Time->dt();
     int numNewParticles = 0;
     float secondsPerParticle = 1 / m_def.particlesPerSecond;
     while (m_particleTimer > secondsPerParticle) {
@@ -75,11 +75,11 @@ void ParticleSystem::Update () {
          i != m_particles.end(); i++) {
         Particle* p = &(*i);
         if (p->active) {
-            p->t += Volt::G_Time->dt();
+            p->t += G_Time->dt();
             if (p->t > p->life)
                 p->active = false;
             else
-                p->position += p->velocity * Volt::G_Time->dt();
+                p->position += p->velocity * G_Time->dt();
         } else if (numNewParticles > 0) {
             // Spawn new particle.
             p->t = 0;
