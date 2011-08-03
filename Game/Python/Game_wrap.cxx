@@ -14870,32 +14870,38 @@ fail:
 
 SWIGINTERN PyObject *_wrap_GetExecutableDirectory(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
   PyObject * obj0 = 0 ;
   std::string result;
   
   if (!PyArg_ParseTuple(args,(char *)"O:GetExecutableDirectory",&obj0)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj0, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "GetExecutableDirectory" "', argument " "1"" of type '" "std::string""'"); 
+    res1 = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GetExecutableDirectory" "', argument " "1"" of type '" "std::string const &""'"); 
     }
-    arg1 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GetExecutableDirectory" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
   }
-  result = Volt::GetExecutableDirectory(arg1);
+  result = Volt::GetExecutableDirectory((std::string const &)*arg1);
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  if (SWIG_IsNewObj(res1)) delete arg1;
   return resultobj;
 fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
   return NULL;
 }
 
 
 SWIGINTERN PyObject *_wrap_GetAllFilesInDirectory(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   std::vector< std::string > *arg2 = (std::vector< std::string > *) 0 ;
+  int res1 = SWIG_OLDOBJ ;
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
@@ -14904,22 +14910,26 @@ SWIGINTERN PyObject *_wrap_GetAllFilesInDirectory(PyObject *SWIGUNUSEDPARM(self)
   if (!PyArg_ParseTuple(args,(char *)"OO:GetAllFilesInDirectory",&obj0,&obj1)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj0, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "GetAllFilesInDirectory" "', argument " "1"" of type '" "std::string""'"); 
+    res1 = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GetAllFilesInDirectory" "', argument " "1"" of type '" "std::string const &""'"); 
     }
-    arg1 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GetAllFilesInDirectory" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
   }
   res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GetAllFilesInDirectory" "', argument " "2"" of type '" "std::vector< std::string > *""'"); 
   }
   arg2 = reinterpret_cast< std::vector< std::string > * >(argp2);
-  Volt::GetAllFilesInDirectory(arg1,arg2);
+  Volt::GetAllFilesInDirectory((std::string const &)*arg1,arg2);
   resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res1)) delete arg1;
   return resultobj;
 fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
   return NULL;
 }
 
@@ -24560,6 +24570,40 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_LevelManager_Register(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_Register",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_Register" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  LevelManager::Register(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_Instance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":LevelManager_Instance")) SWIG_fail;
+  result = (LevelManager *)LevelManager::Instance();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LevelManager, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_LevelManager_LoadLevel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
@@ -24601,9 +24645,10 @@ fail:
 SWIGINTERN PyObject *_wrap_LevelManager_LoadLevelFromFilename(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   bool result;
@@ -24616,17 +24661,21 @@ SWIGINTERN PyObject *_wrap_LevelManager_LoadLevelFromFilename(PyObject *SWIGUNUS
   arg1 = reinterpret_cast< LevelManager * >(argp1);
   {
     std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj1, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "LevelManager_LoadLevelFromFilename" "', argument " "2"" of type '" "std::string""'"); 
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "LevelManager_LoadLevelFromFilename" "', argument " "2"" of type '" "std::string const &""'"); 
     }
-    arg2 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "LevelManager_LoadLevelFromFilename" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
   }
-  result = (bool)(arg1)->LoadLevelFromFilename(arg2);
+  result = (bool)(arg1)->LoadLevelFromFilename((std::string const &)*arg2);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
 fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return NULL;
 }
 
@@ -24655,9 +24704,10 @@ fail:
 SWIGINTERN PyObject *_wrap_LevelManager_SaveLevel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   bool result;
@@ -24670,17 +24720,21 @@ SWIGINTERN PyObject *_wrap_LevelManager_SaveLevel(PyObject *SWIGUNUSEDPARM(self)
   arg1 = reinterpret_cast< LevelManager * >(argp1);
   {
     std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj1, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "LevelManager_SaveLevel" "', argument " "2"" of type '" "std::string""'"); 
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "LevelManager_SaveLevel" "', argument " "2"" of type '" "std::string const &""'"); 
     }
-    arg2 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "LevelManager_SaveLevel" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
   }
-  result = (bool)(arg1)->SaveLevel(arg2);
+  result = (bool)(arg1)->SaveLevel((std::string const &)*arg2);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
 fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return NULL;
 }
 
@@ -24732,9 +24786,10 @@ fail:
 SWIGINTERN PyObject *_wrap_LevelManager_SetLevelName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
@@ -24746,15 +24801,41 @@ SWIGINTERN PyObject *_wrap_LevelManager_SetLevelName(PyObject *SWIGUNUSEDPARM(se
   arg1 = reinterpret_cast< LevelManager * >(argp1);
   {
     std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj1, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "LevelManager_SetLevelName" "', argument " "2"" of type '" "std::string""'"); 
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "LevelManager_SetLevelName" "', argument " "2"" of type '" "std::string const &""'"); 
     }
-    arg2 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "LevelManager_SetLevelName" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
   }
-  (arg1)->SetLevelName(arg2);
+  (arg1)->SetLevelName((std::string const &)*arg2);
   resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_IsUnloading(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_IsUnloading",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_IsUnloading" "', argument " "1"" of type '" "LevelManager const *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  result = (bool)((LevelManager const *)arg1)->IsUnloading();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -26279,7 +26360,8 @@ fail:
 
 SWIGINTERN PyObject *_wrap_EntityFactory_Create(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
   PyObject * obj0 = 0 ;
   Swig::Director *director = 0;
   Entity *result = 0 ;
@@ -26287,14 +26369,16 @@ SWIGINTERN PyObject *_wrap_EntityFactory_Create(PyObject *SWIGUNUSEDPARM(self), 
   if (!PyArg_ParseTuple(args,(char *)"O:EntityFactory_Create",&obj0)) SWIG_fail;
   {
     std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj0, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "EntityFactory_Create" "', argument " "1"" of type '" "std::string""'"); 
+    res1 = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EntityFactory_Create" "', argument " "1"" of type '" "std::string const &""'"); 
     }
-    arg1 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "EntityFactory_Create" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
   }
-  result = (Entity *)EntityFactory::Create(arg1);
+  result = (Entity *)EntityFactory::Create((std::string const &)*arg1);
   director = SWIG_DIRECTOR_CAST(result);
   if (director) {
     resultobj = director->swig_get_self();
@@ -26302,8 +26386,10 @@ SWIGINTERN PyObject *_wrap_EntityFactory_Create(PyObject *SWIGUNUSEDPARM(self), 
   } else {
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Entity, 0 |  0 );
   }
+  if (SWIG_IsNewObj(res1)) delete arg1;
   return resultobj;
 fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
   return NULL;
 }
 
@@ -28583,6 +28669,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Entity_swigregister", Entity_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_LevelManager", _wrap_new_LevelManager, METH_VARARGS, NULL},
 	 { (char *)"delete_LevelManager", _wrap_delete_LevelManager, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_Register", _wrap_LevelManager_Register, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_Instance", _wrap_LevelManager_Instance, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_LoadLevel", _wrap_LevelManager_LoadLevel, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_LoadLevelFromFilename", _wrap_LevelManager_LoadLevelFromFilename, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_UnloadLevel", _wrap_LevelManager_UnloadLevel, METH_VARARGS, NULL},
@@ -28590,6 +28678,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"LevelManager_loadedFile", _wrap_LevelManager_loadedFile, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_levelName", _wrap_LevelManager_levelName, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_SetLevelName", _wrap_LevelManager_SetLevelName, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_IsUnloading", _wrap_LevelManager_IsUnloading, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_swigregister", LevelManager_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_Creature", _wrap_delete_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_Update", _wrap_Creature_Update, METH_VARARGS, NULL},

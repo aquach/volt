@@ -7,6 +7,9 @@ def scene():
 def dt():
     return pygame.AppTime.Instance().dt()
 
+def level():
+    return pygame.LevelManager.Instance()
+
 class PyEntity(pygame.Entity):
     ''' Wrapper class for defining your own entities.'''
     def __init__(self, disown=True):

@@ -37,6 +37,11 @@ void Terminate () {
     Py_Finalize();
 }
 
+void WaitForScripts () {
+    // Hack!
+    PyRun_SimpleString("pygameutil.waitForScripts()");
+}
+
 void RunGameScriptFile (const string& scriptPath) {
     // Hack!
     char command[128];

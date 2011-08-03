@@ -4,10 +4,14 @@
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/EditorEntities.h"
+#include "Game/Python/Python.h"
+
+LevelManager* LevelManager::instance = NULL;
 
 LevelManager::LevelManager (Volt::Scene* scene)
     : m_levelLoaded(false),
-      m_scene(scene) {
+      m_scene(scene),
+      m_levelUnloading(false) {
 }
 
 LevelManager::~LevelManager () {
@@ -34,6 +38,11 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         e->Load(node);
         m_entities.insert(e);
         m_scene->Add(e);
+    }
+
+    m_startScript = root.get("startScript", "").asString();
+    if (m_startScript.size() > 0) {
+        Python::RunGameScriptFile(m_startScript);
     }
 }
 
@@ -66,9 +75,12 @@ bool LevelManager::LoadLevelFromFilename (const string& filename) {
 }
 
 void LevelManager::UnloadLevel () {
+    m_levelUnloading = true;
+    Python::WaitForScripts();
     FOR_ (set<Entity*>::iterator, i, m_entities)
         m_scene->Remove(*i);
     m_loadedFilename = "";
+    m_levelUnloading = false;
 }
 
 bool LevelManager::SaveLevel (const string& filename) {
@@ -91,6 +103,7 @@ bool LevelManager::SaveLevel (const string& filename) {
 
     root["entities"] = entitiesNode;
     root["name"] = m_levelName;
+    root["startScript"] = m_startScript;
 
     file << root;
     file.close();

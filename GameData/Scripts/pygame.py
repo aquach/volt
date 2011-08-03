@@ -1318,6 +1318,10 @@ class LevelManager(_object):
         except: self.this = this
     __swig_destroy__ = _pygame.delete_LevelManager
     __del__ = lambda self : None;
+    __swig_getmethods__["Register"] = lambda x: _pygame.LevelManager_Register
+    if _newclass:Register = staticmethod(_pygame.LevelManager_Register)
+    __swig_getmethods__["Instance"] = lambda x: _pygame.LevelManager_Instance
+    if _newclass:Instance = staticmethod(_pygame.LevelManager_Instance)
     def LoadLevel(self, *args): return _pygame.LevelManager_LoadLevel(self, *args)
     def LoadLevelFromFilename(self, *args): return _pygame.LevelManager_LoadLevelFromFilename(self, *args)
     def UnloadLevel(self): return _pygame.LevelManager_UnloadLevel(self)
@@ -1325,8 +1329,17 @@ class LevelManager(_object):
     def loadedFile(self): return _pygame.LevelManager_loadedFile(self)
     def levelName(self): return _pygame.LevelManager_levelName(self)
     def SetLevelName(self, *args): return _pygame.LevelManager_SetLevelName(self, *args)
+    def IsUnloading(self): return _pygame.LevelManager_IsUnloading(self)
 LevelManager_swigregister = _pygame.LevelManager_swigregister
 LevelManager_swigregister(LevelManager)
+
+def LevelManager_Register(*args):
+  return _pygame.LevelManager_Register(*args)
+LevelManager_Register = _pygame.LevelManager_Register
+
+def LevelManager_Instance():
+  return _pygame.LevelManager_Instance()
+LevelManager_Instance = _pygame.LevelManager_Instance
 
 class Creature(Entity):
     __swig_setmethods__ = {}

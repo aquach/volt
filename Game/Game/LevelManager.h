@@ -15,6 +15,8 @@ public:
     ~LevelManager ();
 
     //void Update ();
+    static void Register (LevelManager* manager) { instance = manager; }
+    static LevelManager* Instance () { return instance; }
 
     void LoadLevel (Volt::DataAssetRef asset);
     bool LoadLevelFromFilename (const string& filename);
@@ -25,13 +27,21 @@ public:
     string levelName () const { return m_levelName; }
     void SetLevelName (const string& name) { m_levelName = name; }
 
+    bool IsUnloading () const { return m_levelUnloading; }
+
 private:
     Volt::Scene* m_scene;
 
+    bool m_levelUnloading;
     bool m_levelLoaded;
     set<Entity*> m_entities;
     string m_loadedFilename;
     string m_levelName;
+    string m_startScript;
+
+    static LevelManager* instance;
 
     DISALLOW_COPY_AND_ASSIGN(LevelManager);
 };
+
+#define G_LevelManager LevelManager::Instance()
