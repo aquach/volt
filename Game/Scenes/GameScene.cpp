@@ -43,21 +43,17 @@ GameScene::GameScene ()
     Add(u, -1);
     m_player->EquipWeapon(u);
 
-    m_doodadManager = new DoodadManager;
-    m_doodadManager->m_scene = this;
+    m_doodadManager = new DoodadManager(this);
     m_doodadManager->LoadDoodadBrushes(
         G_AssetManager->GetData("doodads.json"));
     DoodadManager::Register(m_doodadManager);
 
-    m_levelManager = new LevelManager;
-    m_levelManager->m_scene = this;
+    m_levelManager = new LevelManager(this);
     m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
 
-    m_conversationManager = new ConversationManager;
-    m_conversationManager->m_gameScene = this;
+    m_conversationManager = new ConversationManager(this);
 
-    m_lightManager = new LightManager;
-    m_lightManager->m_scene = this;
+    m_lightManager = new LightManager(this);
     LightManager::Register(m_lightManager);
 
     SetHook(new GamePerfHook);

@@ -3168,80 +3168,83 @@ namespace Swig {
 #define SWIGTYPE_p_EntityFactory swig_types[4]
 #define SWIGTYPE_p_Json__Value swig_types[5]
 #define SWIGTYPE_p_Layers swig_types[6]
-#define SWIGTYPE_p_Light swig_types[7]
-#define SWIGTYPE_p_LightStroke swig_types[8]
-#define SWIGTYPE_p_Player swig_types[9]
-#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[10]
-#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[11]
-#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[12]
-#define SWIGTYPE_p_Triangle swig_types[13]
-#define SWIGTYPE_p_Types swig_types[14]
-#define SWIGTYPE_p_Vector2 swig_types[15]
-#define SWIGTYPE_p_Volt__AppTime swig_types[16]
-#define SWIGTYPE_p_Volt__BBox swig_types[17]
-#define SWIGTYPE_p_Volt__Camera swig_types[18]
-#define SWIGTYPE_p_Volt__Color swig_types[19]
-#define SWIGTYPE_p_Volt__DataSource swig_types[20]
-#define SWIGTYPE_p_Volt__Entity swig_types[21]
-#define SWIGTYPE_p_Volt__EntityContactListener swig_types[22]
-#define SWIGTYPE_p_Volt__FSM swig_types[23]
-#define SWIGTYPE_p_Volt__FSMState swig_types[24]
-#define SWIGTYPE_p_Volt__Filter swig_types[25]
-#define SWIGTYPE_p_Volt__Game swig_types[26]
-#define SWIGTYPE_p_Volt__Random swig_types[27]
-#define SWIGTYPE_p_Volt__Scene swig_types[28]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[29]
-#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[30]
-#define SWIGTYPE_p_Volt__Time swig_types[31]
-#define SWIGTYPE_p_Volt__Transform swig_types[32]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[33]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[34]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[35]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[36]
-#define SWIGTYPE_p_Weapon swig_types[37]
-#define SWIGTYPE_p_allocator_type swig_types[38]
-#define SWIGTYPE_p_b2Body swig_types[39]
-#define SWIGTYPE_p_b2BodyDef swig_types[40]
-#define SWIGTYPE_p_b2Contact swig_types[41]
-#define SWIGTYPE_p_b2ContactEdge swig_types[42]
-#define SWIGTYPE_p_b2Fixture swig_types[43]
-#define SWIGTYPE_p_b2FixtureDef swig_types[44]
-#define SWIGTYPE_p_b2JointEdge swig_types[45]
-#define SWIGTYPE_p_b2MassData swig_types[46]
-#define SWIGTYPE_p_b2Mat22 swig_types[47]
-#define SWIGTYPE_p_b2Mat33 swig_types[48]
-#define SWIGTYPE_p_b2Shape swig_types[49]
-#define SWIGTYPE_p_b2Sweep swig_types[50]
-#define SWIGTYPE_p_b2Transform swig_types[51]
-#define SWIGTYPE_p_b2Vec2 swig_types[52]
-#define SWIGTYPE_p_b2Vec3 swig_types[53]
-#define SWIGTYPE_p_b2World swig_types[54]
-#define SWIGTYPE_p_char swig_types[55]
-#define SWIGTYPE_p_const_reference swig_types[56]
-#define SWIGTYPE_p_difference_type swig_types[57]
-#define SWIGTYPE_p_float swig_types[58]
-#define SWIGTYPE_p_float32 swig_types[59]
-#define SWIGTYPE_p_int swig_types[60]
-#define SWIGTYPE_p_int32 swig_types[61]
-#define SWIGTYPE_p_istream swig_types[62]
-#define SWIGTYPE_p_long swig_types[63]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[64]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[65]
-#define SWIGTYPE_p_ostream swig_types[66]
-#define SWIGTYPE_p_p_PyObject swig_types[67]
-#define SWIGTYPE_p_reference swig_types[68]
-#define SWIGTYPE_p_size_type swig_types[69]
-#define SWIGTYPE_p_std__invalid_argument swig_types[70]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[71]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[72]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[73]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[74]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[75]
-#define SWIGTYPE_p_uint32 swig_types[76]
-#define SWIGTYPE_p_void swig_types[77]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[78]
-static swig_type_info *swig_types[80];
-static swig_module_info swig_module = {swig_types, 79, 0, 0, 0, 0};
+#define SWIGTYPE_p_LevelManager swig_types[7]
+#define SWIGTYPE_p_Light swig_types[8]
+#define SWIGTYPE_p_LightStroke swig_types[9]
+#define SWIGTYPE_p_Player swig_types[10]
+#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[11]
+#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[12]
+#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[13]
+#define SWIGTYPE_p_Triangle swig_types[14]
+#define SWIGTYPE_p_Types swig_types[15]
+#define SWIGTYPE_p_Vector2 swig_types[16]
+#define SWIGTYPE_p_Volt__AppTime swig_types[17]
+#define SWIGTYPE_p_Volt__BBox swig_types[18]
+#define SWIGTYPE_p_Volt__Camera swig_types[19]
+#define SWIGTYPE_p_Volt__Color swig_types[20]
+#define SWIGTYPE_p_Volt__DataAssetRef swig_types[21]
+#define SWIGTYPE_p_Volt__DataSource swig_types[22]
+#define SWIGTYPE_p_Volt__Entity swig_types[23]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[24]
+#define SWIGTYPE_p_Volt__FSM swig_types[25]
+#define SWIGTYPE_p_Volt__FSMState swig_types[26]
+#define SWIGTYPE_p_Volt__Filter swig_types[27]
+#define SWIGTYPE_p_Volt__Game swig_types[28]
+#define SWIGTYPE_p_Volt__PhysicsManager swig_types[29]
+#define SWIGTYPE_p_Volt__Random swig_types[30]
+#define SWIGTYPE_p_Volt__Scene swig_types[31]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[32]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[33]
+#define SWIGTYPE_p_Volt__Time swig_types[34]
+#define SWIGTYPE_p_Volt__Transform swig_types[35]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[36]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[37]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[38]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[39]
+#define SWIGTYPE_p_Weapon swig_types[40]
+#define SWIGTYPE_p_allocator_type swig_types[41]
+#define SWIGTYPE_p_b2Body swig_types[42]
+#define SWIGTYPE_p_b2BodyDef swig_types[43]
+#define SWIGTYPE_p_b2Contact swig_types[44]
+#define SWIGTYPE_p_b2ContactEdge swig_types[45]
+#define SWIGTYPE_p_b2Fixture swig_types[46]
+#define SWIGTYPE_p_b2FixtureDef swig_types[47]
+#define SWIGTYPE_p_b2JointEdge swig_types[48]
+#define SWIGTYPE_p_b2MassData swig_types[49]
+#define SWIGTYPE_p_b2Mat22 swig_types[50]
+#define SWIGTYPE_p_b2Mat33 swig_types[51]
+#define SWIGTYPE_p_b2Shape swig_types[52]
+#define SWIGTYPE_p_b2Sweep swig_types[53]
+#define SWIGTYPE_p_b2Transform swig_types[54]
+#define SWIGTYPE_p_b2Vec2 swig_types[55]
+#define SWIGTYPE_p_b2Vec3 swig_types[56]
+#define SWIGTYPE_p_b2World swig_types[57]
+#define SWIGTYPE_p_char swig_types[58]
+#define SWIGTYPE_p_const_reference swig_types[59]
+#define SWIGTYPE_p_difference_type swig_types[60]
+#define SWIGTYPE_p_float swig_types[61]
+#define SWIGTYPE_p_float32 swig_types[62]
+#define SWIGTYPE_p_int swig_types[63]
+#define SWIGTYPE_p_int32 swig_types[64]
+#define SWIGTYPE_p_istream swig_types[65]
+#define SWIGTYPE_p_long swig_types[66]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[67]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[68]
+#define SWIGTYPE_p_ostream swig_types[69]
+#define SWIGTYPE_p_p_PyObject swig_types[70]
+#define SWIGTYPE_p_reference swig_types[71]
+#define SWIGTYPE_p_size_type swig_types[72]
+#define SWIGTYPE_p_std__invalid_argument swig_types[73]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[74]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[75]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[76]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[77]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[78]
+#define SWIGTYPE_p_uint32 swig_types[79]
+#define SWIGTYPE_p_void swig_types[80]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[81]
+static swig_type_info *swig_types[83];
+static swig_module_info swig_module = {swig_types, 82, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3353,11 +3356,13 @@ namespace swig {
 #include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
+#include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Camera.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Game/Entity.h"
+#include "Game/Game/LevelManager.h"
 #include "Game/Entities/Game/Creature.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -21410,6 +21415,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_VoltEntity_visible(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:VoltEntity_visible",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_visible" "', argument " "1"" of type '" "Volt::Entity const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  result = (bool)((Volt::Entity const *)arg1)->visible();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_VoltEntity_setVisible(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_setVisible",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_setVisible" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "VoltEntity_setVisible" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->setVisible(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_VoltEntity_OnScaleChanged(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
@@ -22766,6 +22823,256 @@ SWIGINTERN PyObject *Game_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject 
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_Volt__Game, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_PhysicsManager(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_PhysicsManager")) SWIG_fail;
+  result = (Volt::PhysicsManager *)new Volt::PhysicsManager();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__PhysicsManager, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_PhysicsManager(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_PhysicsManager",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_PhysicsManager" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:PhysicsManager_Update",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_Update" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  (arg1)->Update();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_Render(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:PhysicsManager_Render",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_Render" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  (arg1)->Render();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_Register(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:PhysicsManager_Register",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_Register" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  Volt::PhysicsManager::Register(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_Instance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":PhysicsManager_Instance")) SWIG_fail;
+  result = (Volt::PhysicsManager *)Volt::PhysicsManager::Instance();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_world(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  b2World *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:PhysicsManager_world",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_world" "', argument " "1"" of type '" "Volt::PhysicsManager const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  result = (b2World *)((Volt::PhysicsManager const *)arg1)->world();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_b2World, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_SetGravity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  Volt::Vector2 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:PhysicsManager_SetGravity",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_SetGravity" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "PhysicsManager_SetGravity" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "PhysicsManager_SetGravity" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->SetGravity(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_GetGravity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Vector2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:PhysicsManager_GetGravity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_GetGravity" "', argument " "1"" of type '" "Volt::PhysicsManager const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  result = ((Volt::PhysicsManager const *)arg1)->GetGravity();
+  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_SetDebugDraw(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:PhysicsManager_SetDebugDraw",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_SetDebugDraw" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "PhysicsManager_SetDebugDraw" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetDebugDraw(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_PhysicsManager_ToggleDebugDraw(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::PhysicsManager *arg1 = (Volt::PhysicsManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:PhysicsManager_ToggleDebugDraw",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__PhysicsManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PhysicsManager_ToggleDebugDraw" "', argument " "1"" of type '" "Volt::PhysicsManager *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::PhysicsManager * >(argp1);
+  (arg1)->ToggleDebugDraw();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *PhysicsManager_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__PhysicsManager, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -24207,6 +24514,257 @@ SWIGINTERN PyObject *Entity_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObjec
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_Entity, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_LevelManager(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Scene *arg1 = (Volt::Scene *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  LevelManager *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_LevelManager",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Scene, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_LevelManager" "', argument " "1"" of type '" "Volt::Scene *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Scene * >(argp1);
+  result = (LevelManager *)new LevelManager(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LevelManager, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_LevelManager(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_LevelManager",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_LevelManager" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_LoadLevel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  Volt::DataAssetRef arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_LoadLevel",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_LoadLevel" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__DataAssetRef,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "LevelManager_LoadLevel" "', argument " "2"" of type '" "Volt::DataAssetRef""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "LevelManager_LoadLevel" "', argument " "2"" of type '" "Volt::DataAssetRef""'");
+    } else {
+      Volt::DataAssetRef * temp = reinterpret_cast< Volt::DataAssetRef * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->LoadLevel(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_LoadLevelFromFilename(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_LoadLevelFromFilename",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_LoadLevelFromFilename" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "LevelManager_LoadLevelFromFilename" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = (bool)(arg1)->LoadLevelFromFilename(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_UnloadLevel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_UnloadLevel",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_UnloadLevel" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  (arg1)->UnloadLevel();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_SaveLevel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_SaveLevel",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_SaveLevel" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "LevelManager_SaveLevel" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = (bool)(arg1)->SaveLevel(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_loadedFile(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_loadedFile",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_loadedFile" "', argument " "1"" of type '" "LevelManager const *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  result = ((LevelManager const *)arg1)->loadedFile();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_levelName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_levelName",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_levelName" "', argument " "1"" of type '" "LevelManager const *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  result = ((LevelManager const *)arg1)->levelName();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_SetLevelName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_SetLevelName",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_SetLevelName" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "LevelManager_SetLevelName" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->SetLevelName(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *LevelManager_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_LevelManager, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -27928,6 +28486,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"VoltEntity_SetRotation", _wrap_VoltEntity_SetRotation, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_scale", _wrap_VoltEntity_scale, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_SetScale", _wrap_VoltEntity_SetScale, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_visible", _wrap_VoltEntity_visible, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_setVisible", _wrap_VoltEntity_setVisible, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_OnScaleChanged", _wrap_VoltEntity_OnScaleChanged, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_Load", _wrap_VoltEntity_Load, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_Save", _wrap_VoltEntity_Save, METH_VARARGS, NULL},
@@ -27967,6 +28527,18 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Game_OnMouseButtonEvent", _wrap_Game_OnMouseButtonEvent, METH_VARARGS, NULL},
 	 { (char *)"Game_OnMouseMoveEvent", _wrap_Game_OnMouseMoveEvent, METH_VARARGS, NULL},
 	 { (char *)"Game_swigregister", Game_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_PhysicsManager", _wrap_new_PhysicsManager, METH_VARARGS, NULL},
+	 { (char *)"delete_PhysicsManager", _wrap_delete_PhysicsManager, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_Update", _wrap_PhysicsManager_Update, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_Render", _wrap_PhysicsManager_Render, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_Register", _wrap_PhysicsManager_Register, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_Instance", _wrap_PhysicsManager_Instance, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_world", _wrap_PhysicsManager_world, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_SetGravity", _wrap_PhysicsManager_SetGravity, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_GetGravity", _wrap_PhysicsManager_GetGravity, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_SetDebugDraw", _wrap_PhysicsManager_SetDebugDraw, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_ToggleDebugDraw", _wrap_PhysicsManager_ToggleDebugDraw, METH_VARARGS, NULL},
+	 { (char *)"PhysicsManager_swigregister", PhysicsManager_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Scene", _wrap_new_Scene, METH_VARARGS, NULL},
 	 { (char *)"delete_Scene", _wrap_delete_Scene, METH_VARARGS, NULL},
 	 { (char *)"Scene_Render", _wrap_Scene_Render, METH_VARARGS, NULL},
@@ -28009,6 +28581,16 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Entity_CopyFrom", _wrap_Entity_CopyFrom, METH_VARARGS, NULL},
 	 { (char *)"disown_Entity", _wrap_disown_Entity, METH_VARARGS, NULL},
 	 { (char *)"Entity_swigregister", Entity_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_LevelManager", _wrap_new_LevelManager, METH_VARARGS, NULL},
+	 { (char *)"delete_LevelManager", _wrap_delete_LevelManager, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_LoadLevel", _wrap_LevelManager_LoadLevel, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_LoadLevelFromFilename", _wrap_LevelManager_LoadLevelFromFilename, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_UnloadLevel", _wrap_LevelManager_UnloadLevel, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_SaveLevel", _wrap_LevelManager_SaveLevel, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_loadedFile", _wrap_LevelManager_loadedFile, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_levelName", _wrap_LevelManager_levelName, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_SetLevelName", _wrap_LevelManager_SetLevelName, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_swigregister", LevelManager_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_Creature", _wrap_delete_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_Update", _wrap_Creature_Update, METH_VARARGS, NULL},
 	 { (char *)"Creature_Render", _wrap_Creature_Render, METH_VARARGS, NULL},
@@ -28156,6 +28738,7 @@ static swig_type_info _swigt__p_Entity = {"_p_Entity", "Entity *", 0, 0, (void*)
 static swig_type_info _swigt__p_EntityFactory = {"_p_EntityFactory", "EntityFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Json__Value = {"_p_Json__Value", "Json::Value *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Layers = {"_p_Layers", "Layers *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_LevelManager = {"_p_LevelManager", "LevelManager *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Light = {"_p_Light", "Light *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LightStroke = {"_p_LightStroke", "LightStroke *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Player = {"_p_Player", "Player *", 0, 0, (void*)0, 0};
@@ -28169,6 +28752,7 @@ static swig_type_info _swigt__p_Volt__AppTime = {"_p_Volt__AppTime", "Volt::AppT
 static swig_type_info _swigt__p_Volt__BBox = {"_p_Volt__BBox", "Volt::BBox *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Camera = {"_p_Volt__Camera", "Volt::Camera *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Color = {"_p_Volt__Color", "Volt::Color *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__DataAssetRef = {"_p_Volt__DataAssetRef", "Volt::DataAssetRef *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__DataSource = {"_p_Volt__DataSource", "Volt::DataSource *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Entity = {"_p_Volt__Entity", "Volt::Entity *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__EntityContactListener = {"_p_Volt__EntityContactListener", "Volt::EntityContactListener *", 0, 0, (void*)0, 0};
@@ -28176,6 +28760,7 @@ static swig_type_info _swigt__p_Volt__FSM = {"_p_Volt__FSM", "Volt::FSM *", 0, 0
 static swig_type_info _swigt__p_Volt__FSMState = {"_p_Volt__FSMState", "Volt::FSMState *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Filter = {"_p_Volt__Filter", "Volt::Filter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Game = {"_p_Volt__Game", "Volt::Game *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__PhysicsManager = {"_p_Volt__PhysicsManager", "Volt::PhysicsManager *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Random = {"_p_Volt__Random", "Volt::Random *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Scene = {"_p_Volt__Scene", "Volt::Scene *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__SceneHook = {"_p_Volt__SceneHook", "Volt::SceneHook *", 0, 0, (void*)0, 0};
@@ -28237,6 +28822,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_EntityFactory,
   &_swigt__p_Json__Value,
   &_swigt__p_Layers,
+  &_swigt__p_LevelManager,
   &_swigt__p_Light,
   &_swigt__p_LightStroke,
   &_swigt__p_Player,
@@ -28250,6 +28836,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__BBox,
   &_swigt__p_Volt__Camera,
   &_swigt__p_Volt__Color,
+  &_swigt__p_Volt__DataAssetRef,
   &_swigt__p_Volt__DataSource,
   &_swigt__p_Volt__Entity,
   &_swigt__p_Volt__EntityContactListener,
@@ -28257,6 +28844,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__FSMState,
   &_swigt__p_Volt__Filter,
   &_swigt__p_Volt__Game,
+  &_swigt__p_Volt__PhysicsManager,
   &_swigt__p_Volt__Random,
   &_swigt__p_Volt__Scene,
   &_swigt__p_Volt__SceneHook,
@@ -28318,6 +28906,7 @@ static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_Triangle, _p_TriangleT
 static swig_cast_info _swigc__p_EntityFactory[] = {  {&_swigt__p_EntityFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Json__Value[] = {  {&_swigt__p_Json__Value, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Layers[] = {  {&_swigt__p_Layers, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_LevelManager[] = {  {&_swigt__p_LevelManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Light[] = {  {&_swigt__p_Light, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LightStroke[] = {  {&_swigt__p_LightStroke, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Player[] = {  {&_swigt__p_Player, 0, 0, 0},{0, 0, 0, 0}};
@@ -28331,6 +28920,7 @@ static swig_cast_info _swigc__p_Volt__AppTime[] = {  {&_swigt__p_Volt__AppTime, 
 static swig_cast_info _swigc__p_Volt__BBox[] = {  {&_swigt__p_Volt__BBox, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Camera[] = {  {&_swigt__p_Volt__Camera, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Color[] = {  {&_swigt__p_Volt__Color, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__DataAssetRef[] = {  {&_swigt__p_Volt__DataAssetRef, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataSource[] = {  {&_swigt__p_Volt__DataSource, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__EntityContactListener[] = {  {&_swigt__p_Volt__EntityContactListener, 0, 0, 0},{0, 0, 0, 0}};
@@ -28338,6 +28928,7 @@ static swig_cast_info _swigc__p_Volt__FSM[] = {  {&_swigt__p_Volt__FSM, 0, 0, 0}
 static swig_cast_info _swigc__p_Volt__FSMState[] = {  {&_swigt__p_Volt__FSMState, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Filter[] = {  {&_swigt__p_Volt__Filter, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Game[] = {  {&_swigt__p_Volt__Game, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__PhysicsManager[] = {  {&_swigt__p_Volt__PhysicsManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Random[] = {  {&_swigt__p_Volt__Random, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Scene[] = {  {&_swigt__p_Volt__Scene, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__SceneHook[] = {  {&_swigt__p_Volt__SceneHook, 0, 0, 0},{0, 0, 0, 0}};
@@ -28399,6 +28990,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_EntityFactory,
   _swigc__p_Json__Value,
   _swigc__p_Layers,
+  _swigc__p_LevelManager,
   _swigc__p_Light,
   _swigc__p_LightStroke,
   _swigc__p_Player,
@@ -28412,6 +29004,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__BBox,
   _swigc__p_Volt__Camera,
   _swigc__p_Volt__Color,
+  _swigc__p_Volt__DataAssetRef,
   _swigc__p_Volt__DataSource,
   _swigc__p_Volt__Entity,
   _swigc__p_Volt__EntityContactListener,
@@ -28419,6 +29012,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__FSMState,
   _swigc__p_Volt__Filter,
   _swigc__p_Volt__Game,
+  _swigc__p_Volt__PhysicsManager,
   _swigc__p_Volt__Random,
   _swigc__p_Volt__Scene,
   _swigc__p_Volt__SceneHook,

@@ -52,4 +52,8 @@ def onTouched(ladder, hit, contact):
 ladder = scene().GetAllTagged('Ladder')[1]
 ladder.OnTouched(onTouched)
 
+time.sleep(3)
+
+#PhysicsManager.Instance().SetGravity(Vector2(0, -30))
+
 print 'Finished'

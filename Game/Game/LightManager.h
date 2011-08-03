@@ -13,7 +13,7 @@ class Light;
 
 class LightManager {
 public:
-    LightManager ();
+    LightManager (Volt::Scene* scene);
     ~LightManager ();
 
     static void Register (LightManager* manager) { instance = manager; }
@@ -21,7 +21,7 @@ public:
 
     void RenderLight (Light* light);
 
-    void SetDebugDraw (bool enabled ) { m_debugDraw = enabled; }
+    void SetDebugDraw (bool enabled) { m_debugDraw = enabled; }
 
 private:
     friend class GameScene;

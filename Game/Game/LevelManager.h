@@ -3,12 +3,15 @@
 #include "Game/Core/Core.h"
 #include <set>
 #include "Volt/Assets/AssetManager.h"
-#include "Volt/Game/Scene.h"
 #include "Game/Game/Entity.h"
+
+namespace Volt {
+    class Scene;
+}
 
 class LevelManager {
 public:
-    LevelManager (); // TODO: Take scene in onstructor.
+    LevelManager (Volt::Scene* scene);
     ~LevelManager ();
 
     //void Update ();
@@ -23,8 +26,6 @@ public:
     void SetLevelName (string name) { m_levelName = name; }
 
 private:
-    friend class GameScene;
-    friend class EditorScene;
     Volt::Scene* m_scene;
 
     bool m_levelLoaded;

@@ -16,11 +16,13 @@
 #include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Game/Game.h"
+#include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Camera.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Game/Entity.h"
+#include "Game/Game/LevelManager.h"
 #include "Game/Entities/Game/Creature.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -85,6 +87,7 @@
 %include "Volt/Game/FSM.h"
 
 %include "Volt/Game/Game.h"
+%include "Volt/Game/PhysicsManager.h"
 
 %feature("shadow") Volt::Scene::GetAllTagged(const string&, vector<Entity*>*) %{
     def GetAllTagged(self, tag):
@@ -98,6 +101,7 @@
 
 %feature("director") Entity;
 %include "Game/Game/Entity.h"
+%include "Game/Game/LevelManager.h"
 %include "Game/Entities/Game/Creature.h"
 
 %ignore Light::STATIC_MAP_FOLDER;

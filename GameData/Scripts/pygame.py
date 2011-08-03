@@ -1079,6 +1079,8 @@ class VoltEntity(_object):
     def SetRotation(self, *args): return _pygame.VoltEntity_SetRotation(self, *args)
     def scale(self): return _pygame.VoltEntity_scale(self)
     def SetScale(self, *args): return _pygame.VoltEntity_SetScale(self, *args)
+    def visible(self): return _pygame.VoltEntity_visible(self)
+    def setVisible(self, *args): return _pygame.VoltEntity_setVisible(self, *args)
     def OnScaleChanged(self): return _pygame.VoltEntity_OnScaleChanged(self)
     def Load(self, *args): return _pygame.VoltEntity_Load(self, *args)
     def Save(self, *args): return _pygame.VoltEntity_Save(self, *args)
@@ -1190,6 +1192,40 @@ def Game_Instance():
   return _pygame.Game_Instance()
 Game_Instance = _pygame.Game_Instance
 
+class PhysicsManager(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, PhysicsManager, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, PhysicsManager, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_PhysicsManager()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_PhysicsManager
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.PhysicsManager_Update(self)
+    def Render(self): return _pygame.PhysicsManager_Render(self)
+    __swig_getmethods__["Register"] = lambda x: _pygame.PhysicsManager_Register
+    if _newclass:Register = staticmethod(_pygame.PhysicsManager_Register)
+    __swig_getmethods__["Instance"] = lambda x: _pygame.PhysicsManager_Instance
+    if _newclass:Instance = staticmethod(_pygame.PhysicsManager_Instance)
+    def world(self): return _pygame.PhysicsManager_world(self)
+    def SetGravity(self, *args): return _pygame.PhysicsManager_SetGravity(self, *args)
+    def GetGravity(self): return _pygame.PhysicsManager_GetGravity(self)
+    def SetDebugDraw(self, *args): return _pygame.PhysicsManager_SetDebugDraw(self, *args)
+    def ToggleDebugDraw(self): return _pygame.PhysicsManager_ToggleDebugDraw(self)
+PhysicsManager_swigregister = _pygame.PhysicsManager_swigregister
+PhysicsManager_swigregister(PhysicsManager)
+
+def PhysicsManager_Register(*args):
+  return _pygame.PhysicsManager_Register(*args)
+PhysicsManager_Register = _pygame.PhysicsManager_Register
+
+def PhysicsManager_Instance():
+  return _pygame.PhysicsManager_Instance()
+PhysicsManager_Instance = _pygame.PhysicsManager_Instance
+
 class Scene(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Scene, name, value)
@@ -1269,6 +1305,28 @@ class Entity(VoltEntity):
         return weakref_proxy(self)
 Entity_swigregister = _pygame.Entity_swigregister
 Entity_swigregister(Entity)
+
+class LevelManager(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, LevelManager, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, LevelManager, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_LevelManager(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_LevelManager
+    __del__ = lambda self : None;
+    def LoadLevel(self, *args): return _pygame.LevelManager_LoadLevel(self, *args)
+    def LoadLevelFromFilename(self, *args): return _pygame.LevelManager_LoadLevelFromFilename(self, *args)
+    def UnloadLevel(self): return _pygame.LevelManager_UnloadLevel(self)
+    def SaveLevel(self, *args): return _pygame.LevelManager_SaveLevel(self, *args)
+    def loadedFile(self): return _pygame.LevelManager_loadedFile(self)
+    def levelName(self): return _pygame.LevelManager_levelName(self)
+    def SetLevelName(self, *args): return _pygame.LevelManager_SetLevelName(self, *args)
+LevelManager_swigregister = _pygame.LevelManager_swigregister
+LevelManager_swigregister(LevelManager)
 
 class Creature(Entity):
     __swig_setmethods__ = {}

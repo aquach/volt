@@ -31,8 +31,8 @@ void ConfigureTexture (GLuint texture) {
                  GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 }
 
-LightManager::LightManager () :
-    m_scene(NULL), m_debugDraw(false) {
+LightManager::LightManager (Volt::Scene* scene) :
+    m_scene(scene), m_debugDraw(false) {
     CHECK(Graphics::initialized());
 
     glGenFramebuffers(FBO_COUNT, m_fbos);

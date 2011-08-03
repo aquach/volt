@@ -2,7 +2,8 @@
 #include "Game/Entities/GUI/MessageBox.h"
 #include "Game/Scenes/GameScene.h"
 
-ConversationManager::ConversationManager () {
+ConversationManager::ConversationManager (GameScene* scene)
+    : m_gameScene(scene) {
     m_font = G_AssetManager->GetFont("Fonts/Mido.ttf", 32.0);
 }
 

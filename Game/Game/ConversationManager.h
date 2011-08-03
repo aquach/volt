@@ -10,7 +10,7 @@ class MessageBox;
 
 class ConversationManager {
 public:
-    ConversationManager ();
+    ConversationManager (GameScene* scene);
     ~ConversationManager () { }
 
     void Update ();
@@ -20,7 +20,6 @@ public:
     void ShowMessageBox (MessageBox* box);
 
 private:
-    friend class GameScene;
     GameScene* m_gameScene;
 
     Volt::FontAssetRef m_font;

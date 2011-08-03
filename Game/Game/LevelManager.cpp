@@ -5,9 +5,9 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/EditorEntities.h"
 
-LevelManager::LevelManager ()
+LevelManager::LevelManager (Volt::Scene* scene)
     : m_levelLoaded(false),
-      m_scene(NULL) {
+      m_scene(scene) {
 }
 
 LevelManager::~LevelManager () {

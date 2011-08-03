@@ -23,17 +23,14 @@ EditorScene::EditorScene ()
         WORLD_TO_SCREEN_SCALE,
         WORLD_TO_SCREEN_SCALE);
 
-    m_levelManager = new LevelManager;
-    m_levelManager->m_scene = this;
+    m_levelManager = new LevelManager(this);
 
-    m_doodadManager = new DoodadManager;
-    m_doodadManager->m_scene = this;
+    m_doodadManager = new DoodadManager(this);
     m_doodadManager->LoadDoodadBrushes(
         G_AssetManager->GetData("doodads.json"));
     DoodadManager::Register(m_doodadManager);
 
-    m_lightManager = new LightManager;
-    m_lightManager->m_scene = this;
+    m_lightManager = new LightManager(this);
     LightManager::Register(m_lightManager);
 }
 
@@ -48,7 +45,7 @@ void EditorScene::Update () {
 
     camera()->transform.position += Vector2(
         m_cameraMoveX * 20,
-        m_cameraMoveY * 20) * Volt::G_Time->dt();
+        m_cameraMoveY * 20) * G_Time->dt();
 }
 
 void EditorScene::OnPostRender () {

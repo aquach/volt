@@ -27,7 +27,7 @@ struct DoodadBrush {
 
 class DoodadManager {
 public:
-    DoodadManager () : m_scene(NULL) { }
+    DoodadManager (Volt::Scene* scene) : m_scene(scene) { }
     ~DoodadManager ();
 
     static void Register (DoodadManager* manager) { instance = manager; }
@@ -42,8 +42,6 @@ public:
     void ReloadBrushes ();
 
 private:
-    friend class GameScene;
-    friend class EditorScene;
     Volt::Scene* m_scene;
 
     typedef map<int, DoodadBrush*> Brushes;
