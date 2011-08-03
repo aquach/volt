@@ -14,14 +14,19 @@ public:
     explicit LevelManager (Volt::Scene* scene);
     ~LevelManager ();
 
-    //void Update ();
+    void Update ();
     static void Register (LevelManager* manager) { instance = manager; }
     static LevelManager* Instance () { return instance; }
 
     void LoadLevel (Volt::DataAssetRef asset);
+    void LoadLevelFromAssetName (const string& assetName);
     bool LoadLevelFromFilename (const string& filename);
     void UnloadLevel ();
     bool SaveLevel (const string& filename);
+
+    void RequestLevelChange (const string& assetName) {
+        m_switchToAssetName = assetName;
+    }
 
     string loadedFile () const { return m_loadedFilename; }
     string levelName () const { return m_levelName; }
@@ -33,11 +38,11 @@ private:
     Volt::Scene* m_scene;
 
     bool m_levelUnloading;
-    bool m_levelLoaded;
     set<Entity*> m_entities;
     string m_loadedFilename;
     string m_levelName;
     string m_startScript;
+    string m_switchToAssetName; // Level to load on next update.
 
     static LevelManager* instance;
 

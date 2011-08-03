@@ -75,6 +75,7 @@ GameScene::~GameScene () {
 void GameScene::Update () {
     Scene::Update();
     m_conversationManager->Update();
+    m_levelManager->Update();
 }
 
 void GameScene::OnBegin () {

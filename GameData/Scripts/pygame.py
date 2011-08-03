@@ -1318,14 +1318,17 @@ class LevelManager(_object):
         except: self.this = this
     __swig_destroy__ = _pygame.delete_LevelManager
     __del__ = lambda self : None;
+    def Update(self): return _pygame.LevelManager_Update(self)
     __swig_getmethods__["Register"] = lambda x: _pygame.LevelManager_Register
     if _newclass:Register = staticmethod(_pygame.LevelManager_Register)
     __swig_getmethods__["Instance"] = lambda x: _pygame.LevelManager_Instance
     if _newclass:Instance = staticmethod(_pygame.LevelManager_Instance)
     def LoadLevel(self, *args): return _pygame.LevelManager_LoadLevel(self, *args)
+    def LoadLevelFromAssetName(self, *args): return _pygame.LevelManager_LoadLevelFromAssetName(self, *args)
     def LoadLevelFromFilename(self, *args): return _pygame.LevelManager_LoadLevelFromFilename(self, *args)
     def UnloadLevel(self): return _pygame.LevelManager_UnloadLevel(self)
     def SaveLevel(self, *args): return _pygame.LevelManager_SaveLevel(self, *args)
+    def RequestLevelChange(self, *args): return _pygame.LevelManager_RequestLevelChange(self, *args)
     def loadedFile(self): return _pygame.LevelManager_loadedFile(self)
     def levelName(self): return _pygame.LevelManager_levelName(self)
     def SetLevelName(self, *args): return _pygame.LevelManager_SetLevelName(self, *args)
@@ -1477,6 +1480,7 @@ class Triangle(Entity):
         except: self.this = this
     __swig_destroy__ = _pygame.delete_Triangle
     __del__ = lambda self : None;
+    def OnAdded(self): return _pygame.Triangle_OnAdded(self)
     def Clone(self): return _pygame.Triangle_Clone(self)
     def CopyFrom(self, *args): return _pygame.Triangle_CopyFrom(self, *args)
     def Update(self): return _pygame.Triangle_Update(self)

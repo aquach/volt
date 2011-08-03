@@ -9,10 +9,13 @@ Doodad::Doodad ()
 	: m_brush(NULL),
       m_brushId(-1) {
     AddTag("Doodad");
-    CreatePhysicsBody();
 }
 
 Doodad::~Doodad () {
+}
+
+void Doodad::OnAdded () {
+    CreatePhysicsBody();
 }
 
 void Doodad::Update () {

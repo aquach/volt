@@ -16,6 +16,8 @@ public:
     Doodad ();
     virtual ~Doodad ();
 
+    virtual void OnAdded ();
+
     virtual Doodad* Clone () const;
     void CopyFrom (const Doodad* other);
 

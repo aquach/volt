@@ -9,7 +9,6 @@ const float SELECT_SLACK = 0.3;
 
 Triangle::Triangle () {
     AddTag("Triangle");
-    CreatePhysicsBody();
 
     m_vertexColors[0] = Volt::Color::red;
     m_vertexColors[1] = Volt::Color::green;
@@ -20,6 +19,10 @@ Triangle::Triangle () {
 }
 
 Triangle::~Triangle () {
+}
+
+void Triangle::OnAdded () {
+    CreatePhysicsBody();
 }
 
 void Triangle::Update () {

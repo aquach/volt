@@ -24570,6 +24570,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_LevelManager_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_Update",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_Update" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  (arg1)->Update();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_LevelManager_Register(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
@@ -24638,6 +24659,43 @@ SWIGINTERN PyObject *_wrap_LevelManager_LoadLevel(PyObject *SWIGUNUSEDPARM(self)
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_LoadLevelFromAssetName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_LoadLevelFromAssetName",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_LoadLevelFromAssetName" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "LevelManager_LoadLevelFromAssetName" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "LevelManager_LoadLevelFromAssetName" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->LoadLevelFromAssetName((std::string const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return NULL;
 }
 
@@ -24731,6 +24789,43 @@ SWIGINTERN PyObject *_wrap_LevelManager_SaveLevel(PyObject *SWIGUNUSEDPARM(self)
   }
   result = (bool)(arg1)->SaveLevel((std::string const &)*arg2);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_LevelManager_RequestLevelChange(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  LevelManager *arg1 = (LevelManager *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_RequestLevelChange",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_RequestLevelChange" "', argument " "1"" of type '" "LevelManager *""'"); 
+  }
+  arg1 = reinterpret_cast< LevelManager * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "LevelManager_RequestLevelChange" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "LevelManager_RequestLevelChange" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->RequestLevelChange((std::string const &)*arg2);
+  resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
 fail:
@@ -26060,6 +26155,27 @@ SWIGINTERN PyObject *_wrap_delete_Triangle(PyObject *SWIGUNUSEDPARM(self), PyObj
   }
   arg1 = reinterpret_cast< Triangle * >(argp1);
   delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Triangle_OnAdded(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Triangle *arg1 = (Triangle *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Triangle_OnAdded",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Triangle, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Triangle_OnAdded" "', argument " "1"" of type '" "Triangle *""'"); 
+  }
+  arg1 = reinterpret_cast< Triangle * >(argp1);
+  (arg1)->OnAdded();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -28669,12 +28785,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Entity_swigregister", Entity_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_LevelManager", _wrap_new_LevelManager, METH_VARARGS, NULL},
 	 { (char *)"delete_LevelManager", _wrap_delete_LevelManager, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_Update", _wrap_LevelManager_Update, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_Register", _wrap_LevelManager_Register, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_Instance", _wrap_LevelManager_Instance, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_LoadLevel", _wrap_LevelManager_LoadLevel, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_LoadLevelFromAssetName", _wrap_LevelManager_LoadLevelFromAssetName, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_LoadLevelFromFilename", _wrap_LevelManager_LoadLevelFromFilename, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_UnloadLevel", _wrap_LevelManager_UnloadLevel, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_SaveLevel", _wrap_LevelManager_SaveLevel, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_RequestLevelChange", _wrap_LevelManager_RequestLevelChange, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_loadedFile", _wrap_LevelManager_loadedFile, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_levelName", _wrap_LevelManager_levelName, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_SetLevelName", _wrap_LevelManager_SetLevelName, METH_VARARGS, NULL},
@@ -28735,6 +28854,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"BrushStroke_swigregister", BrushStroke_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Triangle", _wrap_new_Triangle, METH_VARARGS, NULL},
 	 { (char *)"delete_Triangle", _wrap_delete_Triangle, METH_VARARGS, NULL},
+	 { (char *)"Triangle_OnAdded", _wrap_Triangle_OnAdded, METH_VARARGS, NULL},
 	 { (char *)"Triangle_Clone", _wrap_Triangle_Clone, METH_VARARGS, NULL},
 	 { (char *)"Triangle_CopyFrom", _wrap_Triangle_CopyFrom, METH_VARARGS, NULL},
 	 { (char *)"Triangle_Update", _wrap_Triangle_Update, METH_VARARGS, NULL},

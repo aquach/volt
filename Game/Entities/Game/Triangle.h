@@ -20,6 +20,8 @@ public:
     Triangle ();
     virtual ~Triangle ();
 
+    virtual void OnAdded ();
+
     virtual Triangle* Clone () const;
     void CopyFrom (const Triangle* other);
 

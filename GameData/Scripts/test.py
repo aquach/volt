@@ -45,12 +45,12 @@ e = MyEntity()
 scene().Add(e)
 
 def onTouched(ladder, hit, contact):
-    print 'hit a', hit
-    print 'REMOVING'
-    ladder.RemoveSelf()
+    level().RequestLevelChange("Levels/lights.json")
 
 ladder = scene().GetAllTagged('Ladder')[1]
 ladder.OnTouched(onTouched)
+
+time.sleep(1)
 
 while not level().IsUnloading():
     print 'hurr'

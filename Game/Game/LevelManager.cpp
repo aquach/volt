@@ -9,8 +9,7 @@
 LevelManager* LevelManager::instance = NULL;
 
 LevelManager::LevelManager (Volt::Scene* scene)
-    : m_levelLoaded(false),
-      m_scene(scene),
+    : m_scene(scene),
       m_levelUnloading(false) {
 }
 
@@ -18,13 +17,15 @@ LevelManager::~LevelManager () {
     UnloadLevel();
 }
 
-/*
 void LevelManager::Update () {
+    if (m_switchToAssetName.size() > 0) {
+        LoadLevelFromAssetName(m_switchToAssetName);
+        m_switchToAssetName = "";
+    }
 }
-*/
 
 void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
-    if (m_levelLoaded)
+    if (m_loadedFilename.size() > 0)
         UnloadLevel();
 
     const Json::Value& root = asset->data();
@@ -44,6 +45,12 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     if (m_startScript.size() > 0) {
         Python::RunGameScriptFile(m_startScript);
     }
+
+    m_loadedFilename = asset->path();
+}
+
+void LevelManager::LoadLevelFromAssetName (const string& assetPath) {
+    LoadLevel(G_AssetManager->GetData(assetPath));
 }
 
 bool LevelManager::LoadLevelFromFilename (const string& filename) {
@@ -75,6 +82,7 @@ bool LevelManager::LoadLevelFromFilename (const string& filename) {
 }
 
 void LevelManager::UnloadLevel () {
+    LOG(INFO) << "Unloading level...";
     m_levelUnloading = true;
     Python::WaitForScripts();
     FOR_ (set<Entity*>::iterator, i, m_entities)

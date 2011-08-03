@@ -50,7 +50,6 @@ Light::Light ()
     m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
     m_listener = new LightSceneListener(this);
     AddTag("Light");
-    CreatePhysicsBody();
 
     m_strokeTexture = G_AssetManager->GetTexture("Textures/lightstroke.png");
 }
@@ -60,6 +59,7 @@ Light::~Light () {
 }
 
 void Light::OnAdded () {
+    CreatePhysicsBody();
     scene()->AddSceneListener(m_listener);
 }
 
