@@ -36,7 +36,7 @@ void DataAsset::Unload () {
     m_root.clear();
 }
 
-void DataAsset::Save (const Json::Value& root, string filename) {
+void DataAsset::Save (const Json::Value& root, const string& filename) {
     string path = G_AssetManager->sourcePath() + "/" + filename;
     ofstream out(path.c_str());
     if (!out.is_open()) {

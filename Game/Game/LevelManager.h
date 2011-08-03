@@ -11,19 +11,19 @@ namespace Volt {
 
 class LevelManager {
 public:
-    LevelManager (Volt::Scene* scene);
+    explicit LevelManager (Volt::Scene* scene);
     ~LevelManager ();
 
     //void Update ();
 
     void LoadLevel (Volt::DataAssetRef asset);
-    bool LoadLevelFromFilename (string filename);
+    bool LoadLevelFromFilename (const string& filename);
     void UnloadLevel ();
-    bool SaveLevel (string filename);
+    bool SaveLevel (const string& filename);
 
     string loadedFile () const { return m_loadedFilename; }
     string levelName () const { return m_levelName; }
-    void SetLevelName (string name) { m_levelName = name; }
+    void SetLevelName (const string& name) { m_levelName = name; }
 
 private:
     Volt::Scene* m_scene;

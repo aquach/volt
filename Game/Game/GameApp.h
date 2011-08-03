@@ -9,7 +9,7 @@ namespace Volt {
 
 class GameApp : public Volt::Game {
 public:
-    GameApp (string name, int argc, char** argv,
+    GameApp (const string& name, int argc, char** argv,
              const Volt::DataSource* source);
     virtual ~GameApp ();
 };

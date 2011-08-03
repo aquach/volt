@@ -10,7 +10,7 @@ class MessageBox;
 
 class ConversationManager {
 public:
-    ConversationManager (GameScene* scene);
+    explicit ConversationManager (GameScene* scene);
     ~ConversationManager () { }
 
     void Update ();

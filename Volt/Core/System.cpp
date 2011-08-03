@@ -39,7 +39,7 @@ void SleepMicroseconds (long usecs) {
     usleep(usecs);
 }
 
-string GetExecutableDirectory (string exePath) {
+string GetExecutableDirectory (const string& exePath) {
     char path[255];
     getcwd(path, 255);
     strcat(path, "/");
@@ -65,7 +65,7 @@ static int FileCallback (const char* filePath, const struct stat* statb,
     return 0;
 }
 
-void GetAllFilesInDirectory (string path, vector<string>* files) {
+void GetAllFilesInDirectory (const string& path, vector<string>* files) {
     fileList = files;
     pathString = path;
     ftw(path.c_str(), FileCallback, 10);
@@ -124,11 +124,11 @@ void GetTimestamp (int* hour, int* min, int* sec, long* usec) {
 void PrintStackTrace () {
 }
 
-void GetAllFilesInDirectory (string path, vector<string>* files) {
+void GetAllFilesInDirectory (const string& path, vector<string>* files) {
     // TODO
 }
 
-string GetExecutableDirectory (string exePath) {
+string GetExecutableDirectory (const string& exePath) {
     // TODO
     return "";
 }

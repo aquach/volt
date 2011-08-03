@@ -13,9 +13,9 @@ void GetTimestamp (int* hour, int* min, int* sec, long* usec);
 
 void SleepMicroseconds (long usecs);
 
-string GetExecutableDirectory (string exePath);
+string GetExecutableDirectory (const string& exePath);
 
-void GetAllFilesInDirectory (string path, vector<string>* files);
+void GetAllFilesInDirectory (const string& path, vector<string>* files);
 
 void PrintStackTrace ();
 

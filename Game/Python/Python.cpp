@@ -37,7 +37,7 @@ void Terminate () {
     Py_Finalize();
 }
 
-void RunGameScriptFile (string scriptPath) {
+void RunGameScriptFile (const string& scriptPath) {
     // Hack!
     char command[128];
     sprintf(command, "pygameutil.runScriptFile('%s')", scriptPath.c_str());

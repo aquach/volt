@@ -13,7 +13,7 @@ class Light;
 
 class LightManager {
 public:
-    LightManager (Volt::Scene* scene);
+    explicit LightManager (Volt::Scene* scene);
     ~LightManager ();
 
     static void Register (LightManager* manager) { instance = manager; }

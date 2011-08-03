@@ -45,7 +45,7 @@ public:
     void OnModified ();
     void ClearModified ();
 
-    void SetTitle (string title);
+    void SetTitle (const string& title);
 
     void OnViewportMouseRelease (QMouseEvent* event);
     void OnViewportMouseMove (QMouseEvent* event);
@@ -225,9 +225,9 @@ private:
         Editor* m_e;
     };
 
-    void AddRecentDocument (string filename);
+    void AddRecentDocument (const string& filename);
     void LoadRecentDocuments ();
-    void OpenFile (string filename);
+    void OpenFile (const string& filename);
     void UpdateTitle ();
 
     void Delete ();

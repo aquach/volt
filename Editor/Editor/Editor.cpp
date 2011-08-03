@@ -447,7 +447,7 @@ void Editor::keyPressEvent (QKeyEvent *event) {
     }
 }
 
-void Editor::SetTitle (string title) {
+void Editor::SetTitle (const string& title) {
     m_title = title;
     QString str;
     str += EDITOR_TITLE;
@@ -484,7 +484,7 @@ void Editor::Open () {
     OpenFile(filename.toStdString());
 }
 
-void Editor::OpenFile (string filename) {
+void Editor::OpenFile (const string& filename) {
     bool success = m_scene->m_levelManager->LoadLevelFromFilename(
                     filename);
     if (success) {
@@ -733,7 +733,7 @@ void Editor::Clone () {
     }
 }
 
-void Editor::AddRecentDocument (string filename) {
+void Editor::AddRecentDocument (const string& filename) {
     QStringList files = m_settings->value("recentFileList").toStringList();
     files.removeAll(QString::fromStdString(filename));
     files.prepend(QString::fromStdString(filename));

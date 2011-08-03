@@ -6,7 +6,7 @@ class Entity;
 
 class Property {
 public:
-    Property (string name)
+    Property (const string& name)
         : m_name(name) { }
     virtual void Save (string input) = 0;
     virtual void Load (string* out) const = 0;
@@ -24,7 +24,7 @@ protected:
 
 class Vector2Property : public Property {
 public:
-    Vector2Property (string name, Vector2* v)
+    Vector2Property (const string& name, Vector2* v)
         : Property(name), m_v(v) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -34,7 +34,7 @@ private:
 
 class FloatProperty : public Property {
 public:
-    FloatProperty (string name, float* num)
+    FloatProperty (const string& name, float* num)
         : Property(name), m_num(num) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -44,7 +44,7 @@ private:
 
 class IntProperty : public Property {
 public:
-    IntProperty (string name, int* num)
+    IntProperty (const string& name, int* num)
         : Property(name), m_num(num) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -54,7 +54,7 @@ private:
 
 class BoolProperty : public Property {
 public:
-    BoolProperty (string name, bool* b)
+    BoolProperty (const string& name, bool* b)
         : Property(name), m_b(b) { }
     virtual void Save (string input) { }
     virtual void Load (string* out) const { }
@@ -68,7 +68,7 @@ private:
 
 class ColorProperty : public Property {
 public:
-    ColorProperty (string name, Volt::Color* color)
+    ColorProperty (const string& name, Volt::Color* color)
         : Property(name), m_color(color) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -80,7 +80,7 @@ private:
 
 class StringProperty : public Property {
 public:
-    StringProperty (string name, string* str)
+    StringProperty (const string& name, string* str)
         : Property(name), m_str(str) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -90,7 +90,7 @@ private:
 
 class EntityLayerProperty : public Property {
 public:
-    EntityLayerProperty (string name, Entity* e)
+    EntityLayerProperty (const string& name, Entity* e)
         : Property(name), m_entity(e) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -102,7 +102,7 @@ private:
 
 class EntityPositionProperty : public Property {
 public:
-    EntityPositionProperty (string name, Entity* e)
+    EntityPositionProperty (const string& name, Entity* e)
         : Property(name), m_entity(e) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -114,7 +114,7 @@ private:
 
 class EntityRotationProperty : public Property {
 public:
-    EntityRotationProperty (string name, Entity* e)
+    EntityRotationProperty (const string& name, Entity* e)
         : Property(name), m_entity(e) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;
@@ -126,7 +126,7 @@ private:
 
 class EntityScaleProperty : public Property {
 public:
-    EntityScaleProperty (string name, Entity* e)
+    EntityScaleProperty (const string& name, Entity* e)
         : Property(name), m_entity(e) { }
     virtual void Save (string input);
     virtual void Load (string* out) const;

@@ -24,7 +24,7 @@ public:
 
     const Json::Value& data () const { return m_root; }
 
-    static void Save (const Json::Value& root, string filename);
+    static void Save (const Json::Value& root, const string& filename);
 
 private:
     Json::Value m_root;

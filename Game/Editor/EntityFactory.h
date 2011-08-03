@@ -13,7 +13,7 @@ public:
     EntityFactory () { }
     ~EntityFactory () { }
 
-    static Entity* Create (string name);
+    static Entity* Create (const string& name);
     static void GetEntityTypes (vector<string>* types);
 
 protected:

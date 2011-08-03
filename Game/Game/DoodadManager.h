@@ -27,7 +27,7 @@ struct DoodadBrush {
 
 class DoodadManager {
 public:
-    DoodadManager (Volt::Scene* scene) : m_scene(scene) { }
+    explicit DoodadManager (Volt::Scene* scene) : m_scene(scene) { }
     ~DoodadManager ();
 
     static void Register (DoodadManager* manager) { instance = manager; }

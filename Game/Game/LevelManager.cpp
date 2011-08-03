@@ -37,7 +37,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     }
 }
 
-bool LevelManager::LoadLevelFromFilename (string filename) {
+bool LevelManager::LoadLevelFromFilename (const string& filename) {
     ifstream file(filename.c_str(), ifstream::binary);
     if (!file.is_open())
         return false;
@@ -71,7 +71,7 @@ void LevelManager::UnloadLevel () {
     m_loadedFilename = "";
 }
 
-bool LevelManager::SaveLevel (string filename) {
+bool LevelManager::SaveLevel (const string& filename) {
     ofstream file(filename.c_str(), ifstream::binary);
     if (!file.is_open())
         return false;

@@ -6,6 +6,6 @@ namespace Python {
 void Initialize (int argc, char** argv);
 void Terminate ();
 
-void RunGameScriptFile (string scriptPath);
-void RunGameScript (string script);
+void RunGameScriptFile (const string& scriptPath);
+void RunGameScript (const string& script);
 }
