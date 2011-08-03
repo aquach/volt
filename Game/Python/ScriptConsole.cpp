@@ -152,7 +152,7 @@ bool ScriptConsole::OnKeyEvent (SDL_KeyboardEvent event) {
         default: {
             if ((event.keysym.unicode & 0xFF80) == 0) {
                 char ch = event.keysym.unicode & 0x7F;
-                if (ch != 0) {
+                if (ch != 0 && ch != 127) {
                     string text = m_label->text();
                     text = text.substr(0, m_cursor) + ch +
                            text.substr(m_cursor, text.size() - 1);
