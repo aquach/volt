@@ -994,10 +994,14 @@ class Filter(_object):
     __repr__ = _swig_repr
     __swig_destroy__ = _pygame.delete_Filter
     __del__ = lambda self : None;
+    def OnAdded(self): return _pygame.Filter_OnAdded(self)
     def OnBottomLayer(self): return _pygame.Filter_OnBottomLayer(self)
     def OnTopLayer(self): return _pygame.Filter_OnTopLayer(self)
+    def enabled(self): return _pygame.Filter_enabled(self)
+    def setEnabled(self, *args): return _pygame.Filter_setEnabled(self, *args)
     def bottomLayer(self): return _pygame.Filter_bottomLayer(self)
     def topLayer(self): return _pygame.Filter_topLayer(self)
+    def name(self): return _pygame.Filter_name(self)
 Filter_swigregister = _pygame.Filter_swigregister
 Filter_swigregister(Filter)
 
@@ -1272,6 +1276,7 @@ class Scene(_object):
     def numFilters(self): return _pygame.Scene_numFilters(self)
     def AddFilter(self, *args): return _pygame.Scene_AddFilter(self, *args)
     def RemoveFilter(self, *args): return _pygame.Scene_RemoveFilter(self, *args)
+    def GetFilter(self, *args): return _pygame.Scene_GetFilter(self, *args)
     def camera(self): return _pygame.Scene_camera(self)
     def GetEntitiesAtPoint(self, *args): return _pygame.Scene_GetEntitiesAtPoint(self, *args)
     def GetEntitiesInArea(self, *args): return _pygame.Scene_GetEntitiesInArea(self, *args)
@@ -1289,6 +1294,50 @@ class Scene(_object):
 
 Scene_swigregister = _pygame.Scene_swigregister
 Scene_swigregister(Scene)
+
+class BlendFilter(Filter):
+    __swig_setmethods__ = {}
+    for _s in [Filter]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, BlendFilter, name, value)
+    __swig_getmethods__ = {}
+    for _s in [Filter]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, BlendFilter, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_BlendFilter(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_BlendFilter
+    __del__ = lambda self : None;
+    def OnAdded(self): return _pygame.BlendFilter_OnAdded(self)
+    def OnBottomLayer(self): return _pygame.BlendFilter_OnBottomLayer(self)
+    def OnTopLayer(self): return _pygame.BlendFilter_OnTopLayer(self)
+    def setBlendAmount(self, *args): return _pygame.BlendFilter_setBlendAmount(self, *args)
+    def amount(self): return _pygame.BlendFilter_amount(self)
+    def setBlendColor(self, *args): return _pygame.BlendFilter_setBlendColor(self, *args)
+    def blendColor(self): return _pygame.BlendFilter_blendColor(self)
+BlendFilter_swigregister = _pygame.BlendFilter_swigregister
+BlendFilter_swigregister(BlendFilter)
+
+class EdgeFilter(Filter):
+    __swig_setmethods__ = {}
+    for _s in [Filter]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, EdgeFilter, name, value)
+    __swig_getmethods__ = {}
+    for _s in [Filter]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, EdgeFilter, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_EdgeFilter(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_EdgeFilter
+    __del__ = lambda self : None;
+    def OnAdded(self): return _pygame.EdgeFilter_OnAdded(self)
+    def OnBottomLayer(self): return _pygame.EdgeFilter_OnBottomLayer(self)
+    def OnTopLayer(self): return _pygame.EdgeFilter_OnTopLayer(self)
+EdgeFilter_swigregister = _pygame.EdgeFilter_swigregister
+EdgeFilter_swigregister(EdgeFilter)
 
 class Entity(VoltEntity):
     __swig_setmethods__ = {}

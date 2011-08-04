@@ -3161,90 +3161,92 @@ namespace Swig {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_BrushStroke swig_types[0]
-#define SWIGTYPE_p_Creature swig_types[1]
-#define SWIGTYPE_p_Creature__CreatureHitListener swig_types[2]
-#define SWIGTYPE_p_Entity swig_types[3]
-#define SWIGTYPE_p_EntityFactory swig_types[4]
-#define SWIGTYPE_p_Json__Value swig_types[5]
-#define SWIGTYPE_p_Layers swig_types[6]
-#define SWIGTYPE_p_LevelManager swig_types[7]
-#define SWIGTYPE_p_Light swig_types[8]
-#define SWIGTYPE_p_LightStroke swig_types[9]
-#define SWIGTYPE_p_Player swig_types[10]
-#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[11]
-#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[12]
-#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[13]
-#define SWIGTYPE_p_Triangle swig_types[14]
-#define SWIGTYPE_p_Types swig_types[15]
-#define SWIGTYPE_p_Vector2 swig_types[16]
-#define SWIGTYPE_p_Volt__AppTime swig_types[17]
-#define SWIGTYPE_p_Volt__BBox swig_types[18]
-#define SWIGTYPE_p_Volt__Camera swig_types[19]
-#define SWIGTYPE_p_Volt__Color swig_types[20]
-#define SWIGTYPE_p_Volt__DataAssetRef swig_types[21]
-#define SWIGTYPE_p_Volt__DataSource swig_types[22]
-#define SWIGTYPE_p_Volt__Entity swig_types[23]
-#define SWIGTYPE_p_Volt__EntityContactListener swig_types[24]
-#define SWIGTYPE_p_Volt__FSM swig_types[25]
-#define SWIGTYPE_p_Volt__FSMState swig_types[26]
-#define SWIGTYPE_p_Volt__Filter swig_types[27]
-#define SWIGTYPE_p_Volt__Game swig_types[28]
-#define SWIGTYPE_p_Volt__PhysicsManager swig_types[29]
-#define SWIGTYPE_p_Volt__Random swig_types[30]
-#define SWIGTYPE_p_Volt__Scene swig_types[31]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[32]
-#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[33]
-#define SWIGTYPE_p_Volt__Time swig_types[34]
-#define SWIGTYPE_p_Volt__Transform swig_types[35]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[36]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[37]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[38]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[39]
-#define SWIGTYPE_p_Weapon swig_types[40]
-#define SWIGTYPE_p_allocator_type swig_types[41]
-#define SWIGTYPE_p_b2Body swig_types[42]
-#define SWIGTYPE_p_b2BodyDef swig_types[43]
-#define SWIGTYPE_p_b2Contact swig_types[44]
-#define SWIGTYPE_p_b2ContactEdge swig_types[45]
-#define SWIGTYPE_p_b2Fixture swig_types[46]
-#define SWIGTYPE_p_b2FixtureDef swig_types[47]
-#define SWIGTYPE_p_b2JointEdge swig_types[48]
-#define SWIGTYPE_p_b2MassData swig_types[49]
-#define SWIGTYPE_p_b2Mat22 swig_types[50]
-#define SWIGTYPE_p_b2Mat33 swig_types[51]
-#define SWIGTYPE_p_b2Shape swig_types[52]
-#define SWIGTYPE_p_b2Sweep swig_types[53]
-#define SWIGTYPE_p_b2Transform swig_types[54]
-#define SWIGTYPE_p_b2Vec2 swig_types[55]
-#define SWIGTYPE_p_b2Vec3 swig_types[56]
-#define SWIGTYPE_p_b2World swig_types[57]
-#define SWIGTYPE_p_char swig_types[58]
-#define SWIGTYPE_p_const_reference swig_types[59]
-#define SWIGTYPE_p_difference_type swig_types[60]
-#define SWIGTYPE_p_float swig_types[61]
-#define SWIGTYPE_p_float32 swig_types[62]
-#define SWIGTYPE_p_int swig_types[63]
-#define SWIGTYPE_p_int32 swig_types[64]
-#define SWIGTYPE_p_istream swig_types[65]
-#define SWIGTYPE_p_long swig_types[66]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[67]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[68]
-#define SWIGTYPE_p_ostream swig_types[69]
-#define SWIGTYPE_p_p_PyObject swig_types[70]
-#define SWIGTYPE_p_reference swig_types[71]
-#define SWIGTYPE_p_size_type swig_types[72]
-#define SWIGTYPE_p_std__invalid_argument swig_types[73]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[74]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[75]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[76]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[77]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[78]
-#define SWIGTYPE_p_uint32 swig_types[79]
-#define SWIGTYPE_p_void swig_types[80]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[81]
-static swig_type_info *swig_types[83];
-static swig_module_info swig_module = {swig_types, 82, 0, 0, 0, 0};
+#define SWIGTYPE_p_BlendFilter swig_types[0]
+#define SWIGTYPE_p_BrushStroke swig_types[1]
+#define SWIGTYPE_p_Creature swig_types[2]
+#define SWIGTYPE_p_Creature__CreatureHitListener swig_types[3]
+#define SWIGTYPE_p_EdgeFilter swig_types[4]
+#define SWIGTYPE_p_Entity swig_types[5]
+#define SWIGTYPE_p_EntityFactory swig_types[6]
+#define SWIGTYPE_p_Json__Value swig_types[7]
+#define SWIGTYPE_p_Layers swig_types[8]
+#define SWIGTYPE_p_LevelManager swig_types[9]
+#define SWIGTYPE_p_Light swig_types[10]
+#define SWIGTYPE_p_LightStroke swig_types[11]
+#define SWIGTYPE_p_Player swig_types[12]
+#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[13]
+#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[14]
+#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[15]
+#define SWIGTYPE_p_Triangle swig_types[16]
+#define SWIGTYPE_p_Types swig_types[17]
+#define SWIGTYPE_p_Vector2 swig_types[18]
+#define SWIGTYPE_p_Volt__AppTime swig_types[19]
+#define SWIGTYPE_p_Volt__BBox swig_types[20]
+#define SWIGTYPE_p_Volt__Camera swig_types[21]
+#define SWIGTYPE_p_Volt__Color swig_types[22]
+#define SWIGTYPE_p_Volt__DataAssetRef swig_types[23]
+#define SWIGTYPE_p_Volt__DataSource swig_types[24]
+#define SWIGTYPE_p_Volt__Entity swig_types[25]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[26]
+#define SWIGTYPE_p_Volt__FSM swig_types[27]
+#define SWIGTYPE_p_Volt__FSMState swig_types[28]
+#define SWIGTYPE_p_Volt__Filter swig_types[29]
+#define SWIGTYPE_p_Volt__Game swig_types[30]
+#define SWIGTYPE_p_Volt__PhysicsManager swig_types[31]
+#define SWIGTYPE_p_Volt__Random swig_types[32]
+#define SWIGTYPE_p_Volt__Scene swig_types[33]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[34]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[35]
+#define SWIGTYPE_p_Volt__Time swig_types[36]
+#define SWIGTYPE_p_Volt__Transform swig_types[37]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[38]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[39]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[40]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[41]
+#define SWIGTYPE_p_Weapon swig_types[42]
+#define SWIGTYPE_p_allocator_type swig_types[43]
+#define SWIGTYPE_p_b2Body swig_types[44]
+#define SWIGTYPE_p_b2BodyDef swig_types[45]
+#define SWIGTYPE_p_b2Contact swig_types[46]
+#define SWIGTYPE_p_b2ContactEdge swig_types[47]
+#define SWIGTYPE_p_b2Fixture swig_types[48]
+#define SWIGTYPE_p_b2FixtureDef swig_types[49]
+#define SWIGTYPE_p_b2JointEdge swig_types[50]
+#define SWIGTYPE_p_b2MassData swig_types[51]
+#define SWIGTYPE_p_b2Mat22 swig_types[52]
+#define SWIGTYPE_p_b2Mat33 swig_types[53]
+#define SWIGTYPE_p_b2Shape swig_types[54]
+#define SWIGTYPE_p_b2Sweep swig_types[55]
+#define SWIGTYPE_p_b2Transform swig_types[56]
+#define SWIGTYPE_p_b2Vec2 swig_types[57]
+#define SWIGTYPE_p_b2Vec3 swig_types[58]
+#define SWIGTYPE_p_b2World swig_types[59]
+#define SWIGTYPE_p_char swig_types[60]
+#define SWIGTYPE_p_const_reference swig_types[61]
+#define SWIGTYPE_p_difference_type swig_types[62]
+#define SWIGTYPE_p_float swig_types[63]
+#define SWIGTYPE_p_float32 swig_types[64]
+#define SWIGTYPE_p_int swig_types[65]
+#define SWIGTYPE_p_int32 swig_types[66]
+#define SWIGTYPE_p_istream swig_types[67]
+#define SWIGTYPE_p_long swig_types[68]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[69]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[70]
+#define SWIGTYPE_p_ostream swig_types[71]
+#define SWIGTYPE_p_p_PyObject swig_types[72]
+#define SWIGTYPE_p_reference swig_types[73]
+#define SWIGTYPE_p_size_type swig_types[74]
+#define SWIGTYPE_p_std__invalid_argument swig_types[75]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[76]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[77]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[78]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[79]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[80]
+#define SWIGTYPE_p_uint32 swig_types[81]
+#define SWIGTYPE_p_void swig_types[82]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[83]
+static swig_type_info *swig_types[85];
+static swig_module_info swig_module = {swig_types, 84, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3362,6 +3364,8 @@ namespace swig {
 #include "Volt/Graphics/Filter.h"
 #include "Volt/Game/Scene.h"
 
+#include "Game/Filters/BlendFilter.h"
+#include "Game/Filters/EdgeFilter.h"
 #include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
 #include "Game/Entities/Game/Creature.h"
@@ -16182,10 +16186,10 @@ fail:
 SWIGINTERN PyObject *_wrap_Vector2_AngleTo(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Vector2 *arg1 = (Volt::Vector2 *) 0 ;
-  Volt::Vector2 arg2 ;
+  Volt::Vector2 *arg2 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
+  void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
@@ -16197,20 +16201,15 @@ SWIGINTERN PyObject *_wrap_Vector2_AngleTo(PyObject *SWIGUNUSEDPARM(self), PyObj
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vector2_AngleTo" "', argument " "1"" of type '" "Volt::Vector2 const *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Vector2 * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Vector2_AngleTo" "', argument " "2"" of type '" "Volt::Vector2""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Vector2_AngleTo" "', argument " "2"" of type '" "Volt::Vector2""'");
-    } else {
-      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Vector2_AngleTo" "', argument " "2"" of type '" "Volt::Vector2 const &""'"); 
   }
-  result = (float)((Volt::Vector2 const *)arg1)->AngleTo(arg2);
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Vector2_AngleTo" "', argument " "2"" of type '" "Volt::Vector2 const &""'"); 
+  }
+  arg2 = reinterpret_cast< Volt::Vector2 * >(argp2);
+  result = (float)((Volt::Vector2 const *)arg1)->AngleTo((Volt::Vector2 const &)*arg2);
   resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
@@ -20179,6 +20178,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Filter_OnAdded(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_OnAdded",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_OnAdded" "', argument " "1"" of type '" "Volt::Filter *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  (arg1)->OnAdded();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Filter_OnBottomLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Filter *arg1 = (Volt::Filter *) 0 ;
@@ -20214,6 +20234,58 @@ SWIGINTERN PyObject *_wrap_Filter_OnTopLayer(PyObject *SWIGUNUSEDPARM(self), PyO
   }
   arg1 = reinterpret_cast< Volt::Filter * >(argp1);
   (arg1)->OnTopLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_enabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_enabled",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_enabled" "', argument " "1"" of type '" "Volt::Filter const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  result = (bool)((Volt::Filter const *)arg1)->enabled();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_setEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Filter_setEnabled",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_setEnabled" "', argument " "1"" of type '" "Volt::Filter *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Filter_setEnabled" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->setEnabled(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20259,6 +20331,28 @@ SWIGINTERN PyObject *_wrap_Filter_topLayer(PyObject *SWIGUNUSEDPARM(self), PyObj
   arg1 = reinterpret_cast< Volt::Filter * >(argp1);
   result = (int)((Volt::Filter const *)arg1)->topLayer();
   resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_name(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_name",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_name" "', argument " "1"" of type '" "Volt::Filter const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  result = (std::string *) &((Volt::Filter const *)arg1)->name();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
   return NULL;
@@ -22291,7 +22385,7 @@ SWIGINTERN PyObject *_wrap_FSM_stateName(PyObject *SWIGUNUSEDPARM(self), PyObjec
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  std::string result;
+  std::string *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)"O:FSM_stateName",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__FSM, 0 |  0 );
@@ -22299,8 +22393,8 @@ SWIGINTERN PyObject *_wrap_FSM_stateName(PyObject *SWIGUNUSEDPARM(self), PyObjec
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FSM_stateName" "', argument " "1"" of type '" "Volt::FSM const *""'"); 
   }
   arg1 = reinterpret_cast< Volt::FSM * >(argp1);
-  result = ((Volt::FSM const *)arg1)->stateName();
-  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  result = (std::string *) &((Volt::FSM const *)arg1)->stateName();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
   return NULL;
@@ -23871,6 +23965,44 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Scene_GetFilter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Scene *arg1 = (Volt::Scene *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  Volt::Filter *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Scene_GetFilter",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Scene, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Scene_GetFilter" "', argument " "1"" of type '" "Volt::Scene *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Scene * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Scene_GetFilter" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Scene_GetFilter" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  result = (Volt::Filter *)(arg1)->GetFilter((std::string const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Scene_camera(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Scene *arg1 = (Volt::Scene *) 0 ;
@@ -24307,6 +24439,394 @@ SWIGINTERN PyObject *Scene_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_Volt__Scene, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_BlendFilter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::string *arg1 = 0 ;
+  int arg2 ;
+  int arg3 ;
+  int res1 = SWIG_OLDOBJ ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  BlendFilter *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_BlendFilter",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    std::string *ptr = (std::string *)0;
+    res1 = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_BlendFilter" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_BlendFilter" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_BlendFilter" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_BlendFilter" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (BlendFilter *)new BlendFilter((std::string const &)*arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_BlendFilter, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_BlendFilter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_BlendFilter",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_BlendFilter" "', argument " "1"" of type '" "BlendFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_OnAdded(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:BlendFilter_OnAdded",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_OnAdded" "', argument " "1"" of type '" "BlendFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  (arg1)->OnAdded();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_OnBottomLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:BlendFilter_OnBottomLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_OnBottomLayer" "', argument " "1"" of type '" "BlendFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  (arg1)->OnBottomLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_OnTopLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:BlendFilter_OnTopLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_OnTopLayer" "', argument " "1"" of type '" "BlendFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  (arg1)->OnTopLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_setBlendAmount(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:BlendFilter_setBlendAmount",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_setBlendAmount" "', argument " "1"" of type '" "BlendFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "BlendFilter_setBlendAmount" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->setBlendAmount(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_amount(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:BlendFilter_amount",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_amount" "', argument " "1"" of type '" "BlendFilter const *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  result = (float)((BlendFilter const *)arg1)->amount();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_setBlendColor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  Volt::Color arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:BlendFilter_setBlendColor",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_setBlendColor" "', argument " "1"" of type '" "BlendFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Color,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "BlendFilter_setBlendColor" "', argument " "2"" of type '" "Volt::Color""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "BlendFilter_setBlendColor" "', argument " "2"" of type '" "Volt::Color""'");
+    } else {
+      Volt::Color * temp = reinterpret_cast< Volt::Color * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->setBlendColor(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BlendFilter_blendColor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  BlendFilter *arg1 = (BlendFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Color result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:BlendFilter_blendColor",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BlendFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BlendFilter_blendColor" "', argument " "1"" of type '" "BlendFilter const *""'"); 
+  }
+  arg1 = reinterpret_cast< BlendFilter * >(argp1);
+  result = ((BlendFilter const *)arg1)->blendColor();
+  resultobj = SWIG_NewPointerObj((new Volt::Color(static_cast< const Volt::Color& >(result))), SWIGTYPE_p_Volt__Color, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *BlendFilter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_BlendFilter, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_EdgeFilter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::string *arg1 = 0 ;
+  int arg2 ;
+  int arg3 ;
+  int res1 = SWIG_OLDOBJ ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  EdgeFilter *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_EdgeFilter",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    std::string *ptr = (std::string *)0;
+    res1 = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_EdgeFilter" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_EdgeFilter" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_EdgeFilter" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_EdgeFilter" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (EdgeFilter *)new EdgeFilter((std::string const &)*arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_EdgeFilter, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_EdgeFilter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EdgeFilter *arg1 = (EdgeFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_EdgeFilter",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EdgeFilter, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EdgeFilter" "', argument " "1"" of type '" "EdgeFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< EdgeFilter * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_EdgeFilter_OnAdded(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EdgeFilter *arg1 = (EdgeFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:EdgeFilter_OnAdded",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EdgeFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EdgeFilter_OnAdded" "', argument " "1"" of type '" "EdgeFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< EdgeFilter * >(argp1);
+  (arg1)->OnAdded();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_EdgeFilter_OnBottomLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EdgeFilter *arg1 = (EdgeFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:EdgeFilter_OnBottomLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EdgeFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EdgeFilter_OnBottomLayer" "', argument " "1"" of type '" "EdgeFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< EdgeFilter * >(argp1);
+  (arg1)->OnBottomLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_EdgeFilter_OnTopLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EdgeFilter *arg1 = (EdgeFilter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:EdgeFilter_OnTopLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EdgeFilter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EdgeFilter_OnTopLayer" "', argument " "1"" of type '" "EdgeFilter *""'"); 
+  }
+  arg1 = reinterpret_cast< EdgeFilter * >(argp1);
+  (arg1)->OnTopLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *EdgeFilter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_EdgeFilter, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -24955,7 +25475,7 @@ SWIGINTERN PyObject *_wrap_LevelManager_loadedFile(PyObject *SWIGUNUSEDPARM(self
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  std::string result;
+  std::string *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_loadedFile",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
@@ -24963,8 +25483,8 @@ SWIGINTERN PyObject *_wrap_LevelManager_loadedFile(PyObject *SWIGUNUSEDPARM(self
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_loadedFile" "', argument " "1"" of type '" "LevelManager const *""'"); 
   }
   arg1 = reinterpret_cast< LevelManager * >(argp1);
-  result = ((LevelManager const *)arg1)->loadedFile();
-  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  result = (std::string *) &((LevelManager const *)arg1)->loadedFile();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
   return NULL;
@@ -24977,7 +25497,7 @@ SWIGINTERN PyObject *_wrap_LevelManager_levelName(PyObject *SWIGUNUSEDPARM(self)
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  std::string result;
+  std::string *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_levelName",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
@@ -24985,8 +25505,8 @@ SWIGINTERN PyObject *_wrap_LevelManager_levelName(PyObject *SWIGUNUSEDPARM(self)
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_levelName" "', argument " "1"" of type '" "LevelManager const *""'"); 
   }
   arg1 = reinterpret_cast< LevelManager * >(argp1);
-  result = ((LevelManager const *)arg1)->levelName();
-  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  result = (std::string *) &((LevelManager const *)arg1)->levelName();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
   return NULL;
@@ -28759,10 +29279,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_Camera", _wrap_delete_Camera, METH_VARARGS, NULL},
 	 { (char *)"Camera_swigregister", Camera_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_Filter", _wrap_delete_Filter, METH_VARARGS, NULL},
+	 { (char *)"Filter_OnAdded", _wrap_Filter_OnAdded, METH_VARARGS, NULL},
 	 { (char *)"Filter_OnBottomLayer", _wrap_Filter_OnBottomLayer, METH_VARARGS, NULL},
 	 { (char *)"Filter_OnTopLayer", _wrap_Filter_OnTopLayer, METH_VARARGS, NULL},
+	 { (char *)"Filter_enabled", _wrap_Filter_enabled, METH_VARARGS, NULL},
+	 { (char *)"Filter_setEnabled", _wrap_Filter_setEnabled, METH_VARARGS, NULL},
 	 { (char *)"Filter_bottomLayer", _wrap_Filter_bottomLayer, METH_VARARGS, NULL},
 	 { (char *)"Filter_topLayer", _wrap_Filter_topLayer, METH_VARARGS, NULL},
+	 { (char *)"Filter_name", _wrap_Filter_name, METH_VARARGS, NULL},
 	 { (char *)"Filter_swigregister", Filter_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_AppTime", _wrap_new_AppTime, METH_VARARGS, NULL},
 	 { (char *)"AppTime_dt", _wrap_AppTime_dt, METH_VARARGS, NULL},
@@ -28882,6 +29406,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Scene_numFilters", _wrap_Scene_numFilters, METH_VARARGS, NULL},
 	 { (char *)"Scene_AddFilter", _wrap_Scene_AddFilter, METH_VARARGS, NULL},
 	 { (char *)"Scene_RemoveFilter", _wrap_Scene_RemoveFilter, METH_VARARGS, NULL},
+	 { (char *)"Scene_GetFilter", _wrap_Scene_GetFilter, METH_VARARGS, NULL},
 	 { (char *)"Scene_camera", _wrap_Scene_camera, METH_VARARGS, NULL},
 	 { (char *)"Scene_GetEntitiesAtPoint", _wrap_Scene_GetEntitiesAtPoint, METH_VARARGS, NULL},
 	 { (char *)"Scene_GetEntitiesInArea", _wrap_Scene_GetEntitiesInArea, METH_VARARGS, NULL},
@@ -28893,6 +29418,22 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Scene_GetFirstTagged", _wrap_Scene_GetFirstTagged, METH_VARARGS, NULL},
 	 { (char *)"Scene_GetAllTagged", _wrap_Scene_GetAllTagged, METH_VARARGS, NULL},
 	 { (char *)"Scene_swigregister", Scene_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_BlendFilter", _wrap_new_BlendFilter, METH_VARARGS, NULL},
+	 { (char *)"delete_BlendFilter", _wrap_delete_BlendFilter, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_OnAdded", _wrap_BlendFilter_OnAdded, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_OnBottomLayer", _wrap_BlendFilter_OnBottomLayer, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_OnTopLayer", _wrap_BlendFilter_OnTopLayer, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_setBlendAmount", _wrap_BlendFilter_setBlendAmount, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_amount", _wrap_BlendFilter_amount, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_setBlendColor", _wrap_BlendFilter_setBlendColor, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_blendColor", _wrap_BlendFilter_blendColor, METH_VARARGS, NULL},
+	 { (char *)"BlendFilter_swigregister", BlendFilter_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_EdgeFilter", _wrap_new_EdgeFilter, METH_VARARGS, NULL},
+	 { (char *)"delete_EdgeFilter", _wrap_delete_EdgeFilter, METH_VARARGS, NULL},
+	 { (char *)"EdgeFilter_OnAdded", _wrap_EdgeFilter_OnAdded, METH_VARARGS, NULL},
+	 { (char *)"EdgeFilter_OnBottomLayer", _wrap_EdgeFilter_OnBottomLayer, METH_VARARGS, NULL},
+	 { (char *)"EdgeFilter_OnTopLayer", _wrap_EdgeFilter_OnTopLayer, METH_VARARGS, NULL},
+	 { (char *)"EdgeFilter_swigregister", EdgeFilter_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Entity", _wrap_new_Entity, METH_VARARGS, NULL},
 	 { (char *)"delete_Entity", _wrap_delete_Entity, METH_VARARGS, NULL},
 	 { (char *)"Entity_OnAccessed", _wrap_Entity_OnAccessed, METH_VARARGS, NULL},
@@ -29058,12 +29599,20 @@ static void *_p_PlayerTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static void *_p_LightTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Entity *)  ((Light *) x));
 }
+static void *_p_BlendFilterTo_p_Volt__Filter(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Volt::Filter *)  ((BlendFilter *) x));
+}
+static void *_p_EdgeFilterTo_p_Volt__Filter(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Volt::Filter *)  ((EdgeFilter *) x));
+}
 static void *_p_PlayerTo_p_Creature(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Creature *)  ((Player *) x));
 }
+static swig_type_info _swigt__p_BlendFilter = {"_p_BlendFilter", "BlendFilter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_BrushStroke = {"_p_BrushStroke", "BrushStroke *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Creature = {"_p_Creature", "Creature *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Creature__CreatureHitListener = {"_p_Creature__CreatureHitListener", "Creature::CreatureHitListener *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_EdgeFilter = {"_p_EdgeFilter", "EdgeFilter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Entity = {"_p_Entity", "Entity *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_EntityFactory = {"_p_EntityFactory", "EntityFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Json__Value = {"_p_Json__Value", "Json::Value *", 0, 0, (void*)0, 0};
@@ -29145,9 +29694,11 @@ static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type = {"_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type", "Volt::Entity *|std::vector< Volt::Entity * >::value_type", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_BlendFilter,
   &_swigt__p_BrushStroke,
   &_swigt__p_Creature,
   &_swigt__p_Creature__CreatureHitListener,
+  &_swigt__p_EdgeFilter,
   &_swigt__p_Entity,
   &_swigt__p_EntityFactory,
   &_swigt__p_Json__Value,
@@ -29229,9 +29780,11 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type,
 };
 
+static swig_cast_info _swigc__p_BlendFilter[] = {  {&_swigt__p_BlendFilter, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_BrushStroke[] = {  {&_swigt__p_BrushStroke, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Creature[] = {  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Creature, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Creature__CreatureHitListener[] = {  {&_swigt__p_Creature__CreatureHitListener, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_EdgeFilter[] = {  {&_swigt__p_EdgeFilter, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Entity, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Entity, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EntityFactory[] = {  {&_swigt__p_EntityFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Json__Value[] = {  {&_swigt__p_Json__Value, 0, 0, 0},{0, 0, 0, 0}};
@@ -29256,7 +29809,7 @@ static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_Triangle, _p_Tri
 static swig_cast_info _swigc__p_Volt__EntityContactListener[] = {  {&_swigt__p_Volt__EntityContactListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__FSM[] = {  {&_swigt__p_Volt__FSM, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__FSMState[] = {  {&_swigt__p_Volt__FSMState, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Volt__Filter[] = {  {&_swigt__p_Volt__Filter, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__Filter[] = {  {&_swigt__p_BlendFilter, _p_BlendFilterTo_p_Volt__Filter, 0, 0},  {&_swigt__p_Volt__Filter, 0, 0, 0},  {&_swigt__p_EdgeFilter, _p_EdgeFilterTo_p_Volt__Filter, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Game[] = {  {&_swigt__p_Volt__Game, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__PhysicsManager[] = {  {&_swigt__p_Volt__PhysicsManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Random[] = {  {&_swigt__p_Volt__Random, 0, 0, 0},{0, 0, 0, 0}};
@@ -29313,9 +29866,11 @@ static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0,
 static swig_cast_info _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type[] = {  {&_swigt__p_Triangle, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Light, 0, 0, 0},  {&_swigt__p_Player, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_BlendFilter,
   _swigc__p_BrushStroke,
   _swigc__p_Creature,
   _swigc__p_Creature__CreatureHitListener,
+  _swigc__p_EdgeFilter,
   _swigc__p_Entity,
   _swigc__p_EntityFactory,
   _swigc__p_Json__Value,

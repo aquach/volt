@@ -40,7 +40,7 @@ public:
     void DelayTransitionTo (string stateName);
 
     void AddState (FSMState* newState, string stateName);
-    string stateName () const {
+    const string& stateName () const {
         return m_currentState->m_stateName;
     }
     FSMState* state () const { return m_currentState; }

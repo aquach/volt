@@ -13,6 +13,8 @@ public:
     EdgeFilter (const string& name, int bottomLayer, int topLayer);
     virtual ~EdgeFilter ();
 
+    virtual void OnAdded ();
+
     virtual void OnBottomLayer ();
     virtual void OnTopLayer ();
 private:

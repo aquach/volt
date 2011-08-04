@@ -22,6 +22,8 @@
 #include "Volt/Graphics/Filter.h"
 #include "Volt/Game/Scene.h"
 
+#include "Game/Filters/BlendFilter.h"
+#include "Game/Filters/EdgeFilter.h"
 #include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
 #include "Game/Entities/Game/Creature.h"
@@ -74,9 +76,6 @@
 %include "Volt/Core/Vector3.h"
 
 %include "Volt/Graphics/Camera.h"
-%pythonappend Volt::Filter::Filter() %{
-   self.__disown__()
-%}
 %include "Volt/Graphics/Filter.h"
 
 %include "Volt/Game/AppTime.h"
@@ -104,6 +103,7 @@
 
 // Game.
 
+%include "Game/Filters/BlendFilter.h"
 %include "Game/Filters/EdgeFilter.h"
 
 %feature("director") Entity;

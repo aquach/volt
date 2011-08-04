@@ -4,9 +4,9 @@ namespace Volt {
 
 Filter::Filter (const string& name, int bottomLayer, int topLayer)
     : m_name(name),
-      m_bottomLayer(bottomLayer),
-      m_topLayer(topLayer) {
-    CHECK_GE(bottomLayer, topLayer);
+      m_enabled(true) {
+    m_bottomLayer = MAX(bottomLayer, topLayer);
+    m_topLayer = MIN(bottomLayer, topLayer);
 }
 
 }

@@ -24,6 +24,7 @@ public:
 
     static void RenderPass ();
     static void CheckStatus ();
+    static GLint boundFBO ();
 
 private:
     GLuint m_fbo;

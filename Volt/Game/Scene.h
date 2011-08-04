@@ -95,6 +95,7 @@ private:
     friend class Game;
 
     void ResolveEntityChanges ();
+    void ResolveFilterChanges ();
     void NotifyAddListeners (Entity* entity);
     void NotifyRemoveListeners (Entity* entity);
 
@@ -108,6 +109,8 @@ private:
     typedef map<int, list<Filter*> > Filters;
     Filters m_bottomFilters;
     Filters m_topFilters;
+    set<Filter*> m_filtersToAdd;
+    set<Filter*> m_filtersToRemove;
 
     SceneHook* m_hook;
     set<SceneListener*> m_sceneListeners;

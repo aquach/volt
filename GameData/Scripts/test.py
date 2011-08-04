@@ -1,6 +1,7 @@
 from pygame import *
 
 import random
+import threading
 import time
 
 time.sleep(1)
@@ -44,11 +45,31 @@ class MyEntity(PyEntity):
 e = MyEntity()
 scene().Add(e)
 
-def onTouched(ladder, hit, contact):
-    level().RequestLevelChange("Levels/lights.json")
+blendFilter = BlendFilter("Transition-BlendFilter", 50, -50)
+blendFilter.thisown = 0
+blendFilter.setBlendColor(Color.RGB(0, 0, 0))
+scene().AddFilter(blendFilter)
 
-ladder = scene().GetAllTagged('Ladder')[1]
-ladder.OnTouched(onTouched)
+def fadeOut():
+    # TODO: Don't like the repeated time.sleeps. Maybe have a frame timer callback
+    # that Python can subscribe to?
+    duration = 2
+    steps = 50
+    start = time.time()
+    for i in xrange(0, steps + 1):
+        blendFilter.setBlendAmount(float(i) / steps)
+        time.sleep(float(duration) / steps)
+    print 'duration', time.time() - start
+    level().RequestLevelChange("Levels/lights.json")
+    blendFilter.setBlendAmount(0)
+    
+def onTouched(ladder, hit, contact):
+    print 'fade'
+    threading.Thread(target=fadeOut).start()
+
+ladders = scene().GetAllTagged('Ladder')
+for ladder in ladders:
+    ladder.OnTouched(onTouched)
 
 time.sleep(1)
 

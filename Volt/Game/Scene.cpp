@@ -52,6 +52,7 @@ void Scene::Update () {
     }
 
     ResolveEntityChanges();
+    ResolveFilterChanges();
 
     if (m_hook != NULL)
         m_hook->OnUpdateEnd();
@@ -156,7 +157,8 @@ void Scene::Render () {
                 currentTopFilterList->first >= layerNum) {
                 FOR_ (list<Filter*>::iterator, i,
                       currentTopFilterList->second) {
-                    (*i)->OnTopLayer();
+                    if ((*i)->enabled())
+                        (*i)->OnTopLayer();
                 }
                 currentTopFilterList++;
             }
@@ -168,7 +170,8 @@ void Scene::Render () {
                 currentBottomFilterList->first >= layerNum) {
                 FOR_ (list<Filter*>::iterator, i,
                       currentBottomFilterList->second) {
-                    (*i)->OnBottomLayer();
+                    if ((*i)->enabled())
+                        (*i)->OnBottomLayer();
                 }
                 currentBottomFilterList++;
             }
@@ -199,8 +202,8 @@ void Scene::Render () {
             layerNum >= m_camera.frontLayer()) {
             FOR_ (list<Filter*>::iterator, i,
                   currentTopFilterList->second) {
-                (*i)->OnTopLayer();
-                LOG(INFO) << "top layer of filter " << currentTopFilterList->first;
+                if ((*i)->enabled())
+                    (*i)->OnTopLayer();
             }
         }
     }
@@ -222,30 +225,45 @@ void Scene::Render () {
 }
 
 void Scene::AddFilter (Filter* filter) {
-    m_bottomFilters[filter->bottomLayer()].push_back(filter);
-    m_topFilters[filter->topLayer()].push_back(filter);
+    m_filtersToAdd.insert(filter);
+}
+
+void Scene::ResolveFilterChanges () {
+    // This works only if OnAdded doesn't make more filters.
+    FOR_ (set<Filter*>::iterator, i, m_filtersToAdd) {
+        Filter* filter = *i;
+        m_bottomFilters[filter->bottomLayer()].push_back(filter);
+        m_topFilters[filter->topLayer()].push_back(filter);
+        filter->OnAdded();
+    }
+    m_filtersToAdd.clear();
+
+    FOR_ (set<Filter*>::iterator, i, m_filtersToRemove) {
+        Filter* filter = *i;
+        list<Filter*>& filterList = m_bottomFilters[filter->bottomLayer()];
+        list<Filter*>::iterator filterIter = find(filterList.begin(),
+                                                  filterList.end(),
+                                                  filter);
+        if (filterIter == filterList.end()) {
+            LOG(WARNING) << "Failed to find filter in list for removal.";
+            return;
+        }
+        filterList.erase(filterIter);
+
+        filterList = m_topFilters[filter->topLayer()];
+        filterIter = find(filterList.begin(), filterList.end(), filter);
+        if (filterIter == filterList.end()) {
+            LOG(WARNING) << "Failed to find filter in list for removal.";
+            return;
+        }
+        filterList.erase(filterIter);
+
+        delete filter;
+    }
 }
 
 void Scene::RemoveFilter (Filter* filter) {
-    list<Filter*>& filterList = m_bottomFilters[filter->bottomLayer()];
-    list<Filter*>::iterator filterIter = find(filterList.begin(),
-                                              filterList.end(),
-                                              filter);
-    if (filterIter == filterList.end()) {
-        LOG(WARNING) << "Failed to find filter in list for removal.";
-        return;
-    }
-    filterList.erase(filterIter);
-
-    filterList = m_topFilters[filter->topLayer()];
-    filterIter = find(filterList.begin(), filterList.end(), filter);
-    if (filterIter == filterList.end()) {
-        LOG(WARNING) << "Failed to find filter in list for removal.";
-        return;
-    }
-    filterList.erase(filterIter);
-
-    delete filter;
+    m_filtersToRemove.insert(filter);
 }
 
 class ListEntitiesQueryCallback : public b2QueryCallback {
