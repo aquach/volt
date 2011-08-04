@@ -1,4 +1,5 @@
 import pygame
+import threading
 
 '''Handy method to get scene pointer.'''
 def scene():
@@ -9,6 +10,20 @@ def dt():
 
 def level():
     return pygame.LevelManager.Instance()
+
+def disown(swigObj):
+    swigObj.thisown = 0
+    return swigObj
+
+def background(f):
+    """
+    a threading decorator
+    use @background above the function you want to thread
+    (run in the background)
+    """
+    def bg_f(*a, **kw):
+        threading.Thread(target=f, args=a, kwargs=kw).start()
+    return bg_f
 
 class PyEntity(pygame.Entity):
     ''' Wrapper class for defining your own entities.'''

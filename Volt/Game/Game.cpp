@@ -108,7 +108,7 @@ void Game::Run () {
 
         Py_BEGIN_ALLOW_THREADS
         // Give time for threads to do work.
-        SleepMicroseconds(1000);
+        SleepMicroseconds(2000);
         Py_END_ALLOW_THREADS
 
         m_physicsManager->Update();

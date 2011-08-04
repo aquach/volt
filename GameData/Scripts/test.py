@@ -45,27 +45,30 @@ class MyEntity(PyEntity):
 e = MyEntity()
 scene().Add(e)
 
-blendFilter = BlendFilter("Transition-BlendFilter", 50, -50)
-blendFilter.thisown = 0
+blendFilter = disown(BlendFilter("Transition-BlendFilter", 50, -50))
 blendFilter.setBlendColor(Color.RGB(0, 0, 0))
 scene().AddFilter(blendFilter)
 
+@background
 def fadeOut():
-    # TODO: Don't like the repeated time.sleeps. Maybe have a frame timer callback
-    # that Python can subscribe to?
+    # TODO: sleepFrame call that sleeps for exactly one frame.
     duration = 2
-    steps = 50
+    steps = 30
     start = time.time()
-    for i in xrange(0, steps + 1):
+    timePerStep = float(duration) / steps
+    sleeps = 0
+    for i in xrange(0, steps):
+        time.sleep(timePerStep)
         blendFilter.setBlendAmount(float(i) / steps)
-        time.sleep(float(duration) / steps)
+        sleeps += 1
     print 'duration', time.time() - start
+    print sleeps, 'sleeps'
     level().RequestLevelChange("Levels/lights.json")
     blendFilter.setBlendAmount(0)
     
 def onTouched(ladder, hit, contact):
     print 'fade'
-    threading.Thread(target=fadeOut).start()
+    fadeOut()
 
 ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:
