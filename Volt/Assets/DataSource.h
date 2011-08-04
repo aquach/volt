@@ -38,7 +38,7 @@ public:
                                DataItem* item) const = 0;
     virtual bool itemExists (const string& itemPath) const = 0;
 
-    string sourcePath () const { return m_sourcePath; }
+    const string& sourcePath () const { return m_sourcePath; }
 
 private:
     string m_sourcePath;

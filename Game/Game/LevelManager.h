@@ -28,8 +28,8 @@ public:
         m_switchToAssetName = assetName;
     }
 
-    string loadedFile () const { return m_loadedFilename; }
-    string levelName () const { return m_levelName; }
+    const string& loadedFile () const { return m_loadedFilename; }
+    const string& levelName () const { return m_levelName; }
     void SetLevelName (const string& name) { m_levelName = name; }
 
     bool IsUnloading () const { return m_levelUnloading; }

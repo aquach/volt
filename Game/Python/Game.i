@@ -104,6 +104,8 @@
 
 // Game.
 
+%include "Game/Filters/EdgeFilter.h"
+
 %feature("director") Entity;
 %include "Game/Game/Entity.h"
 %include "Game/Game/LevelManager.h"

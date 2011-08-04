@@ -35,7 +35,7 @@ public:
         m_anchorY = y;
     }
 
-    string text () const { return m_text; }
+    const string& text () const { return m_text; }
     void SetText (string text) { m_text = text; }
 
     Color color () const { return m_color; }

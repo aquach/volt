@@ -17,7 +17,7 @@ public:
     virtual bool checked () const { return false; }
     virtual void setChecked (bool b) { }
 
-    string name () const { return m_name; }
+    const string& name () const { return m_name; }
 protected:
     string m_name;
 };

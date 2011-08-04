@@ -21,7 +21,7 @@ public:
 
     int referenceCount () const { return m_refCount; }
 
-    string path () const { return m_path; }
+    const string& path () const { return m_path; }
 
     virtual void Reload () = 0;
     virtual void Unload () = 0;

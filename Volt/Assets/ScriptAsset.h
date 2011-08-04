@@ -18,7 +18,7 @@ public:
     virtual void Reload ();
     virtual void Unload ();
 
-    string script () const { return m_script; }
+    const string& script () const { return m_script; }
 
 private:
     string m_script;

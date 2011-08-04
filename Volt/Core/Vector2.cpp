@@ -131,7 +131,7 @@ Vector2 Vector2::yx () const {
     return Vector2(this->y, this->x);
 }
 
-float Vector2::AngleTo (Vector2 other) const {
+float Vector2::AngleTo (const Vector2& other) const {
     float angle = atan2(other.y, other.x) - atan2(y, x);
     if (angle < -PI)
         angle += 2 * PI;
