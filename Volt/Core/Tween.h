@@ -1,13 +1,12 @@
 #pragma once
 
 #include <vector>
+#include "Logging.h"
 #include "Math.h"
 
 using namespace std;
 
 namespace Volt {
-
-template <typename T> class CompositeTween;
 
 template <typename T> class Tween {
 public:
@@ -15,6 +14,8 @@ public:
     void SetTime (float time);
     T value () const { return m_value; }
     bool finished () const { return m_t >= m_duration; }
+    float duration () const { return m_duration; }
+    float time () const { return m_t; }
 
     static Tween<T> NoTween (T start, T end, float duration);
     static Tween<T> Linear (T start, T end, float duration);
@@ -26,7 +27,6 @@ public:
     static Tween<T> SinInOut (T start, T end, float duration);
 
 private:
-    friend class CompositeTween<T>;
 
     enum EaseType {
         EASE_NONE,
@@ -57,12 +57,12 @@ private:
 
 template <typename T> class CompositeTween {
 public:
-    CompositeTween () :
-        m_currentTween(0) {
+    CompositeTween () : m_currentTween(0) {
     }
-    ~CompositeTween ();
+    ~CompositeTween () { }
 
     void Update (float dt);
+    void SetTime (float time);
     void AddTween (Tween<T> tween);
     T value ();
 
@@ -160,12 +160,38 @@ template <typename T> Tween<T> Tween<T>::SinInOut (T start, T end,
     return Tween<T>(EASE_INOUTSIN, start, end, duration);
 }
 
+template <typename T> void CompositeTween<T>::SetTime (float time) {
+    if (m_tweens.size() == 0)
+        return;
+
+    uint i = 0;
+    for (; i < m_tweens.size(); i++) {
+        Tween<T>* tween = &m_tweens[i];
+        float amount = MIN(tween->duration(), time);
+        tween->SetTime(amount);
+        time -= amount;
+        if (time <= 0) {
+            m_currentTween = i;
+            break;
+        }
+    }
+    CHECK_GE(time, 0);
+    i++;
+    for (; i < m_tweens.size(); i++)
+        m_tweens[i].SetTime(0);
+
+    m_tweens[m_tweens.size() - 1].Update(time);
+    if (time > 0)
+        m_currentTween = m_tweens.size() - 1;
+}
+
 template <typename T> void CompositeTween<T>::Update (float dt) {
     m_tweens[m_currentTween].Update(dt);
-    while (m_tweens[m_currentTween].m_t >= m_tweens[m_currentTween].m_duration
-           && m_currentTween < m_tweens.size() - 1) {
-        dt -= m_tweens[m_currentTween].m_t -
-              m_tweens[m_currentTween].m_duration;
+    while (
+        m_tweens[m_currentTween].time() >= m_tweens[m_currentTween].duration()
+        && m_currentTween < (int)m_tweens.size() - 1) {
+        dt -= m_tweens[m_currentTween].time() -
+              m_tweens[m_currentTween].duration();
         m_currentTween++;
         m_tweens[m_currentTween].Update(dt);
     }

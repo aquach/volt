@@ -3184,69 +3184,71 @@ namespace Swig {
 #define SWIGTYPE_p_Volt__BBox swig_types[20]
 #define SWIGTYPE_p_Volt__Camera swig_types[21]
 #define SWIGTYPE_p_Volt__Color swig_types[22]
-#define SWIGTYPE_p_Volt__DataAssetRef swig_types[23]
-#define SWIGTYPE_p_Volt__DataSource swig_types[24]
-#define SWIGTYPE_p_Volt__Entity swig_types[25]
-#define SWIGTYPE_p_Volt__EntityContactListener swig_types[26]
-#define SWIGTYPE_p_Volt__FSM swig_types[27]
-#define SWIGTYPE_p_Volt__FSMState swig_types[28]
-#define SWIGTYPE_p_Volt__Filter swig_types[29]
-#define SWIGTYPE_p_Volt__Game swig_types[30]
-#define SWIGTYPE_p_Volt__PhysicsManager swig_types[31]
-#define SWIGTYPE_p_Volt__Random swig_types[32]
-#define SWIGTYPE_p_Volt__Scene swig_types[33]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[34]
-#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[35]
-#define SWIGTYPE_p_Volt__Time swig_types[36]
-#define SWIGTYPE_p_Volt__Transform swig_types[37]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[38]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[39]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[40]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[41]
-#define SWIGTYPE_p_Weapon swig_types[42]
-#define SWIGTYPE_p_allocator_type swig_types[43]
-#define SWIGTYPE_p_b2Body swig_types[44]
-#define SWIGTYPE_p_b2BodyDef swig_types[45]
-#define SWIGTYPE_p_b2Contact swig_types[46]
-#define SWIGTYPE_p_b2ContactEdge swig_types[47]
-#define SWIGTYPE_p_b2Fixture swig_types[48]
-#define SWIGTYPE_p_b2FixtureDef swig_types[49]
-#define SWIGTYPE_p_b2JointEdge swig_types[50]
-#define SWIGTYPE_p_b2MassData swig_types[51]
-#define SWIGTYPE_p_b2Mat22 swig_types[52]
-#define SWIGTYPE_p_b2Mat33 swig_types[53]
-#define SWIGTYPE_p_b2Shape swig_types[54]
-#define SWIGTYPE_p_b2Sweep swig_types[55]
-#define SWIGTYPE_p_b2Transform swig_types[56]
-#define SWIGTYPE_p_b2Vec2 swig_types[57]
-#define SWIGTYPE_p_b2Vec3 swig_types[58]
-#define SWIGTYPE_p_b2World swig_types[59]
-#define SWIGTYPE_p_char swig_types[60]
-#define SWIGTYPE_p_const_reference swig_types[61]
-#define SWIGTYPE_p_difference_type swig_types[62]
-#define SWIGTYPE_p_float swig_types[63]
-#define SWIGTYPE_p_float32 swig_types[64]
-#define SWIGTYPE_p_int swig_types[65]
-#define SWIGTYPE_p_int32 swig_types[66]
-#define SWIGTYPE_p_istream swig_types[67]
-#define SWIGTYPE_p_long swig_types[68]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[69]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[70]
-#define SWIGTYPE_p_ostream swig_types[71]
-#define SWIGTYPE_p_p_PyObject swig_types[72]
-#define SWIGTYPE_p_reference swig_types[73]
-#define SWIGTYPE_p_size_type swig_types[74]
-#define SWIGTYPE_p_std__invalid_argument swig_types[75]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[76]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[77]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[78]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[79]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[80]
-#define SWIGTYPE_p_uint32 swig_types[81]
-#define SWIGTYPE_p_void swig_types[82]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[83]
-static swig_type_info *swig_types[85];
-static swig_module_info swig_module = {swig_types, 84, 0, 0, 0, 0};
+#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[23]
+#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[24]
+#define SWIGTYPE_p_Volt__DataAssetRef swig_types[25]
+#define SWIGTYPE_p_Volt__DataSource swig_types[26]
+#define SWIGTYPE_p_Volt__Entity swig_types[27]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[28]
+#define SWIGTYPE_p_Volt__FSM swig_types[29]
+#define SWIGTYPE_p_Volt__FSMState swig_types[30]
+#define SWIGTYPE_p_Volt__Filter swig_types[31]
+#define SWIGTYPE_p_Volt__Game swig_types[32]
+#define SWIGTYPE_p_Volt__PhysicsManager swig_types[33]
+#define SWIGTYPE_p_Volt__Random swig_types[34]
+#define SWIGTYPE_p_Volt__Scene swig_types[35]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[36]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[37]
+#define SWIGTYPE_p_Volt__Time swig_types[38]
+#define SWIGTYPE_p_Volt__Transform swig_types[39]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[40]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[41]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[42]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[43]
+#define SWIGTYPE_p_Weapon swig_types[44]
+#define SWIGTYPE_p_allocator_type swig_types[45]
+#define SWIGTYPE_p_b2Body swig_types[46]
+#define SWIGTYPE_p_b2BodyDef swig_types[47]
+#define SWIGTYPE_p_b2Contact swig_types[48]
+#define SWIGTYPE_p_b2ContactEdge swig_types[49]
+#define SWIGTYPE_p_b2Fixture swig_types[50]
+#define SWIGTYPE_p_b2FixtureDef swig_types[51]
+#define SWIGTYPE_p_b2JointEdge swig_types[52]
+#define SWIGTYPE_p_b2MassData swig_types[53]
+#define SWIGTYPE_p_b2Mat22 swig_types[54]
+#define SWIGTYPE_p_b2Mat33 swig_types[55]
+#define SWIGTYPE_p_b2Shape swig_types[56]
+#define SWIGTYPE_p_b2Sweep swig_types[57]
+#define SWIGTYPE_p_b2Transform swig_types[58]
+#define SWIGTYPE_p_b2Vec2 swig_types[59]
+#define SWIGTYPE_p_b2Vec3 swig_types[60]
+#define SWIGTYPE_p_b2World swig_types[61]
+#define SWIGTYPE_p_char swig_types[62]
+#define SWIGTYPE_p_const_reference swig_types[63]
+#define SWIGTYPE_p_difference_type swig_types[64]
+#define SWIGTYPE_p_float swig_types[65]
+#define SWIGTYPE_p_float32 swig_types[66]
+#define SWIGTYPE_p_int swig_types[67]
+#define SWIGTYPE_p_int32 swig_types[68]
+#define SWIGTYPE_p_istream swig_types[69]
+#define SWIGTYPE_p_long swig_types[70]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[71]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[72]
+#define SWIGTYPE_p_ostream swig_types[73]
+#define SWIGTYPE_p_p_PyObject swig_types[74]
+#define SWIGTYPE_p_reference swig_types[75]
+#define SWIGTYPE_p_size_type swig_types[76]
+#define SWIGTYPE_p_std__invalid_argument swig_types[77]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[78]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[79]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[80]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[81]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[82]
+#define SWIGTYPE_p_uint32 swig_types[83]
+#define SWIGTYPE_p_void swig_types[84]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[85]
+static swig_type_info *swig_types[87];
+static swig_module_info swig_module = {swig_types, 86, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -18733,6 +18735,328 @@ SWIGINTERN PyObject *TweenFloat_swigregister(PyObject *SWIGUNUSEDPARM(self), PyO
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_CompositeTweenVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_CompositeTweenVector")) SWIG_fail;
+  result = (Volt::CompositeTween< Volt::Vector2 > *)new Volt::CompositeTween< Volt::Vector2 >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_CompositeTweenVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *arg1 = (Volt::CompositeTween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CompositeTweenVector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CompositeTweenVector" "', argument " "1"" of type '" "Volt::CompositeTween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< Volt::Vector2 > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenVector_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *arg1 = (Volt::CompositeTween< Volt::Vector2 > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CompositeTweenVector_Update",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenVector_Update" "', argument " "1"" of type '" "Volt::CompositeTween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< Volt::Vector2 > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CompositeTweenVector_Update" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->Update(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenVector_SetTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *arg1 = (Volt::CompositeTween< Volt::Vector2 > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CompositeTweenVector_SetTime",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenVector_SetTime" "', argument " "1"" of type '" "Volt::CompositeTween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< Volt::Vector2 > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CompositeTweenVector_SetTime" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SetTime(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenVector_AddTween(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *arg1 = (Volt::CompositeTween< Volt::Vector2 > *) 0 ;
+  SwigValueWrapper< Volt::Tween< Volt::Vector2 > > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CompositeTweenVector_AddTween",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenVector_AddTween" "', argument " "1"" of type '" "Volt::CompositeTween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< Volt::Vector2 > * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CompositeTweenVector_AddTween" "', argument " "2"" of type '" "Volt::Tween< Volt::Vector2 >""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CompositeTweenVector_AddTween" "', argument " "2"" of type '" "Volt::Tween< Volt::Vector2 >""'");
+    } else {
+      Volt::Tween< Volt::Vector2 > * temp = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->AddTween(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenVector_value(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *arg1 = (Volt::CompositeTween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Vector2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CompositeTweenVector_value",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenVector_value" "', argument " "1"" of type '" "Volt::CompositeTween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< Volt::Vector2 > * >(argp1);
+  result = (arg1)->value();
+  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CompositeTweenVector_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_CompositeTweenFloat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_CompositeTweenFloat")) SWIG_fail;
+  result = (Volt::CompositeTween< float > *)new Volt::CompositeTween< float >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__CompositeTweenT_float_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_CompositeTweenFloat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *arg1 = (Volt::CompositeTween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CompositeTweenFloat",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_float_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CompositeTweenFloat" "', argument " "1"" of type '" "Volt::CompositeTween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< float > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenFloat_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *arg1 = (Volt::CompositeTween< float > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CompositeTweenFloat_Update",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenFloat_Update" "', argument " "1"" of type '" "Volt::CompositeTween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< float > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CompositeTweenFloat_Update" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->Update(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenFloat_SetTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *arg1 = (Volt::CompositeTween< float > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CompositeTweenFloat_SetTime",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenFloat_SetTime" "', argument " "1"" of type '" "Volt::CompositeTween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< float > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CompositeTweenFloat_SetTime" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SetTime(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenFloat_AddTween(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *arg1 = (Volt::CompositeTween< float > *) 0 ;
+  SwigValueWrapper< Volt::Tween< float > > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CompositeTweenFloat_AddTween",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenFloat_AddTween" "', argument " "1"" of type '" "Volt::CompositeTween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< float > * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__TweenT_float_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CompositeTweenFloat_AddTween" "', argument " "2"" of type '" "Volt::Tween< float >""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CompositeTweenFloat_AddTween" "', argument " "2"" of type '" "Volt::Tween< float >""'");
+    } else {
+      Volt::Tween< float > * temp = reinterpret_cast< Volt::Tween< float > * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->AddTween(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenFloat_value(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *arg1 = (Volt::CompositeTween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CompositeTweenFloat_value",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenFloat_value" "', argument " "1"" of type '" "Volt::CompositeTween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< float > * >(argp1);
+  result = (float)(arg1)->value();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CompositeTweenFloat_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__CompositeTweenT_float_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_BBox_min_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::BBox *arg1 = (Volt::BBox *) 0 ;
@@ -29291,6 +29615,20 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"TweenFloat_SinInOut", _wrap_TweenFloat_SinInOut, METH_VARARGS, NULL},
 	 { (char *)"delete_TweenFloat", _wrap_delete_TweenFloat, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_swigregister", TweenFloat_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_CompositeTweenVector", _wrap_new_CompositeTweenVector, METH_VARARGS, NULL},
+	 { (char *)"delete_CompositeTweenVector", _wrap_delete_CompositeTweenVector, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenVector_Update", _wrap_CompositeTweenVector_Update, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenVector_SetTime", _wrap_CompositeTweenVector_SetTime, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenVector_AddTween", _wrap_CompositeTweenVector_AddTween, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenVector_value", _wrap_CompositeTweenVector_value, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenVector_swigregister", CompositeTweenVector_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_CompositeTweenFloat", _wrap_new_CompositeTweenFloat, METH_VARARGS, NULL},
+	 { (char *)"delete_CompositeTweenFloat", _wrap_delete_CompositeTweenFloat, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenFloat_Update", _wrap_CompositeTweenFloat_Update, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenFloat_SetTime", _wrap_CompositeTweenFloat_SetTime, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenFloat_AddTween", _wrap_CompositeTweenFloat_AddTween, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenFloat_value", _wrap_CompositeTweenFloat_value, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenFloat_swigregister", CompositeTweenFloat_swigregister, METH_VARARGS, NULL},
 	 { (char *)"BBox_min_set", _wrap_BBox_min_set, METH_VARARGS, NULL},
 	 { (char *)"BBox_min_get", _wrap_BBox_min_get, METH_VARARGS, NULL},
 	 { (char *)"BBox_max_set", _wrap_BBox_max_set, METH_VARARGS, NULL},
@@ -29693,6 +30031,8 @@ static swig_type_info _swigt__p_Volt__AppTime = {"_p_Volt__AppTime", "Volt::AppT
 static swig_type_info _swigt__p_Volt__BBox = {"_p_Volt__BBox", "Volt::BBox *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Camera = {"_p_Volt__Camera", "Volt::Camera *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Color = {"_p_Volt__Color", "Volt::Color *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__CompositeTweenT_Volt__Vector2_t = {"_p_Volt__CompositeTweenT_Volt__Vector2_t", "Volt::CompositeTween< Volt::Vector2 > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__CompositeTweenT_float_t = {"_p_Volt__CompositeTweenT_float_t", "Volt::CompositeTween< float > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__DataAssetRef = {"_p_Volt__DataAssetRef", "Volt::DataAssetRef *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__DataSource = {"_p_Volt__DataSource", "Volt::DataSource *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Entity = {"_p_Volt__Entity", "Volt::Entity *", 0, 0, (void*)0, 0};
@@ -29779,6 +30119,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__BBox,
   &_swigt__p_Volt__Camera,
   &_swigt__p_Volt__Color,
+  &_swigt__p_Volt__CompositeTweenT_Volt__Vector2_t,
+  &_swigt__p_Volt__CompositeTweenT_float_t,
   &_swigt__p_Volt__DataAssetRef,
   &_swigt__p_Volt__DataSource,
   &_swigt__p_Volt__Entity,
@@ -29865,6 +30207,8 @@ static swig_cast_info _swigc__p_Volt__AppTime[] = {  {&_swigt__p_Volt__AppTime, 
 static swig_cast_info _swigc__p_Volt__BBox[] = {  {&_swigt__p_Volt__BBox, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Camera[] = {  {&_swigt__p_Volt__Camera, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Color[] = {  {&_swigt__p_Volt__Color, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__CompositeTweenT_Volt__Vector2_t[] = {  {&_swigt__p_Volt__CompositeTweenT_Volt__Vector2_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__CompositeTweenT_float_t[] = {  {&_swigt__p_Volt__CompositeTweenT_float_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataAssetRef[] = {  {&_swigt__p_Volt__DataAssetRef, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataSource[] = {  {&_swigt__p_Volt__DataSource, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
@@ -29951,6 +30295,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__BBox,
   _swigc__p_Volt__Camera,
   _swigc__p_Volt__Color,
+  _swigc__p_Volt__CompositeTweenT_Volt__Vector2_t,
+  _swigc__p_Volt__CompositeTweenT_float_t,
   _swigc__p_Volt__DataAssetRef,
   _swigc__p_Volt__DataSource,
   _swigc__p_Volt__Entity,

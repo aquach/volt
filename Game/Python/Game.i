@@ -71,6 +71,8 @@
 %include "Volt/Core/Tween.h"
 %template(TweenVector) Volt::Tween<Volt::Vector2>;
 %template(TweenFloat) Volt::Tween<float>;
+%template(CompositeTweenVector) Volt::CompositeTween<Volt::Vector2>;
+%template(CompositeTweenFloat) Volt::CompositeTween<float>;
 
 %include "Volt/Core/BBox.h"
 %include "Volt/Core/Vector3.h"

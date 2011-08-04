@@ -77,11 +77,27 @@ ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:
     ladder.OnTouched(onTouched)
 
-time.sleep(1)
 
+e = EntityFactory.Create('Triangle')
+e.SetScale(Vector2(3, 1))
+
+start = Vector2(3, 2)
+end = start + Vector2(0, -5)
+duration = 3
+
+tween = CompositeTweenVector();
+tween.AddTween(TweenVector.Linear(start, end, duration))
+tween.AddTween(TweenVector.QuadraticIn(end, start, duration))
+
+start = time.time()
 while not level().IsUnloading():
-    print 'hurr'
-    time.sleep(1)
+    time.sleep(0.01)
+    elapsed = time.time() - start
+    if elapsed > duration * 2:
+        start = time.time()
+    tween.SetTime(elapsed)
+    e.SetPosition(tween.value())
+
 
 #PhysicsManager.Instance().SetGravity(Vector2(0, -30))
 

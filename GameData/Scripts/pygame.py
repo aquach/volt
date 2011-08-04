@@ -890,6 +890,44 @@ def TweenFloat_SinInOut(*args):
   return _pygame.TweenFloat_SinInOut(*args)
 TweenFloat_SinInOut = _pygame.TweenFloat_SinInOut
 
+class CompositeTweenVector(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CompositeTweenVector, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CompositeTweenVector, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_CompositeTweenVector()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_CompositeTweenVector
+    __del__ = lambda self : None;
+    def Update(self, *args): return _pygame.CompositeTweenVector_Update(self, *args)
+    def SetTime(self, *args): return _pygame.CompositeTweenVector_SetTime(self, *args)
+    def AddTween(self, *args): return _pygame.CompositeTweenVector_AddTween(self, *args)
+    def value(self): return _pygame.CompositeTweenVector_value(self)
+CompositeTweenVector_swigregister = _pygame.CompositeTweenVector_swigregister
+CompositeTweenVector_swigregister(CompositeTweenVector)
+
+class CompositeTweenFloat(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CompositeTweenFloat, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CompositeTweenFloat, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_CompositeTweenFloat()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_CompositeTweenFloat
+    __del__ = lambda self : None;
+    def Update(self, *args): return _pygame.CompositeTweenFloat_Update(self, *args)
+    def SetTime(self, *args): return _pygame.CompositeTweenFloat_SetTime(self, *args)
+    def AddTween(self, *args): return _pygame.CompositeTweenFloat_AddTween(self, *args)
+    def value(self): return _pygame.CompositeTweenFloat_value(self)
+CompositeTweenFloat_swigregister = _pygame.CompositeTweenFloat_swigregister
+CompositeTweenFloat_swigregister(CompositeTweenFloat)
+
 class BBox(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, BBox, name, value)

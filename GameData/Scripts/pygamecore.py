@@ -1,5 +1,6 @@
 import pygame
 import threading
+import time
 
 '''Handy method to get scene pointer.'''
 def scene():
@@ -15,6 +16,13 @@ def disown(swigObj):
     swigObj.thisown = 0
     return swigObj
 
+''' Sleep, guarding against the level unloading while sleeping.'''
+def longSleep(duration):
+    while not level().IsUnloading() and duration > 0:
+        sleepTime = min(duration, 1)
+        duration -= sleepTime
+        time.sleep(sleepTime)
+    
 def background(f):
     """
     a threading decorator
