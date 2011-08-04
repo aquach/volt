@@ -11,7 +11,7 @@ namespace Volt {
  *  special. */
 class Filter {
 public:
-    Filter (int bottomLayer, int topLayer);
+    Filter (const string& name, int bottomLayer, int topLayer);
     virtual ~Filter () { }
 
     /* Called just before any entities in the bottom layer or higher are
@@ -24,8 +24,10 @@ public:
     int bottomLayer () const { return m_bottomLayer; }
     int topLayer () const { return m_topLayer; }
 
+    const string& name () const { return m_name; }
+
 private:
-    friend class Scene;
+    string m_name;
     int m_bottomLayer;
     int m_topLayer;
 

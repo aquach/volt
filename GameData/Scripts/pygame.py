@@ -985,6 +985,22 @@ class Camera(_object):
 Camera_swigregister = _pygame.Camera_swigregister
 Camera_swigregister(Camera)
 
+class Filter(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Filter, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Filter, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_Filter
+    __del__ = lambda self : None;
+    def OnBottomLayer(self): return _pygame.Filter_OnBottomLayer(self)
+    def OnTopLayer(self): return _pygame.Filter_OnTopLayer(self)
+    def bottomLayer(self): return _pygame.Filter_bottomLayer(self)
+    def topLayer(self): return _pygame.Filter_topLayer(self)
+Filter_swigregister = _pygame.Filter_swigregister
+Filter_swigregister(Filter)
+
 class AppTime(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, AppTime, name, value)

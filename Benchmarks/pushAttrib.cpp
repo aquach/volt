@@ -124,7 +124,37 @@ void textureUnbound () {
     glEnd();
 }
 
+void func (string a) {
+}
+
+void func2 (const string& a) {
+}
+
+string value = "SDOFJSDFOISJDFOJSDFOIJ";
+
+string returner () {
+    return value;
+}
+
+const string& returner2 () {
+    return value;
+}
+
+void refs () {
+    if (returner().size() > 0)
+        int a = 5;
+}
+
+void norefs () {
+    if (returner2().size() > 0)
+        int a = 5;
+}
+
 int main (int argc, char** argv) {
+    QuickTest("ref", refs);
+    QuickTest("noref", norefs);
+    return 0;
+    
     // Initialize screen buffer
     SDL_Surface *screen;
 

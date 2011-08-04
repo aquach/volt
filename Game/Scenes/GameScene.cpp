@@ -61,7 +61,7 @@ GameScene::GameScene ()
 
     camera()->WatchEntity(m_player);
 
-    EdgeFilter* f = new EdgeFilter(40, -5);
+    EdgeFilter* f = new EdgeFilter("EdgeFilter", 40, -5);
     AddFilter(f);
 }
 

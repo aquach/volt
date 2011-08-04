@@ -10,7 +10,7 @@ namespace Volt {
 
 class EdgeFilter : public Volt::Filter {
 public:
-    EdgeFilter (int bottomLayer, int topLayer);
+    EdgeFilter (const string& name, int bottomLayer, int topLayer);
     virtual ~EdgeFilter ();
 
     virtual void OnBottomLayer ();

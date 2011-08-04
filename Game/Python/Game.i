@@ -19,6 +19,7 @@
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Camera.h"
 #include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/Filter.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Game/Entity.h"
@@ -73,6 +74,10 @@
 %include "Volt/Core/Vector3.h"
 
 %include "Volt/Graphics/Camera.h"
+%pythonappend Volt::Filter::Filter() %{
+   self.__disown__()
+%}
+%include "Volt/Graphics/Filter.h"
 
 %include "Volt/Game/AppTime.h"
 

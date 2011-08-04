@@ -1,7 +1,7 @@
 #include "Property.h"
 #include "Game/Game/Entity.h"
 
-void Vector2Property::Save (string input) {
+void Vector2Property::Save (const string& input) {
     stringstream stream(input);
     stream >> *m_v;
 }
@@ -12,7 +12,7 @@ void Vector2Property::Load (string* out) const {
     *out = stream.str();
 }
 
-void FloatProperty::Save (string input) {
+void FloatProperty::Save (const string& input) {
     stringstream stream(input);
     stream >> *m_num;
 }
@@ -23,7 +23,7 @@ void FloatProperty::Load (string* out) const {
     *out = stream.str();
 }
 
-void IntProperty::Save (string input) {
+void IntProperty::Save (const string& input) {
     stringstream stream(input);
     stream >> *m_num;
 }
@@ -34,7 +34,7 @@ void IntProperty::Load (string* out) const {
     *out = stream.str();
 }
 
-void EntityLayerProperty::Save (string input) {
+void EntityLayerProperty::Save (const string& input) {
     stringstream stream(input);
     int layer;
     stream >> layer;
@@ -49,7 +49,7 @@ void EntityLayerProperty::Load (string* out) const {
     *out = stream.str();
 }
 
-void EntityPositionProperty::Save (string input) {
+void EntityPositionProperty::Save (const string& input) {
     stringstream stream(input);
     Vector2 position;
     stream >> position;
@@ -64,7 +64,7 @@ void EntityPositionProperty::Load (string* out) const {
     *out = stream.str();
 }
 
-void EntityRotationProperty::Save (string input) {
+void EntityRotationProperty::Save (const string& input) {
     stringstream stream(input);
     float rotation;
     stream >> rotation;
@@ -79,7 +79,7 @@ void EntityRotationProperty::Load (string* out) const {
     *out = stream.str();
 }
 
-void EntityScaleProperty::Save (string input) {
+void EntityScaleProperty::Save (const string& input) {
     stringstream stream(input);
     Vector2 scale;
     stream >> scale;
@@ -94,7 +94,7 @@ void EntityScaleProperty::Load (string* out) const {
     *out = stream.str();
 }
 
-void StringProperty::Save (string input) {
+void StringProperty::Save (const string& input) {
     *m_str = input;
 }
 
@@ -102,7 +102,7 @@ void StringProperty::Load (string* out) const {
     *out = *m_str;
 }
 
-void ColorProperty::Save (string input) {
+void ColorProperty::Save (const string& input) {
     stringstream stream(input);
     stream >> *m_color;
 }

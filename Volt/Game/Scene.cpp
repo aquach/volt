@@ -373,4 +373,13 @@ void Scene::OnEntityTagRemove (Entity* entity, const string& tag) {
     m_entityTags[tag].remove(entity);
 }
 
+Filter* Scene::GetFilter (const string& filterName) {
+    FOR_ (Filters::iterator, i, m_bottomFilters) {
+        FOR_(list<Filter*>::iterator, filterIter, i->second)
+            if ((*filterIter)->name() == filterName)
+                return *filterIter;
+    }
+    return NULL;
+}
+
 }

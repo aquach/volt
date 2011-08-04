@@ -57,6 +57,7 @@ public:
 
     void AddFilter (Filter* filter);
     void RemoveFilter (Filter* filter);
+    Filter* GetFilter (const string& filterName);
 
     Camera* camera () { return &m_camera; }
 

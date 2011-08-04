@@ -4,8 +4,8 @@
 #include "Volt/Graphics/Viewport.h"
 #include "Game/Graphics/Graphics.h"
 
-EdgeFilter::EdgeFilter (int bottomLayer, int topLayer)
-    : Volt::Filter(bottomLayer, topLayer),
+EdgeFilter::EdgeFilter (const string& name, int bottomLayer, int topLayer)
+    : Volt::Filter(name, bottomLayer, topLayer),
       m_shader(NULL),
       m_buffer(NULL) {
 

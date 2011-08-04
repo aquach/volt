@@ -3359,6 +3359,7 @@ namespace swig {
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Camera.h"
 #include "Volt/Graphics/Graphics.h"
+#include "Volt/Graphics/Filter.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Game/Entity.h"
@@ -20157,6 +20158,120 @@ SWIGINTERN PyObject *Camera_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObjec
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_delete_Filter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_Filter",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Filter" "', argument " "1"" of type '" "Volt::Filter *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_OnBottomLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_OnBottomLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_OnBottomLayer" "', argument " "1"" of type '" "Volt::Filter *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  (arg1)->OnBottomLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_OnTopLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_OnTopLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_OnTopLayer" "', argument " "1"" of type '" "Volt::Filter *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  (arg1)->OnTopLayer();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_bottomLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_bottomLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_bottomLayer" "', argument " "1"" of type '" "Volt::Filter const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  result = (int)((Volt::Filter const *)arg1)->bottomLayer();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Filter_topLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Filter *arg1 = (Volt::Filter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Filter_topLayer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Filter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Filter_topLayer" "', argument " "1"" of type '" "Volt::Filter const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Filter * >(argp1);
+  result = (int)((Volt::Filter const *)arg1)->topLayer();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *Filter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Volt__Filter, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_AppTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::AppTime *result = 0 ;
@@ -28643,6 +28758,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Camera_transform_get", _wrap_Camera_transform_get, METH_VARARGS, NULL},
 	 { (char *)"delete_Camera", _wrap_delete_Camera, METH_VARARGS, NULL},
 	 { (char *)"Camera_swigregister", Camera_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_Filter", _wrap_delete_Filter, METH_VARARGS, NULL},
+	 { (char *)"Filter_OnBottomLayer", _wrap_Filter_OnBottomLayer, METH_VARARGS, NULL},
+	 { (char *)"Filter_OnTopLayer", _wrap_Filter_OnTopLayer, METH_VARARGS, NULL},
+	 { (char *)"Filter_bottomLayer", _wrap_Filter_bottomLayer, METH_VARARGS, NULL},
+	 { (char *)"Filter_topLayer", _wrap_Filter_topLayer, METH_VARARGS, NULL},
+	 { (char *)"Filter_swigregister", Filter_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_AppTime", _wrap_new_AppTime, METH_VARARGS, NULL},
 	 { (char *)"AppTime_dt", _wrap_AppTime_dt, METH_VARARGS, NULL},
 	 { (char *)"AppTime_SetDt", _wrap_AppTime_SetDt, METH_VARARGS, NULL},
