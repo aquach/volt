@@ -22,7 +22,9 @@ def background(f):
     (run in the background)
     """
     def bg_f(*a, **kw):
-        threading.Thread(target=f, args=a, kwargs=kw).start()
+        thread = threading.Thread(name=f.__name__, target=f, args=a, kwargs=kw)
+        thread.start()
+        return thread
     return bg_f
 
 class PyEntity(pygame.Entity):

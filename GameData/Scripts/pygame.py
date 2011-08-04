@@ -770,6 +770,7 @@ class TweenVector(_object):
     def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
     def Update(self, *args): return _pygame.TweenVector_Update(self, *args)
+    def SetTime(self, *args): return _pygame.TweenVector_SetTime(self, *args)
     def value(self): return _pygame.TweenVector_value(self)
     def finished(self): return _pygame.TweenVector_finished(self)
     __swig_getmethods__["NoTween"] = lambda x: _pygame.TweenVector_NoTween
@@ -833,6 +834,7 @@ class TweenFloat(_object):
     def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
     def Update(self, *args): return _pygame.TweenFloat_Update(self, *args)
+    def SetTime(self, *args): return _pygame.TweenFloat_SetTime(self, *args)
     def value(self): return _pygame.TweenFloat_value(self)
     def finished(self): return _pygame.TweenFloat_finished(self)
     __swig_getmethods__["NoTween"] = lambda x: _pygame.TweenFloat_NoTween

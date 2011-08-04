@@ -12,6 +12,7 @@ template <typename T> class CompositeTween;
 template <typename T> class Tween {
 public:
     void Update (float dt);
+    void SetTime (float time);
     T value () const { return m_value; }
     bool finished () const { return m_t >= m_duration; }
 
@@ -72,8 +73,11 @@ private:
 
 
 template<typename T> void Tween<T>::Update (float dt) {
-    m_t += dt;
+    SetTime(m_t + dt);
+}
 
+template<typename T> void Tween<T>::SetTime (float time) {
+    m_t = time;
     float t = m_t / m_duration;
     if (t >= 1.0f)
         t = 1.0f;

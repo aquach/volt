@@ -51,21 +51,24 @@ scene().AddFilter(blendFilter)
 
 @background
 def fadeOut():
-    # TODO: sleepFrame call that sleeps for exactly one frame.
-    duration = 2
-    steps = 30
+    tween = TweenFloat.Linear(0, 1, 2)
     start = time.time()
-    timePerStep = float(duration) / steps
-    sleeps = 0
-    for i in xrange(0, steps):
-        time.sleep(timePerStep)
-        blendFilter.setBlendAmount(float(i) / steps)
-        sleeps += 1
-    print 'duration', time.time() - start
-    print sleeps, 'sleeps'
+    while not tween.finished():
+        time.sleep(0.01)
+        tween.SetTime(time.time() - start)
+        blendFilter.setBlendAmount(tween.value())
     level().RequestLevelChange("Levels/lights.json")
-    blendFilter.setBlendAmount(0)
-    
+    time.sleep(2)
+    tween = TweenFloat.Linear(1, 0, 2)
+    start = time.time()
+    # TODO: The main script executed by runScriptFile is joined when the level
+    # unloads. But any threads that it spawns will hang around. This might be a
+    # problem.
+    while not tween.finished():
+        time.sleep(0.01)
+        tween.SetTime(time.time() - start)
+        blendFilter.setBlendAmount(tween.value())
+
 def onTouched(ladder, hit, contact):
     print 'fade'
     fadeOut()

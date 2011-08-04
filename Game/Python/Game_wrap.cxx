@@ -17731,6 +17731,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_TweenVector_SetTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:TweenVector_SetTime",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_SetTime" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenVector_SetTime" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SetTime(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_TweenVector_value(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
@@ -18274,6 +18304,36 @@ SWIGINTERN PyObject *_wrap_TweenFloat_Update(PyObject *SWIGUNUSEDPARM(self), PyO
   } 
   arg2 = static_cast< float >(val2);
   (arg1)->Update(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_SetTime(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:TweenFloat_SetTime",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenFloat_SetTime" "', argument " "1"" of type '" "Volt::Tween< float > *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TweenFloat_SetTime" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SetTime(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -29204,6 +29264,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_Transform", _wrap_delete_Transform, METH_VARARGS, NULL},
 	 { (char *)"Transform_swigregister", Transform_swigregister, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_Update", _wrap_TweenVector_Update, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_SetTime", _wrap_TweenVector_SetTime, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_value", _wrap_TweenVector_value, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_finished", _wrap_TweenVector_finished, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_NoTween", _wrap_TweenVector_NoTween, METH_VARARGS, NULL},
@@ -29217,6 +29278,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_TweenVector", _wrap_delete_TweenVector, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_swigregister", TweenVector_swigregister, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_Update", _wrap_TweenFloat_Update, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_SetTime", _wrap_TweenFloat_SetTime, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_value", _wrap_TweenFloat_value, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_finished", _wrap_TweenFloat_finished, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_NoTween", _wrap_TweenFloat_NoTween, METH_VARARGS, NULL},
