@@ -1,4 +1,5 @@
 import threading
+import pyvoltbootstrap
 
 def _filenameToModuleName (filename):
     if filename.startswith('Scripts/'):
@@ -10,19 +11,31 @@ def _filenameToModuleName (filename):
 threads = []
 
 class ScriptThread(threading.Thread):
-    def __init__(self, scriptName):
+    def __init__(self, code, scriptName=None):
         threading.Thread.__init__(self, name=scriptName)
-        self.scriptName = scriptName
+        self.code = code
         self.daemon = True
 
     def run(self):
-        __import__(self.scriptName)
+        exec self.code in {}
 
-def runScriptFile(filename):
-    scriptName = _filenameToModuleName(filename)
-    thread = ScriptThread(scriptName)
+def runScript(code, origin=None):
+    thread = ScriptThread(code, origin)
     threads.append(thread)
     thread.start()
+
+def runScriptFile(filename, forceReload = False):
+    path = 'Scripts/' + filename
+    if forceReload:
+        reloaded = pyvoltbootstrap.reloadScript(path)
+        if not reloaded:
+            print 'Warning: failed to reload script file', path
+            return
+    code = pyvoltbootstrap.getCode(path)
+    if not code:
+        print 'Warning: Could not execute script file', path
+        return
+    runScript(code, filename)
 
 def waitForScripts():
     print 'Waiting for scripts to complete...'

@@ -79,7 +79,7 @@ void GameScene::Update () {
 }
 
 void GameScene::OnBegin () {
-    Python::RunGameScriptFile("test.py");
+    //Python::RunGameScriptFile("test.py");
     //Python::RunGameScriptFile("threadTest.py");
 }
 

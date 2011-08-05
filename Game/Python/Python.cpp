@@ -4,6 +4,18 @@
 
 namespace Python {
 
+static PyObject* reloadScript (PyObject* self, PyObject* args) {
+    char* path;
+    if (!PyArg_ParseTuple(args, "s", &path))
+        Py_RETURN_FALSE;
+
+    if (!G_AssetManager->assetExists(path))
+        Py_RETURN_FALSE;
+
+    G_AssetManager->GetScript(path)->Reload();
+    Py_RETURN_TRUE;
+}
+
 static PyObject* getCode (PyObject* self, PyObject* args) {
     char* path;
     if (!PyArg_ParseTuple(args, "s", &path))
@@ -20,6 +32,8 @@ static PyObject* getCode (PyObject* self, PyObject* args) {
 static PyMethodDef PyVoltBootstrapMethods[] = {
     {"getCode", getCode, METH_VARARGS,
      "Returns the code of the requested script."},
+     {"reloadScript", reloadScript, METH_VARARGS,
+      "Forces a reload of the given script."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -47,6 +61,14 @@ void RunGameScriptFile (const string& scriptPath) {
     char command[128];
     sprintf(command, "pygameutil.runScriptFile('%s')", scriptPath.c_str());
     PyRun_SimpleString(command);
+}
+
+int Lock () {
+    return (int)PyGILState_Ensure();
+}
+
+void Unlock (int lock) {
+    PyGILState_Release((PyGILState_STATE)lock);
 }
 
 }
