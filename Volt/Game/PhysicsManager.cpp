@@ -2,7 +2,6 @@
 #include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Graphics/PhysicsDebugDraw.h"
-#include "Game/Python/Python.h"
 
 namespace Volt {
 
@@ -21,10 +20,8 @@ public:
         CHECK_NOTNULL(entityA);
         CHECK_NOTNULL(entityB);
 
-        //int lock = Python::Lock();
         entityA->BeginContact(entityB, contact);
         entityB->BeginContact(entityA, contact);
-        //Python::Unlock(lock);
     }
 
     virtual void EndContact (b2Contact* contact) {

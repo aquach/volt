@@ -15,7 +15,6 @@
 #include "Game/Game/LevelManager.h"
 #include "Game/Game/LightManager.h"
 #include "Game/Game/GamePerfHook.h"
-#include "Game/Python/Python.h"
 #include "Game/Python/ScriptConsole.h"
 
 const float WORLD_TO_SCREEN_SCALE = 30;

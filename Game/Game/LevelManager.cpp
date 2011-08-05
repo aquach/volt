@@ -4,7 +4,7 @@
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/EditorEntities.h"
-#include "Game/Python/Python.h"
+#include "Volt/Python/Python.h"
 
 LevelManager* LevelManager::instance = NULL;
 
@@ -43,7 +43,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
 
     m_startScript = root.get("startScript", "").asString();
     if (m_startScript.size() > 0) {
-        Python::RunGameScriptFile(m_startScript);
+        Volt::Python::RunGameScriptFile(m_startScript);
     }
 
     m_loadedFilename = asset->path();
@@ -84,7 +84,7 @@ bool LevelManager::LoadLevelFromFilename (const string& filename) {
 void LevelManager::UnloadLevel () {
     LOG(INFO) << "Unloading level...";
     m_levelUnloading = true;
-    Python::WaitForScripts();
+    Volt::Python::WaitForScripts();
     FOR_ (set<Entity*>::iterator, i, m_entities)
         m_scene->Remove(*i);
     m_loadedFilename = "";

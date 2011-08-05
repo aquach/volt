@@ -10,6 +10,7 @@
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Game/Scene.h"
 #include "Volt/Game/AppTime.h"
+#include "Volt/Python/Python.h"
 
 #define MIN_DELTA_TIME (1.0f / 60.0f)
 #define MAX_DELTA_TIME (1.0f / 30.0f)
@@ -111,6 +112,7 @@ void Game::Run () {
         //SleepMicroseconds(2000);
         Py_END_ALLOW_THREADS
 
+        int lock = Python::Lock();
         m_physicsManager->Update();
 
         if (m_currentScene != NULL) {
@@ -129,6 +131,8 @@ void Game::Run () {
             m_currentScene->m_game = this;
             m_currentScene->OnBegin();
         }
+
+        Python::Unlock(lock);
 
         m_lastTick = tick;
     }

@@ -1,6 +1,8 @@
 #include "Game/Core/Core.h"
 #include "Volt/Assets/AssetManager.h"
 
+namespace Volt {
+
 namespace Python {
 
 void Initialize (int argc, char** argv);
@@ -13,4 +15,6 @@ void RunGameScriptFile (const string& scriptPath);
 // Access to the GIL of Python. Lock to protect calls that might go into Python.
 int Lock ();
 void Unlock (int lock);
+}
+
 }

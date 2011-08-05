@@ -2,6 +2,8 @@
 #include <Python.h>
 #include "Volt/Assets/AssetManager.h"
 
+namespace Volt {
+
 namespace Python {
 
 static PyObject* reloadScript (PyObject* self, PyObject* args) {
@@ -69,6 +71,8 @@ int Lock () {
 
 void Unlock (int lock) {
     PyGILState_Release((PyGILState_STATE)lock);
+}
+
 }
 
 }

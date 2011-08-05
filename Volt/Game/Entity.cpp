@@ -85,11 +85,9 @@ ostream& operator<< (ostream& stream, const Entity& e) {
 }
 
 void Entity::SetPosition (Vector2 pos) {
-    LOG(INFO) << "BEFORE SET";
     m_transform.position = pos;
     if (m_body != NULL)
         m_body->SetTransform(pos.ToB2(), m_transform.rotation * DEG2RAD);
-    LOG(INFO) << "AFTER SET";
 }
 
 void Entity::SetRotation (float rotation) {
