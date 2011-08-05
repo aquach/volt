@@ -26,7 +26,8 @@ public:
 
     void Run ();
     void Quit ();
-    
+
+    long frameNumber () const { return m_frameNumber; }
     float fps () const { return 1 / m_ticksPerFrame * 1000; }
 
     Scene* currentScene () const { return m_currentScene; }
@@ -55,6 +56,7 @@ private:
     Time m_time;
     SDLWindow* m_window;
 
+    long m_frameNumber;
     long m_lastTick;
     float m_ticksPerFrame;
 

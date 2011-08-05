@@ -773,6 +773,8 @@ class TweenVector(_object):
     def SetTime(self, *args): return _pygame.TweenVector_SetTime(self, *args)
     def value(self): return _pygame.TweenVector_value(self)
     def finished(self): return _pygame.TweenVector_finished(self)
+    def duration(self): return _pygame.TweenVector_duration(self)
+    def time(self): return _pygame.TweenVector_time(self)
     __swig_getmethods__["NoTween"] = lambda x: _pygame.TweenVector_NoTween
     if _newclass:NoTween = staticmethod(_pygame.TweenVector_NoTween)
     __swig_getmethods__["Linear"] = lambda x: _pygame.TweenVector_Linear
@@ -837,6 +839,8 @@ class TweenFloat(_object):
     def SetTime(self, *args): return _pygame.TweenFloat_SetTime(self, *args)
     def value(self): return _pygame.TweenFloat_value(self)
     def finished(self): return _pygame.TweenFloat_finished(self)
+    def duration(self): return _pygame.TweenFloat_duration(self)
+    def time(self): return _pygame.TweenFloat_time(self)
     __swig_getmethods__["NoTween"] = lambda x: _pygame.TweenFloat_NoTween
     if _newclass:NoTween = staticmethod(_pygame.TweenFloat_NoTween)
     __swig_getmethods__["Linear"] = lambda x: _pygame.TweenFloat_Linear
@@ -1231,6 +1235,7 @@ class Game(_object):
     __del__ = lambda self : None;
     def Run(self): return _pygame.Game_Run(self)
     def Quit(self): return _pygame.Game_Quit(self)
+    def frameNumber(self): return _pygame.Game_frameNumber(self)
     def fps(self): return _pygame.Game_fps(self)
     def currentScene(self): return _pygame.Game_currentScene(self)
     def SetScene(self, *args): return _pygame.Game_SetScene(self, *args)

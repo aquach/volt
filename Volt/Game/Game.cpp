@@ -32,7 +32,8 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
       m_soundManager(NULL),
       m_physicsManager(NULL),
       m_bindings(NULL),
-      m_appTime(NULL) {
+      m_appTime(NULL),
+      m_frameNumber(NULL) {
 
     Random::Seed();
 
@@ -95,7 +96,9 @@ void Game::Run () {
         long delta = tick - m_lastTick;
         if (delta < MIN_DELTA_TIME * 1000) {
             long sleepTicks = (int)(MIN_DELTA_TIME * 1000) - delta;
+            Py_BEGIN_ALLOW_THREADS
             SleepMicroseconds(sleepTicks * 1000);
+            Py_END_ALLOW_THREADS
             tick = m_time.GetMilliseconds();
             delta = tick - m_lastTick;
         }
@@ -103,13 +106,12 @@ void Game::Run () {
         float seconds = (tick - m_lastTick) * 0.001f;
         m_ticksPerFrame = m_ticksPerFrame * 0.95f + delta * 0.05f;
         m_appTime->SetDt(MIN(seconds, MAX_DELTA_TIME));
+        m_frameNumber++;
 
         m_window->UpdateInput();
         m_soundManager->Update();
 
         Py_BEGIN_ALLOW_THREADS
-        // Give time for threads to do work.
-        //SleepMicroseconds(2000);
         Py_END_ALLOW_THREADS
 
         int lock = Python::Lock();

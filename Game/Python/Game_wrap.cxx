@@ -17807,6 +17807,50 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_TweenVector_duration(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenVector_duration",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_duration" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  result = (float)((Volt::Tween< Volt::Vector2 > const *)arg1)->duration();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenVector_time(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< Volt::Vector2 > *arg1 = (Volt::Tween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenVector_time",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenVector_time" "', argument " "1"" of type '" "Volt::Tween< Volt::Vector2 > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< Volt::Vector2 > * >(argp1);
+  result = (float)((Volt::Tween< Volt::Vector2 > const *)arg1)->time();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_TweenVector_NoTween(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Vector2 arg1 ;
@@ -18381,6 +18425,50 @@ SWIGINTERN PyObject *_wrap_TweenFloat_finished(PyObject *SWIGUNUSEDPARM(self), P
   arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
   result = (bool)((Volt::Tween< float > const *)arg1)->finished();
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_duration(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenFloat_duration",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenFloat_duration" "', argument " "1"" of type '" "Volt::Tween< float > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  result = (float)((Volt::Tween< float > const *)arg1)->duration();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_TweenFloat_time(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Tween< float > *arg1 = (Volt::Tween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:TweenFloat_time",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__TweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TweenFloat_time" "', argument " "1"" of type '" "Volt::Tween< float > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Tween< float > * >(argp1);
+  result = (float)((Volt::Tween< float > const *)arg1)->time();
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -23194,6 +23282,28 @@ SWIGINTERN PyObject *_wrap_Game_Quit(PyObject *SWIGUNUSEDPARM(self), PyObject *a
   arg1 = reinterpret_cast< Volt::Game * >(argp1);
   (arg1)->Quit();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Game_frameNumber(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Game *arg1 = (Volt::Game *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  long result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Game_frameNumber",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Game, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Game_frameNumber" "', argument " "1"" of type '" "Volt::Game const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Game * >(argp1);
+  result = (long)((Volt::Game const *)arg1)->frameNumber();
+  resultobj = SWIG_From_long(static_cast< long >(result));
   return resultobj;
 fail:
   return NULL;
@@ -29591,6 +29701,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"TweenVector_SetTime", _wrap_TweenVector_SetTime, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_value", _wrap_TweenVector_value, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_finished", _wrap_TweenVector_finished, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_duration", _wrap_TweenVector_duration, METH_VARARGS, NULL},
+	 { (char *)"TweenVector_time", _wrap_TweenVector_time, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_NoTween", _wrap_TweenVector_NoTween, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_Linear", _wrap_TweenVector_Linear, METH_VARARGS, NULL},
 	 { (char *)"TweenVector_QuadraticIn", _wrap_TweenVector_QuadraticIn, METH_VARARGS, NULL},
@@ -29605,6 +29717,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"TweenFloat_SetTime", _wrap_TweenFloat_SetTime, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_value", _wrap_TweenFloat_value, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_finished", _wrap_TweenFloat_finished, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_duration", _wrap_TweenFloat_duration, METH_VARARGS, NULL},
+	 { (char *)"TweenFloat_time", _wrap_TweenFloat_time, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_NoTween", _wrap_TweenFloat_NoTween, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_Linear", _wrap_TweenFloat_Linear, METH_VARARGS, NULL},
 	 { (char *)"TweenFloat_QuadraticIn", _wrap_TweenFloat_QuadraticIn, METH_VARARGS, NULL},
@@ -29765,6 +29879,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_Game", _wrap_delete_Game, METH_VARARGS, NULL},
 	 { (char *)"Game_Run", _wrap_Game_Run, METH_VARARGS, NULL},
 	 { (char *)"Game_Quit", _wrap_Game_Quit, METH_VARARGS, NULL},
+	 { (char *)"Game_frameNumber", _wrap_Game_frameNumber, METH_VARARGS, NULL},
 	 { (char *)"Game_fps", _wrap_Game_fps, METH_VARARGS, NULL},
 	 { (char *)"Game_currentScene", _wrap_Game_currentScene, METH_VARARGS, NULL},
 	 { (char *)"Game_SetScene", _wrap_Game_SetScene, METH_VARARGS, NULL},

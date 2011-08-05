@@ -22,7 +22,14 @@ def longSleep(duration):
         sleepTime = min(duration, 1)
         duration -= sleepTime
         time.sleep(sleepTime)
-    
+
+'''Sleep until the frame counter has changed, indicating a frame has passed.'''
+def sleepFrame():
+    currentFrame = pygame.Game.Instance().frameNumber()
+    while currentFrame == pygame.Game.Instance().frameNumber():
+        time.sleep(0.01)
+
+
 def background(f):
     """
     a threading decorator
