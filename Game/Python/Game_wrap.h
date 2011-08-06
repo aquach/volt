@@ -166,6 +166,7 @@ public:
     virtual void OnScaleChanged();
     virtual void Load(Json::Value const &node);
     virtual void Save(Json::Value &node) const;
+    virtual ostream &ToString(ostream &stream) const;
     virtual void GetProperties(std::vector< Property * > *properties);
 
 
@@ -200,7 +201,7 @@ private:
       return method;
     }
 private:
-    mutable swig::SwigVar_PyObject vtable[11];
+    mutable swig::SwigVar_PyObject vtable[12];
 #endif
 
 };

@@ -28,6 +28,9 @@ public:
     void SetDebugDraw (bool enabled);
     void ToggleDebugDraw ();
 
+    void LockWorld ();
+    void UnlockWorld ();
+
 private:
     friend class Game;
     Game* m_game;
@@ -37,6 +40,7 @@ private:
     b2ContactFilter* m_filter;
     b2DebugDraw* m_debugDraw;
     bool m_debugDrawEnabled;
+    Lock m_worldLock;
 
     static PhysicsManager* instance;
 

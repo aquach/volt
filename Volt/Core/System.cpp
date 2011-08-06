@@ -8,6 +8,7 @@
 #include <ftw.h>
 #include <execinfo.h>
 #include <cxxabi.h>
+#include <pthread.h>
 #endif
 
 namespace Volt {
@@ -91,7 +92,7 @@ string DemangleSymbol (const char* symbol) {
     if (1 == sscanf(symbol, "%127s", temp)) {
         return temp;
     }
- 
+
     //if all else fails, just return the symbol
     return symbol;
 }
@@ -100,11 +101,30 @@ void PrintStackTrace () {
     void* trace[32];
     int size = backtrace(trace, 32);
     char** strings = backtrace_symbols(trace, size);
-    LOG(INFO) << "== STACK TRACE =="; 
+    LOG(INFO) << "== STACK TRACE ==";
     for (int i = 0; i < size; i++)
         LOG(INFO) << "@ " << DemangleSymbol(strings[i]);
-    LOG(INFO) << "================="; 
+    LOG(INFO) << "=================";
     free(strings);
+}
+
+void InitializeLock (Lock* lock) {
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
+    pthread_mutex_init(lock, &attr);
+    pthread_mutexattr_destroy(&attr);
+}
+
+void DestroyLock (Lock* lock) {
+    pthread_mutex_destroy(lock);
+}
+
+void AcquireLock (Lock* lock) {
+    pthread_mutex_lock(lock);
+}
+
+void ReleaseLock (Lock* lock) {
+    pthread_mutex_unlock(lock);
 }
 
 #else
@@ -134,7 +154,24 @@ string GetExecutableDirectory (const string& exePath) {
 }
 
 void SleepMicroseconds (long usecs) {
+    // Only millisecond accuracy.
     Sleep(usecs / 1000);
+}
+
+void InitializeLock (Lock* lock) {
+    InitializeCriticalSection(lock);
+}
+
+void DestroyLock (Lock* lock) {
+    DeleteCriticalSection(lock);
+}
+
+void AcquireLock (Lock* lock) {
+    EnterCriticalSection(lock);
+}
+
+void ReleaseLock (Lock* lock) {
+    LeaveCriticalSection(lock);
 }
 
 #endif

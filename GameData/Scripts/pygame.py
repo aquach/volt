@@ -594,30 +594,6 @@ def Random_RangeFloat(*args):
   return _pygame.Random_RangeFloat(*args)
 Random_RangeFloat = _pygame.Random_RangeFloat
 
-
-def GetMicroseconds():
-  return _pygame.GetMicroseconds()
-GetMicroseconds = _pygame.GetMicroseconds
-
-def GetTimestamp(*args):
-  return _pygame.GetTimestamp(*args)
-GetTimestamp = _pygame.GetTimestamp
-
-def SleepMicroseconds(*args):
-  return _pygame.SleepMicroseconds(*args)
-SleepMicroseconds = _pygame.SleepMicroseconds
-
-def GetExecutableDirectory(*args):
-  return _pygame.GetExecutableDirectory(*args)
-GetExecutableDirectory = _pygame.GetExecutableDirectory
-
-def GetAllFilesInDirectory(*args):
-  return _pygame.GetAllFilesInDirectory(*args)
-GetAllFilesInDirectory = _pygame.GetAllFilesInDirectory
-
-def PrintStackTrace():
-  return _pygame.PrintStackTrace()
-PrintStackTrace = _pygame.PrintStackTrace
 class Time(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Time, name, value)
@@ -1150,6 +1126,7 @@ class VoltEntity(_object):
     def Save(self, *args): return _pygame.VoltEntity_Save(self, *args)
     def AddContactListener(self, *args): return _pygame.VoltEntity_AddContactListener(self, *args)
     def RemoveContactListener(self, *args): return _pygame.VoltEntity_RemoveContactListener(self, *args)
+    def ToString(self, *args): return _pygame.VoltEntity_ToString(self, *args)
     def __str__(self): return _pygame.VoltEntity___str__(self)
     def OnTouched(self, callback):
         pylistener = PyEntityContactListener(self, callback, None)
@@ -1280,6 +1257,8 @@ class PhysicsManager(_object):
     def GetGravity(self): return _pygame.PhysicsManager_GetGravity(self)
     def SetDebugDraw(self, *args): return _pygame.PhysicsManager_SetDebugDraw(self, *args)
     def ToggleDebugDraw(self): return _pygame.PhysicsManager_ToggleDebugDraw(self)
+    def LockWorld(self): return _pygame.PhysicsManager_LockWorld(self)
+    def UnlockWorld(self): return _pygame.PhysicsManager_UnlockWorld(self)
 PhysicsManager_swigregister = _pygame.PhysicsManager_swigregister
 PhysicsManager_swigregister(PhysicsManager)
 
@@ -1441,6 +1420,7 @@ class Entity(VoltEntity):
     def Load(self, *args): return _pygame.Entity_Load(self, *args)
     def Save(self, *args): return _pygame.Entity_Save(self, *args)
     def CopyFrom(self, *args): return _pygame.Entity_CopyFrom(self, *args)
+    def ToString(self, *args): return _pygame.Entity_ToString(self, *args)
     def __disown__(self):
         self.this.disown()
         _pygame.disown_Entity(self)

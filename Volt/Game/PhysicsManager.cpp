@@ -83,17 +83,30 @@ PhysicsManager::PhysicsManager ()
 
     m_debugDraw = new PhysicsDebugDraw;
     m_world->SetDebugDraw(m_debugDraw);
+
+    InitializeLock(&m_worldLock);
 }
 
 PhysicsManager::~PhysicsManager () {
+    DestroyLock(&m_worldLock);
     delete m_world;
     delete m_listener;
     delete m_filter;
 }
 
+void PhysicsManager::LockWorld () {
+    AcquireLock(&m_worldLock);
+}
+
+void PhysicsManager::UnlockWorld () {
+    ReleaseLock(&m_worldLock);
+}
+
 void PhysicsManager::Update () {
+    LockWorld();
     m_world->Step(G_Time->dt(), velocityIterations, positionIterations);
     m_world->ClearForces();
+    UnlockWorld();
 }
 
 void PhysicsManager::Render () {

@@ -12,8 +12,11 @@ Entity::Entity ()
 }
 
 Entity::~Entity () {
-    if (m_body != NULL)
+    if (m_body != NULL) {
+        G_PhysicsManager->LockWorld();
         G_PhysicsManager->world()->DestroyBody(m_body);
+        G_PhysicsManager->UnlockWorld();
+    }
     FOR_(set<EntityContactListener*>::iterator, i,
          m_contactListeners) {
         delete (*i);
@@ -56,7 +59,9 @@ b2Body* Entity::CreateBody (b2BodyDef def) {
     def.angle = m_transform.rotation * DEG2RAD;
     def.userData = this;
 
+    G_PhysicsManager->LockWorld();
     m_body = G_PhysicsManager->world()->CreateBody(&def);
+    G_PhysicsManager->UnlockWorld();
 
     return m_body;
 }
@@ -87,20 +92,28 @@ ostream& Entity::ToString (ostream& stream) const {
 
 void Entity::SetPosition (Vector2 pos) {
     m_transform.position = pos;
-    if (m_body != NULL)
+    if (m_body != NULL) {
+        G_PhysicsManager->LockWorld();
         m_body->SetTransform(pos.ToB2(), m_transform.rotation * DEG2RAD);
+        G_PhysicsManager->UnlockWorld();
+    }
 }
 
 void Entity::SetRotation (float rotation) {
     m_transform.rotation = rotation;
-    if (m_body != NULL)
+    if (m_body != NULL) {
+        G_PhysicsManager->LockWorld();
         m_body->SetTransform(m_transform.position.ToB2(),
                              m_transform.rotation * DEG2RAD);
+        G_PhysicsManager->UnlockWorld();
+    }
 }
 
 void Entity::DestroyBody () {
     if (m_body != NULL) {
+        G_PhysicsManager->LockWorld();
         G_PhysicsManager->world()->DestroyBody(m_body);
+        G_PhysicsManager->UnlockWorld();
         m_body = NULL;
     }
 }

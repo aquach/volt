@@ -114,7 +114,6 @@ void Game::Run () {
         Py_BEGIN_ALLOW_THREADS
         Py_END_ALLOW_THREADS
 
-        int lock = Python::Lock();
         m_physicsManager->Update();
 
         if (m_currentScene != NULL) {
@@ -133,8 +132,6 @@ void Game::Run () {
             m_currentScene->m_game = this;
             m_currentScene->OnBegin();
         }
-
-        Python::Unlock(lock);
 
         m_lastTick = tick;
     }

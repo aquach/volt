@@ -23,11 +23,15 @@ def longSleep(duration):
         duration -= sleepTime
         time.sleep(sleepTime)
 
-'''Sleep until the frame counter has changed, indicating a frame has passed.'''
-def sleepFrame():
+'''Sleep until the frame counter has changed, indicating a frame has passed.
+   There can be an issue where a script is sleeping, waiting for the game to
+   progress, but the game is waiting for the script to finish, so limit the time
+   spent waiting.'''
+def sleepFrame(tries=25):
     currentFrame = pygame.Game.Instance().frameNumber()
-    while currentFrame == pygame.Game.Instance().frameNumber():
+    while currentFrame == pygame.Game.Instance().frameNumber() and tries > 0:
         time.sleep(0.01)
+        tries -= 1
 
 
 def background(f):
