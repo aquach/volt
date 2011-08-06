@@ -55,6 +55,8 @@ void Doodad::Render () {
     Graphics::BindTexture(NULL);
     Graphics::SetBlend(Graphics::BLEND_NONE);
     glPopMatrix();
+
+    Graphics::CheckState();
 }
 
 void Doodad::CreatePhysicsBody () {

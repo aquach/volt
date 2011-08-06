@@ -71,7 +71,7 @@ def fadeOut():
 
 def onTouched(ladder, hit, contact):
     print 'fade'
-    #fadeOut()
+    fadeOut()
 
 ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:
@@ -102,8 +102,8 @@ def platform():
 platform()
 
 def onAccessed(sign, accessor):
-    print 'hi im a sign', accessor  
-    
+    print 'hi im a sign', accessor
+
 signs = scene().GetAllTagged('Sign')
 for sign in signs:
     GameEntity(sign).OnAccessed(onAccessed)

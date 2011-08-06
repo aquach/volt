@@ -105,6 +105,8 @@ void Triangle::Render () {
     Graphics::BindTexture(NULL);
     glPopMatrix();
     glDisable(GL_ALPHA_TEST);
+
+    Graphics::CheckState();
 }
 
 void Triangle::CreatePhysicsBody () {

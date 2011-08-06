@@ -126,6 +126,8 @@ void Light::Render () {
         Graphics::BindTexture(NULL);
         Graphics::SetBlend(Graphics::BLEND_NONE);
     }
+
+    Graphics::CheckState();
 }
 
 void Light::CreatePhysicsBody () {

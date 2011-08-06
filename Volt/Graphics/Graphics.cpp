@@ -416,6 +416,7 @@ void Graphics::CheckErrors () {
 }
 
 void Graphics::CheckState () {
+#if DEBUG
     int i = 0;
     int numChecks = sizeof(checks) / sizeof(int);
     while (i < numChecks) {
@@ -424,15 +425,18 @@ void Graphics::CheckState () {
         int values[4];
         glGetIntegerv(e, values);
         for (int v = 0; v < numValues; v++) {
-            if (values[v] != checks[i + 3 + v])
+            if (values[v] != checks[i + 3 + v]) {
                 LOG(WARNING) << "Clean state check failed on "
                              << (const char*)checks[i + 1] << ", "
                              << "is " << values[v] << ", should be "
                              << checks[i + 3 + v];
+                Volt::PrintStackTrace();
+            }
         }
         
         i += numValues + 3;
     }
+#endif
 }
 
 /*
