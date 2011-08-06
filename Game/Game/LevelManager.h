@@ -24,6 +24,7 @@ public:
     void UnloadLevel ();
     bool SaveLevel (const string& filename);
 
+    // Used to avoid switching levels halfway through a frame loop.
     void RequestLevelChange (const string& assetName) {
         m_switchToAssetName = assetName;
     }
@@ -32,11 +33,18 @@ public:
     const string& levelName () const { return m_levelName; }
     void SetLevelName (const string& name) { m_levelName = name; }
 
+    // Used to signal to scripts that the level is unloading.
     bool IsUnloading () const { return m_levelUnloading; }
+
+    /* Activate/Deactivate Python functionality. Editor doesn't want to run
+     * Python scripts. */
+    void SetPython (bool b) { m_pythonEnabled = b; }
+    bool pythonEnabled () const { return m_pythonEnabled; }
 
 private:
     Volt::Scene* m_scene;
 
+    bool m_pythonEnabled;
     bool m_levelUnloading;
     set<Entity*> m_entities;
     string m_loadedFilename;

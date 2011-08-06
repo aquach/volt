@@ -1,16 +1,17 @@
 #include "Game/Game/LevelManager.h"
 #include <fstream>
 #include "Volt/Assets/DataSource.h"
+#include "Volt/Python/Python.h"
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Editor/EditorEntities.h"
-#include "Volt/Python/Python.h"
 
 LevelManager* LevelManager::instance = NULL;
 
 LevelManager::LevelManager (Volt::Scene* scene)
     : m_scene(scene),
-      m_levelUnloading(false) {
+      m_levelUnloading(false),
+      m_pythonEnabled(false){
 }
 
 LevelManager::~LevelManager () {
@@ -42,7 +43,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     }
 
     m_startScript = root.get("startScript", "").asString();
-    if (m_startScript.size() > 0) {
+    if (m_startScript.size() > 0 && m_pythonEnabled) {
         Volt::Python::RunGameScriptFile(m_startScript);
     }
 
@@ -65,6 +66,7 @@ bool LevelManager::LoadLevelFromFilename (const string& filename) {
     char* data = new char[size];
     file.read(data, size);
 
+    // Destructor of DataItem frees data.
     Volt::DataItem item;
     item.size = size;
     item.data = data;
@@ -84,7 +86,8 @@ bool LevelManager::LoadLevelFromFilename (const string& filename) {
 void LevelManager::UnloadLevel () {
     LOG(INFO) << "Unloading level...";
     m_levelUnloading = true;
-    Volt::Python::WaitForScripts();
+    if (m_pythonEnabled)
+        Volt::Python::WaitForScripts();
     FOR_ (set<Entity*>::iterator, i, m_entities)
         m_scene->Remove(*i);
     m_loadedFilename = "";

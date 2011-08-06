@@ -1466,6 +1466,43 @@ def LevelManager_Instance():
   return _pygame.LevelManager_Instance()
 LevelManager_Instance = _pygame.LevelManager_Instance
 
+class SaveData(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SaveData, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SaveData, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_SaveData()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_SaveData
+    __del__ = lambda self : None;
+    __swig_getmethods__["Register"] = lambda x: _pygame.SaveData_Register
+    if _newclass:Register = staticmethod(_pygame.SaveData_Register)
+    __swig_getmethods__["Instance"] = lambda x: _pygame.SaveData_Instance
+    if _newclass:Instance = staticmethod(_pygame.SaveData_Instance)
+    def Load(self, *args): return _pygame.SaveData_Load(self, *args)
+    def Unload(self): return _pygame.SaveData_Unload(self)
+    def Save(self, *args): return _pygame.SaveData_Save(self, *args)
+    def GetFlag(self, *args): return _pygame.SaveData_GetFlag(self, *args)
+    def SetFlag(self, *args): return _pygame.SaveData_SetFlag(self, *args)
+    def GetFloat(self, *args): return _pygame.SaveData_GetFloat(self, *args)
+    def SetFloat(self, *args): return _pygame.SaveData_SetFloat(self, *args)
+    def GetInt(self, *args): return _pygame.SaveData_GetInt(self, *args)
+    def SetInt(self, *args): return _pygame.SaveData_SetInt(self, *args)
+    def Increment(self, *args): return _pygame.SaveData_Increment(self, *args)
+SaveData_swigregister = _pygame.SaveData_swigregister
+SaveData_swigregister(SaveData)
+
+def SaveData_Register(*args):
+  return _pygame.SaveData_Register(*args)
+SaveData_Register = _pygame.SaveData_Register
+
+def SaveData_Instance():
+  return _pygame.SaveData_Instance()
+SaveData_Instance = _pygame.SaveData_Instance
+
 class Creature(Entity):
     __swig_setmethods__ = {}
     for _s in [Entity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))

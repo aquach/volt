@@ -50,6 +50,7 @@ GameScene::GameScene ()
 
     m_levelManager = new LevelManager(this);
     m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
+    m_levelManager->SetPython(true);
     LevelManager::Register(m_levelManager);
 
     m_conversationManager = new ConversationManager(this);

@@ -15,10 +15,9 @@ public:
         return instance;
     }
 
-    void Load (string filename);
-    void Save (string filename) const;
-
-    // TODO: Let Python access data as dict? Let C++ access as Json value?
+    bool Load (string filename);
+    void Unload ();
+    bool Save (string filename) const;
 
     bool GetFlag (string key);
     void SetFlag (string key, bool value);
@@ -31,12 +30,10 @@ public:
     void Increment (string key, int amount);
 
 private:
-
+    Json::Value m_root;
     static SaveData* instance;
 
     DISALLOW_COPY_AND_ASSIGN(SaveData);
 };
 
 #define G_SaveData SaveData::Instance()
-
-}

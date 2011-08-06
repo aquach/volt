@@ -26,6 +26,7 @@
 #include "Game/Filters/EdgeFilter.h"
 #include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
+#include "Game/Game/SaveData.h"
 #include "Game/Entities/Game/Creature.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -119,6 +120,7 @@
 %}
 %include "Game/Game/Entity.h"
 %include "Game/Game/LevelManager.h"
+%include "Game/Game/SaveData.h"
 %include "Game/Entities/Game/Creature.h"
 
 %ignore Light::STATIC_MAP_FOLDER;

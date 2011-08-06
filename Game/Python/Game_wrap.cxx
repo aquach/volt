@@ -3179,76 +3179,77 @@ namespace Swig {
 #define SWIGTYPE_p_SDL_KeyboardEvent swig_types[14]
 #define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[15]
 #define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[16]
-#define SWIGTYPE_p_Triangle swig_types[17]
-#define SWIGTYPE_p_Types swig_types[18]
-#define SWIGTYPE_p_Vector2 swig_types[19]
-#define SWIGTYPE_p_Volt__AppTime swig_types[20]
-#define SWIGTYPE_p_Volt__BBox swig_types[21]
-#define SWIGTYPE_p_Volt__Camera swig_types[22]
-#define SWIGTYPE_p_Volt__Color swig_types[23]
-#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[24]
-#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[25]
-#define SWIGTYPE_p_Volt__DataAssetRef swig_types[26]
-#define SWIGTYPE_p_Volt__DataSource swig_types[27]
-#define SWIGTYPE_p_Volt__Entity swig_types[28]
-#define SWIGTYPE_p_Volt__EntityContactListener swig_types[29]
-#define SWIGTYPE_p_Volt__FSM swig_types[30]
-#define SWIGTYPE_p_Volt__FSMState swig_types[31]
-#define SWIGTYPE_p_Volt__Filter swig_types[32]
-#define SWIGTYPE_p_Volt__Game swig_types[33]
-#define SWIGTYPE_p_Volt__PhysicsManager swig_types[34]
-#define SWIGTYPE_p_Volt__Random swig_types[35]
-#define SWIGTYPE_p_Volt__Scene swig_types[36]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[37]
-#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[38]
-#define SWIGTYPE_p_Volt__Time swig_types[39]
-#define SWIGTYPE_p_Volt__Transform swig_types[40]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[41]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[42]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[43]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[44]
-#define SWIGTYPE_p_Weapon swig_types[45]
-#define SWIGTYPE_p_allocator_type swig_types[46]
-#define SWIGTYPE_p_b2Body swig_types[47]
-#define SWIGTYPE_p_b2BodyDef swig_types[48]
-#define SWIGTYPE_p_b2Contact swig_types[49]
-#define SWIGTYPE_p_b2ContactEdge swig_types[50]
-#define SWIGTYPE_p_b2Fixture swig_types[51]
-#define SWIGTYPE_p_b2FixtureDef swig_types[52]
-#define SWIGTYPE_p_b2JointEdge swig_types[53]
-#define SWIGTYPE_p_b2MassData swig_types[54]
-#define SWIGTYPE_p_b2Mat22 swig_types[55]
-#define SWIGTYPE_p_b2Mat33 swig_types[56]
-#define SWIGTYPE_p_b2Shape swig_types[57]
-#define SWIGTYPE_p_b2Sweep swig_types[58]
-#define SWIGTYPE_p_b2Transform swig_types[59]
-#define SWIGTYPE_p_b2Vec2 swig_types[60]
-#define SWIGTYPE_p_b2Vec3 swig_types[61]
-#define SWIGTYPE_p_b2World swig_types[62]
-#define SWIGTYPE_p_char swig_types[63]
-#define SWIGTYPE_p_const_reference swig_types[64]
-#define SWIGTYPE_p_difference_type swig_types[65]
-#define SWIGTYPE_p_float swig_types[66]
-#define SWIGTYPE_p_float32 swig_types[67]
-#define SWIGTYPE_p_int32 swig_types[68]
-#define SWIGTYPE_p_istream swig_types[69]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[70]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[71]
-#define SWIGTYPE_p_ostream swig_types[72]
-#define SWIGTYPE_p_p_PyObject swig_types[73]
-#define SWIGTYPE_p_reference swig_types[74]
-#define SWIGTYPE_p_size_type swig_types[75]
-#define SWIGTYPE_p_std__invalid_argument swig_types[76]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[77]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[78]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[79]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[80]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[81]
-#define SWIGTYPE_p_uint32 swig_types[82]
-#define SWIGTYPE_p_void swig_types[83]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[84]
-static swig_type_info *swig_types[86];
-static swig_module_info swig_module = {swig_types, 85, 0, 0, 0, 0};
+#define SWIGTYPE_p_SaveData swig_types[17]
+#define SWIGTYPE_p_Triangle swig_types[18]
+#define SWIGTYPE_p_Types swig_types[19]
+#define SWIGTYPE_p_Vector2 swig_types[20]
+#define SWIGTYPE_p_Volt__AppTime swig_types[21]
+#define SWIGTYPE_p_Volt__BBox swig_types[22]
+#define SWIGTYPE_p_Volt__Camera swig_types[23]
+#define SWIGTYPE_p_Volt__Color swig_types[24]
+#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[25]
+#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[26]
+#define SWIGTYPE_p_Volt__DataAssetRef swig_types[27]
+#define SWIGTYPE_p_Volt__DataSource swig_types[28]
+#define SWIGTYPE_p_Volt__Entity swig_types[29]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[30]
+#define SWIGTYPE_p_Volt__FSM swig_types[31]
+#define SWIGTYPE_p_Volt__FSMState swig_types[32]
+#define SWIGTYPE_p_Volt__Filter swig_types[33]
+#define SWIGTYPE_p_Volt__Game swig_types[34]
+#define SWIGTYPE_p_Volt__PhysicsManager swig_types[35]
+#define SWIGTYPE_p_Volt__Random swig_types[36]
+#define SWIGTYPE_p_Volt__Scene swig_types[37]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[38]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[39]
+#define SWIGTYPE_p_Volt__Time swig_types[40]
+#define SWIGTYPE_p_Volt__Transform swig_types[41]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[42]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[43]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[44]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[45]
+#define SWIGTYPE_p_Weapon swig_types[46]
+#define SWIGTYPE_p_allocator_type swig_types[47]
+#define SWIGTYPE_p_b2Body swig_types[48]
+#define SWIGTYPE_p_b2BodyDef swig_types[49]
+#define SWIGTYPE_p_b2Contact swig_types[50]
+#define SWIGTYPE_p_b2ContactEdge swig_types[51]
+#define SWIGTYPE_p_b2Fixture swig_types[52]
+#define SWIGTYPE_p_b2FixtureDef swig_types[53]
+#define SWIGTYPE_p_b2JointEdge swig_types[54]
+#define SWIGTYPE_p_b2MassData swig_types[55]
+#define SWIGTYPE_p_b2Mat22 swig_types[56]
+#define SWIGTYPE_p_b2Mat33 swig_types[57]
+#define SWIGTYPE_p_b2Shape swig_types[58]
+#define SWIGTYPE_p_b2Sweep swig_types[59]
+#define SWIGTYPE_p_b2Transform swig_types[60]
+#define SWIGTYPE_p_b2Vec2 swig_types[61]
+#define SWIGTYPE_p_b2Vec3 swig_types[62]
+#define SWIGTYPE_p_b2World swig_types[63]
+#define SWIGTYPE_p_char swig_types[64]
+#define SWIGTYPE_p_const_reference swig_types[65]
+#define SWIGTYPE_p_difference_type swig_types[66]
+#define SWIGTYPE_p_float swig_types[67]
+#define SWIGTYPE_p_float32 swig_types[68]
+#define SWIGTYPE_p_int32 swig_types[69]
+#define SWIGTYPE_p_istream swig_types[70]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[71]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[72]
+#define SWIGTYPE_p_ostream swig_types[73]
+#define SWIGTYPE_p_p_PyObject swig_types[74]
+#define SWIGTYPE_p_reference swig_types[75]
+#define SWIGTYPE_p_size_type swig_types[76]
+#define SWIGTYPE_p_std__invalid_argument swig_types[77]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[78]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[79]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[80]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[81]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[82]
+#define SWIGTYPE_p_uint32 swig_types[83]
+#define SWIGTYPE_p_void swig_types[84]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[85]
+static swig_type_info *swig_types[87];
+static swig_module_info swig_module = {swig_types, 86, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3370,6 +3371,7 @@ namespace swig {
 #include "Game/Filters/EdgeFilter.h"
 #include "Game/Game/Entity.h"
 #include "Game/Game/LevelManager.h"
+#include "Game/Game/SaveData.h"
 #include "Game/Entities/Game/Creature.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -28686,6 +28688,487 @@ SWIGINTERN PyObject *LevelManager_swigregister(PyObject *SWIGUNUSEDPARM(self), P
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_SaveData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_SaveData")) SWIG_fail;
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (SaveData *)new SaveData();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SaveData, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_SaveData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_SaveData",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SaveData" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    delete arg1;
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_Register(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:SaveData_Register",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Register" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    SaveData::Register(arg1);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_Instance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":SaveData_Instance")) SWIG_fail;
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (SaveData *)SaveData::Instance();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SaveData, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_Load(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_Load",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Load" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_Load" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)(arg1)->Load(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_Unload(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:SaveData_Unload",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Unload" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Unload();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_Save(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_Save",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Save" "', argument " "1"" of type '" "SaveData const *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_Save" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((SaveData const *)arg1)->Save(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_GetFlag(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_GetFlag",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_GetFlag" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_GetFlag" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)(arg1)->GetFlag(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_SetFlag(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  bool arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:SaveData_SetFlag",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_SetFlag" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_SetFlag" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  ecode3 = SWIG_AsVal_bool(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "SaveData_SetFlag" "', argument " "3"" of type '" "bool""'");
+  } 
+  arg3 = static_cast< bool >(val3);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetFlag(arg2,arg3);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_GetFloat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  float result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_GetFloat",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_GetFloat" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_GetFloat" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (float)(arg1)->GetFloat(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_SetFloat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  float arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:SaveData_SetFloat",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_SetFloat" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_SetFloat" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "SaveData_SetFloat" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetFloat(arg2,arg3);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_GetInt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_GetInt",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_GetInt" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_GetInt" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (int)(arg1)->GetInt(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_SetInt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:SaveData_SetInt",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_SetInt" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_SetInt" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "SaveData_SetInt" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetInt(arg2,arg3);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SaveData_Increment(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SaveData *arg1 = (SaveData *) 0 ;
+  std::string arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:SaveData_Increment",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Increment" "', argument " "1"" of type '" "SaveData *""'"); 
+  }
+  arg1 = reinterpret_cast< SaveData * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_Increment" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "SaveData_Increment" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Increment(arg2,arg3);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *SaveData_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_SaveData, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_delete_Creature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Creature *arg1 = (Creature *) 0 ;
@@ -33044,6 +33527,21 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"LevelManager_SetLevelName", _wrap_LevelManager_SetLevelName, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_IsUnloading", _wrap_LevelManager_IsUnloading, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_swigregister", LevelManager_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_SaveData", _wrap_new_SaveData, METH_VARARGS, NULL},
+	 { (char *)"delete_SaveData", _wrap_delete_SaveData, METH_VARARGS, NULL},
+	 { (char *)"SaveData_Register", _wrap_SaveData_Register, METH_VARARGS, NULL},
+	 { (char *)"SaveData_Instance", _wrap_SaveData_Instance, METH_VARARGS, NULL},
+	 { (char *)"SaveData_Load", _wrap_SaveData_Load, METH_VARARGS, NULL},
+	 { (char *)"SaveData_Unload", _wrap_SaveData_Unload, METH_VARARGS, NULL},
+	 { (char *)"SaveData_Save", _wrap_SaveData_Save, METH_VARARGS, NULL},
+	 { (char *)"SaveData_GetFlag", _wrap_SaveData_GetFlag, METH_VARARGS, NULL},
+	 { (char *)"SaveData_SetFlag", _wrap_SaveData_SetFlag, METH_VARARGS, NULL},
+	 { (char *)"SaveData_GetFloat", _wrap_SaveData_GetFloat, METH_VARARGS, NULL},
+	 { (char *)"SaveData_SetFloat", _wrap_SaveData_SetFloat, METH_VARARGS, NULL},
+	 { (char *)"SaveData_GetInt", _wrap_SaveData_GetInt, METH_VARARGS, NULL},
+	 { (char *)"SaveData_SetInt", _wrap_SaveData_SetInt, METH_VARARGS, NULL},
+	 { (char *)"SaveData_Increment", _wrap_SaveData_Increment, METH_VARARGS, NULL},
+	 { (char *)"SaveData_swigregister", SaveData_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_Creature", _wrap_delete_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_Update", _wrap_Creature_Update, METH_VARARGS, NULL},
 	 { (char *)"Creature_Render", _wrap_Creature_Render, METH_VARARGS, NULL},
@@ -33209,6 +33707,7 @@ static swig_type_info _swigt__p_Player = {"_p_Player", "Player *", 0, 0, (void*)
 static swig_type_info _swigt__p_SDL_KeyboardEvent = {"_p_SDL_KeyboardEvent", "SDL_KeyboardEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SDL_MouseButtonEvent = {"_p_SDL_MouseButtonEvent", "SDL_MouseButtonEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SDL_MouseMotionEvent = {"_p_SDL_MouseMotionEvent", "SDL_MouseMotionEvent *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SaveData = {"_p_SaveData", "SaveData *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Triangle = {"_p_Triangle", "Triangle *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Types = {"_p_Types", "Types *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Vector2 = {"_p_Vector2", "Vector2 *", 0, 0, (void*)0, 0};
@@ -33296,6 +33795,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_SDL_KeyboardEvent,
   &_swigt__p_SDL_MouseButtonEvent,
   &_swigt__p_SDL_MouseMotionEvent,
+  &_swigt__p_SaveData,
   &_swigt__p_Triangle,
   &_swigt__p_Types,
   &_swigt__p_Vector2,
@@ -33383,6 +33883,7 @@ static swig_cast_info _swigc__p_Player[] = {  {&_swigt__p_Player, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_SDL_KeyboardEvent[] = {  {&_swigt__p_SDL_KeyboardEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SDL_MouseButtonEvent[] = {  {&_swigt__p_SDL_MouseButtonEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SDL_MouseMotionEvent[] = {  {&_swigt__p_SDL_MouseMotionEvent, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SaveData[] = {  {&_swigt__p_SaveData, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Triangle[] = {  {&_swigt__p_Triangle, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Types[] = {  {&_swigt__p_Types, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Vector2[] = {  {&_swigt__p_Vector2, 0, 0, 0},{0, 0, 0, 0}};
@@ -33470,6 +33971,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_SDL_KeyboardEvent,
   _swigc__p_SDL_MouseButtonEvent,
   _swigc__p_SDL_MouseMotionEvent,
+  _swigc__p_SaveData,
   _swigc__p_Triangle,
   _swigc__p_Types,
   _swigc__p_Vector2,

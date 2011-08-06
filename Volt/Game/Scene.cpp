@@ -382,7 +382,6 @@ void Scene::GetAllTagged (const string& tag, vector<Entity*>* entities) {
     copy(list.begin(), list.end(), entities->begin());
 }
 
-// TODO: Make sure all strings are const string&.
 void Scene::OnEntityTagAdd (Entity* entity, const string& tag) {
     m_entityTags[tag].push_back(entity);
 }
