@@ -41,6 +41,9 @@ public:
     void SetPython (bool b) { m_pythonEnabled = b; }
     bool pythonEnabled () const { return m_pythonEnabled; }
 
+    const string& startScript () const { return m_startScript; }
+    void SetStartScript (const string& script) { m_startScript = script; }
+
 private:
     Volt::Scene* m_scene;
 

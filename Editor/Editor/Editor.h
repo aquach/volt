@@ -89,6 +89,7 @@ private slots:
     void ChangeDebugDraw ();
     void ReloadBrushes ();
     void RecomputeLightmap ();
+    void SetInitScript ();
 
 private:
     class ModeState : public Volt::FSMState {

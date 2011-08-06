@@ -160,6 +160,9 @@ Editor::Editor (const Volt::DataSource* source)
     action = new QAction("Change &Level Name..", this);
     connect(action, SIGNAL(triggered()), this, SLOT(ChangeLevelName()));
     level->addAction(action);
+    action = new QAction("Set Init &Script..", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(SetInitScript()));
+    level->addAction(action);
 
     QMenu* editor = menu->addMenu("&Editor");
     action = new QAction("Debug Draw", this);
@@ -915,5 +918,20 @@ void Editor::RecomputeLightmap () {
         }
     }
     OnModified();
+}
 
+void Editor::SetInitScript () {
+    bool ok;
+    QString text = QInputDialog::getText(
+        this,
+        tr("Set Init Script"),
+        tr("Init Script"),
+        QLineEdit::Normal,
+        QString::fromStdString(m_scene->m_levelManager->startScript()),
+        &ok);
+
+    if (ok && !text.isEmpty()) {
+        m_scene->m_levelManager->SetStartScript(text.toStdString());
+        OnModified();
+    }
 }

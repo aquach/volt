@@ -44,6 +44,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
 
     m_startScript = root.get("startScript", "").asString();
     if (m_startScript.size() > 0 && m_pythonEnabled) {
+        LOG(INFO) << "Executing start script " << m_startScript;
         Volt::Python::RunGameScriptFile(m_startScript);
     }
 

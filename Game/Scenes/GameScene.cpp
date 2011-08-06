@@ -4,7 +4,7 @@
 #include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/SDLWindow.h"
 #include "Volt/Graphics/Viewport.h"
-#include "Volt/Python/Python.h"
+//#include "Volt/Python/Python.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -49,8 +49,8 @@ GameScene::GameScene ()
     DoodadManager::Register(m_doodadManager);
 
     m_levelManager = new LevelManager(this);
-    m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
     m_levelManager->SetPython(true);
+    m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
     LevelManager::Register(m_levelManager);
 
     m_conversationManager = new ConversationManager(this);
@@ -80,7 +80,7 @@ void GameScene::Update () {
 }
 
 void GameScene::OnBegin () {
-    Volt::Python::RunGameScriptFile("test.py");
+    //Volt::Python::RunGameScriptFile("test.py");
     //Python::RunGameScriptFile("threadTest.py");
 }
 
