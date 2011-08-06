@@ -42,8 +42,8 @@ class MyEntity(PyEntity):
         self.time += dt()
         self.fsm.Update()
 
-e = MyEntity()
-scene().Add(e)
+#e = MyEntity()
+#scene().Add(e)
 
 blendFilter = disown(BlendFilter("Transition-BlendFilter", 50, -50))
 blendFilter.setBlendColor(Color.RGB(0, 0, 0))
@@ -71,7 +71,7 @@ def fadeOut():
 
 def onTouched(ladder, hit, contact):
     print 'fade'
-    fadeOut()
+    #fadeOut()
 
 ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:
@@ -81,8 +81,9 @@ for ladder in ladders:
 def platform():
     e = EntityFactory.Create('Triangle')
     e.SetScale(Vector2(3, 1))
+    scene().Add(e)
 
-    start = Vector2(3, 2)
+    start = Vector2(3, -5)
     end = start + Vector2(0, -5)
     duration = 3
 
@@ -97,8 +98,15 @@ def platform():
             start = time.time()
         tween.SetTime(elapsed)
         e.SetPosition(tween.value())
-
+    e.RemoveSelf()
 platform()
+
+def onAccessed(sign, accessor):
+    print 'hi im a sign', accessor  
+    
+signs = scene().GetAllTagged('Sign')
+for sign in signs:
+    GameEntity(sign).OnAccessed(onAccessed)
 
 print 'before', Game.Instance().frameNumber()
 time.sleep(0.0001)

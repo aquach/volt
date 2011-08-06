@@ -33,7 +33,7 @@ Game::Game (const string& name, const DataSource* source, int w, int h,
       m_physicsManager(NULL),
       m_bindings(NULL),
       m_appTime(NULL),
-      m_frameNumber(NULL) {
+      m_frameNumber(0) {
 
     Random::Seed();
 

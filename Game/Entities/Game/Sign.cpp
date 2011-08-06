@@ -46,7 +46,8 @@ void Sign::Save (Json::Value& node) const {
 }
 
 void Sign::OnScaleChanged () {
-    CreatePhysicsBody();
+    if (body() != NULL)
+        CreatePhysicsBody();
 }
 
 Sign* Sign::Clone () const {
@@ -58,10 +59,4 @@ Sign* Sign::Clone () const {
 void Sign::CopyFrom (const Sign* other) {
     Entity::CopyFrom(other);
     CreatePhysicsBody();
-}
-
-void Sign::OnAccessed (Entity* accessor) {
-    // Make text!!
-    // TODO: Maybe give Entities a AccessListener interface to register
-    // arbitrary access listeners. Also need to make Player trigger Accesses.
 }

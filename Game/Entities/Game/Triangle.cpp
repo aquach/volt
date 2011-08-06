@@ -225,7 +225,8 @@ void Triangle::Save (Json::Value& node) const {
 }
 
 void Triangle::OnScaleChanged () {
-    CreatePhysicsBody();
+    if (body() != NULL)
+        CreatePhysicsBody();
 }
 
 Triangle* Triangle::Clone () const {

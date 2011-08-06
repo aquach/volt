@@ -89,6 +89,8 @@ public:
     void AddContactListener (EntityContactListener* listener);
     void RemoveContactListener (EntityContactListener* listener);
 
+    virtual ostream& ToString (ostream& stream) const;
+
 protected:
     b2Body* m_body;
     Transform m_transform;

@@ -103,7 +103,8 @@ void Doodad::Save (Json::Value& node) const {
 }
 
 void Doodad::OnScaleChanged () {
-    CreatePhysicsBody();
+    if (body() != NULL)
+        CreatePhysicsBody();
 }
 
 Doodad* Doodad::Clone () const {

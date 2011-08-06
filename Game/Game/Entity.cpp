@@ -24,3 +24,13 @@ void Entity::Save (Json::Value& node) const {
     node["occludesLight"] = m_occludesLight;
 }
 
+void Entity::OnAccessed (Entity* accessor) {
+    FOR_(set<EntityAccessListener*>::iterator, i, m_accessListeners) {
+        (*i)->OnAccessed(accessor);
+    }
+}
+
+ostream& Entity::ToString (ostream& stream) const {
+    stream << "Game ";
+    return Volt::Entity::ToString(stream);
+}

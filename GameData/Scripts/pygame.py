@@ -1384,6 +1384,30 @@ class EdgeFilter(Filter):
 EdgeFilter_swigregister = _pygame.EdgeFilter_swigregister
 EdgeFilter_swigregister(EdgeFilter)
 
+class EntityAccessListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, EntityAccessListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, EntityAccessListener, name)
+    __repr__ = _swig_repr
+    def OnAccessed(self, *args): return _pygame.EntityAccessListener_OnAccessed(self, *args)
+    def __init__(self): 
+        if self.__class__ == EntityAccessListener:
+            _self = None
+        else:
+            _self = self
+        this = _pygame.new_EntityAccessListener(_self, )
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_EntityAccessListener
+    __del__ = lambda self : None;
+    def __disown__(self):
+        self.this.disown()
+        _pygame.disown_EntityAccessListener(self)
+        return weakref_proxy(self)
+EntityAccessListener_swigregister = _pygame.EntityAccessListener_swigregister
+EntityAccessListener_swigregister(EntityAccessListener)
+
 class Entity(VoltEntity):
     __swig_setmethods__ = {}
     for _s in [VoltEntity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -1402,10 +1426,18 @@ class Entity(VoltEntity):
         except: self.this = this
     __swig_destroy__ = _pygame.delete_Entity
     __del__ = lambda self : None;
-    def OnAccessed(self, *args): return _pygame.Entity_OnAccessed(self, *args)
     def GetProperties(self, *args): return _pygame.Entity_GetProperties(self, *args)
     def SetOccludesLight(self, *args): return _pygame.Entity_SetOccludesLight(self, *args)
     def occludesLight(self): return _pygame.Entity_occludesLight(self)
+    def OnAccessed(self, callback):
+        pylistener = PyEntityAccessListener(self, callback)
+        pylistener.__disown__()
+        self.AddAccessListener(pylistener)
+        return pylistener
+
+
+    def AddAccessListener(self, *args): return _pygame.Entity_AddAccessListener(self, *args)
+    def RemoveAccessListener(self, *args): return _pygame.Entity_RemoveAccessListener(self, *args)
     def Load(self, *args): return _pygame.Entity_Load(self, *args)
     def Save(self, *args): return _pygame.Entity_Save(self, *args)
     def CopyFrom(self, *args): return _pygame.Entity_CopyFrom(self, *args)
@@ -1679,5 +1711,9 @@ EntityVector_swigregister(EntityVector)
 
 from pygamecore import *
 
+
+def GameEntity(*args):
+  return _pygame.GameEntity(*args)
+GameEntity = _pygame.GameEntity
 
 

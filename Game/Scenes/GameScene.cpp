@@ -4,6 +4,7 @@
 #include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/SDLWindow.h"
 #include "Volt/Graphics/Viewport.h"
+#include "Volt/Python/Python.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Player.h"
@@ -78,7 +79,7 @@ void GameScene::Update () {
 }
 
 void GameScene::OnBegin () {
-    //Python::RunGameScriptFile("test.py");
+    Volt::Python::RunGameScriptFile("test.py");
     //Python::RunGameScriptFile("threadTest.py");
 }
 

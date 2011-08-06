@@ -68,19 +68,20 @@ b2Body* Entity::CreateBody (b2BodyType type) {
 }
 
 void Entity::RemoveSelf () {
-    m_scene->Remove(this);
+    if (m_scene != NULL)
+        m_scene->Remove(this);
 }
 
-ostream& operator<< (ostream& stream, const Entity& e) {
+ostream& Entity::ToString (ostream& stream) const {
     stream << "Entity [";
-    int size = e.m_tags.size();
+    int size = m_tags.size();
     int count = 0;
-    FOR_ (set<string>::const_iterator, i, e.m_tags) {
+    FOR_ (set<string>::const_iterator, i, m_tags) {
         stream << *i << (count == size - 1 ? "" : ", ");
         count++;
     }
     stream << "] at ";
-    stream << e.m_transform;
+    stream << m_transform;
     return stream;
 }
 
@@ -153,6 +154,10 @@ void Entity::EndContact (Entity* other, b2Contact* contact) {
          m_contactListeners) {
         (*i)->OnContactEnd(other, contact);
     }
+}
+
+ostream& operator<< (ostream& stream, const Entity& e) {
+   return e.ToString(stream);
 }
 
 }

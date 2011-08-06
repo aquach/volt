@@ -11029,7 +11029,7 @@
 			"occludesLight" : false,
 			"transform" :
 			{
-				"position" : [ 21.0, -7.0 ],
+				"position" : [ 5.0, 0.0 ],
 				"rotation" : 0.0,
 				"scale" : [ 0.50, 10.0 ]
 			},

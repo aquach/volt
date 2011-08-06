@@ -13,7 +13,8 @@ const float BLINK_CYCLE = 1.0f;
 ScriptConsole::ScriptConsole ()
     : m_historyLocation(0),
       m_cursor(0),
-      m_blinkTimer(0) {
+      m_blinkTimer(0),
+      m_label(NULL) {
     setVisible(false);
 }
 
@@ -63,6 +64,8 @@ void ScriptConsole::Render () {
 
 bool ScriptConsole::OnKeyEvent (SDL_KeyboardEvent event) {
     if (event.type != SDL_KEYDOWN)
+        return false;
+    if (m_label == NULL)
         return false;
 
     if (event.keysym.sym == SDLK_BACKQUOTE) {

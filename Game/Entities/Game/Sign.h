@@ -20,8 +20,6 @@ public:
     virtual void Load (const Json::Value& node);
     virtual void Save (Json::Value& node) const;
 
-    virtual void OnAccessed (Entity* accessor);
-
     virtual void OnScaleChanged ();
 
 private:

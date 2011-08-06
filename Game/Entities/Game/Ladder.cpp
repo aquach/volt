@@ -46,7 +46,8 @@ void Ladder::Save (Json::Value& node) const {
 }
 
 void Ladder::OnScaleChanged () {
-    CreatePhysicsBody();
+    if (body() != NULL)
+        CreatePhysicsBody();
 }
 
 Ladder* Ladder::Clone () const {

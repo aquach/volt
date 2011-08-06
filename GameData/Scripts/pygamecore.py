@@ -64,16 +64,26 @@ class PyEntity(pygame.Entity):
         pass
 
 class PyEntityContactListener(pygame.EntityContactListener):
-        def __init__(self, entity, beginCallback, endCallback):
-            pygame.EntityContactListener.__init__(self)
-            self.entity = entity
-            self.beginCallback = beginCallback
-            self.endCallback = endCallback
+    def __init__(self, entity, beginCallback, endCallback):
+        pygame.EntityContactListener.__init__(self)
+        self.entity = entity
+        self.beginCallback = beginCallback
+        self.endCallback = endCallback
 
-        def OnContactBegin(self, other, contact):
-            if self.beginCallback:
-                self.beginCallback(self.entity, other, contact)
+    def OnContactBegin(self, other, contact):
+        if self.beginCallback:
+            self.beginCallback(self.entity, other, contact)
 
-        def OnContactEnd(self, other, contact):
-            if self.endCallback:
-                self.endCallback(self.entity, other, contact)
+    def OnContactEnd(self, other, contact):
+        if self.endCallback:
+            self.endCallback(self.entity, other, contact)
+
+class PyEntityAccessListener(pygame.EntityAccessListener):
+    def __init__(self, entity, callback):
+        pygame.EntityAccessListener.__init__(self)
+        self.entity = entity
+        self.callback = callback
+
+    def OnAccessed(self, accessor):
+        if self.callback:
+            self.callback(self.entity, accessor)

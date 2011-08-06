@@ -109,6 +109,14 @@
 %include "Game/Filters/EdgeFilter.h"
 
 %feature("director") Entity;
+%feature("director") EntityAccessListener;
+%feature("shadow") Entity::OnAccessed(Entity*) %{
+    def OnAccessed(self, callback):
+        pylistener = PyEntityAccessListener(self, callback)
+        pylistener.__disown__()
+        self.AddAccessListener(pylistener)
+        return pylistener
+%}
 %include "Game/Game/Entity.h"
 %include "Game/Game/LevelManager.h"
 %include "Game/Entities/Game/Creature.h"
@@ -122,6 +130,20 @@
 namespace std {
     %template(EntityVector) vector<Volt::Entity*>;
 }
+
+// Importing custom python code.
+%pythoncode {
+    from pygamecore import *
+}
+
+// Casting helper methods.
+%inline %{
+
+Entity* GameEntity (Volt::Entity* e) {
+   return dynamic_cast<Entity*>(e);
+}
+
+%}
 
 // Extending classes for easier functionality.
 %extend Volt::FSM {
@@ -148,10 +170,6 @@ namespace std {
             self.AddContactListener(pylistener)
             return pylistener
     }
-}
-
-%pythoncode {
-    from pygamecore import *
 }
 
 %extend Volt::Vector2 {

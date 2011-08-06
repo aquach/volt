@@ -45,8 +45,8 @@ void SavePoint::Save (Json::Value& node) const {
 }
 
 void SavePoint::OnScaleChanged () {
-    DestroyBody();
-    CreatePhysicsBody();
+    if (body() != NULL)
+        CreatePhysicsBody();
 }
 
 SavePoint* SavePoint::Clone () const {

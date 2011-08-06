@@ -3167,88 +3167,89 @@ namespace Swig {
 #define SWIGTYPE_p_Creature__CreatureHitListener swig_types[3]
 #define SWIGTYPE_p_EdgeFilter swig_types[4]
 #define SWIGTYPE_p_Entity swig_types[5]
-#define SWIGTYPE_p_EntityFactory swig_types[6]
-#define SWIGTYPE_p_Json__Value swig_types[7]
-#define SWIGTYPE_p_Layers swig_types[8]
-#define SWIGTYPE_p_LevelManager swig_types[9]
-#define SWIGTYPE_p_Light swig_types[10]
-#define SWIGTYPE_p_LightStroke swig_types[11]
-#define SWIGTYPE_p_Player swig_types[12]
-#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[13]
-#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[14]
-#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[15]
-#define SWIGTYPE_p_Triangle swig_types[16]
-#define SWIGTYPE_p_Types swig_types[17]
-#define SWIGTYPE_p_Vector2 swig_types[18]
-#define SWIGTYPE_p_Volt__AppTime swig_types[19]
-#define SWIGTYPE_p_Volt__BBox swig_types[20]
-#define SWIGTYPE_p_Volt__Camera swig_types[21]
-#define SWIGTYPE_p_Volt__Color swig_types[22]
-#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[23]
-#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[24]
-#define SWIGTYPE_p_Volt__DataAssetRef swig_types[25]
-#define SWIGTYPE_p_Volt__DataSource swig_types[26]
-#define SWIGTYPE_p_Volt__Entity swig_types[27]
-#define SWIGTYPE_p_Volt__EntityContactListener swig_types[28]
-#define SWIGTYPE_p_Volt__FSM swig_types[29]
-#define SWIGTYPE_p_Volt__FSMState swig_types[30]
-#define SWIGTYPE_p_Volt__Filter swig_types[31]
-#define SWIGTYPE_p_Volt__Game swig_types[32]
-#define SWIGTYPE_p_Volt__PhysicsManager swig_types[33]
-#define SWIGTYPE_p_Volt__Random swig_types[34]
-#define SWIGTYPE_p_Volt__Scene swig_types[35]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[36]
-#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[37]
-#define SWIGTYPE_p_Volt__Time swig_types[38]
-#define SWIGTYPE_p_Volt__Transform swig_types[39]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[40]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[41]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[42]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[43]
-#define SWIGTYPE_p_Weapon swig_types[44]
-#define SWIGTYPE_p_allocator_type swig_types[45]
-#define SWIGTYPE_p_b2Body swig_types[46]
-#define SWIGTYPE_p_b2BodyDef swig_types[47]
-#define SWIGTYPE_p_b2Contact swig_types[48]
-#define SWIGTYPE_p_b2ContactEdge swig_types[49]
-#define SWIGTYPE_p_b2Fixture swig_types[50]
-#define SWIGTYPE_p_b2FixtureDef swig_types[51]
-#define SWIGTYPE_p_b2JointEdge swig_types[52]
-#define SWIGTYPE_p_b2MassData swig_types[53]
-#define SWIGTYPE_p_b2Mat22 swig_types[54]
-#define SWIGTYPE_p_b2Mat33 swig_types[55]
-#define SWIGTYPE_p_b2Shape swig_types[56]
-#define SWIGTYPE_p_b2Sweep swig_types[57]
-#define SWIGTYPE_p_b2Transform swig_types[58]
-#define SWIGTYPE_p_b2Vec2 swig_types[59]
-#define SWIGTYPE_p_b2Vec3 swig_types[60]
-#define SWIGTYPE_p_b2World swig_types[61]
-#define SWIGTYPE_p_char swig_types[62]
-#define SWIGTYPE_p_const_reference swig_types[63]
-#define SWIGTYPE_p_difference_type swig_types[64]
-#define SWIGTYPE_p_float swig_types[65]
-#define SWIGTYPE_p_float32 swig_types[66]
-#define SWIGTYPE_p_int swig_types[67]
-#define SWIGTYPE_p_int32 swig_types[68]
-#define SWIGTYPE_p_istream swig_types[69]
-#define SWIGTYPE_p_long swig_types[70]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[71]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[72]
-#define SWIGTYPE_p_ostream swig_types[73]
-#define SWIGTYPE_p_p_PyObject swig_types[74]
-#define SWIGTYPE_p_reference swig_types[75]
-#define SWIGTYPE_p_size_type swig_types[76]
-#define SWIGTYPE_p_std__invalid_argument swig_types[77]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[78]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[79]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[80]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[81]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[82]
-#define SWIGTYPE_p_uint32 swig_types[83]
-#define SWIGTYPE_p_void swig_types[84]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[85]
-static swig_type_info *swig_types[87];
-static swig_module_info swig_module = {swig_types, 86, 0, 0, 0, 0};
+#define SWIGTYPE_p_EntityAccessListener swig_types[6]
+#define SWIGTYPE_p_EntityFactory swig_types[7]
+#define SWIGTYPE_p_Json__Value swig_types[8]
+#define SWIGTYPE_p_Layers swig_types[9]
+#define SWIGTYPE_p_LevelManager swig_types[10]
+#define SWIGTYPE_p_Light swig_types[11]
+#define SWIGTYPE_p_LightStroke swig_types[12]
+#define SWIGTYPE_p_Player swig_types[13]
+#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[14]
+#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[15]
+#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[16]
+#define SWIGTYPE_p_Triangle swig_types[17]
+#define SWIGTYPE_p_Types swig_types[18]
+#define SWIGTYPE_p_Vector2 swig_types[19]
+#define SWIGTYPE_p_Volt__AppTime swig_types[20]
+#define SWIGTYPE_p_Volt__BBox swig_types[21]
+#define SWIGTYPE_p_Volt__Camera swig_types[22]
+#define SWIGTYPE_p_Volt__Color swig_types[23]
+#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[24]
+#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[25]
+#define SWIGTYPE_p_Volt__DataAssetRef swig_types[26]
+#define SWIGTYPE_p_Volt__DataSource swig_types[27]
+#define SWIGTYPE_p_Volt__Entity swig_types[28]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[29]
+#define SWIGTYPE_p_Volt__FSM swig_types[30]
+#define SWIGTYPE_p_Volt__FSMState swig_types[31]
+#define SWIGTYPE_p_Volt__Filter swig_types[32]
+#define SWIGTYPE_p_Volt__Game swig_types[33]
+#define SWIGTYPE_p_Volt__PhysicsManager swig_types[34]
+#define SWIGTYPE_p_Volt__Random swig_types[35]
+#define SWIGTYPE_p_Volt__Scene swig_types[36]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[37]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[38]
+#define SWIGTYPE_p_Volt__Time swig_types[39]
+#define SWIGTYPE_p_Volt__Transform swig_types[40]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[41]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[42]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[43]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[44]
+#define SWIGTYPE_p_Weapon swig_types[45]
+#define SWIGTYPE_p_allocator_type swig_types[46]
+#define SWIGTYPE_p_b2Body swig_types[47]
+#define SWIGTYPE_p_b2BodyDef swig_types[48]
+#define SWIGTYPE_p_b2Contact swig_types[49]
+#define SWIGTYPE_p_b2ContactEdge swig_types[50]
+#define SWIGTYPE_p_b2Fixture swig_types[51]
+#define SWIGTYPE_p_b2FixtureDef swig_types[52]
+#define SWIGTYPE_p_b2JointEdge swig_types[53]
+#define SWIGTYPE_p_b2MassData swig_types[54]
+#define SWIGTYPE_p_b2Mat22 swig_types[55]
+#define SWIGTYPE_p_b2Mat33 swig_types[56]
+#define SWIGTYPE_p_b2Shape swig_types[57]
+#define SWIGTYPE_p_b2Sweep swig_types[58]
+#define SWIGTYPE_p_b2Transform swig_types[59]
+#define SWIGTYPE_p_b2Vec2 swig_types[60]
+#define SWIGTYPE_p_b2Vec3 swig_types[61]
+#define SWIGTYPE_p_b2World swig_types[62]
+#define SWIGTYPE_p_char swig_types[63]
+#define SWIGTYPE_p_const_reference swig_types[64]
+#define SWIGTYPE_p_difference_type swig_types[65]
+#define SWIGTYPE_p_float swig_types[66]
+#define SWIGTYPE_p_float32 swig_types[67]
+#define SWIGTYPE_p_int swig_types[68]
+#define SWIGTYPE_p_int32 swig_types[69]
+#define SWIGTYPE_p_istream swig_types[70]
+#define SWIGTYPE_p_long swig_types[71]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[72]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[73]
+#define SWIGTYPE_p_ostream swig_types[74]
+#define SWIGTYPE_p_p_PyObject swig_types[75]
+#define SWIGTYPE_p_reference swig_types[76]
+#define SWIGTYPE_p_size_type swig_types[77]
+#define SWIGTYPE_p_std__invalid_argument swig_types[78]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[79]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[80]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[81]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[82]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[83]
+#define SWIGTYPE_p_uint32 swig_types[84]
+#define SWIGTYPE_p_void swig_types[85]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[86]
+static swig_type_info *swig_types[88];
+static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -5075,6 +5076,13 @@ SWIGINTERN void std_vector_Sl_Volt_Entity_Sm__Sg__append(std::vector< Volt::Enti
     }
 
 
+Entity* GameEntity (Volt::Entity* e) {
+   return dynamic_cast<Entity*>(e);
+}
+
+
+
+
 /* ---------------------------------------------------
  * C++ director class methods
  * --------------------------------------------------- */
@@ -5209,6 +5217,38 @@ void SwigDirector_FSMState::OnExit() {
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
 #else
   swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnExit", NULL);
+#endif
+  if (result == NULL) {
+    PyObject *error = PyErr_Occurred();
+    {
+      if (error != NULL) {
+        PyErr_PrintEx(0);
+      }
+    }
+  }
+}
+
+
+SwigDirector_EntityAccessListener::SwigDirector_EntityAccessListener(PyObject *self): EntityAccessListener(), Swig::Director(self) {
+  SWIG_DIRECTOR_RGTR((EntityAccessListener *)this, this); 
+}
+
+
+
+
+void SwigDirector_EntityAccessListener::OnAccessed(Entity *accessor) {
+  swig::SwigVar_PyObject obj0;
+  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(accessor), SWIGTYPE_p_Entity,  0 );
+  if (!swig_get_self()) {
+    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call EntityAccessListener.__init__.");
+  }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+  const size_t swig_method_index = 0;
+  const char * const swig_method_name = "OnAccessed";
+  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"OnAccessed", (char *)"(O)" ,(PyObject *)obj0);
 #endif
   if (result == NULL) {
     PyObject *error = PyErr_Occurred();
@@ -5497,31 +5537,6 @@ void SwigDirector_Entity::Save(Json::Value &node) const {
 }
 
 
-void SwigDirector_Entity::OnAccessed(Entity *accessor) {
-  swig::SwigVar_PyObject obj0;
-  obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(accessor), SWIGTYPE_p_Entity,  0 );
-  if (!swig_get_self()) {
-    Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
-  }
-#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 10;
-  const char * const swig_method_name = "OnAccessed";
-  PyObject* method = swig_get_method(swig_method_index, swig_method_name);
-  swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
-#else
-  swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"OnAccessed", (char *)"(O)" ,(PyObject *)obj0);
-#endif
-  if (result == NULL) {
-    PyObject *error = PyErr_Occurred();
-    {
-      if (error != NULL) {
-        PyErr_PrintEx(0);
-      }
-    }
-  }
-}
-
-
 void SwigDirector_Entity::GetProperties(std::vector< Property * > *properties) {
   swig::SwigVar_PyObject obj0;
   obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(properties), SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t,  0 );
@@ -5529,7 +5544,7 @@ void SwigDirector_Entity::GetProperties(std::vector< Property * > *properties) {
     Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Entity.__init__.");
   }
 #if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
-  const size_t swig_method_index = 11;
+  const size_t swig_method_index = 10;
   const char * const swig_method_name = "GetProperties";
   PyObject* method = swig_get_method(swig_method_index, swig_method_name);
   swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
@@ -25324,6 +25339,124 @@ SWIGINTERN PyObject *EdgeFilter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyO
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_EntityAccessListener_OnAccessed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EntityAccessListener *arg1 = (EntityAccessListener *) 0 ;
+  Entity *arg2 = (Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:EntityAccessListener_OnAccessed",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EntityAccessListener, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EntityAccessListener_OnAccessed" "', argument " "1"" of type '" "EntityAccessListener *""'"); 
+  }
+  arg1 = reinterpret_cast< EntityAccessListener * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "EntityAccessListener_OnAccessed" "', argument " "2"" of type '" "Entity *""'"); 
+  }
+  arg2 = reinterpret_cast< Entity * >(argp2);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      Swig::DirectorPureVirtualException::raise("EntityAccessListener::OnAccessed");
+    } else {
+      (arg1)->OnAccessed(arg2);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_EntityAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  PyObject *arg1 = (PyObject *) 0 ;
+  PyObject * obj0 = 0 ;
+  EntityAccessListener *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_EntityAccessListener",&obj0)) SWIG_fail;
+  arg1 = obj0;
+  if ( arg1 != Py_None ) {
+    /* subclassed */
+    result = (EntityAccessListener *)new SwigDirector_EntityAccessListener(arg1); 
+  } else {
+    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+    SWIG_fail;
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_EntityAccessListener, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_EntityAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EntityAccessListener *arg1 = (EntityAccessListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityAccessListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EntityAccessListener, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityAccessListener" "', argument " "1"" of type '" "EntityAccessListener *""'"); 
+  }
+  arg1 = reinterpret_cast< EntityAccessListener * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_disown_EntityAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EntityAccessListener *arg1 = (EntityAccessListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:disown_EntityAccessListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EntityAccessListener, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "disown_EntityAccessListener" "', argument " "1"" of type '" "EntityAccessListener *""'"); 
+  }
+  arg1 = reinterpret_cast< EntityAccessListener * >(argp1);
+  {
+    Swig::Director *director = dynamic_cast<Swig::Director *>(arg1);
+    if (director) director->swig_disown();
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *EntityAccessListener_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_EntityAccessListener, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_Entity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   PyObject *arg1 = (PyObject *) 0 ;
@@ -25361,48 +25494,6 @@ SWIGINTERN PyObject *_wrap_delete_Entity(PyObject *SWIGUNUSEDPARM(self), PyObjec
   }
   arg1 = reinterpret_cast< Entity * >(argp1);
   delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Entity_OnAccessed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Entity *arg1 = (Entity *) 0 ;
-  Entity *arg2 = (Entity *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  Swig::Director *director = 0;
-  bool upcall = false;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Entity_OnAccessed",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Entity_OnAccessed" "', argument " "1"" of type '" "Entity *""'"); 
-  }
-  arg1 = reinterpret_cast< Entity * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Entity, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Entity_OnAccessed" "', argument " "2"" of type '" "Entity *""'"); 
-  }
-  arg2 = reinterpret_cast< Entity * >(argp2);
-  director = SWIG_DIRECTOR_CAST(arg1);
-  upcall = (director && (director->swig_get_self()==obj0));
-  try {
-    if (upcall) {
-      (arg1)->Entity::OnAccessed(arg2);
-    } else {
-      (arg1)->OnAccessed(arg2);
-    }
-  } catch (Swig::DirectorException&) {
-    SWIG_fail;
-  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -25498,6 +25589,96 @@ SWIGINTERN PyObject *_wrap_Entity_occludesLight(PyObject *SWIGUNUSEDPARM(self), 
   arg1 = reinterpret_cast< Entity * >(argp1);
   result = (bool)((Entity const *)arg1)->occludesLight();
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Entity_OnAccessed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Entity *arg1 = (Entity *) 0 ;
+  Entity *arg2 = (Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Entity_OnAccessed",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Entity_OnAccessed" "', argument " "1"" of type '" "Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Entity * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Entity_OnAccessed" "', argument " "2"" of type '" "Entity *""'"); 
+  }
+  arg2 = reinterpret_cast< Entity * >(argp2);
+  (arg1)->OnAccessed(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Entity_AddAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Entity *arg1 = (Entity *) 0 ;
+  EntityAccessListener *arg2 = (EntityAccessListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Entity_AddAccessListener",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Entity_AddAccessListener" "', argument " "1"" of type '" "Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Entity * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_EntityAccessListener, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Entity_AddAccessListener" "', argument " "2"" of type '" "EntityAccessListener *""'"); 
+  }
+  arg2 = reinterpret_cast< EntityAccessListener * >(argp2);
+  (arg1)->AddAccessListener(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Entity_RemoveAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Entity *arg1 = (Entity *) 0 ;
+  EntityAccessListener *arg2 = (EntityAccessListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Entity_RemoveAccessListener",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Entity_RemoveAccessListener" "', argument " "1"" of type '" "Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Entity * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_EntityAccessListener, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Entity_RemoveAccessListener" "', argument " "2"" of type '" "EntityAccessListener *""'"); 
+  }
+  arg2 = reinterpret_cast< EntityAccessListener * >(argp2);
+  (arg1)->RemoveAccessListener(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -29360,6 +29541,28 @@ SWIGINTERN PyObject *EntityVector_swigregister(PyObject *SWIGUNUSEDPARM(self), P
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_GameEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Entity *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:GameEntity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GameEntity" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  result = (Entity *)GameEntity(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Entity, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"delete_SwigPyIterator", _wrap_delete_SwigPyIterator, METH_VARARGS, NULL},
@@ -29949,12 +30152,19 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"EdgeFilter_OnBottomLayer", _wrap_EdgeFilter_OnBottomLayer, METH_VARARGS, NULL},
 	 { (char *)"EdgeFilter_OnTopLayer", _wrap_EdgeFilter_OnTopLayer, METH_VARARGS, NULL},
 	 { (char *)"EdgeFilter_swigregister", EdgeFilter_swigregister, METH_VARARGS, NULL},
+	 { (char *)"EntityAccessListener_OnAccessed", _wrap_EntityAccessListener_OnAccessed, METH_VARARGS, NULL},
+	 { (char *)"new_EntityAccessListener", _wrap_new_EntityAccessListener, METH_VARARGS, NULL},
+	 { (char *)"delete_EntityAccessListener", _wrap_delete_EntityAccessListener, METH_VARARGS, NULL},
+	 { (char *)"disown_EntityAccessListener", _wrap_disown_EntityAccessListener, METH_VARARGS, NULL},
+	 { (char *)"EntityAccessListener_swigregister", EntityAccessListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Entity", _wrap_new_Entity, METH_VARARGS, NULL},
 	 { (char *)"delete_Entity", _wrap_delete_Entity, METH_VARARGS, NULL},
-	 { (char *)"Entity_OnAccessed", _wrap_Entity_OnAccessed, METH_VARARGS, NULL},
 	 { (char *)"Entity_GetProperties", _wrap_Entity_GetProperties, METH_VARARGS, NULL},
 	 { (char *)"Entity_SetOccludesLight", _wrap_Entity_SetOccludesLight, METH_VARARGS, NULL},
 	 { (char *)"Entity_occludesLight", _wrap_Entity_occludesLight, METH_VARARGS, NULL},
+	 { (char *)"Entity_OnAccessed", _wrap_Entity_OnAccessed, METH_VARARGS, NULL},
+	 { (char *)"Entity_AddAccessListener", _wrap_Entity_AddAccessListener, METH_VARARGS, NULL},
+	 { (char *)"Entity_RemoveAccessListener", _wrap_Entity_RemoveAccessListener, METH_VARARGS, NULL},
 	 { (char *)"Entity_Load", _wrap_Entity_Load, METH_VARARGS, NULL},
 	 { (char *)"Entity_Save", _wrap_Entity_Save, METH_VARARGS, NULL},
 	 { (char *)"Entity_CopyFrom", _wrap_Entity_CopyFrom, METH_VARARGS, NULL},
@@ -30081,6 +30291,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"EntityVector_capacity", _wrap_EntityVector_capacity, METH_VARARGS, NULL},
 	 { (char *)"delete_EntityVector", _wrap_delete_EntityVector, METH_VARARGS, NULL},
 	 { (char *)"EntityVector_swigregister", EntityVector_swigregister, METH_VARARGS, NULL},
+	 { (char *)"GameEntity", _wrap_GameEntity, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -30129,6 +30340,7 @@ static swig_type_info _swigt__p_Creature = {"_p_Creature", "Creature *", 0, 0, (
 static swig_type_info _swigt__p_Creature__CreatureHitListener = {"_p_Creature__CreatureHitListener", "Creature::CreatureHitListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_EdgeFilter = {"_p_EdgeFilter", "EdgeFilter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Entity = {"_p_Entity", "Entity *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_EntityAccessListener = {"_p_EntityAccessListener", "EntityAccessListener *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_EntityFactory = {"_p_EntityFactory", "EntityFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Json__Value = {"_p_Json__Value", "Json::Value *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Layers = {"_p_Layers", "Layers *", 0, 0, (void*)0, 0};
@@ -30217,6 +30429,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Creature__CreatureHitListener,
   &_swigt__p_EdgeFilter,
   &_swigt__p_Entity,
+  &_swigt__p_EntityAccessListener,
   &_swigt__p_EntityFactory,
   &_swigt__p_Json__Value,
   &_swigt__p_Layers,
@@ -30305,6 +30518,7 @@ static swig_cast_info _swigc__p_Creature[] = {  {&_swigt__p_Creature, 0, 0, 0}, 
 static swig_cast_info _swigc__p_Creature__CreatureHitListener[] = {  {&_swigt__p_Creature__CreatureHitListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EdgeFilter[] = {  {&_swigt__p_EdgeFilter, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_Triangle, _p_TriangleTo_p_Entity, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Entity, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_EntityAccessListener[] = {  {&_swigt__p_EntityAccessListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EntityFactory[] = {  {&_swigt__p_EntityFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Json__Value[] = {  {&_swigt__p_Json__Value, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Layers[] = {  {&_swigt__p_Layers, 0, 0, 0},{0, 0, 0, 0}};
@@ -30393,6 +30607,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Creature__CreatureHitListener,
   _swigc__p_EdgeFilter,
   _swigc__p_Entity,
+  _swigc__p_EntityAccessListener,
   _swigc__p_EntityFactory,
   _swigc__p_Json__Value,
   _swigc__p_Layers,

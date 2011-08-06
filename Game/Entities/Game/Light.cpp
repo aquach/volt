@@ -279,7 +279,8 @@ void Light::Save (Json::Value& node) const {
 }
 
 void Light::OnScaleChanged () {
-    CreatePhysicsBody();
+    if (body() != NULL)
+        CreatePhysicsBody();
 }
 
 Light* Light::Clone () const {
