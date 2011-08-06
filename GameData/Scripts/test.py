@@ -71,7 +71,7 @@ def fadeOut():
 
 def onTouched(ladder, hit, contact):
     print 'fade'
-    fadeOut()
+    #fadeOut()
 
 ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:
@@ -101,8 +101,19 @@ def platform():
     e.RemoveSelf()
 platform()
 
+@background
+def startConversation():
+    b = MessageBoxDef()
+    b.text = "Hi, I'm a sign!"
+    scene().ShowMessageBox(disown(MessageBox(b)))
+    b.text = "This is the next message.."
+    lastBox = disown(MessageBox(b))
+    scene().ShowMessageBox(lastBox)
+    lastBox.WaitForFinish()
+    print 'shown'
+
 def onAccessed(sign, accessor):
-    print 'hi im a sign', accessor
+    startConversation()
 
 signs = scene().GetAllTagged('Sign')
 for sign in signs:

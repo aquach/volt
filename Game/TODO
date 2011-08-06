@@ -2,16 +2,16 @@ Game TODO list:
 
 * Animation.
 * Art for all components.
-* World Editor.
+* World Editor (50%)
   * Doodad (tiles) (http://gametuto.com/in-game-c-map-editor-tutorial-with-indielib-engine-that-dosent-use-tiles-but-pieced-images-like-in-braid-or-aquaria-games/)
   * Triangles should only be for physics and collisions?
   * How to handle moving platforms? Platform Entity?
   * CustomEntity: can bind any number of triangles to it and doodads?
   * All environmental things should be CustomEntities. Includes Signs and SavePoints, probably.
-* Saving and loading.
+* Saving and loading (10%)
 * Title screen.
-* NPC dialogs.
-* Cutscene system.
-* Lighting and light animation.
+* NPC dialogs (20%)
+* Cutscene system (30%)
+* Lighting and light animation (30%)
 * Optics.
 * Inventory/Menu.

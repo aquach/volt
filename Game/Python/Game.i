@@ -32,6 +32,8 @@
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Editor/EntityFactory.h"
+#include "Game/Entities/GUI/MessageBox.h"
+#include "Game/Scenes/GameScene.h"
 
 %}
 
@@ -128,6 +130,8 @@
 %include "Game/Entities/Game/Player.h"
 %include "Game/Entities/Game/Triangle.h"
 %include "Game/Editor/EntityFactory.h"
+%include "Game/Entities/GUI/MessageBox.h"
+%include "Game/Scenes/GameScene.h"
 
 namespace std {
     %template(EntityVector) vector<Volt::Entity*>;
@@ -145,9 +149,22 @@ Entity* GameEntity (Volt::Entity* e) {
    return dynamic_cast<Entity*>(e);
 }
 
+GameScene* scene () {
+    return dynamic_cast<GameScene*>(Volt::Game::Instance()->currentScene());
+}
+
 %}
 
 // Extending classes for easier functionality.
+
+%extend MessageBox {
+    %pythoncode {
+        def WaitForFinish(self):
+            while not self.IsFinished():
+                time.sleep(0.25)
+    }
+}
+
 %extend Volt::FSM {
     %pythoncode {
         def AddStates(self, stateList):

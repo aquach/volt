@@ -2,10 +2,6 @@ import pygame
 import threading
 import time
 
-'''Handy method to get scene pointer.'''
-def scene():
-    return pygame.Game.Instance().currentScene()
-
 def dt():
     return pygame.AppTime.Instance().dt()
 

@@ -17,6 +17,7 @@ struct MessageBoxDef {
 
     // TODO: For ones that can't be skipped, how long to wait after finishing
     //       the display.
+    // TODO: Dialog message boxes, like Yes/No.
     float pauseDuration;
 };
 

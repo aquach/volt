@@ -7,10 +7,15 @@ ConversationManager::ConversationManager (GameScene* scene)
     m_font = G_AssetManager->GetFont("Fonts/Mido.ttf", 32.0);
 }
 
-/*
+
 ConversationManager::~ConversationManager () {
+    while (!m_boxes.empty()) {
+        MessageBox* box = m_boxes.front();
+        if (box->scene() == NULL)
+            delete box;
+        m_boxes.pop();
+    }
 }
-*/
 
 void ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
     if (m_boxes.empty())
@@ -20,6 +25,7 @@ void ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
 }
 
 void ConversationManager::Update () {
+    // TODO: Fix player input. Make keyboard niput something more sensible.
     m_gameScene->SetPlayerInputLock(false);
 
     if (m_boxes.empty())

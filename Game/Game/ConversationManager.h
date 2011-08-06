@@ -11,7 +11,7 @@ class MessageBox;
 class ConversationManager {
 public:
     explicit ConversationManager (GameScene* scene);
-    ~ConversationManager () { }
+    ~ConversationManager ();
 
     void Update ();
 

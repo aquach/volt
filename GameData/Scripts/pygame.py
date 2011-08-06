@@ -1455,6 +1455,10 @@ class LevelManager(_object):
     def levelName(self): return _pygame.LevelManager_levelName(self)
     def SetLevelName(self, *args): return _pygame.LevelManager_SetLevelName(self, *args)
     def IsUnloading(self): return _pygame.LevelManager_IsUnloading(self)
+    def SetPython(self, *args): return _pygame.LevelManager_SetPython(self, *args)
+    def pythonEnabled(self): return _pygame.LevelManager_pythonEnabled(self)
+    def startScript(self): return _pygame.LevelManager_startScript(self)
+    def SetStartScript(self, *args): return _pygame.LevelManager_SetStartScript(self, *args)
 LevelManager_swigregister = _pygame.LevelManager_swigregister
 LevelManager_swigregister(LevelManager)
 
@@ -1679,6 +1683,84 @@ def EntityFactory_GetEntityTypes(*args):
   return _pygame.EntityFactory_GetEntityTypes(*args)
 EntityFactory_GetEntityTypes = _pygame.EntityFactory_GetEntityTypes
 
+class MessageBoxDef(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MessageBoxDef, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, MessageBoxDef, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_MessageBoxDef()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_setmethods__["text"] = _pygame.MessageBoxDef_text_set
+    __swig_getmethods__["text"] = _pygame.MessageBoxDef_text_get
+    if _newclass:text = _swig_property(_pygame.MessageBoxDef_text_get, _pygame.MessageBoxDef_text_set)
+    __swig_setmethods__["modal"] = _pygame.MessageBoxDef_modal_set
+    __swig_getmethods__["modal"] = _pygame.MessageBoxDef_modal_get
+    if _newclass:modal = _swig_property(_pygame.MessageBoxDef_modal_get, _pygame.MessageBoxDef_modal_set)
+    __swig_setmethods__["canSkip"] = _pygame.MessageBoxDef_canSkip_set
+    __swig_getmethods__["canSkip"] = _pygame.MessageBoxDef_canSkip_get
+    if _newclass:canSkip = _swig_property(_pygame.MessageBoxDef_canSkip_get, _pygame.MessageBoxDef_canSkip_set)
+    __swig_setmethods__["pauseDuration"] = _pygame.MessageBoxDef_pauseDuration_set
+    __swig_getmethods__["pauseDuration"] = _pygame.MessageBoxDef_pauseDuration_get
+    if _newclass:pauseDuration = _swig_property(_pygame.MessageBoxDef_pauseDuration_get, _pygame.MessageBoxDef_pauseDuration_set)
+    __swig_destroy__ = _pygame.delete_MessageBoxDef
+    __del__ = lambda self : None;
+MessageBoxDef_swigregister = _pygame.MessageBoxDef_swigregister
+MessageBoxDef_swigregister(MessageBoxDef)
+
+class MessageBox(Entity):
+    __swig_setmethods__ = {}
+    for _s in [Entity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MessageBox, name, value)
+    __swig_getmethods__ = {}
+    for _s in [Entity]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, MessageBox, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_MessageBox(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_MessageBox
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.MessageBox_Update(self)
+    def Render(self): return _pygame.MessageBox_Render(self)
+    def IsFinished(self): return _pygame.MessageBox_IsFinished(self)
+    def HasCharactersRemaining(self): return _pygame.MessageBox_HasCharactersRemaining(self)
+    def OnKeyEvent(self, *args): return _pygame.MessageBox_OnKeyEvent(self, *args)
+    def Load(self, *args): return _pygame.MessageBox_Load(self, *args)
+    def Save(self, *args): return _pygame.MessageBox_Save(self, *args)
+    def WaitForFinish(self):
+        while not self.IsFinished():
+            time.sleep(0.25)
+
+MessageBox_swigregister = _pygame.MessageBox_swigregister
+MessageBox_swigregister(MessageBox)
+
+class GameScene(Scene):
+    __swig_setmethods__ = {}
+    for _s in [Scene]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, GameScene, name, value)
+    __swig_getmethods__ = {}
+    for _s in [Scene]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, GameScene, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_GameScene()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_GameScene
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.GameScene_Update(self)
+    def OnBegin(self): return _pygame.GameScene_OnBegin(self)
+    def OnEnd(self): return _pygame.GameScene_OnEnd(self)
+    def OnKeyEvent(self, *args): return _pygame.GameScene_OnKeyEvent(self, *args)
+    def ShowMessageBox(self, *args): return _pygame.GameScene_ShowMessageBox(self, *args)
+    def SetPlayerInputLock(self, *args): return _pygame.GameScene_SetPlayerInputLock(self, *args)
+GameScene_swigregister = _pygame.GameScene_swigregister
+GameScene_swigregister(GameScene)
+
 class EntityVector(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, EntityVector, name, value)
@@ -1732,5 +1814,9 @@ from pygamecore import *
 def GameEntity(*args):
   return _pygame.GameEntity(*args)
 GameEntity = _pygame.GameEntity
+
+def scene():
+  return _pygame.scene()
+scene = _pygame.scene
 
 
