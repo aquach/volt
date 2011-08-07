@@ -12,7 +12,7 @@ SoundManager::SoundManager ()
     LOG(INFO) << "Initializing sound system...";
 
     m_device = alcOpenDevice(NULL);
-    if (m_device == NULL && false) {
+    if (m_device == NULL) {
         LOG(FATAL) << "Failed to initialize sound device.";
         exit(1);
     }
