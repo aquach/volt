@@ -6,9 +6,6 @@ import time
 
 time.sleep(1)
 
-print scene()
-'''
-
 class State1(FSMState):
     def __init__(self):
         FSMState.__init__(self)
@@ -133,4 +130,3 @@ print 'after2', Game.Instance().frameNumber()
 #PhysicsManager.Instance().SetGravity(Vector2(0, -30))
 
 print 'Finished'
-'''

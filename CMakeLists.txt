@@ -66,13 +66,6 @@ file(GLOB_RECURSE VoltTest_SOURCES Test/*.cpp)
 ADD_EXECUTABLE(volt_test ${VoltTest_SOURCES})
 TARGET_LINK_LIBRARIES(volt_test ${VOLT_DEPENDENCIES} volt)
 
-# Game Lib
-
-file(GLOB_RECURSE Game_SOURCES Game/*.cpp)
-LIST(REMOVE_ITEM Game_SOURCES Game/main.cpp)
-ADD_LIBRARY(gamelib ${Game_SOURCES})
-TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
-
 # Game SWIG bindings.
 # Coarse dependency on all Game and Volt headers.
 IF(UNIX)
@@ -87,15 +80,12 @@ IF(UNIX)
 	ADD_CUSTOM_TARGET(pygame DEPENDS ${PYGAME})
 ENDIF()
 
-ADD_LIBRARY(pygamelib SHARED Game/Python/Game_wrap.cxx)
-IF(UNIX)
-    SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME "_pygame")
-ELSEIF(WIN32)
-    SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME "../_pygame_d.pyd"
-                          PREFIX "" SUFFIX "")
-ENDIF()    
-TARGET_LINK_LIBRARIES(pygamelib gamelib)
-ADD_DEPENDENCIES(pygamelib pygame)
+# Game Lib
+
+file(GLOB_RECURSE Game_SOURCES Game/*.cpp Game/Python/Game_wrap.cxx)
+LIST(REMOVE_ITEM Game_SOURCES Game/main.cpp)
+ADD_LIBRARY(gamelib ${Game_SOURCES})
+TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
 
 # Game
 

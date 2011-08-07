@@ -45,9 +45,6 @@ void Initialize (int argc, char** argv) {
     PySys_SetArgvEx(argc, argv, 0);
     PyEval_InitThreads();
     Py_InitModule("pyvoltbootstrap", PyVoltBootstrapMethods);
-
-    PyRun_SimpleString(
-        G_AssetManager->GetScript("Scripts/bootstrap.py")->script().c_str());
 }
 
 void Terminate () {
