@@ -163,8 +163,8 @@ istream& operator>> (istream& stream, Vector2& other) {
 
 void Vector2::Load (const Json::Value& node) {
     CHECK(node.size() == 2);
-    x = node[0u].asDouble();
-    y = node[1u].asDouble();
+    x = (float)node[0u].asDouble();
+    y = (float)node[1u].asDouble();
 }
 
 void Vector2::Save (Json::Value& node) const {

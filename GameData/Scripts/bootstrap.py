@@ -4,8 +4,8 @@ import sys
 import pyvoltbootstrap
 
 # Add path for shared libraries.
-exeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
-sys.path.insert(0, exeDir)
+#exeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
+#sys.path.insert(0, exeDir)
 
 # Custom importer that calls into AssetManager.
 class GameImporter(object):

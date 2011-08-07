@@ -27,7 +27,9 @@ ENDIF()
 
 IF(WIN32)
     INCLUDE_DIRECTORIES(Contrib/Windows)
+    INCLUDE_DIRECTORIES(Contrib/python2.7/include)
     LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/Contrib/Windows/lib)
+    LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/Contrib/python2.7/libs)
 ENDIF()
 
 IF(UNIX)
@@ -73,18 +75,25 @@ TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
 
 # Game SWIG bindings.
 # Coarse dependency on all Game and Volt headers.
-file(GLOB_RECURSE Python_SOURCEHEADERS Game/*.h Volt/*.h)
-SET(PYGAME ${CMAKE_SOURCE_DIR}/Game/Python/Game_wrap.cxx)
-ADD_CUSTOM_COMMAND(
-    OUTPUT ${PYGAME}
-    COMMAND cd ${CMAKE_SOURCE_DIR}/Game/Python/ && ./swig.sh
-    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Game.i
-            $(Python_SOURCEHEADERS)
-)
-ADD_CUSTOM_TARGET(pygame DEPENDS ${PYGAME})
+IF(UNIX)
+	file(GLOB_RECURSE Python_SOURCEHEADERS Game/*.h Volt/*.h)
+	SET(PYGAME ${CMAKE_SOURCE_DIR}/Game/Python/Game_wrap.cxx)
+	ADD_CUSTOM_COMMAND(
+	    OUTPUT ${PYGAME}
+	    COMMAND cd ${CMAKE_SOURCE_DIR}/Game/Python/ && ./swig.sh
+	    DEPENDS ${CMAKE_SOURCE_DIR}/Game/Python/Game.i
+		    $(Python_SOURCEHEADERS)
+	)
+	ADD_CUSTOM_TARGET(pygame DEPENDS ${PYGAME})
+ENDIF()
 
 ADD_LIBRARY(pygamelib SHARED Game/Python/Game_wrap.cxx)
-SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME _pygame PREFIX "")
+IF(UNIX)
+    SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME "_pygame")
+ELSEIF(WIN32)
+    SET_TARGET_PROPERTIES(pygamelib PROPERTIES OUTPUT_NAME "../_pygame_d.pyd"
+                          PREFIX "" SUFFIX "")
+ENDIF()    
 TARGET_LINK_LIBRARIES(pygamelib gamelib)
 ADD_DEPENDENCIES(pygamelib pygame)
 

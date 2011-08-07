@@ -34,7 +34,10 @@ public:
     void SetScene (Scene* scene);
 
     static void Register (Game* game) { instance = game; }
-    static Game* Instance () { return instance; }
+    static Game* Instance () {
+        CHECK_NOTNULL(instance);
+        return instance;
+    }
 
     void OnKeyEvent (SDL_KeyboardEvent event);
     void OnMouseButtonEvent (SDL_MouseButtonEvent event);

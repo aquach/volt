@@ -13,3 +13,4 @@ Features:
 * TTF font loading and rendering with full glyph kerning data using stb
 * Reads from a directory as well as from a packed data file (because Leo likes it)
 * Multi-pass graphics filter support via shaders
+* Game scripting using Python

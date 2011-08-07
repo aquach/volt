@@ -5,6 +5,12 @@
 
 #include "CoreBase.h"
 
+#if COMPILER_VCC
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef MessageBox
+#endif
+
 using namespace std;
 
 namespace Volt {

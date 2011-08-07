@@ -40,6 +40,7 @@ static PyMethodDef PyVoltBootstrapMethods[] = {
 };
 
 void Initialize (int argc, char** argv) {
+    Py_SetProgramName(argv[0]);
     Py_InitializeEx(0);
     PySys_SetArgvEx(argc, argv, 0);
     PyEval_InitThreads();

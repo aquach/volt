@@ -1,5 +1,5 @@
 #include "Volt/Game/Game.h"
-#include <python2.7/Python.h>
+#include <Python.h>
 #include <SDL/SDL.h>
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/DataSource.h"

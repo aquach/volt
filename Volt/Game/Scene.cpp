@@ -296,7 +296,7 @@ public:
 };
 
 void Scene::GetEntitiesAtPoint (Vector2 point, vector<Entity*>* entities) {
-    GetEntitiesInArea(point - Vector2(0.1, 0.1), point + Vector2(0.1, 0.1),
+    GetEntitiesInArea(point - Vector2(0.1f, 0.1f), point + Vector2(0.1f, 0.1f),
                       entities);
 }
 
