@@ -81,15 +81,18 @@ for ladder in ladders:
 def platform():
     e = EntityFactory.Create('Triangle')
     e.SetScale(Vector2(3, 1))
+    e.SetPosition(Vector2(3, -5))
     scene().Add(e)
 
-    start = Vector2(3, -5)
-    end = start + Vector2(0, -5)
+    speed = 2
     duration = 3
 
-    tween = CompositeTweenVector();
-    tween.AddTween(TweenVector.Linear(start, end, duration))
-    tween.AddTween(TweenVector.QuadraticIn(end, start, duration))
+    # Address issue with Triangles being static. Maybe have a setting for
+    # bodies that have close-to-infinite mass but are dynamic? How is
+    # mass going to work?
+    tween = CompositeTweenFloat()
+    tween.AddTween(TweenFloat.Linear(speed, -speed, duration))
+    tween.AddTween(TweenFloat.Linear(-speed, speed, duration))
     start = time.time()
     while not level().IsUnloading():
         time.sleep(0.01)
@@ -97,7 +100,8 @@ def platform():
         if elapsed > duration * 2:
             start = time.time()
         tween.SetTime(elapsed)
-        e.SetPosition(tween.value())
+        e.body().SetLinearVelocity(Vector2(0, tween.value()).ToB2())
+        print tween.value()
     e.RemoveSelf()
 platform()
 
