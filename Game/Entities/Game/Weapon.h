@@ -20,6 +20,7 @@ public:
     virtual void OnEquip () { }
     virtual void OnUnequip () { }
 
+    virtual void OnRemoved ();
     virtual void Update () = 0;
     virtual void Render () = 0;
 

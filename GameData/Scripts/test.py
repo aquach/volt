@@ -101,7 +101,7 @@ def platform():
             start = time.time()
         tween.SetTime(elapsed)
         e.body().SetLinearVelocity(Vector2(0, tween.value()).ToB2())
-        print tween.value()
+        #print tween.value()
     e.RemoveSelf()
 platform()
 

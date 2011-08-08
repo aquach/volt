@@ -86,6 +86,9 @@ file(GLOB_RECURSE Game_SOURCES Game/*.cpp Game/Python/Game_wrap.cxx)
 LIST(REMOVE_ITEM Game_SOURCES Game/main.cpp)
 ADD_LIBRARY(gamelib ${Game_SOURCES})
 TARGET_LINK_LIBRARIES(gamelib ${VOLT_DEPENDENCIES} volt)
+IF(UNIX)
+    ADD_DEPENDENCIES(gamelib pygame)
+ENDIF()
 
 # Game
 

@@ -9,19 +9,27 @@ Creature::Creature ()
       m_weapon(NULL) {
 }
 
+void Creature::OnRemoved () {
+    if (m_weapon != NULL) {
+        m_weapon->OnUnequip();
+        m_weapon->RemoveSelf();
+    }
+}
+
 void Creature::EquipWeapon (Weapon* weapon) {
     if (m_weapon != NULL) {
         m_weapon->OnUnequip();
         m_weapon->m_holder = NULL;
     }
     m_weapon = weapon;
-    m_weapon->m_holder = this;
-    if (m_weapon != NULL)
+    if (m_weapon != NULL) {
+        m_weapon->m_holder = this;
         m_weapon->OnEquip();
+    }
 }
 
 void Creature::InvokeHitListeners (Entity* agent, float damage) {
     FOR_(set<CreatureHitListener*>::iterator, i, m_hitListeners) {
-        (*i)->OnHit(agent, damage);
+        (*i)->OnDamage(agent, damage);
     }
 }

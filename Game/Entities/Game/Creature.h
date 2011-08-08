@@ -7,23 +7,21 @@ class HealthBar;
 class PowerBar;
 class Weapon;
 
-
+/* Subclass this to receive callbacks when the Creature takes damage. */
+class CreatureHitListener {
+public:
+    virtual void OnDamage (Entity* agent, float damage) = 0;
+};
 
 class Creature : public Entity {
 public:
-    /* Subclass this to receive callbacks when the Creature takes damage. */
-    class CreatureHitListener {
-    public:
-        virtual void OnHit (Entity* agent, float damage) = 0;
-    };
-
     Creature ();
     virtual ~Creature () { }
 
+    virtual void OnRemoved ();
     virtual void Update () = 0;
     virtual void Render () = 0;
 
-    // TODO: Solve dangling weapons when creature removed?
     void EquipWeapon (Weapon* weapon);
 
     void AddHitListener (CreatureHitListener* listener) {

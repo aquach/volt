@@ -208,6 +208,7 @@ void Player::OnAdded () {
 }
 
 void Player::OnRemoved () {
+    Creature::OnRemoved();
     if (m_debugDraw) {
         scene()->Remove(m_debugLabel);
     }

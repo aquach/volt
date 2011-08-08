@@ -1507,6 +1507,19 @@ def SaveData_Instance():
   return _pygame.SaveData_Instance()
 SaveData_Instance = _pygame.SaveData_Instance
 
+class CreatureHitListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CreatureHitListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CreatureHitListener, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    def OnDamage(self, *args): return _pygame.CreatureHitListener_OnDamage(self, *args)
+    __swig_destroy__ = _pygame.delete_CreatureHitListener
+    __del__ = lambda self : None;
+CreatureHitListener_swigregister = _pygame.CreatureHitListener_swigregister
+CreatureHitListener_swigregister(CreatureHitListener)
+
 class Creature(Entity):
     __swig_setmethods__ = {}
     for _s in [Entity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -1518,6 +1531,7 @@ class Creature(Entity):
     __repr__ = _swig_repr
     __swig_destroy__ = _pygame.delete_Creature
     __del__ = lambda self : None;
+    def OnRemoved(self): return _pygame.Creature_OnRemoved(self)
     def Update(self): return _pygame.Creature_Update(self)
     def Render(self): return _pygame.Creature_Render(self)
     def EquipWeapon(self, *args): return _pygame.Creature_EquipWeapon(self, *args)

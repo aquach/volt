@@ -23,8 +23,8 @@ public:
      * when entities are added/removed. */
     class SceneListener {
     public:
-        virtual void OnEntityAdded (Entity* e) { };
-        virtual void OnEntityRemoved (Entity* e) { };
+        virtual void OnEntityAdded (Entity* e) { }
+        virtual void OnEntityRemoved (Entity* e) { }
     };
 
     typedef map<int, list<Entity* > > Layers;

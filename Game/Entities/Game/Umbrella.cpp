@@ -15,7 +15,7 @@ void Umbrella::Render () {
     glPushMatrix();
     Graphics::TransformMatrix(m_holder->weaponTransform());
     Graphics::SetColor(Volt::Color::RGB(235, 230, 230));
-    Graphics::RenderCircle(0.8, 8);
+    Graphics::RenderQuad(1, 0.2);
     glPopMatrix();
 }
 
