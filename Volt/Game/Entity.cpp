@@ -140,11 +140,13 @@ void Entity::Load (const Json::Value& node) {
     CHECK(node.isMember("transform"));
     m_transform.Load(node["transform"]);
     m_visible = node.get("visible", true).asBool();
+    SetLayer(node.get("layer", 0).asInt());
 }
 
 void Entity::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
     node["visible"] = m_visible;
+    node["layer"] = m_layer;
 }
 
 void Entity::AddContactListener (EntityContactListener* listener) {

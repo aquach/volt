@@ -118,6 +118,7 @@ Doodad* Doodad::Clone () const {
 void Doodad::CopyFrom (const Doodad* other) {
     Entity::CopyFrom(other);
     m_tint = other->m_tint;
+    SetBrush(G_DoodadManager->GetDoodadBrush(other->m_brushId));
     CreatePhysicsBody();
 }
 

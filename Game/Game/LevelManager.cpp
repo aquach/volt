@@ -39,7 +39,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         Entity* e = EntityFactory::Create(node["type"].asString());
         e->Load(node);
         m_entities.insert(e);
-        m_scene->Add(e);
+        m_scene->Add(e, e->layer());
     }
 
     m_startScript = root.get("startScript", "").asString();
