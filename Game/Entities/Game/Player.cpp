@@ -1,4 +1,12 @@
 #include "Game/Entities/Game/Player.h"
+#include "Volt/Assets/AssetManager.h"
+#include "Volt/Game/AppTime.h"
+#include "Volt/Game/FSM.h"
+#include "Volt/Game/PhysicsManager.h"
+#include "Volt/Graphics/SDLWindow.h"
+#include "Volt/Graphics/SpriteAnimation.h"
+#include "Volt/GUI/Label.h"
+#include "Game/Editor/EntityFactory.h"
 #include "Game/Entities/Game/Ladder.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Entities/Game/Weapon.h"
@@ -6,15 +14,9 @@
 #include "Game/Entities/GUI/PowerBar.h"
 #include "Game/Graphics/Graphics.h"
 #include "Game/Scenes/GameScene.h"
-#include "Volt/Game/AppTime.h"
-#include "Volt/Game/FSM.h"
-#include "Volt/Game/PhysicsManager.h"
-#include "Volt/Graphics/SDLWindow.h"
-#include "Volt/GUI/Label.h"
-#include "Game/Editor/EntityFactory.h"
 
 const float WIDTH = 1.5f;
-const float HEIGHT = 2.0f;
+const float HEIGHT = 2.3f;
 const float AIR_ACCEL = 0.15f;
 const float MOVE_IMPULSE = 3.0f;
 const float MOVE_MAX_VEL = 8.0f;
@@ -197,6 +199,14 @@ Player::Player ()
     m_powerBar = new PowerBar(m_power / m_maxPower, 50 /* Speed */);
 
     m_weaponTransform.position.Set(0.4, 0);
+
+    Volt::DataAssetRef animation = G_AssetManager->GetData(
+        "Sprites/Player/player.json");
+    m_anim = new Volt::SpriteAnimation(this, animation);
+}
+
+Player::~Player () {
+    delete m_anim;
 }
 
 void Player::OnAdded () {
@@ -224,6 +234,7 @@ void Player::Update () {
     UpdatePhysics();
 
     m_fsm->Update();
+    m_anim->Update();
 
     if (m_debugDraw) {
         m_debugLabel->SetText(m_fsm->stateName());
@@ -256,12 +267,13 @@ void Player::OnKeyEvent (SDL_KeyboardEvent event) {
 }
 
 void Player::Render () {
-    glLineWidth(2.0f);
-    glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
-    glPushMatrix();
-    Graphics::TransformMatrix(m_transform);
-    Graphics::RenderQuad(WIDTH, HEIGHT);
-    glPopMatrix();
+    m_anim->Render();
+//    glLineWidth(2.0f);
+//    glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+//    glPushMatrix();
+//    Graphics::TransformMatrix(m_transform);
+//    Graphics::RenderQuad(WIDTH, HEIGHT);
+//    glPopMatrix();
 }
 
 void Player::OnContactBegin (Volt::Entity* other, b2Contact* contact) {

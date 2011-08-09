@@ -7,6 +7,7 @@
 
 namespace Volt {
     class Label;
+    class SpriteAnimation;
 };
 
 class Ladder;
@@ -14,7 +15,7 @@ class Ladder;
 class Player : public Creature {
 public:
     Player ();
-    virtual ~Player () { }
+    virtual ~Player ();
 
     virtual void Update ();
     virtual void Render ();
@@ -83,6 +84,7 @@ private:
     Ladder* m_ladder;
 
     /* Animation */
+    Volt::SpriteAnimation* m_anim;
 
     /* Player Attributes */
 

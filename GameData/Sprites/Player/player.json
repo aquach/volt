@@ -1,0 +1,21 @@
+{
+    "transform" :
+    {
+        "position" : [ 0, 0 ],
+        "rotation" : 0.0,
+        "scale" : [ 1.5, 0.0 ]
+    },
+    "startTrack": "idle",
+    "tracks": [
+        {
+            "name": "idle",
+            "loops": true,
+            "duration": 1,
+            "frames" : [
+                "Sprites/Player/idle_0.png",
+                "Sprites/Player/idle_1.png",
+                "Sprites/Player/idle_2.png"
+            ]
+        }
+    ]
+}

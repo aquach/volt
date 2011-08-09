@@ -38,9 +38,9 @@ GameScene::GameScene ()
         WORLD_TO_SCREEN_SCALE);
 
     m_player = new Player;
-    Add(m_player);
+    Add(m_player, -2);
     Umbrella* u = new Umbrella;
-    Add(u, -1);
+    Add(u, -2);
     m_player->EquipWeapon(u);
 
     m_doodadManager = new DoodadManager(this);
