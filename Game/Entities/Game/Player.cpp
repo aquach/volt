@@ -16,7 +16,7 @@
 #include "Game/Scenes/GameScene.h"
 
 const float WIDTH = 1.5f;
-const float HEIGHT = 2.3f;
+const float HEIGHT = 2.0f;
 const float AIR_ACCEL = 0.15f;
 const float MOVE_IMPULSE = 3.0f;
 const float MOVE_MAX_VEL = 8.0f;
