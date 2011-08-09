@@ -53,6 +53,14 @@ void Player::NormalState::Update ()  {
 }
 
 void Player::NormalState::OnKeyEvent (SDL_KeyboardEvent event) {
+    if (event.keysym.sym == SDLK_LEFT || event.keysym.sym == SDLK_RIGHT) {
+        if (event.type == SDL_KEYDOWN)
+            m_p->m_anim->PlayTrack("run");
+        else
+            m_p->m_anim->PlayTrack("idle");
+    }
+
+
     // Climbing ladders.
     if (event.keysym.sym == SDLK_UP || event.keysym.sym == SDLK_DOWN) {
         if (event.type == SDL_KEYDOWN && m_p->m_ladder != NULL) {
@@ -244,8 +252,10 @@ void Player::Update () {
 void Player::UpdateJump () {
     Vector2 vel = m_body->GetLinearVelocity();
     if (!m_inputLock && G_Window->IsKeyPressed(SDLK_z)) {
-        if (IsOnGround())
+        if (IsOnGround()) {
             m_jumpTimer = JUMP_TIME;
+            m_anim->PlayTrack("jump");
+        }
 
         if (m_jumpTimer > 0) {
             m_jumpTimer -= G_Time->dt();
@@ -260,6 +270,9 @@ void Player::UpdateJump () {
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
     if (m_inputLock)
         return;
+    if (event.keysym.sym == SDLK_F3)
+        m_anim->ReloadSprites();
+
     Player::PlayerState* state;
     state = dynamic_cast<Player::PlayerState*>(m_fsm->state());
     CHECK_NOTNULL(state);
@@ -287,6 +300,7 @@ void Player::OnContactBegin (Volt::Entity* other, b2Contact* contact) {
         LOG(INFO) << dir;
         if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
             m_sideContacts[BOTTOM] = other->body();
+            m_anim->PlayTrack("idle");
         } else if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
             m_sideContacts[RIGHT] = other->body();
         } else if (dir.x < 0 && abs(dir.x) > abs(dir.y)) {

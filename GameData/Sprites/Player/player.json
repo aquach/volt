@@ -11,11 +11,35 @@
             "name": "idle",
             "loops": true,
             "seesaws": true,
-            "duration": 2,
+            "duration": 1.5,
             "frames" : [
                 "Sprites/Player/idle_0.png",
                 "Sprites/Player/idle_1.png",
                 "Sprites/Player/idle_2.png"
+            ]
+        },
+        {
+            "name": "jump",
+            "loops": false,
+            "seesaws": false,
+            "duration": 0.25,
+            "frames" : [
+                "Sprites/Player/jump_0.png",
+                "Sprites/Player/jump_1.png",
+                "Sprites/Player/jump_2.png"
+            ]
+        },
+        {
+            "name": "run",
+            "loops": true,
+            "seesaws": false,
+            "duration": 0.5,
+            "frames" : [
+                "Sprites/Player/run_0.png",
+                "Sprites/Player/run_1.png",
+                "Sprites/Player/run_2.png",
+                "Sprites/Player/run_3.png",
+                "Sprites/Player/run_4.png"
             ]
         }
     ]
