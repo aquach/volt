@@ -10,7 +10,8 @@
         {
             "name": "idle",
             "loops": true,
-            "duration": 1,
+            "seesaws": true,
+            "duration": 2,
             "frames" : [
                 "Sprites/Player/idle_0.png",
                 "Sprites/Player/idle_1.png",

@@ -19,11 +19,23 @@ public:
     void ReloadSprites ();
 
 private:
+    struct AnimationFrame {
+        int frameLength;
+        TextureAssetRef texture;
+    };
     struct AnimationTrack {
         float t;
         float duration;
         bool loops;
-        vector<TextureAssetRef> frames;
+        bool seesaws;
+        string nextTrack;
+        // Array of indices into frames, where each element corresponds
+        // to a unit of time. So a frame with frame length 2 would have
+        // two entries in frameIndices. frameIndices essentially expands the
+        // duration and the seesaws into a complete array for easy access
+        // in rendering.
+        vector<int> frameIndices;
+        vector<AnimationFrame> frames;
     };
 
     void Load (DataAssetRef animationData);

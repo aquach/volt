@@ -39,9 +39,9 @@ GameScene::GameScene ()
 
     m_player = new Player;
     Add(m_player, -2);
-    Umbrella* u = new Umbrella;
-    Add(u, -2);
-    m_player->EquipWeapon(u);
+    //Umbrella* u = new Umbrella;
+    //Add(u, -2);
+    //m_player->EquipWeapon(u);
 
     m_doodadManager = new DoodadManager(this);
     m_doodadManager->LoadDoodadBrushes(

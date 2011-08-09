@@ -15,6 +15,7 @@ SpriteAnimation::SpriteAnimation (Entity* e, DataAssetRef animationData)
 
 void SpriteAnimation::Load (DataAssetRef animationData) {
     m_animationData = animationData;
+    m_tracks.clear();
 
     const Json::Value& node = animationData->data();
     m_transform.Load(node["transform"]);
@@ -25,14 +26,44 @@ void SpriteAnimation::Load (DataAssetRef animationData) {
         AnimationTrack& track = m_tracks[name];
         track.t = 0;
         track.duration = trackNode["duration"].asDouble();
-        track.loops = trackNode["loops"].asBool();
-        for (uint j = 0; j < trackNode["frames"].size(); j++) {
-            string path = trackNode["frames"][j].asString();
-            track.frames.push_back(G_AssetManager->GetTexture(path));
+        track.loops = trackNode.get("loops", false).asBool();
+        track.seesaws = trackNode.get("seesaws", false).asBool();
+        track.nextTrack = trackNode.get("nextTrack", "").asString();
+        if (track.nextTrack.size() > 0 && track.loops) {
+            LOG(WARNING) << "Next track set for track '" << name << "', but "
+                         << "track loops.";
+        }
+
+        for (uint frameIndex = 0; frameIndex < trackNode["frames"].size();
+            frameIndex++) {
+            const Json::Value& frameNode = trackNode["frames"][frameIndex];
+            AnimationFrame frame;
+            string path;
+            if (frameNode.size() == 0) {
+                // frameNode is a string indicating texture.
+                path = frameNode.asString();
+                frame.frameLength = 1;
+            } else {
+                // Read additional information.
+                path = frameNode["texture"].asString();
+                frame.frameLength = frameNode.get("length", 1).asInt();
+            }
+            frame.texture = G_AssetManager->GetTexture(path);
+            track.frames.push_back(frame);
+            for (int count = 0; count < frame.frameLength; count++)
+                track.frameIndices.push_back(frameIndex);
+        }
+
+        if (track.seesaws) {
+            // Concatenate all frames backwards.
+            for (int i = (int)track.frameIndices.size() - 1; i >= 0; i--) {
+                track.frameIndices.push_back(track.frameIndices[i]);
+            }
         }
     }
 
-    TextureAssetRef refTexture = m_tracks.begin()->second.frames[0];
+    AnimationFrame& frame = m_tracks.begin()->second.frames[0];
+    TextureAssetRef refTexture = frame.texture;
     if (m_transform.scale.x == 0) {
         m_transform.scale.x = (float)refTexture->width() / refTexture->height()
             * m_transform.scale.y;
@@ -52,6 +83,12 @@ void SpriteAnimation::Load (DataAssetRef animationData) {
 void SpriteAnimation::Update () {
     CHECK_NOTNULL(m_currentTrack);
     m_currentTrack->t += G_Time->dt();
+
+    // Transition to the next track if time is up.
+    if (m_currentTrack->t >= m_currentTrack->duration &&
+        !m_currentTrack->loops && m_currentTrack->nextTrack.size() > 0) {
+        PlayTrack(m_currentTrack->nextTrack);
+    }
 }
 
 void SpriteAnimation::PlayTrack (const string& trackName) {
@@ -75,14 +112,16 @@ void SpriteAnimation::Render () {
     float percent = m_currentTrack->t / m_currentTrack->duration;
     if (percent >= 1.0f) {
         if (m_currentTrack->loops) {
-            percent = fmodf(m_currentTrack->t, m_currentTrack->duration);
+            float loopT = fmodf(m_currentTrack->t, m_currentTrack->duration);
+            percent = loopT / m_currentTrack->duration;
         } else {
             percent = 0.999f;
         }
     }
-    int frame = (int)(percent * m_currentTrack->frames.size());
+    int frame = (int)(percent * m_currentTrack->frameIndices.size());
+    frame = m_currentTrack->frameIndices[frame];
 
-    Graphics::BindTexture(m_currentTrack->frames[frame]);
+    Graphics::BindTexture(m_currentTrack->frames[frame].texture);
     Graphics::RenderQuad(1, 1);
     Graphics::BindTexture(NULL);
     Graphics::SetBlend(Graphics::BLEND_NONE);
@@ -92,7 +131,7 @@ void SpriteAnimation::Render () {
 void SpriteAnimation::ReloadSprites () {
     FOR_(Tracks::iterator, iter, m_tracks) {
         for (uint i = 0; i < iter->second.frames.size(); i++)
-            iter->second.frames[i]->Reload();
+            iter->second.frames[i].texture->Reload();
     }
     m_animationData->Reload();
     Load(m_animationData);
