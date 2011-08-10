@@ -331,12 +331,15 @@ void Graphics::RenderText (FontAssetRef font, const string& text,
     SetBlend(Graphics::BLEND_ALPHA);
     BindFont(font);
     BBox verts, texCoords;
+    float startX = x;
+
     glBegin(GL_QUADS);
-    for (uint i = 0; i < text.size(); i++)
-    {
+    for (uint i = 0; i < text.size(); i++) {
         char c = text[i];
-        if ((c >= 32) && (c < 128))
-        {
+        if (c == '\n') {
+            x = startX;
+            y += font->size() * 1.2f; // 120% leading
+        } else if ((c >= 32) && (c < 128)) {
             font->GetGlyphData(c, &x, &y, &verts, &texCoords);
 
             glTexCoord2f(texCoords.min.x, texCoords.min.y);

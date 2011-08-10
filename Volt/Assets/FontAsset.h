@@ -28,6 +28,7 @@ public:
     float GetTextHeight (const string &text);
 
     int glID () const { return m_texID; }
+    float size () const { return m_size; }
 
     virtual string assetKey () const {
         char buffer[512];

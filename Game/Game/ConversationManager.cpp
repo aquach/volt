@@ -57,5 +57,6 @@ void ConversationManager::Update () {
 
 void ConversationManager::ShowMessageBox (MessageBox* box) {
     box->m_font = m_font;
+    box->ProcessText();
     m_boxes.push(box);
 }

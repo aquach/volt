@@ -114,6 +114,11 @@ def startConversation():
     b.text = """This is a really damn long message that spans a lot of lines. It goes on and on and is a lot of garbage nonsense. This is really awful and it goes on and won't stop for some reason."""
     scene().ShowMessageBox(disown(MessageBox(b)))
 
+    b.text = """This is a long message that is
+                line broken in Python.
+                There's a break."""
+    scene().ShowMessageBox(disown(MessageBox(b)))
+
     b.text = "You cannot skip this!"
     b.canSkip = False
     scene().ShowMessageBox(disown(MessageBox(b)))

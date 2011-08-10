@@ -130,12 +130,16 @@ void SpriteAnimation::Render () {
     Graphics::TransformMatrix(m_transform);
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
     Graphics::SetColor(Color::white);
+    // For transparent parts of the picture, don't draw into depth.
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.0f);
 
     AnimationFrame* renderFrame = currentFrame();
 
     Graphics::BindTexture(renderFrame->texture);
     Graphics::RenderQuad(1, 1);
     Graphics::BindTexture(NULL);
+    glDisable(GL_ALPHA_TEST);
     Graphics::SetBlend(Graphics::BLEND_NONE);
     glPopMatrix();
 }

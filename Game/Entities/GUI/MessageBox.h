@@ -43,6 +43,10 @@ private:
 
     void Skip ();
 
+    /* Remove extra newlines and spaces, then word-wrap. */
+    void ProcessText ();
+    int textLineMaxWidth ();
+
     Volt::FontAssetRef m_font;
     MessageBoxDef m_def;
     // Timer before displaying next character.

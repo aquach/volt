@@ -125,15 +125,19 @@ void FontAsset::GetGlyphData (char c, float* x, float* y, BBox* verts,
                        1 // OpenGL Mode
                        );
 
-    verts->min.x = q.x0;
-    verts->min.y = q.y0;
-    verts->max.x = q.x1;
-    verts->max.y = q.y1;
+    if (verts != NULL) {
+        verts->min.x = q.x0;
+        verts->min.y = q.y0;
+        verts->max.x = q.x1;
+        verts->max.y = q.y1;
+    }
 
-    texCoords->min.x = q.s0;
-    texCoords->min.y = q.t0;
-    texCoords->max.x = q.s1;
-    texCoords->max.y = q.t1;
+    if (texCoords != NULL) {
+        texCoords->min.x = q.s0;
+        texCoords->min.y = q.t0;
+        texCoords->max.x = q.s1;
+        texCoords->max.y = q.t1;
+    }
 }
 
 }

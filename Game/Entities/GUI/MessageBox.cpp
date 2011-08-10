@@ -3,7 +3,7 @@
 #include "Volt/Game/AppTime.h"
 #include "Volt/Graphics/Viewport.h"
 
-const float HEIGHT = 250;
+const float HEIGHT = 270;
 const float MARGIN = 40;
 const float TEXT_MARGIN = 50;
 const float CHARACTERS_PER_SECOND = 40;
@@ -65,6 +65,66 @@ void MessageBox::OnKeyEvent (SDL_KeyboardEvent event) {
                 m_finished = true;
         }
     }
+}
+
+int StringReplaceAll (string& subject, const string& pattern,
+                       const string& replace) {
+    int numReplaces = 0;
+    size_t pos = -1;
+    while (true) {
+        pos = subject.find(pattern, pos + 1);
+        if (pos == string::npos)
+            break;
+        subject.replace(pos, pattern.size(), replace);
+        numReplaces++;
+    }
+    return numReplaces;
+}
+
+void MessageBox::ProcessText () {
+    string& str = m_def.text;
+
+    // Convert newlines to spaces.
+    StringReplaceAll(str, "\n", " ");
+    // Collapse multiple spaces.
+    while (StringReplaceAll(str, "  ", " ") > 0);
+
+    // Word wrap.
+
+    // Keeps track of the start index of the line. Updated when a newline
+    // is added.
+    size_t startPos = 0;
+
+    // Keeps track of the next found space.
+    size_t pos = -1;
+
+    // Keeps track of the space found before. When we detect that a string
+    // has overflowed, we add a space there and backtrack.
+    size_t oldPos;
+    while (true) {
+        oldPos = pos;
+        pos = str.find(" ", pos + 1);
+        if (pos == string::npos)
+            break;
+        string substring = str.substr(startPos, pos - startPos);
+        if (m_font->GetTextWidth(substring) > textLineMaxWidth()) {
+            // Replace space with newline at oldPos.
+            str.replace(oldPos, 1, "\n");
+            startPos = oldPos + 1;
+            pos = oldPos;
+        }
+    }
+
+    // Handle last word.
+    string substring = str.substr(startPos);
+    if (m_font->GetTextWidth(substring) > textLineMaxWidth()) {
+        // Replace space with newline at oldPos.
+        str.replace(oldPos, 1, "\n");
+    }
+}
+
+int MessageBox::textLineMaxWidth () {
+    return G_Viewport->width() - MARGIN * 2 - TEXT_MARGIN * 2;
 }
 
 void MessageBox::Render () {
