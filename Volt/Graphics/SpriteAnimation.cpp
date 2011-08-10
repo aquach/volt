@@ -13,6 +13,10 @@ SpriteAnimation::SpriteAnimation (Entity* e, DataAssetRef animationData)
     Load(animationData);
 }
 
+const Json::Value& SpriteAnimation::frameUserData () {
+    return currentFrame()->userData;
+}
+
 void SpriteAnimation::Load (DataAssetRef animationData) {
     m_animationData = animationData;
     m_tracks.clear();
@@ -47,6 +51,7 @@ void SpriteAnimation::Load (DataAssetRef animationData) {
                 // Read additional information.
                 path = frameNode["texture"].asString();
                 frame.frameLength = frameNode.get("length", 1).asInt();
+                frame.userData = frameNode;
             }
             frame.texture = G_AssetManager->GetTexture(path);
             track.frames.push_back(frame);
@@ -99,15 +104,9 @@ void SpriteAnimation::PlayTrack (const string& trackName) {
     m_currentTrack->t = 0;
 }
 
-void SpriteAnimation::Render () {
+SpriteAnimation::AnimationFrame* SpriteAnimation::currentFrame () {
     CHECK_NOTNULL(m_currentTrack);
     CHECK_GE(m_currentTrack->frames.size(), 0);
-
-    glPushMatrix();
-    Graphics::TransformMatrix(m_entity->transform());
-    Graphics::TransformMatrix(m_transform);
-    Graphics::SetBlend(Graphics::BLEND_ALPHA);
-    Graphics::SetColor(Color::white);
 
     float percent = m_currentTrack->t / m_currentTrack->duration;
     if (percent >= 1.0f) {
@@ -118,10 +117,20 @@ void SpriteAnimation::Render () {
             percent = 0.999f;
         }
     }
-    int frame = (int)(percent * m_currentTrack->frameIndices.size());
-    frame = m_currentTrack->frameIndices[frame];
+    int index = (int)(percent * m_currentTrack->frameIndices.size());
+    return &m_currentTrack->frames[m_currentTrack->frameIndices[index]];
+}
 
-    Graphics::BindTexture(m_currentTrack->frames[frame].texture);
+void SpriteAnimation::Render () {
+    glPushMatrix();
+    Graphics::TransformMatrix(m_entity->transform());
+    Graphics::TransformMatrix(m_transform);
+    Graphics::SetBlend(Graphics::BLEND_ALPHA);
+    Graphics::SetColor(Color::white);
+
+    AnimationFrame* renderFrame = currentFrame();
+
+    Graphics::BindTexture(renderFrame->texture);
     Graphics::RenderQuad(1, 1);
     Graphics::BindTexture(NULL);
     Graphics::SetBlend(Graphics::BLEND_NONE);

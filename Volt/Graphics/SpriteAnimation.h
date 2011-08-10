@@ -15,12 +15,15 @@ public:
     void Update ();
     void Render ();
     void PlayTrack (const string& trackName);
-
+    const Json::Value& frameUserData ();
     void ReloadSprites ();
 
 private:
     struct AnimationFrame {
         int frameLength;
+        // Additional data stored in the animation file about each frame,
+        // such as attach points for weapons.
+        Json::Value userData;
         TextureAssetRef texture;
     };
     struct AnimationTrack {
@@ -39,6 +42,7 @@ private:
     };
 
     void Load (DataAssetRef animationData);
+    AnimationFrame* currentFrame ();
 
     typedef map<string, AnimationTrack> Tracks;
     Tracks m_tracks;
