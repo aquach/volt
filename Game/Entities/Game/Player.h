@@ -3,6 +3,7 @@
 #include "Game/Core/Core.h"
 #include "Game/Entities/Game/Creature.h"
 #include "Volt/Game/FSM.h"
+#include "Volt/Game/KeyState.h"
 #include "Volt/Graphics/Input.h"
 
 namespace Volt {
@@ -94,6 +95,9 @@ private:
     HealthBar* m_healthBar;
     PowerBar* m_powerBar;
     bool m_inputLock;
+
+    /* Input */
+    Volt::KeyState m_keyState;
 
     DISALLOW_COPY_AND_ASSIGN(Player);
 };

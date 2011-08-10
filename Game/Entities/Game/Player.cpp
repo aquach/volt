@@ -36,10 +36,10 @@ void Player::NormalState::Update ()  {
     // Left and right movement.
     Vector2 vel = m_p->m_body->GetLinearVelocity();
     if (!m_p->m_inputLock) {
-        if (G_Window->IsKeyPressed(SDLK_LEFT) ||
-            G_Window->IsKeyPressed(SDLK_RIGHT)) {
+        if (m_p->m_keyState.IsKeyPressed(SDLK_LEFT) ||
+            m_p->m_keyState.IsKeyPressed(SDLK_RIGHT)) {
             float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
-            int dir = G_Window->IsKeyPressed(SDLK_LEFT) ? -1 : 1;
+            int dir = m_p->m_keyState.IsKeyPressed(SDLK_LEFT) ? -1 : 1;
             if (vel.x * dir < MOVE_MAX_VEL) {
                 float vx = MOVE_IMPULSE * dir * airMult;
                 m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
@@ -118,9 +118,9 @@ void Player::LadderState::Update () {
     // Movement up and down ladder.
     bool canMove = false;
     if (!m_p->m_inputLock) {
-        if (G_Window->IsKeyPressed(SDLK_UP) ||
-            G_Window->IsKeyPressed(SDLK_DOWN)) {
-            int dir = G_Window->IsKeyPressed(SDLK_UP) ? -1 : 1;
+        if (m_p->m_keyState.IsKeyPressed(SDLK_UP) ||
+            m_p->m_keyState.IsKeyPressed(SDLK_DOWN)) {
+            int dir = m_p->m_keyState.IsKeyPressed(SDLK_UP) ? -1 : 1;
             if (
                 (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
                 (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
@@ -251,7 +251,7 @@ void Player::Update () {
 
 void Player::UpdateJump () {
     Vector2 vel = m_body->GetLinearVelocity();
-    if (!m_inputLock && G_Window->IsKeyPressed(SDLK_z)) {
+    if (!m_inputLock && m_keyState.IsKeyPressed(SDLK_z)) {
         if (IsOnGround()) {
             m_jumpTimer = JUMP_TIME;
             m_anim->PlayTrack("jump");
@@ -270,6 +270,7 @@ void Player::UpdateJump () {
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
     if (m_inputLock)
         return;
+    m_keyState.Update(event);
     if (event.keysym.sym == SDLK_F3)
         m_anim->ReloadSprites();
 
