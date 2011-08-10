@@ -45,6 +45,7 @@ private:
     Volt::FontAssetRef m_font;
     MessageBoxDef m_def;
     float m_nextCharTimer;
+    float m_nextCursorTimer;
     stringstream m_textStream;
     int m_currentCharacter;
     bool m_finished;

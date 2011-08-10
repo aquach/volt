@@ -13,7 +13,8 @@ MessageBox::MessageBox (const MessageBoxDef& def)
     : m_def(def),
       m_nextCharTimer(0),
       m_currentCharacter(0),
-      m_finished(false) {
+      m_finished(false),
+      m_nextCursorTimer(false) {
 };
 
 void MessageBox::Skip () {
@@ -29,6 +30,8 @@ void MessageBox::Update () {
             m_nextCharTimer = SECONDS_PER_CHARACTER;
             m_textStream << m_def.text[m_currentCharacter++];
         }
+    } else {
+        m_nextCursorTimer += G_Time->dt();
     }
 }
 
@@ -62,6 +65,7 @@ void MessageBox::Render () {
         Vector2(windowWidth, windowHeight)
     );
     box = box.Expand(-MARGIN);
+    Vector2 lowerRight = box.max;
     Graphics::SetBlend(Graphics::BLEND_ALPHA);
     Graphics::SetColor(Volt::Color::RGBA(200, 200, 255, 85));
     Graphics::Translate(box.center());
@@ -72,6 +76,18 @@ void MessageBox::Render () {
     Graphics::SetColor(Volt::Color::RGB(0, 0, 0));
     Graphics::RenderText(m_font, m_textStream.str(), textBox.min.x,
                          textBox.min.y);
+
+    if (!HasCharactersRemaining()) {
+        float blinkCursor = fmodf(m_nextCursorTimer, 1.0f);
+        if (blinkCursor <= 0.5f) {
+            Graphics::SetColor(Volt::Color::RGB(210, 210, 210));
+            Vector2 center = lowerRight - Vector2(35, 35);
+            glPushMatrix();
+            Graphics::Translate(center);
+            Graphics::RenderQuad(20, 30);
+            glPopMatrix();
+        }
+    }
 
     glPopMatrix();
 }
