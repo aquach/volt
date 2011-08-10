@@ -110,7 +110,21 @@ def startConversation():
     b = MessageBoxDef()
     b.text = "Hi, I'm a sign!"
     scene().ShowMessageBox(disown(MessageBox(b)))
-    b.text = "This is the next message.."
+
+    b.text = """This is a really damn long message that spans a lot of lines. It goes on and on and is a lot of garbage nonsense. This is really awful and it goes on and won't stop for some reason."""
+    scene().ShowMessageBox(disown(MessageBox(b)))
+
+    b.text = "You cannot skip this!"
+    b.canSkip = False
+    scene().ShowMessageBox(disown(MessageBox(b)))
+
+    b.modal = False
+    b.text = "You can't skip this one, but can move around!"
+    scene().ShowMessageBox(disown(MessageBox(b)))
+
+    b.canSkip = True
+    b.modal = True
+    b.text = "This is the last message (you can skip this but can't move).."
     lastBox = disown(MessageBox(b))
     scene().ShowMessageBox(lastBox)
     lastBox.WaitForFinish()

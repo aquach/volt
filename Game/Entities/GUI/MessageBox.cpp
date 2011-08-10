@@ -14,7 +14,8 @@ MessageBox::MessageBox (const MessageBoxDef& def)
       m_nextCharTimer(0),
       m_currentCharacter(0),
       m_finished(false),
-      m_nextCursorTimer(false) {
+      m_nextCursorTimer(false),
+      m_pauseTimer(-1) {
 };
 
 void MessageBox::Skip () {
@@ -32,6 +33,18 @@ void MessageBox::Update () {
         }
     } else {
         m_nextCursorTimer += G_Time->dt();
+        if (!m_def.canSkip) {
+            // Pause timer only applies to unskippables.
+            if (m_pauseTimer == -1) {
+                // Start pause timer.
+                m_pauseTimer = m_def.pauseDuration;
+            } else {
+                m_pauseTimer -= G_Time->dt();
+                if (m_pauseTimer <= 0) {
+                    m_finished = true;
+                }
+            }
+        }
     }
 }
 
@@ -77,7 +90,7 @@ void MessageBox::Render () {
     Graphics::RenderText(m_font, m_textStream.str(), textBox.min.x,
                          textBox.min.y);
 
-    if (!HasCharactersRemaining()) {
+    if (!HasCharactersRemaining() && m_def.canSkip) {
         float blinkCursor = fmodf(m_nextCursorTimer, 1.0f);
         if (blinkCursor <= 0.5f) {
             Graphics::SetColor(Volt::Color::RGB(210, 210, 210));

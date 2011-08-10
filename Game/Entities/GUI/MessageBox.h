@@ -8,7 +8,8 @@
 struct MessageBoxDef {
     MessageBoxDef ()
         : canSkip(true),
-          modal(true) {
+          modal(true),
+          pauseDuration(2.0f) {
     }
 
     string text;
@@ -44,9 +45,22 @@ private:
 
     Volt::FontAssetRef m_font;
     MessageBoxDef m_def;
+    // Timer before displaying next character.
     float m_nextCharTimer;
+
+    // Timer for blinking cursor to go to next.
     float m_nextCursorTimer;
+
+    // Text to display.
     stringstream m_textStream;
+
+    // Next character to be outputted from text.
     int m_currentCharacter;
+
+    // Timer after dialog is finished to move on,
+    // for unskippable boxes.
+    float m_pauseTimer;
+
+    // Set when box can be destroyed.
     bool m_finished;
 };
