@@ -1,4 +1,4 @@
-#include "Volt/GUI/Label.h"
+#include "Volt/Gui/Label.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/OpenGL.h"
 

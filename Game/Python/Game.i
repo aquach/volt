@@ -32,7 +32,9 @@
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Editor/EntityFactory.h"
-#include "Game/Entities/GUI/MessageBox.h"
+#include "Game/Entities/Gui/ChoiceBox.h"
+#include "Game/Entities/Gui/DialogBox.h"
+#include "Game/Entities/Gui/MessageBox.h"
 #include "Game/Scenes/GameScene.h"
 
 %}
@@ -130,7 +132,9 @@
 %include "Game/Entities/Game/Player.h"
 %include "Game/Entities/Game/Triangle.h"
 %include "Game/Editor/EntityFactory.h"
-%include "Game/Entities/GUI/MessageBox.h"
+%include "Game/Entities/Gui/DialogBox.h"
+//%include "Game/Entities/Gui/ChoiceBox.h"
+%include "Game/Entities/Gui/MessageBox.h"
 %include "Game/Scenes/GameScene.h"
 
 namespace std {

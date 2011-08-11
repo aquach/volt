@@ -6,7 +6,7 @@ class ConversationManager;
 class DoodadManager;
 class LevelManager;
 class LightManager;
-class MessageBox;
+class DialogBox;
 class Player;
 class ScriptConsole;
 
@@ -24,7 +24,7 @@ public:
     //virtual void OnMouseButtonEvent (SDL_MouseButtonEvent event);
     //virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event);
 
-    void ShowMessageBox (MessageBox* box);
+    void ShowDialogBox (DialogBox* box);
     void SetPlayerInputLock (bool lock);
 
 private:

@@ -2,12 +2,12 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
-#include "Game/Entities/GUI/GUIBar.h"
+#include "Game/Entities/Gui/GuiBar.h"
 
-class PowerBar : public GUIBar {
+class PowerBar : public GuiBar {
 public:
     PowerBar (float value, float speed)
-        : GUIBar(value, speed) {
+        : GuiBar(value, speed) {
         AddTag("PowerBar");
     };
     virtual ~PowerBar () { }

@@ -27,6 +27,7 @@ public:
 
     b2Vec2 ToB2 ();
 
+    void Set (float x);
     void Set (float x, float y);
     void SetFromAngleDegrees (float angle);
 

@@ -4,7 +4,7 @@
 #include "Volt/Game/Scene.h"
 #include "Volt/Graphics/OpenGL.h"
 #include "Volt/Graphics/Viewport.h"
-#include "Volt/GUI/Label.h"
+#include "Volt/Gui/Label.h"
 #include "Game/Graphics/Graphics.h"
 
 const uint MAX_HISTORY = 20;

@@ -2,12 +2,12 @@
 
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
-#include "Game/Entities/GUI/GUIBar.h"
+#include "Game/Entities/Gui/GuiBar.h"
 
-class HealthBar : public GUIBar {
+class HealthBar : public GuiBar {
 public:
     HealthBar (float value, float speed)
-        : GUIBar(value, speed) {
+        : GuiBar(value, speed) {
         AddTag("HealthBar");
     };
     virtual ~HealthBar () { }

@@ -1,24 +1,24 @@
-#include "Game/Entities/GUI/HealthBar.h"
+#include "Game/Entities/Gui/PowerBar.h"
 #include "Game/Graphics/Graphics.h"
 
 const float WIDTH = 400;
 const float HEIGHT = 20;
 const float X = 10;
-const float Y = 10;
+const float Y = 50;
 
-void HealthBar::Render () {
+void PowerBar::Render () {
     glPushMatrix();
     glLoadIdentity();
 
     glTranslatef(X, Y + HEIGHT / 2, 0);
 
     Graphics::SetBlend(Graphics::BLEND_NONE);
-    Graphics::SetColor(Volt::Color::RGB(255, 0, 0));
+    Graphics::SetColor(Volt::Color::RGB(255, 238, 0));
     float amount = m_target * WIDTH;
     glTranslatef(amount / 2, 0, 0);
     Graphics::RenderQuad(amount, HEIGHT);
 
-    Graphics::SetColor(Volt::Color::RGB(100, 0, 0));
+    Graphics::SetColor(Volt::Color::RGB(128, 119, 0));
     float targetAmount = abs(m_target - m_currentValue) * WIDTH;
     glTranslatef(amount / 2 + targetAmount / 2, 0, 0);
     Graphics::RenderQuad(targetAmount, HEIGHT);

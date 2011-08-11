@@ -17,8 +17,11 @@ b2Vec2 Vector2::ToB2 () {
     return b2Vec2(x, y);
 }
 
-void Vector2::Set (float x, float y)
-{
+void Vector2::Set (float x) {
+    this->x = x, this->y = x;
+}
+
+void Vector2::Set (float x, float y) {
     this->x = x, this->y = y;
 }
 

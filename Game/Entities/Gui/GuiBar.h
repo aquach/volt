@@ -5,13 +5,13 @@
 
 class Player;
 
-class GUIBar : public Entity {
+class GuiBar : public Entity {
 public:
-    GUIBar (float value, float speed)
+    GuiBar (float value, float speed)
         : m_target(value),
           m_currentValue(value),
           m_speed(speed) { };
-    virtual ~GUIBar () { }
+    virtual ~GuiBar () { }
 
     virtual void Update ();
     virtual void Render () = 0;

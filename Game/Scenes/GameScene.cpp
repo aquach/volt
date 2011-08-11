@@ -119,6 +119,6 @@ void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
     }
 }
 
-void GameScene::ShowMessageBox (MessageBox* box) {
-    m_conversationManager->ShowMessageBox(box);
+void GameScene::ShowDialogBox (DialogBox* box) {
+    m_conversationManager->ShowDialogBox(box);
 }

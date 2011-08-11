@@ -3166,93 +3166,96 @@ namespace Swig {
 #define SWIGTYPE_p_BrushStroke swig_types[1]
 #define SWIGTYPE_p_Creature swig_types[2]
 #define SWIGTYPE_p_CreatureHitListener swig_types[3]
-#define SWIGTYPE_p_EdgeFilter swig_types[4]
-#define SWIGTYPE_p_Entity swig_types[5]
-#define SWIGTYPE_p_EntityAccessListener swig_types[6]
-#define SWIGTYPE_p_EntityFactory swig_types[7]
-#define SWIGTYPE_p_GameScene swig_types[8]
-#define SWIGTYPE_p_Json__Value swig_types[9]
-#define SWIGTYPE_p_Layers swig_types[10]
-#define SWIGTYPE_p_LevelManager swig_types[11]
-#define SWIGTYPE_p_Light swig_types[12]
-#define SWIGTYPE_p_LightStroke swig_types[13]
-#define SWIGTYPE_p_MessageBox swig_types[14]
-#define SWIGTYPE_p_MessageBoxDef swig_types[15]
-#define SWIGTYPE_p_Player swig_types[16]
-#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[17]
-#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[18]
-#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[19]
-#define SWIGTYPE_p_SaveData swig_types[20]
-#define SWIGTYPE_p_Triangle swig_types[21]
-#define SWIGTYPE_p_Types swig_types[22]
-#define SWIGTYPE_p_Vector2 swig_types[23]
-#define SWIGTYPE_p_Volt__AppTime swig_types[24]
-#define SWIGTYPE_p_Volt__BBox swig_types[25]
-#define SWIGTYPE_p_Volt__Camera swig_types[26]
-#define SWIGTYPE_p_Volt__Color swig_types[27]
-#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[28]
-#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[29]
-#define SWIGTYPE_p_Volt__DataAssetRef swig_types[30]
-#define SWIGTYPE_p_Volt__DataSource swig_types[31]
-#define SWIGTYPE_p_Volt__Entity swig_types[32]
-#define SWIGTYPE_p_Volt__EntityContactListener swig_types[33]
-#define SWIGTYPE_p_Volt__FSM swig_types[34]
-#define SWIGTYPE_p_Volt__FSMState swig_types[35]
-#define SWIGTYPE_p_Volt__Filter swig_types[36]
-#define SWIGTYPE_p_Volt__Game swig_types[37]
-#define SWIGTYPE_p_Volt__PhysicsManager swig_types[38]
-#define SWIGTYPE_p_Volt__Random swig_types[39]
-#define SWIGTYPE_p_Volt__Scene swig_types[40]
-#define SWIGTYPE_p_Volt__SceneHook swig_types[41]
-#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[42]
-#define SWIGTYPE_p_Volt__Time swig_types[43]
-#define SWIGTYPE_p_Volt__Transform swig_types[44]
-#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[45]
-#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[46]
-#define SWIGTYPE_p_Volt__Vector2 swig_types[47]
-#define SWIGTYPE_p_Volt__Vector3 swig_types[48]
-#define SWIGTYPE_p_Weapon swig_types[49]
-#define SWIGTYPE_p_allocator_type swig_types[50]
-#define SWIGTYPE_p_b2Body swig_types[51]
-#define SWIGTYPE_p_b2BodyDef swig_types[52]
-#define SWIGTYPE_p_b2Contact swig_types[53]
-#define SWIGTYPE_p_b2ContactEdge swig_types[54]
-#define SWIGTYPE_p_b2Fixture swig_types[55]
-#define SWIGTYPE_p_b2FixtureDef swig_types[56]
-#define SWIGTYPE_p_b2JointEdge swig_types[57]
-#define SWIGTYPE_p_b2MassData swig_types[58]
-#define SWIGTYPE_p_b2Mat22 swig_types[59]
-#define SWIGTYPE_p_b2Mat33 swig_types[60]
-#define SWIGTYPE_p_b2Shape swig_types[61]
-#define SWIGTYPE_p_b2Sweep swig_types[62]
-#define SWIGTYPE_p_b2Transform swig_types[63]
-#define SWIGTYPE_p_b2Vec2 swig_types[64]
-#define SWIGTYPE_p_b2Vec3 swig_types[65]
-#define SWIGTYPE_p_b2World swig_types[66]
-#define SWIGTYPE_p_char swig_types[67]
-#define SWIGTYPE_p_const_reference swig_types[68]
-#define SWIGTYPE_p_difference_type swig_types[69]
-#define SWIGTYPE_p_float swig_types[70]
-#define SWIGTYPE_p_float32 swig_types[71]
-#define SWIGTYPE_p_int32 swig_types[72]
-#define SWIGTYPE_p_istream swig_types[73]
-#define SWIGTYPE_p_mapT_int_int_t swig_types[74]
-#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[75]
-#define SWIGTYPE_p_ostream swig_types[76]
-#define SWIGTYPE_p_p_PyObject swig_types[77]
-#define SWIGTYPE_p_reference swig_types[78]
-#define SWIGTYPE_p_size_type swig_types[79]
-#define SWIGTYPE_p_std__invalid_argument swig_types[80]
-#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[81]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[82]
-#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[83]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[84]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[85]
-#define SWIGTYPE_p_uint32 swig_types[86]
-#define SWIGTYPE_p_void swig_types[87]
-#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[88]
-static swig_type_info *swig_types[90];
-static swig_module_info swig_module = {swig_types, 89, 0, 0, 0, 0};
+#define SWIGTYPE_p_DialogBox swig_types[4]
+#define SWIGTYPE_p_EdgeFilter swig_types[5]
+#define SWIGTYPE_p_Entity swig_types[6]
+#define SWIGTYPE_p_EntityAccessListener swig_types[7]
+#define SWIGTYPE_p_EntityFactory swig_types[8]
+#define SWIGTYPE_p_GameScene swig_types[9]
+#define SWIGTYPE_p_Json__Value swig_types[10]
+#define SWIGTYPE_p_Layers swig_types[11]
+#define SWIGTYPE_p_LevelManager swig_types[12]
+#define SWIGTYPE_p_Light swig_types[13]
+#define SWIGTYPE_p_LightStroke swig_types[14]
+#define SWIGTYPE_p_MessageBox swig_types[15]
+#define SWIGTYPE_p_MessageBoxDef swig_types[16]
+#define SWIGTYPE_p_Player swig_types[17]
+#define SWIGTYPE_p_SDL_KeyboardEvent swig_types[18]
+#define SWIGTYPE_p_SDL_MouseButtonEvent swig_types[19]
+#define SWIGTYPE_p_SDL_MouseMotionEvent swig_types[20]
+#define SWIGTYPE_p_SaveData swig_types[21]
+#define SWIGTYPE_p_Triangle swig_types[22]
+#define SWIGTYPE_p_Types swig_types[23]
+#define SWIGTYPE_p_Vector2 swig_types[24]
+#define SWIGTYPE_p_Volt__AppTime swig_types[25]
+#define SWIGTYPE_p_Volt__BBox swig_types[26]
+#define SWIGTYPE_p_Volt__Camera swig_types[27]
+#define SWIGTYPE_p_Volt__Color swig_types[28]
+#define SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t swig_types[29]
+#define SWIGTYPE_p_Volt__CompositeTweenT_float_t swig_types[30]
+#define SWIGTYPE_p_Volt__DataAssetRef swig_types[31]
+#define SWIGTYPE_p_Volt__DataSource swig_types[32]
+#define SWIGTYPE_p_Volt__Entity swig_types[33]
+#define SWIGTYPE_p_Volt__EntityContactListener swig_types[34]
+#define SWIGTYPE_p_Volt__FSM swig_types[35]
+#define SWIGTYPE_p_Volt__FSMState swig_types[36]
+#define SWIGTYPE_p_Volt__Filter swig_types[37]
+#define SWIGTYPE_p_Volt__FontAssetRef swig_types[38]
+#define SWIGTYPE_p_Volt__Game swig_types[39]
+#define SWIGTYPE_p_Volt__PhysicsManager swig_types[40]
+#define SWIGTYPE_p_Volt__Random swig_types[41]
+#define SWIGTYPE_p_Volt__Scene swig_types[42]
+#define SWIGTYPE_p_Volt__SceneHook swig_types[43]
+#define SWIGTYPE_p_Volt__Scene__SceneListener swig_types[44]
+#define SWIGTYPE_p_Volt__Time swig_types[45]
+#define SWIGTYPE_p_Volt__Transform swig_types[46]
+#define SWIGTYPE_p_Volt__TweenT_Volt__Vector2_t swig_types[47]
+#define SWIGTYPE_p_Volt__TweenT_float_t swig_types[48]
+#define SWIGTYPE_p_Volt__Vector2 swig_types[49]
+#define SWIGTYPE_p_Volt__Vector3 swig_types[50]
+#define SWIGTYPE_p_Weapon swig_types[51]
+#define SWIGTYPE_p_allocator_type swig_types[52]
+#define SWIGTYPE_p_b2Body swig_types[53]
+#define SWIGTYPE_p_b2BodyDef swig_types[54]
+#define SWIGTYPE_p_b2Contact swig_types[55]
+#define SWIGTYPE_p_b2ContactEdge swig_types[56]
+#define SWIGTYPE_p_b2Fixture swig_types[57]
+#define SWIGTYPE_p_b2FixtureDef swig_types[58]
+#define SWIGTYPE_p_b2JointEdge swig_types[59]
+#define SWIGTYPE_p_b2MassData swig_types[60]
+#define SWIGTYPE_p_b2Mat22 swig_types[61]
+#define SWIGTYPE_p_b2Mat33 swig_types[62]
+#define SWIGTYPE_p_b2Shape swig_types[63]
+#define SWIGTYPE_p_b2Sweep swig_types[64]
+#define SWIGTYPE_p_b2Transform swig_types[65]
+#define SWIGTYPE_p_b2Vec2 swig_types[66]
+#define SWIGTYPE_p_b2Vec3 swig_types[67]
+#define SWIGTYPE_p_b2World swig_types[68]
+#define SWIGTYPE_p_char swig_types[69]
+#define SWIGTYPE_p_const_reference swig_types[70]
+#define SWIGTYPE_p_difference_type swig_types[71]
+#define SWIGTYPE_p_float swig_types[72]
+#define SWIGTYPE_p_float32 swig_types[73]
+#define SWIGTYPE_p_int32 swig_types[74]
+#define SWIGTYPE_p_istream swig_types[75]
+#define SWIGTYPE_p_mapT_int_int_t swig_types[76]
+#define SWIGTYPE_p_mapT_int_listT_Volt__Entity_p_t_t swig_types[77]
+#define SWIGTYPE_p_ostream swig_types[78]
+#define SWIGTYPE_p_p_PyObject swig_types[79]
+#define SWIGTYPE_p_reference swig_types[80]
+#define SWIGTYPE_p_size_type swig_types[81]
+#define SWIGTYPE_p_std__invalid_argument swig_types[82]
+#define SWIGTYPE_p_std__string swig_types[83]
+#define SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t swig_types[84]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t swig_types[85]
+#define SWIGTYPE_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type swig_types[86]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[87]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[88]
+#define SWIGTYPE_p_uint32 swig_types[89]
+#define SWIGTYPE_p_void swig_types[90]
+#define SWIGTYPE_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type swig_types[91]
+static swig_type_info *swig_types[93];
+static swig_module_info swig_module = {swig_types, 92, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3380,7 +3383,9 @@ namespace swig {
 #include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Editor/EntityFactory.h"
-#include "Game/Entities/GUI/MessageBox.h"
+#include "Game/Entities/Gui/ChoiceBox.h"
+#include "Game/Entities/Gui/DialogBox.h"
+#include "Game/Entities/Gui/MessageBox.h"
 #include "Game/Scenes/GameScene.h"
 
 
@@ -16633,7 +16638,41 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Vector2_Set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Vector2_Set__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Vector2 *arg1 = (Volt::Vector2 *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vector2_Set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Vector2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vector2_Set" "', argument " "1"" of type '" "Volt::Vector2 *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Vector2 * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vector2_Set" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Set(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vector2_Set__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Vector2 *arg1 = (Volt::Vector2 *) 0 ;
   float arg2 ;
@@ -16672,6 +16711,62 @@ SWIGINTERN PyObject *_wrap_Vector2_Set(PyObject *SWIGUNUSEDPARM(self), PyObject 
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vector2_Set(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = (int)PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Volt__Vector2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_float(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_Vector2_Set__SWIG_0(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Volt__Vector2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_float(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_float(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_Vector2_Set__SWIG_1(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'Vector2_Set'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    Set(Volt::Vector2 *,float)\n"
+    "    Set(Volt::Vector2 *,float,float)\n");
   return NULL;
 }
 
@@ -31359,6 +31454,352 @@ SWIGINTERN PyObject *EntityFactory_swigregister(PyObject *SWIGUNUSEDPARM(self), 
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_delete_DialogBox(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_DialogBox",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_DialogBox" "', argument " "1"" of type '" "DialogBox *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    delete arg1;
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_IsFinished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:DialogBox_IsFinished",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_IsFinished" "', argument " "1"" of type '" "DialogBox const *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((DialogBox const *)arg1)->IsFinished();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_modal(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:DialogBox_modal",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_modal" "', argument " "1"" of type '" "DialogBox const *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((DialogBox const *)arg1)->modal();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_Update(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:DialogBox_Update",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_Update" "', argument " "1"" of type '" "DialogBox *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Update();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_Render(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:DialogBox_Render",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_Render" "', argument " "1"" of type '" "DialogBox *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Render();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_SetFont(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  Volt::FontAssetRef arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:DialogBox_SetFont",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_SetFont" "', argument " "1"" of type '" "DialogBox *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__FontAssetRef,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "DialogBox_SetFont" "', argument " "2"" of type '" "Volt::FontAssetRef""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "DialogBox_SetFont" "', argument " "2"" of type '" "Volt::FontAssetRef""'");
+    } else {
+      Volt::FontAssetRef * temp = reinterpret_cast< Volt::FontAssetRef * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetFont(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_OnKeyEvent(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  SDL_KeyboardEvent arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:DialogBox_OnKeyEvent",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_OnKeyEvent" "', argument " "1"" of type '" "DialogBox *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_SDL_KeyboardEvent,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "DialogBox_OnKeyEvent" "', argument " "2"" of type '" "SDL_KeyboardEvent""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "DialogBox_OnKeyEvent" "', argument " "2"" of type '" "SDL_KeyboardEvent""'");
+    } else {
+      SDL_KeyboardEvent * temp = reinterpret_cast< SDL_KeyboardEvent * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->OnKeyEvent(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_Load(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  Json::Value *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:DialogBox_Load",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_Load" "', argument " "1"" of type '" "DialogBox *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Json__Value,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "DialogBox_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "DialogBox_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
+  }
+  arg2 = reinterpret_cast< Json::Value * >(argp2);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Load((Json::Value const &)*arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_Save(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogBox *arg1 = (DialogBox *) 0 ;
+  Json::Value *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:DialogBox_Save",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_Save" "', argument " "1"" of type '" "DialogBox const *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogBox * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Json__Value,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "DialogBox_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "DialogBox_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
+  }
+  arg2 = reinterpret_cast< Json::Value * >(argp2);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    ((DialogBox const *)arg1)->Save(*arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DialogBox_ProcessText(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::string *arg1 = 0 ;
+  Volt::FontAssetRef arg2 ;
+  float arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:DialogBox_ProcessText",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_std__string,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DialogBox_ProcessText" "', argument " "1"" of type '" "std::string &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "DialogBox_ProcessText" "', argument " "1"" of type '" "std::string &""'"); 
+  }
+  arg1 = reinterpret_cast< std::string * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__FontAssetRef,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "DialogBox_ProcessText" "', argument " "2"" of type '" "Volt::FontAssetRef""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "DialogBox_ProcessText" "', argument " "2"" of type '" "Volt::FontAssetRef""'");
+    } else {
+      Volt::FontAssetRef * temp = reinterpret_cast< Volt::FontAssetRef * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "DialogBox_ProcessText" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    DialogBox::ProcessText(*arg1,arg2,arg3);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *DialogBox_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_DialogBox, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_MessageBoxDef(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   MessageBoxDef *result = 0 ;
@@ -31759,33 +32200,32 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_MessageBox_IsFinished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_MessageBox_OnAdded(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   MessageBox *arg1 = (MessageBox *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  bool result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:MessageBox_IsFinished",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:MessageBox_OnAdded",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_MessageBox, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessageBox_IsFinished" "', argument " "1"" of type '" "MessageBox const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessageBox_OnAdded" "', argument " "1"" of type '" "MessageBox *""'"); 
   }
   arg1 = reinterpret_cast< MessageBox * >(argp1);
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    result = (bool)((MessageBox const *)arg1)->IsFinished();
+    (arg1)->OnAdded();
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
-  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_MessageBox_HasCharactersRemaining(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_MessageBox_modal(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   MessageBox *arg1 = (MessageBox *) 0 ;
   void *argp1 = 0 ;
@@ -31793,15 +32233,15 @@ SWIGINTERN PyObject *_wrap_MessageBox_HasCharactersRemaining(PyObject *SWIGUNUSE
   PyObject * obj0 = 0 ;
   bool result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:MessageBox_HasCharactersRemaining",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:MessageBox_modal",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_MessageBox, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessageBox_HasCharactersRemaining" "', argument " "1"" of type '" "MessageBox const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessageBox_modal" "', argument " "1"" of type '" "MessageBox const *""'"); 
   }
   arg1 = reinterpret_cast< MessageBox * >(argp1);
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    result = (bool)((MessageBox const *)arg1)->HasCharactersRemaining();
+    result = (bool)((MessageBox const *)arg1)->modal();
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -31844,80 +32284,6 @@ SWIGINTERN PyObject *_wrap_MessageBox_OnKeyEvent(PyObject *SWIGUNUSEDPARM(self),
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
     (arg1)->OnKeyEvent(arg2);
-    SWIG_PYTHON_THREAD_END_ALLOW;
-  }
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_MessageBox_Load(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  MessageBox *arg1 = (MessageBox *) 0 ;
-  Json::Value *arg2 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:MessageBox_Load",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_MessageBox, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessageBox_Load" "', argument " "1"" of type '" "MessageBox *""'"); 
-  }
-  arg1 = reinterpret_cast< MessageBox * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Json__Value,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "MessageBox_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "MessageBox_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
-  }
-  arg2 = reinterpret_cast< Json::Value * >(argp2);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    (arg1)->Load((Json::Value const &)*arg2);
-    SWIG_PYTHON_THREAD_END_ALLOW;
-  }
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_MessageBox_Save(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  MessageBox *arg1 = (MessageBox *) 0 ;
-  Json::Value *arg2 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:MessageBox_Save",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_MessageBox, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessageBox_Save" "', argument " "1"" of type '" "MessageBox const *""'"); 
-  }
-  arg1 = reinterpret_cast< MessageBox * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Json__Value,  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "MessageBox_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "MessageBox_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
-  }
-  arg2 = reinterpret_cast< Json::Value * >(argp2);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    ((MessageBox const *)arg1)->Save(*arg2);
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_Py_Void();
@@ -32093,10 +32459,10 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_GameScene_ShowMessageBox(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_GameScene_ShowDialogBox(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   GameScene *arg1 = (GameScene *) 0 ;
-  MessageBox *arg2 = (MessageBox *) 0 ;
+  DialogBox *arg2 = (DialogBox *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -32104,20 +32470,20 @@ SWIGINTERN PyObject *_wrap_GameScene_ShowMessageBox(PyObject *SWIGUNUSEDPARM(sel
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:GameScene_ShowMessageBox",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:GameScene_ShowDialogBox",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_GameScene, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GameScene_ShowMessageBox" "', argument " "1"" of type '" "GameScene *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GameScene_ShowDialogBox" "', argument " "1"" of type '" "GameScene *""'"); 
   }
   arg1 = reinterpret_cast< GameScene * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_MessageBox, 0 |  0 );
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_DialogBox, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GameScene_ShowMessageBox" "', argument " "2"" of type '" "MessageBox *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GameScene_ShowDialogBox" "', argument " "2"" of type '" "DialogBox *""'"); 
   }
-  arg2 = reinterpret_cast< MessageBox * >(argp2);
+  arg2 = reinterpret_cast< DialogBox * >(argp2);
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    (arg1)->ShowMessageBox(arg2);
+    (arg1)->ShowDialogBox(arg2);
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_Py_Void();
@@ -34791,6 +35157,17 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"EntityFactory_Create", _wrap_EntityFactory_Create, METH_VARARGS, NULL},
 	 { (char *)"EntityFactory_GetEntityTypes", _wrap_EntityFactory_GetEntityTypes, METH_VARARGS, NULL},
 	 { (char *)"EntityFactory_swigregister", EntityFactory_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_DialogBox", _wrap_delete_DialogBox, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_IsFinished", _wrap_DialogBox_IsFinished, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_modal", _wrap_DialogBox_modal, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_Update", _wrap_DialogBox_Update, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_Render", _wrap_DialogBox_Render, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_SetFont", _wrap_DialogBox_SetFont, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_OnKeyEvent", _wrap_DialogBox_OnKeyEvent, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_Load", _wrap_DialogBox_Load, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_Save", _wrap_DialogBox_Save, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_ProcessText", _wrap_DialogBox_ProcessText, METH_VARARGS, NULL},
+	 { (char *)"DialogBox_swigregister", DialogBox_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_MessageBoxDef", _wrap_new_MessageBoxDef, METH_VARARGS, NULL},
 	 { (char *)"MessageBoxDef_text_set", _wrap_MessageBoxDef_text_set, METH_VARARGS, NULL},
 	 { (char *)"MessageBoxDef_text_get", _wrap_MessageBoxDef_text_get, METH_VARARGS, NULL},
@@ -34806,11 +35183,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_MessageBox", _wrap_delete_MessageBox, METH_VARARGS, NULL},
 	 { (char *)"MessageBox_Update", _wrap_MessageBox_Update, METH_VARARGS, NULL},
 	 { (char *)"MessageBox_Render", _wrap_MessageBox_Render, METH_VARARGS, NULL},
-	 { (char *)"MessageBox_IsFinished", _wrap_MessageBox_IsFinished, METH_VARARGS, NULL},
-	 { (char *)"MessageBox_HasCharactersRemaining", _wrap_MessageBox_HasCharactersRemaining, METH_VARARGS, NULL},
+	 { (char *)"MessageBox_OnAdded", _wrap_MessageBox_OnAdded, METH_VARARGS, NULL},
+	 { (char *)"MessageBox_modal", _wrap_MessageBox_modal, METH_VARARGS, NULL},
 	 { (char *)"MessageBox_OnKeyEvent", _wrap_MessageBox_OnKeyEvent, METH_VARARGS, NULL},
-	 { (char *)"MessageBox_Load", _wrap_MessageBox_Load, METH_VARARGS, NULL},
-	 { (char *)"MessageBox_Save", _wrap_MessageBox_Save, METH_VARARGS, NULL},
 	 { (char *)"MessageBox_swigregister", MessageBox_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_GameScene", _wrap_new_GameScene, METH_VARARGS, NULL},
 	 { (char *)"delete_GameScene", _wrap_delete_GameScene, METH_VARARGS, NULL},
@@ -34818,7 +35193,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"GameScene_OnBegin", _wrap_GameScene_OnBegin, METH_VARARGS, NULL},
 	 { (char *)"GameScene_OnEnd", _wrap_GameScene_OnEnd, METH_VARARGS, NULL},
 	 { (char *)"GameScene_OnKeyEvent", _wrap_GameScene_OnKeyEvent, METH_VARARGS, NULL},
-	 { (char *)"GameScene_ShowMessageBox", _wrap_GameScene_ShowMessageBox, METH_VARARGS, NULL},
+	 { (char *)"GameScene_ShowDialogBox", _wrap_GameScene_ShowDialogBox, METH_VARARGS, NULL},
 	 { (char *)"GameScene_SetPlayerInputLock", _wrap_GameScene_SetPlayerInputLock, METH_VARARGS, NULL},
 	 { (char *)"GameScene_swigregister", GameScene_swigregister, METH_VARARGS, NULL},
 	 { (char *)"EntityVector_iterator", _wrap_EntityVector_iterator, METH_VARARGS, NULL},
@@ -34863,8 +35238,14 @@ static PyMethodDef SwigMethods[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_MessageBoxTo_p_DialogBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((DialogBox *)  ((MessageBox *) x));
+}
+static void *_p_DialogBoxTo_p_Volt__Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Volt::Entity *) (Entity *) ((DialogBox *) x));
+}
 static void *_p_MessageBoxTo_p_Volt__Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((Volt::Entity *) (Entity *) ((MessageBox *) x));
+    return (void *)((Volt::Entity *) (Entity *)(DialogBox *) ((MessageBox *) x));
 }
 static void *_p_EntityTo_p_Volt__Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Volt::Entity *)  ((Entity *) x));
@@ -34881,8 +35262,11 @@ static void *_p_PlayerTo_p_Volt__Entity(void *x, int *SWIGUNUSEDPARM(newmemory))
 static void *_p_LightTo_p_Volt__Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Volt::Entity *) (Entity *) ((Light *) x));
 }
+static void *_p_DialogBoxTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Entity *)  ((DialogBox *) x));
+}
 static void *_p_MessageBoxTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((Entity *)  ((MessageBox *) x));
+    return (void *)((Entity *) (DialogBox *) ((MessageBox *) x));
 }
 static void *_p_TriangleTo_p_Entity(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Entity *)  ((Triangle *) x));
@@ -34912,6 +35296,7 @@ static swig_type_info _swigt__p_BlendFilter = {"_p_BlendFilter", "BlendFilter *"
 static swig_type_info _swigt__p_BrushStroke = {"_p_BrushStroke", "BrushStroke *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Creature = {"_p_Creature", "Creature *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CreatureHitListener = {"_p_CreatureHitListener", "CreatureHitListener *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_DialogBox = {"_p_DialogBox", "DialogBox *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_EdgeFilter = {"_p_EdgeFilter", "EdgeFilter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Entity = {"_p_Entity", "Entity *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_EntityAccessListener = {"_p_EntityAccessListener", "EntityAccessListener *", 0, 0, (void*)0, 0};
@@ -34945,6 +35330,7 @@ static swig_type_info _swigt__p_Volt__EntityContactListener = {"_p_Volt__EntityC
 static swig_type_info _swigt__p_Volt__FSM = {"_p_Volt__FSM", "Volt::FSM *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__FSMState = {"_p_Volt__FSMState", "Volt::FSMState *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Filter = {"_p_Volt__Filter", "Volt::Filter *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Volt__FontAssetRef = {"_p_Volt__FontAssetRef", "Volt::FontAssetRef *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Game = {"_p_Volt__Game", "Volt::Game *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__PhysicsManager = {"_p_Volt__PhysicsManager", "Volt::PhysicsManager *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Volt__Random = {"_p_Volt__Random", "Volt::Random *", 0, 0, (void*)0, 0};
@@ -34989,6 +35375,7 @@ static swig_type_info _swigt__p_p_PyObject = {"_p_p_PyObject", "PyObject **", 0,
 static swig_type_info _swigt__p_reference = {"_p_reference", "reference *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__invalid_argument = {"_p_std__invalid_argument", "std::invalid_argument *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t = {"_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t", "std::vector< Property *,std::allocator< Property * > > *|std::vector< Property * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t = {"_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t", "std::vector< Volt::Entity * > *|std::vector< Volt::Entity *,std::allocator< Volt::Entity * > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type = {"_p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type", "std::vector< Volt::Entity * >::allocator_type *|std::allocator< Volt::Entity * > *", 0, 0, (void*)0, 0};
@@ -35003,6 +35390,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_BrushStroke,
   &_swigt__p_Creature,
   &_swigt__p_CreatureHitListener,
+  &_swigt__p_DialogBox,
   &_swigt__p_EdgeFilter,
   &_swigt__p_Entity,
   &_swigt__p_EntityAccessListener,
@@ -35036,6 +35424,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Volt__FSM,
   &_swigt__p_Volt__FSMState,
   &_swigt__p_Volt__Filter,
+  &_swigt__p_Volt__FontAssetRef,
   &_swigt__p_Volt__Game,
   &_swigt__p_Volt__PhysicsManager,
   &_swigt__p_Volt__Random,
@@ -35080,6 +35469,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_reference,
   &_swigt__p_size_type,
   &_swigt__p_std__invalid_argument,
+  &_swigt__p_std__string,
   &_swigt__p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t,
   &_swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t,
   &_swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type,
@@ -35094,8 +35484,9 @@ static swig_cast_info _swigc__p_BlendFilter[] = {  {&_swigt__p_BlendFilter, 0, 0
 static swig_cast_info _swigc__p_BrushStroke[] = {  {&_swigt__p_BrushStroke, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Creature[] = {  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Creature, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CreatureHitListener[] = {  {&_swigt__p_CreatureHitListener, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DialogBox[] = {  {&_swigt__p_DialogBox, 0, 0, 0},  {&_swigt__p_MessageBox, _p_MessageBoxTo_p_DialogBox, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EdgeFilter[] = {  {&_swigt__p_EdgeFilter, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_MessageBox, _p_MessageBoxTo_p_Entity, 0, 0},  {&_swigt__p_Triangle, _p_TriangleTo_p_Entity, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Entity, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Entity[] = {  {&_swigt__p_DialogBox, _p_DialogBoxTo_p_Entity, 0, 0},  {&_swigt__p_MessageBox, _p_MessageBoxTo_p_Entity, 0, 0},  {&_swigt__p_Triangle, _p_TriangleTo_p_Entity, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Entity, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EntityAccessListener[] = {  {&_swigt__p_EntityAccessListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_EntityFactory[] = {  {&_swigt__p_EntityFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GameScene[] = {  {&_swigt__p_GameScene, 0, 0, 0},{0, 0, 0, 0}};
@@ -35122,11 +35513,12 @@ static swig_cast_info _swigc__p_Volt__CompositeTweenT_Volt__Vector2_t[] = {  {&_
 static swig_cast_info _swigc__p_Volt__CompositeTweenT_float_t[] = {  {&_swigt__p_Volt__CompositeTweenT_float_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataAssetRef[] = {  {&_swigt__p_Volt__DataAssetRef, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__DataSource[] = {  {&_swigt__p_Volt__DataSource, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_MessageBox, _p_MessageBoxTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__Entity[] = {  {&_swigt__p_DialogBox, _p_DialogBoxTo_p_Volt__Entity, 0, 0},  {&_swigt__p_MessageBox, _p_MessageBoxTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Triangle, _p_TriangleTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Entity, _p_EntityTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Creature, _p_CreatureTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Light, _p_LightTo_p_Volt__Entity, 0, 0},  {&_swigt__p_Player, _p_PlayerTo_p_Volt__Entity, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__EntityContactListener[] = {  {&_swigt__p_Volt__EntityContactListener, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__FSM[] = {  {&_swigt__p_Volt__FSM, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__FSMState[] = {  {&_swigt__p_Volt__FSMState, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Filter[] = {  {&_swigt__p_BlendFilter, _p_BlendFilterTo_p_Volt__Filter, 0, 0},  {&_swigt__p_Volt__Filter, 0, 0, 0},  {&_swigt__p_EdgeFilter, _p_EdgeFilterTo_p_Volt__Filter, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Volt__FontAssetRef[] = {  {&_swigt__p_Volt__FontAssetRef, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Game[] = {  {&_swigt__p_Volt__Game, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__PhysicsManager[] = {  {&_swigt__p_Volt__PhysicsManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Volt__Random[] = {  {&_swigt__p_Volt__Random, 0, 0, 0},{0, 0, 0, 0}};
@@ -35171,6 +35563,7 @@ static swig_cast_info _swigc__p_p_PyObject[] = {  {&_swigt__p_p_PyObject, 0, 0, 
 static swig_cast_info _swigc__p_reference[] = {  {&_swigt__p_reference, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__invalid_argument[] = {  {&_swigt__p_std__invalid_argument, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t[] = {  {&_swigt__p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t[] = {  {&_swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type[] = {  {&_swigt__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type, 0, 0, 0},{0, 0, 0, 0}};
@@ -35178,13 +35571,14 @@ static swig_cast_info _swigc__p_std__vectorT_std__string_std__allocatorT_std__st
 static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint32[] = {  {&_swigt__p_uint32, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type[] = {  {&_swigt__p_MessageBox, 0, 0, 0},  {&_swigt__p_Triangle, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Light, 0, 0, 0},  {&_swigt__p_Player, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type[] = {  {&_swigt__p_DialogBox, 0, 0, 0},  {&_swigt__p_MessageBox, 0, 0, 0},  {&_swigt__p_Triangle, 0, 0, 0},  {&_swigt__std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__value_type, 0, 0, 0},  {&_swigt__p_Volt__Entity, 0, 0, 0},  {&_swigt__p_Entity, 0, 0, 0},  {&_swigt__p_Creature, 0, 0, 0},  {&_swigt__p_Light, 0, 0, 0},  {&_swigt__p_Player, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_BlendFilter,
   _swigc__p_BrushStroke,
   _swigc__p_Creature,
   _swigc__p_CreatureHitListener,
+  _swigc__p_DialogBox,
   _swigc__p_EdgeFilter,
   _swigc__p_Entity,
   _swigc__p_EntityAccessListener,
@@ -35218,6 +35612,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Volt__FSM,
   _swigc__p_Volt__FSMState,
   _swigc__p_Volt__Filter,
+  _swigc__p_Volt__FontAssetRef,
   _swigc__p_Volt__Game,
   _swigc__p_Volt__PhysicsManager,
   _swigc__p_Volt__Random,
@@ -35262,6 +35657,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_reference,
   _swigc__p_size_type,
   _swigc__p_std__invalid_argument,
+  _swigc__p_std__string,
   _swigc__p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t,
   _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t,
   _swigc__p_std__vectorT_Volt__Entity_p_std__allocatorT_Volt__Entity_p_t_t__allocator_type,

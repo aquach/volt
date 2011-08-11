@@ -6,7 +6,7 @@
 #include <queue>
 
 class GameScene;
-class MessageBox;
+class DialogBox;
 
 class ConversationManager {
 public:
@@ -17,13 +17,13 @@ public:
 
     void OnKeyEvent (SDL_KeyboardEvent event);
 
-    void ShowMessageBox (MessageBox* box);
+    void ShowDialogBox (DialogBox* box);
 
 private:
     GameScene* m_gameScene;
 
     Volt::FontAssetRef m_font;
-    queue<MessageBox*> m_boxes;
+    queue<DialogBox*> m_boxes;
 
     DISALLOW_COPY_AND_ASSIGN(ConversationManager);
 };

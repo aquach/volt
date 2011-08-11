@@ -1701,6 +1701,34 @@ def EntityFactory_GetEntityTypes(*args):
   return _pygame.EntityFactory_GetEntityTypes(*args)
 EntityFactory_GetEntityTypes = _pygame.EntityFactory_GetEntityTypes
 
+class DialogBox(Entity):
+    __swig_setmethods__ = {}
+    for _s in [Entity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DialogBox, name, value)
+    __swig_getmethods__ = {}
+    for _s in [Entity]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DialogBox, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_DialogBox
+    __del__ = lambda self : None;
+    def IsFinished(self): return _pygame.DialogBox_IsFinished(self)
+    def modal(self): return _pygame.DialogBox_modal(self)
+    def Update(self): return _pygame.DialogBox_Update(self)
+    def Render(self): return _pygame.DialogBox_Render(self)
+    def SetFont(self, *args): return _pygame.DialogBox_SetFont(self, *args)
+    def OnKeyEvent(self, *args): return _pygame.DialogBox_OnKeyEvent(self, *args)
+    def Load(self, *args): return _pygame.DialogBox_Load(self, *args)
+    def Save(self, *args): return _pygame.DialogBox_Save(self, *args)
+    __swig_getmethods__["ProcessText"] = lambda x: _pygame.DialogBox_ProcessText
+    if _newclass:ProcessText = staticmethod(_pygame.DialogBox_ProcessText)
+DialogBox_swigregister = _pygame.DialogBox_swigregister
+DialogBox_swigregister(DialogBox)
+
+def DialogBox_ProcessText(*args):
+  return _pygame.DialogBox_ProcessText(*args)
+DialogBox_ProcessText = _pygame.DialogBox_ProcessText
+
 class MessageBoxDef(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, MessageBoxDef, name, value)
@@ -1728,12 +1756,12 @@ class MessageBoxDef(_object):
 MessageBoxDef_swigregister = _pygame.MessageBoxDef_swigregister
 MessageBoxDef_swigregister(MessageBoxDef)
 
-class MessageBox(Entity):
+class MessageBox(DialogBox):
     __swig_setmethods__ = {}
-    for _s in [Entity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    for _s in [DialogBox]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, MessageBox, name, value)
     __swig_getmethods__ = {}
-    for _s in [Entity]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    for _s in [DialogBox]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, MessageBox, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -1744,11 +1772,9 @@ class MessageBox(Entity):
     __del__ = lambda self : None;
     def Update(self): return _pygame.MessageBox_Update(self)
     def Render(self): return _pygame.MessageBox_Render(self)
-    def IsFinished(self): return _pygame.MessageBox_IsFinished(self)
-    def HasCharactersRemaining(self): return _pygame.MessageBox_HasCharactersRemaining(self)
+    def OnAdded(self): return _pygame.MessageBox_OnAdded(self)
+    def modal(self): return _pygame.MessageBox_modal(self)
     def OnKeyEvent(self, *args): return _pygame.MessageBox_OnKeyEvent(self, *args)
-    def Load(self, *args): return _pygame.MessageBox_Load(self, *args)
-    def Save(self, *args): return _pygame.MessageBox_Save(self, *args)
     def WaitForFinish(self):
         while not self.IsFinished():
             time.sleep(0.25)
@@ -1774,7 +1800,7 @@ class GameScene(Scene):
     def OnBegin(self): return _pygame.GameScene_OnBegin(self)
     def OnEnd(self): return _pygame.GameScene_OnEnd(self)
     def OnKeyEvent(self, *args): return _pygame.GameScene_OnKeyEvent(self, *args)
-    def ShowMessageBox(self, *args): return _pygame.GameScene_ShowMessageBox(self, *args)
+    def ShowDialogBox(self, *args): return _pygame.GameScene_ShowDialogBox(self, *args)
     def SetPlayerInputLock(self, *args): return _pygame.GameScene_SetPlayerInputLock(self, *args)
 GameScene_swigregister = _pygame.GameScene_swigregister
 GameScene_swigregister(GameScene)

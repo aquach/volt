@@ -12,12 +12,16 @@ namespace Volt {
 class KeyState {
 public:
     KeyState () {
-        memset(m_keyState, 0, sizeof(bool) * (SDLK_LAST - SDLK_FIRST));
+        Clear();
     }
     ~KeyState () { }
 
     bool IsKeyPressed (SDLKey key);
     void Update (SDL_KeyboardEvent event);
+
+    void Clear () {
+        memset(m_keyState, 0, sizeof(bool) * (SDLK_LAST - SDLK_FIRST));
+    }
 
 private:
     bool m_keyState[SDLK_LAST - SDLK_FIRST];

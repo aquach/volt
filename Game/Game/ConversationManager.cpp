@@ -1,5 +1,5 @@
 #include "Game/Game/ConversationManager.h"
-#include "Game/Entities/GUI/MessageBox.h"
+#include "Game/Entities/Gui/MessageBox.h"
 #include "Game/Scenes/GameScene.h"
 
 ConversationManager::ConversationManager (GameScene* scene)
@@ -10,7 +10,7 @@ ConversationManager::ConversationManager (GameScene* scene)
 
 ConversationManager::~ConversationManager () {
     while (!m_boxes.empty()) {
-        MessageBox* box = m_boxes.front();
+        DialogBox* box = m_boxes.front();
         if (box->scene() == NULL)
             delete box;
         m_boxes.pop();
@@ -20,7 +20,7 @@ ConversationManager::~ConversationManager () {
 void ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
     if (m_boxes.empty())
         return;
-    MessageBox* box = m_boxes.front();
+    DialogBox* box = m_boxes.front();
     box->OnKeyEvent(event);
 }
 
@@ -31,7 +31,7 @@ void ConversationManager::Update () {
     if (m_boxes.empty())
         return;
 
-    MessageBox* box = m_boxes.front();
+    DialogBox* box = m_boxes.front();
     if (box->scene() == NULL)
         m_gameScene->Add(box);
 
@@ -46,7 +46,7 @@ void ConversationManager::Update () {
     }
 
     if (box != NULL) {
-        m_gameScene->SetPlayerInputLock(box->m_def.modal);
+        m_gameScene->SetPlayerInputLock(box->modal());
     } else {
         /* Keep it locked until the next update so the player can't see the
          * key that ended this MessageBox. */
@@ -55,8 +55,7 @@ void ConversationManager::Update () {
 }
 
 
-void ConversationManager::ShowMessageBox (MessageBox* box) {
-    box->m_font = m_font;
-    box->ProcessText();
+void ConversationManager::ShowDialogBox (DialogBox* box) {
+    box->SetFont(m_font);
     m_boxes.push(box);
 }
