@@ -69,9 +69,38 @@ def fadeOut():
         tween.SetTime(time.time() - start)
         blendFilter.setBlendAmount(tween.value())
 
+@background
+def moveCamera():
+    player = scene().camera().watchingEntity()
+    scene().camera().WatchEntity(None)
+
+    duration = 1.5
+    points = [scene().camera().position(), Vector2(3, 3), Vector2(5, -4),
+              Vector2(10, 10), Vector2(-10, -4),
+              scene().camera().position()]
+    tween = CompositeTweenVector()
+    for i in xrange(len(points) - 1):
+        tween.AddTween(TweenVector.SinInOut(points[i], points[i + 1], duration))
+        
+    start = time.time()
+    while not tween.finished():
+        time.sleep(0.01)
+        tween.SetTime(time.time() - start)
+        scene().camera().transform.position = tween.value()
+
+    tween = TweenFloat.SinInOut(0, 360, 4)
+    start = time.time()
+    while not tween.finished():
+        time.sleep(0.01)
+        tween.SetTime(time.time() - start)
+        scene().camera().transform.rotation = tween.value()    
+
+    scene().camera().WatchEntity(player)
+    
 def onTouched(ladder, hit, contact):
     print 'fade'
     #fadeOut()
+    moveCamera()
 
 ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:

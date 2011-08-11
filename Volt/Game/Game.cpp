@@ -112,6 +112,7 @@ void Game::Run () {
         m_soundManager->Update();
 
         Py_BEGIN_ALLOW_THREADS
+        SleepMicroseconds(1000);
         Py_END_ALLOW_THREADS
 
         m_physicsManager->Update();

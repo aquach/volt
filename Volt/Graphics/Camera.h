@@ -22,11 +22,14 @@ public:
     void WatchEntity (Entity* entity) {
         m_watchEntity = entity;
     }
+    Entity* watchingEntity () const { return m_watchEntity; }
 
     Vector2 WorldToScreen (Vector2 v) const;
     Vector2 ScreenToWorld (Vector2 v) const;
 
     BBox worldBounds () const;
+
+    Vector2 position () const { return transform.position; }
 
     Transform transform;
 private:

@@ -20422,6 +20422,32 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CompositeTweenVector_finished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< Volt::Vector2 > *arg1 = (Volt::CompositeTween< Volt::Vector2 > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CompositeTweenVector_finished",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_Volt__Vector2_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenVector_finished" "', argument " "1"" of type '" "Volt::CompositeTween< Volt::Vector2 > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< Volt::Vector2 > * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((Volt::CompositeTween< Volt::Vector2 > const *)arg1)->finished();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *CompositeTweenVector_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
@@ -20601,6 +20627,32 @@ SWIGINTERN PyObject *_wrap_CompositeTweenFloat_value(PyObject *SWIGUNUSEDPARM(se
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CompositeTweenFloat_finished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::CompositeTween< float > *arg1 = (Volt::CompositeTween< float > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CompositeTweenFloat_finished",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__CompositeTweenT_float_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CompositeTweenFloat_finished" "', argument " "1"" of type '" "Volt::CompositeTween< float > const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::CompositeTween< float > * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((Volt::CompositeTween< float > const *)arg1)->finished();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -22050,6 +22102,32 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Camera_watchingEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Entity *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_watchingEntity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_watchingEntity" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (Volt::Entity *)((Volt::Camera const *)arg1)->watchingEntity();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Camera_WorldToScreen(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Camera *arg1 = (Volt::Camera *) 0 ;
@@ -22156,6 +22234,32 @@ SWIGINTERN PyObject *_wrap_Camera_worldBounds(PyObject *SWIGUNUSEDPARM(self), Py
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj((new Volt::BBox(static_cast< const Volt::BBox& >(result))), SWIGTYPE_p_Volt__BBox, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Camera_position(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Camera *arg1 = (Volt::Camera *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Volt::Vector2 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Camera_position",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Camera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Camera_position" "', argument " "1"" of type '" "Volt::Camera const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Camera * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = ((Volt::Camera const *)arg1)->position();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_NewPointerObj((new Volt::Vector2(static_cast< const Volt::Vector2& >(result))), SWIGTYPE_p_Volt__Vector2, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -34337,6 +34441,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CompositeTweenVector_SetTime", _wrap_CompositeTweenVector_SetTime, METH_VARARGS, NULL},
 	 { (char *)"CompositeTweenVector_AddTween", _wrap_CompositeTweenVector_AddTween, METH_VARARGS, NULL},
 	 { (char *)"CompositeTweenVector_value", _wrap_CompositeTweenVector_value, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenVector_finished", _wrap_CompositeTweenVector_finished, METH_VARARGS, NULL},
 	 { (char *)"CompositeTweenVector_swigregister", CompositeTweenVector_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_CompositeTweenFloat", _wrap_new_CompositeTweenFloat, METH_VARARGS, NULL},
 	 { (char *)"delete_CompositeTweenFloat", _wrap_delete_CompositeTweenFloat, METH_VARARGS, NULL},
@@ -34344,6 +34449,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CompositeTweenFloat_SetTime", _wrap_CompositeTweenFloat_SetTime, METH_VARARGS, NULL},
 	 { (char *)"CompositeTweenFloat_AddTween", _wrap_CompositeTweenFloat_AddTween, METH_VARARGS, NULL},
 	 { (char *)"CompositeTweenFloat_value", _wrap_CompositeTweenFloat_value, METH_VARARGS, NULL},
+	 { (char *)"CompositeTweenFloat_finished", _wrap_CompositeTweenFloat_finished, METH_VARARGS, NULL},
 	 { (char *)"CompositeTweenFloat_swigregister", CompositeTweenFloat_swigregister, METH_VARARGS, NULL},
 	 { (char *)"BBox_min_set", _wrap_BBox_min_set, METH_VARARGS, NULL},
 	 { (char *)"BBox_min_get", _wrap_BBox_min_get, METH_VARARGS, NULL},
@@ -34387,9 +34493,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Camera_backLayer", _wrap_Camera_backLayer, METH_VARARGS, NULL},
 	 { (char *)"Camera_frontLayer", _wrap_Camera_frontLayer, METH_VARARGS, NULL},
 	 { (char *)"Camera_WatchEntity", _wrap_Camera_WatchEntity, METH_VARARGS, NULL},
+	 { (char *)"Camera_watchingEntity", _wrap_Camera_watchingEntity, METH_VARARGS, NULL},
 	 { (char *)"Camera_WorldToScreen", _wrap_Camera_WorldToScreen, METH_VARARGS, NULL},
 	 { (char *)"Camera_ScreenToWorld", _wrap_Camera_ScreenToWorld, METH_VARARGS, NULL},
 	 { (char *)"Camera_worldBounds", _wrap_Camera_worldBounds, METH_VARARGS, NULL},
+	 { (char *)"Camera_position", _wrap_Camera_position, METH_VARARGS, NULL},
 	 { (char *)"Camera_transform_set", _wrap_Camera_transform_set, METH_VARARGS, NULL},
 	 { (char *)"Camera_transform_get", _wrap_Camera_transform_get, METH_VARARGS, NULL},
 	 { (char *)"delete_Camera", _wrap_delete_Camera, METH_VARARGS, NULL},

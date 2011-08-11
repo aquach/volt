@@ -65,6 +65,11 @@ public:
     void SetTime (float time);
     void AddTween (Tween<T> tween);
     T value ();
+    bool finished () const {
+        const Tween<T>* tween = &m_tweens[m_currentTween];
+        return m_currentTween == (int)m_tweens.size() - 1 &&
+            tween->time() >= tween->duration();
+    }
 
 private:
     vector<Tween<T> > m_tweens;

@@ -886,6 +886,7 @@ class CompositeTweenVector(_object):
     def SetTime(self, *args): return _pygame.CompositeTweenVector_SetTime(self, *args)
     def AddTween(self, *args): return _pygame.CompositeTweenVector_AddTween(self, *args)
     def value(self): return _pygame.CompositeTweenVector_value(self)
+    def finished(self): return _pygame.CompositeTweenVector_finished(self)
 CompositeTweenVector_swigregister = _pygame.CompositeTweenVector_swigregister
 CompositeTweenVector_swigregister(CompositeTweenVector)
 
@@ -905,6 +906,7 @@ class CompositeTweenFloat(_object):
     def SetTime(self, *args): return _pygame.CompositeTweenFloat_SetTime(self, *args)
     def AddTween(self, *args): return _pygame.CompositeTweenFloat_AddTween(self, *args)
     def value(self): return _pygame.CompositeTweenFloat_value(self)
+    def finished(self): return _pygame.CompositeTweenFloat_finished(self)
 CompositeTweenFloat_swigregister = _pygame.CompositeTweenFloat_swigregister
 CompositeTweenFloat_swigregister(CompositeTweenFloat)
 
@@ -994,9 +996,11 @@ class Camera(_object):
     def backLayer(self): return _pygame.Camera_backLayer(self)
     def frontLayer(self): return _pygame.Camera_frontLayer(self)
     def WatchEntity(self, *args): return _pygame.Camera_WatchEntity(self, *args)
+    def watchingEntity(self): return _pygame.Camera_watchingEntity(self)
     def WorldToScreen(self, *args): return _pygame.Camera_WorldToScreen(self, *args)
     def ScreenToWorld(self, *args): return _pygame.Camera_ScreenToWorld(self, *args)
     def worldBounds(self): return _pygame.Camera_worldBounds(self)
+    def position(self): return _pygame.Camera_position(self)
     __swig_setmethods__["transform"] = _pygame.Camera_transform_set
     __swig_getmethods__["transform"] = _pygame.Camera_transform_get
     if _newclass:transform = _swig_property(_pygame.Camera_transform_get, _pygame.Camera_transform_set)
