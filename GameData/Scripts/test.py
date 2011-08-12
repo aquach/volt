@@ -145,17 +145,6 @@ platform()
 
 @background
 def startConversation():
-    choice = choiceBox("Do you want to save?", ['Yes', 'No'])
-    if choice == 0:
-        messageBox("Saving...")
-        SaveData.Instance().Save()
-        messageBox("Saved.")
-    elif choice == 1:
-        pass
-    else:
-        raise Exception('Undefined choice', choice)
-    return
-    
     messageBox("Hi, I'm a sign!")
     messageBox("""This is a really damn long message that spans a lot of lines. It goes on and on and is a lot of garbage nonsense. This is really awful and it goes on and won't stop for some reason.""")
     messageBox("""This is a long message that is
@@ -171,7 +160,8 @@ def onAccessed(sign, accessor):
 
 signs = scene().GetAllTagged('Sign')
 for sign in signs:
-    GameEntity(sign).OnAccessed(onAccessed)
+    #GameEntity(sign).OnAccessed(onAccessed)
+    savePoint(GameEntity(sign))
 
 print 'before', Game.Instance().frameNumber()
 time.sleep(0.0001)
