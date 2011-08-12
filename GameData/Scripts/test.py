@@ -145,16 +145,17 @@ platform()
 
 @background
 def startConversation():
-    choice = choiceBox("Do you want a cookie?", ['Yes', 'No', 'im alex'])
+    choice = choiceBox("Do you want to save?", ['Yes', 'No'])
     if choice == 0:
-        messageBox("OK")
+        messageBox("Saving...")
+        SaveData.Instance().Save()
+        messageBox("Saved.")
     elif choice == 1:
-        messageBox("FINE")
-    elif choice == 2:
-        messageBox("IM ALEX")
+        pass
     else:
         raise Exception('Undefined choice', choice)
-        
+    return
+    
     messageBox("Hi, I'm a sign!")
     messageBox("""This is a really damn long message that spans a lot of lines. It goes on and on and is a lot of garbage nonsense. This is really awful and it goes on and won't stop for some reason.""")
     messageBox("""This is a long message that is

@@ -32951,12 +32951,23 @@ SWIGINTERN PyObject *LevelManager_swigregister(PyObject *SWIGUNUSEDPARM(self), P
 
 SWIGINTERN PyObject *_wrap_new_SaveData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
+  std::string arg1 ;
+  PyObject * obj0 = 0 ;
   SaveData *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)":new_SaveData")) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:new_SaveData",&obj0)) SWIG_fail;
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj0, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "new_SaveData" "', argument " "1"" of type '" "std::string""'"); 
+    }
+    arg1 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    result = (SaveData *)new SaveData();
+    result = (SaveData *)new SaveData(arg1);
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SaveData, SWIG_POINTER_NEW |  0 );
@@ -33036,31 +33047,20 @@ fail:
 SWIGINTERN PyObject *_wrap_SaveData_Load(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   SaveData *arg1 = (SaveData *) 0 ;
-  std::string arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
   bool result;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_Load",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:SaveData_Load",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Load" "', argument " "1"" of type '" "SaveData *""'"); 
   }
   arg1 = reinterpret_cast< SaveData * >(argp1);
   {
-    std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj1, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_Load" "', argument " "2"" of type '" "std::string""'"); 
-    }
-    arg2 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
-  }
-  {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    result = (bool)(arg1)->Load(arg2);
+    result = (bool)(arg1)->Load();
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -33098,31 +33098,20 @@ fail:
 SWIGINTERN PyObject *_wrap_SaveData_Save(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   SaveData *arg1 = (SaveData *) 0 ;
-  std::string arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
   bool result;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:SaveData_Save",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:SaveData_Save",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SaveData, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SaveData_Save" "', argument " "1"" of type '" "SaveData const *""'"); 
   }
   arg1 = reinterpret_cast< SaveData * >(argp1);
   {
-    std::string *ptr = (std::string *)0;
-    int res = SWIG_AsPtr_std_string(obj1, &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "SaveData_Save" "', argument " "2"" of type '" "std::string""'"); 
-    }
-    arg2 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
-  }
-  {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    result = (bool)((SaveData const *)arg1)->Save(arg2);
+    result = (bool)((SaveData const *)arg1)->Save();
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_From_bool(static_cast< bool >(result));

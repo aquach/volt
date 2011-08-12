@@ -16,7 +16,7 @@
 #include "Volt/Graphics/Filter.h"
 #include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/Graphics.h"
-#include "Volt/GUI/Label.h"
+#include "Volt/Gui/Label.h"
 
 using namespace Volt;
 

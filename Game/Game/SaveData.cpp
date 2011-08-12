@@ -5,8 +5,8 @@
 
 SaveData* SaveData::instance = NULL;
 
-bool SaveData::Load (string filename) {
-    ifstream file(filename.c_str(), ifstream::binary);
+bool SaveData::Load () {
+    ifstream file(m_filename.c_str(), ifstream::binary);
     if (!file.is_open())
         return false;
 
@@ -36,8 +36,8 @@ void SaveData::Unload () {
     m_root.clear();
 }
 
-bool SaveData::Save (string filename) const {
-    ofstream file(filename.c_str(), ifstream::binary);
+bool SaveData::Save () const {
+    ofstream file(m_filename.c_str(), ifstream::binary);
     if (!file.is_open())
         return false;
 

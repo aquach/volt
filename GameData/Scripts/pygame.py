@@ -1574,8 +1574,8 @@ class SaveData(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, SaveData, name)
     __repr__ = _swig_repr
-    def __init__(self): 
-        this = _pygame.new_SaveData()
+    def __init__(self, *args): 
+        this = _pygame.new_SaveData(*args)
         try: self.this.append(this)
         except: self.this = this
     __swig_destroy__ = _pygame.delete_SaveData
@@ -1584,9 +1584,9 @@ class SaveData(_object):
     if _newclass:Register = staticmethod(_pygame.SaveData_Register)
     __swig_getmethods__["Instance"] = lambda x: _pygame.SaveData_Instance
     if _newclass:Instance = staticmethod(_pygame.SaveData_Instance)
-    def Load(self, *args): return _pygame.SaveData_Load(self, *args)
+    def Load(self): return _pygame.SaveData_Load(self)
     def Unload(self): return _pygame.SaveData_Unload(self)
-    def Save(self, *args): return _pygame.SaveData_Save(self, *args)
+    def Save(self): return _pygame.SaveData_Save(self)
     def GetFlag(self, *args): return _pygame.SaveData_GetFlag(self, *args)
     def SetFlag(self, *args): return _pygame.SaveData_SetFlag(self, *args)
     def GetFloat(self, *args): return _pygame.SaveData_GetFloat(self, *args)

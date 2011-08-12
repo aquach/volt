@@ -6,7 +6,7 @@
 class SaveData {
 public:
 
-    SaveData () { }
+    SaveData (string filename) : m_filename(filename) { }
     ~SaveData () { }
 
     static void Register (SaveData* data) { instance = data; }
@@ -15,9 +15,9 @@ public:
         return instance;
     }
 
-    bool Load (string filename);
+    bool Load ();
     void Unload ();
-    bool Save (string filename) const;
+    bool Save () const;
 
     bool GetFlag (string key);
     void SetFlag (string key, bool value);
@@ -30,6 +30,7 @@ public:
     void Increment (string key, int amount);
 
 private:
+    string m_filename;
     Json::Value m_root;
     static SaveData* instance;
 
