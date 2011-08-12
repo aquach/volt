@@ -106,8 +106,12 @@ void ChoiceBox::Render () {
             Graphics::RenderText(m_font, text, x, y);
 
             if (i == m_choice) {
+                // Draw cursor pointing at this choice, to the left and
+                // vertically centered on the text.
                 glPushMatrix();
-                Graphics::Translate(Vector2(x - CURSOR_SPACE, y - m_font->GetTextHeight(text) / 2));
+                Vector2 pos(x - CURSOR_SPACE,
+                            y - m_font->GetTextHeight(text) / 2);
+                Graphics::Translate(pos);
                 Graphics::SetColor(Volt::Color::RGB(20, 20, 175));
                 glBegin(GL_TRIANGLES);
                 glVertex2f(0, -15);

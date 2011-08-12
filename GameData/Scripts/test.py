@@ -145,40 +145,24 @@ platform()
 
 @background
 def startConversation():
-    c = ChoiceBoxDef()
-    c.text = "Do you want a cookie?"
-    c.choices = StringVector(['Yes', 'No', 'im alex'])
-    choice = disown(ChoiceBox(c))
-    scene().ShowDialogBox(choice)
-    choice = choice.WaitForChoice()
-    print 'you picked', choice
-
-    b = MessageBoxDef()
-    b.text = "Hi, I'm a sign!"
-    scene().ShowDialogBox(disown(MessageBox(b)))
-
-    b.text = """This is a really damn long message that spans a lot of lines. It goes on and on and is a lot of garbage nonsense. This is really awful and it goes on and won't stop for some reason."""
-    scene().ShowDialogBox(disown(MessageBox(b)))
-
-    b.text = """This is a long message that is
+    choice = choiceBox("Do you want a cookie?", ['Yes', 'No', 'im alex'])
+    if choice == 0:
+        messageBox("OK")
+    elif choice == 1:
+        messageBox("FINE")
+    elif choice == 2:
+        messageBox("IM ALEX")
+    else:
+        raise Exception('Undefined choice', choice)
+        
+    messageBox("Hi, I'm a sign!")
+    messageBox("""This is a really damn long message that spans a lot of lines. It goes on and on and is a lot of garbage nonsense. This is really awful and it goes on and won't stop for some reason.""")
+    messageBox("""This is a long message that is
                 line broken in Python.
-                There's a break."""
-    scene().ShowDialogBox(disown(MessageBox(b)))
-
-    b.text = "You cannot skip this!"
-    b.canSkip = False
-    scene().ShowDialogBox(disown(MessageBox(b)))
-
-    b.modal = False
-    b.text = "You can't skip this one, but can move around!"
-    scene().ShowDialogBox(disown(MessageBox(b)))
-
-    b.canSkip = True
-    b.modal = True
-    b.text = "This is the last message (you can skip this but can't move).."
-    lastBox = disown(MessageBox(b))
-    scene().ShowDialogBox(lastBox)
-    lastBox.WaitForFinish()
+                There's a break.""")
+    messageBox("You cannot skip this!", canSkip=False)
+    messageBox("You can't skip this one, but can move around!", canSkip=False, modal=False)
+    messageBox("This is the last message (you can skip this but can't move)..", wait=True)
     print 'shown'
 
 def onAccessed(sign, accessor):

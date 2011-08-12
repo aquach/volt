@@ -14,24 +14,46 @@ def disown(swigObj):
     swigObj.thisown = 0
     return swigObj
 
-''' Sleep, guarding against the level unloading while sleeping.'''
+"""Sleep, guarding against the level unloading while sleeping."""
 def longSleep(duration):
     while not level().IsUnloading() and duration > 0:
         sleepTime = min(duration, 1)
         duration -= sleepTime
         time.sleep(sleepTime)
 
-'''Sleep until the frame counter has changed, indicating a frame has passed.
+"""Sleep until the frame counter has changed, indicating a frame has passed.
    There can be an issue where a script is sleeping, waiting for the game to
    progress, but the game is waiting for the script to finish, so limit the time
-   spent waiting.'''
+   spent waiting."""
 def sleepFrame(tries=25):
     currentFrame = pygame.Game.Instance().frameNumber()
     while currentFrame == pygame.Game.Instance().frameNumber() and tries > 0:
         time.sleep(0.01)
         tries -= 1
 
+"""Wrapper message box generator."""
+def messageBox(message, wait=False, modal=True, canSkip=True,
+               pauseDuration=1.0):
+    b = pygame.MessageBoxDef()
+    b.text = message
+    b.pauseDuration = pauseDuration
+    b.modal = modal
+    b.canSkip = canSkip
+    
+    box = disown(pygame.MessageBox(b))
+    pygame.scene().ShowDialogBox(box)
+    if wait:
+        box.WaitForFinish()
 
+"""Wrapper choice dialog generator. Returns the index of the chosen value."""
+def choiceBox(message, choices):
+    c = pygame.ChoiceBoxDef()
+    c.text = message
+    c.choices = pygame.StringVector(choices)
+    choice = disown(pygame.ChoiceBox(c))
+    pygame.scene().ShowDialogBox(choice)
+    return choice.WaitForChoice()
+    
 def background(f):
     """
     a threading decorator
