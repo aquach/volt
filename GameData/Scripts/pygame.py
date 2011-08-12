@@ -1795,6 +1795,30 @@ def EntityFactory_GetEntityTypes(*args):
   return _pygame.EntityFactory_GetEntityTypes(*args)
 EntityFactory_GetEntityTypes = _pygame.EntityFactory_GetEntityTypes
 
+class DialogListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DialogListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, DialogListener, name)
+    __repr__ = _swig_repr
+    def OnDialogFinished(self): return _pygame.DialogListener_OnDialogFinished(self)
+    def __init__(self): 
+        if self.__class__ == DialogListener:
+            _self = None
+        else:
+            _self = self
+        this = _pygame.new_DialogListener(_self, )
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_DialogListener
+    __del__ = lambda self : None;
+    def __disown__(self):
+        self.this.disown()
+        _pygame.disown_DialogListener(self)
+        return weakref_proxy(self)
+DialogListener_swigregister = _pygame.DialogListener_swigregister
+DialogListener_swigregister(DialogListener)
+
 class DialogBox(Entity):
     __swig_setmethods__ = {}
     for _s in [Entity]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -1816,6 +1840,8 @@ class DialogBox(Entity):
     def Save(self, *args): return _pygame.DialogBox_Save(self, *args)
     __swig_getmethods__["ProcessText"] = lambda x: _pygame.DialogBox_ProcessText
     if _newclass:ProcessText = staticmethod(_pygame.DialogBox_ProcessText)
+    def AddDialogListener(self, *args): return _pygame.DialogBox_AddDialogListener(self, *args)
+    def RemoveDialogListener(self, *args): return _pygame.DialogBox_RemoveDialogListener(self, *args)
 DialogBox_swigregister = _pygame.DialogBox_swigregister
 DialogBox_swigregister(DialogBox)
 
@@ -1862,7 +1888,29 @@ class ChoiceBox(DialogBox):
     def Render(self): return _pygame.ChoiceBox_Render(self)
     def modal(self): return _pygame.ChoiceBox_modal(self)
     def OnAdded(self): return _pygame.ChoiceBox_OnAdded(self)
+    def choice(self): return _pygame.ChoiceBox_choice(self)
     def OnKeyEvent(self, *args): return _pygame.ChoiceBox_OnKeyEvent(self, *args)
+    def WaitForChoice(self):
+        class ChoiceFinishListener(DialogListener):
+            def __init__(self, choiceBox, alertSemaphore):
+                DialogListener.__init__(self)
+                self.__disown__()
+                self.choiceBox = choiceBox
+                self.choice = -1
+                self.alertSemaphore = alertSemaphore
+                
+            def OnDialogFinished(self):
+                self.choice = self.choiceBox.choice()
+                self.alertSemaphore.release()
+
+        semaphore = threading.Semaphore(0)
+        listener = ChoiceFinishListener(self, semaphore)
+        self.AddDialogListener(listener)
+            
+        semaphore.acquire()
+
+        return listener.choice
+
 ChoiceBox_swigregister = _pygame.ChoiceBox_swigregister
 ChoiceBox_swigregister(ChoiceBox)
 
@@ -1913,8 +1961,20 @@ class MessageBox(DialogBox):
     def modal(self): return _pygame.MessageBox_modal(self)
     def OnKeyEvent(self, *args): return _pygame.MessageBox_OnKeyEvent(self, *args)
     def WaitForFinish(self):
-        while not self.IsFinished():
-            time.sleep(0.25)
+        class DialogFinishListener(DialogListener):
+            def __init__(self, alertSemaphore):
+                DialogListener.__init__(self)
+                self.__disown__()
+                self.alertSemaphore = alertSemaphore
+                
+            def OnDialogFinished(self):
+                self.alertSemaphore.release()
+
+        semaphore = threading.Semaphore(0)
+        listener = DialogFinishListener(semaphore)
+        self.AddDialogListener(listener)
+            
+        semaphore.acquire()
 
 MessageBox_swigregister = _pygame.MessageBox_swigregister
 MessageBox_swigregister(MessageBox)

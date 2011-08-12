@@ -150,7 +150,8 @@ def startConversation():
     c.choices = StringVector(['Yes', 'No', 'im alex'])
     choice = disown(ChoiceBox(c))
     scene().ShowDialogBox(choice)
-    choice.WaitForFinish()
+    choice = choice.WaitForChoice()
+    print 'you picked', choice
 
     b = MessageBoxDef()
     b.text = "Hi, I'm a sign!"

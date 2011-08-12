@@ -137,6 +137,7 @@ namespace std {
 %include "Game/Entities/Game/Player.h"
 %include "Game/Entities/Game/Triangle.h"
 %include "Game/Editor/EntityFactory.h"
+%feature("director") DialogListener;
 %include "Game/Entities/Gui/DialogBox.h"
 %include "Game/Entities/Gui/ChoiceBox.h"
 %include "Game/Entities/Gui/MessageBox.h"
@@ -165,8 +166,45 @@ GameScene* scene () {
 %extend MessageBox {
     %pythoncode {
         def WaitForFinish(self):
-            while not self.IsFinished():
-                time.sleep(0.25)
+            class DialogFinishListener(DialogListener):
+                def __init__(self, alertSemaphore):
+                    DialogListener.__init__(self)
+                    self.__disown__()
+                    self.alertSemaphore = alertSemaphore
+                    
+                def OnDialogFinished(self):
+                    self.alertSemaphore.release()
+
+            semaphore = threading.Semaphore(0)
+            listener = DialogFinishListener(semaphore)
+            self.AddDialogListener(listener)
+                
+            semaphore.acquire()
+    }
+}
+
+%extend ChoiceBox {
+    %pythoncode {
+        def WaitForChoice(self):
+            class ChoiceFinishListener(DialogListener):
+                def __init__(self, choiceBox, alertSemaphore):
+                    DialogListener.__init__(self)
+                    self.__disown__()
+                    self.choiceBox = choiceBox
+                    self.choice = -1
+                    self.alertSemaphore = alertSemaphore
+                    
+                def OnDialogFinished(self):
+                    self.choice = self.choiceBox.choice()
+                    self.alertSemaphore.release()
+
+            semaphore = threading.Semaphore(0)
+            listener = ChoiceFinishListener(self, semaphore)
+            self.AddDialogListener(listener)
+                
+            semaphore.acquire()
+
+            return listener.choice
     }
 }
 

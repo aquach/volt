@@ -8,6 +8,8 @@ def dt():
 def level():
     return pygame.LevelManager.Instance()
 
+"""Sets the flag on a given Python proxy SWIG object such that Python no longer
+   owns it."""
 def disown(swigObj):
     swigObj.thisown = 0
     return swigObj
