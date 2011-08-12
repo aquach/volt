@@ -21,6 +21,8 @@ public:
     virtual bool modal () const { return true; }
     virtual void OnAdded ();
 
+    int choice () const { return m_choice; }
+
     virtual void OnKeyEvent (SDL_KeyboardEvent event);
 
 private:
@@ -39,5 +41,7 @@ private:
 
     // Next character to be outputted from text.
     int m_currentCharacter;
+
+    int m_choice;
 };
 

@@ -81,7 +81,7 @@ def moveCamera():
     tween = CompositeTweenVector()
     for i in xrange(len(points) - 1):
         tween.AddTween(TweenVector.SinInOut(points[i], points[i + 1], duration))
-        
+
     start = time.time()
     while not tween.finished():
         time.sleep(0.01)
@@ -105,7 +105,7 @@ def moveCamera():
         scene().camera().transform.scale.Set(tween.value())
 
     scene().camera().WatchEntity(player)
-    
+
 def onTouched(ladder, hit, contact):
     print 'fade'
     #fadeOut()
@@ -148,8 +148,10 @@ def startConversation():
     c = ChoiceBoxDef()
     c.text = "Do you want a cookie?"
     c.choices = StringVector(['Yes', 'No', 'im alex'])
-    scene().ShowDialogBox(disown(ChoiceBox(c)))
-    
+    choice = disown(ChoiceBox(c))
+    scene().ShowDialogBox(choice)
+    choice.WaitForFinish()
+
     b = MessageBoxDef()
     b.text = "Hi, I'm a sign!"
     scene().ShowDialogBox(disown(MessageBox(b)))

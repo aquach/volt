@@ -8,12 +8,15 @@ const float MARGIN = 40;
 const float TEXT_MARGIN = 50;
 const float CHARACTERS_PER_SECOND = 40;
 const float SECONDS_PER_CHARACTER = 1 / CHARACTERS_PER_SECOND;
-const float CHOICE_SPACE = 70;
+const float CURSOR_SPACE = 20;
+const float CHOICE_SPACE = 45;
 
 ChoiceBox::ChoiceBox (const ChoiceBoxDef& def)
     : m_def(def),
       m_nextCharTimer(0),
-      m_currentCharacter(0) {
+      m_currentCharacter(0),
+      m_choice(-1) {
+    CHECK_GT(def.choices.size(), 0);
 };
 
 void ChoiceBox::Skip () {
@@ -33,6 +36,9 @@ void ChoiceBox::Update () {
             m_nextCharTimer = SECONDS_PER_CHARACTER;
             m_textStream << m_def.text[m_currentCharacter++];
         }
+    } else if (m_choice == -1) {
+        // Choices are shown, select 0 if none was selected before.
+        m_choice = 0;
     }
 }
 
@@ -41,9 +47,25 @@ bool ChoiceBox::HasCharactersRemaining () const {
 }
 
 void ChoiceBox::OnKeyEvent (SDL_KeyboardEvent event) {
-    if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
-        if (HasCharactersRemaining())
-            Skip();
+    if (event.type == SDL_KEYDOWN) {
+        switch (event.keysym.sym) {
+            case SDLK_z: 
+                if (HasCharactersRemaining())
+                    Skip();
+                else
+                    OnFinished();
+            break;
+            case SDLK_LEFT:
+                if (m_choice > 0)
+                    m_choice--;
+            break;
+            case SDLK_RIGHT:
+                if (m_choice < m_def.choices.size() - 1)
+                    m_choice++;
+            break;
+            default:
+            break;
+        }
     }
 }
 
@@ -75,14 +97,27 @@ void ChoiceBox::Render () {
                          textBox.min.y);
 
     if (!HasCharactersRemaining()) {
-        Graphics::SetColor(Volt::Color::RGB(120, 0, 0));
-        float x = textBox.min.x + 30;
+        float x = textBox.min.x + CURSOR_SPACE;
         float y = textBox.max.y - 20;
 
         for (uint i = 0; i < m_def.choices.size(); i++) {
+            Graphics::SetColor(Volt::Color::RGB(120, 0, 0));
             const string& text = m_def.choices[i];
             Graphics::RenderText(m_font, text, x, y);
-            x += m_font->GetTextWidth(text) + CHOICE_SPACE;
+
+            if (i == m_choice) {
+                glPushMatrix();
+                Graphics::Translate(Vector2(x - CURSOR_SPACE, y - m_font->GetTextHeight(text) / 2));
+                Graphics::SetColor(Volt::Color::RGB(20, 20, 175));
+                glBegin(GL_TRIANGLES);
+                glVertex2f(0, -15);
+                glVertex2f(15, 0);
+                glVertex2f(0, 15);
+                glEnd();
+                glPopMatrix();
+            }
+
+            x += m_font->GetTextWidth(text) + CURSOR_SPACE + CHOICE_SPACE;
         }
 
     }

@@ -44,7 +44,7 @@ void MessageBox::Update () {
             } else {
                 m_pauseTimer -= G_Time->dt();
                 if (m_pauseTimer <= 0) {
-                    m_finished = true;
+                    OnFinished();
                 }
             }
         }
@@ -61,7 +61,7 @@ void MessageBox::OnKeyEvent (SDL_KeyboardEvent event) {
             if (HasCharactersRemaining())
                 Skip();
             else
-                m_finished = true;
+                OnFinished();
         }
     }
 }
