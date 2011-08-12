@@ -39,6 +39,15 @@
 
 %}
 
+// SWIG libs.
+%include <std_string.i>
+%include <std_vector.i>
+
+namespace std {
+    %template(EntityVector) vector<Volt::Entity*>;
+    %template(StringVector) vector<std::string>;
+}
+
 // Print errors when something bad happens.
 %feature("director:except") {
     if ($error != NULL) {
@@ -55,10 +64,6 @@
 %ignore operator-;
 %ignore operator*;
 %ignore operator==;
-
-// SWIG libs.
-%include <std_string.i>
-%include <std_vector.i>
 
 // Box2D libs.
 %include <Box2D/Common/b2Math.h>
@@ -133,13 +138,9 @@
 %include "Game/Entities/Game/Triangle.h"
 %include "Game/Editor/EntityFactory.h"
 %include "Game/Entities/Gui/DialogBox.h"
-//%include "Game/Entities/Gui/ChoiceBox.h"
+%include "Game/Entities/Gui/ChoiceBox.h"
 %include "Game/Entities/Gui/MessageBox.h"
 %include "Game/Scenes/GameScene.h"
-
-namespace std {
-    %template(EntityVector) vector<Volt::Entity*>;
-}
 
 // Importing custom python code.
 %pythoncode {

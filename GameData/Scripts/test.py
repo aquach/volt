@@ -145,6 +145,11 @@ platform()
 
 @background
 def startConversation():
+    c = ChoiceBoxDef()
+    c.text = "Do you want a cookie?"
+    c.choices = StringVector(['Yes', 'No', 'im alex'])
+    scene().ShowDialogBox(disown(ChoiceBox(c)))
+    
     b = MessageBoxDef()
     b.text = "Hi, I'm a sign!"
     scene().ShowDialogBox(disown(MessageBox(b)))

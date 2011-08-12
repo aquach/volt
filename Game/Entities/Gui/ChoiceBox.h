@@ -19,6 +19,7 @@ public:
     virtual void Update ();
     virtual void Render ();
     virtual bool modal () const { return true; }
+    virtual void OnAdded ();
 
     virtual void OnKeyEvent (SDL_KeyboardEvent event);
 

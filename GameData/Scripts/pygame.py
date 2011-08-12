@@ -102,6 +102,100 @@ class SwigPyIterator(_object):
 SwigPyIterator_swigregister = _pygame.SwigPyIterator_swigregister
 SwigPyIterator_swigregister(SwigPyIterator)
 
+class EntityVector(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, EntityVector, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, EntityVector, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _pygame.EntityVector_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _pygame.EntityVector___nonzero__(self)
+    def __bool__(self): return _pygame.EntityVector___bool__(self)
+    def __len__(self): return _pygame.EntityVector___len__(self)
+    def pop(self): return _pygame.EntityVector_pop(self)
+    def __getslice__(self, *args): return _pygame.EntityVector___getslice__(self, *args)
+    def __setslice__(self, *args): return _pygame.EntityVector___setslice__(self, *args)
+    def __delslice__(self, *args): return _pygame.EntityVector___delslice__(self, *args)
+    def __delitem__(self, *args): return _pygame.EntityVector___delitem__(self, *args)
+    def __getitem__(self, *args): return _pygame.EntityVector___getitem__(self, *args)
+    def __setitem__(self, *args): return _pygame.EntityVector___setitem__(self, *args)
+    def append(self, *args): return _pygame.EntityVector_append(self, *args)
+    def empty(self): return _pygame.EntityVector_empty(self)
+    def size(self): return _pygame.EntityVector_size(self)
+    def clear(self): return _pygame.EntityVector_clear(self)
+    def swap(self, *args): return _pygame.EntityVector_swap(self, *args)
+    def get_allocator(self): return _pygame.EntityVector_get_allocator(self)
+    def begin(self): return _pygame.EntityVector_begin(self)
+    def end(self): return _pygame.EntityVector_end(self)
+    def rbegin(self): return _pygame.EntityVector_rbegin(self)
+    def rend(self): return _pygame.EntityVector_rend(self)
+    def pop_back(self): return _pygame.EntityVector_pop_back(self)
+    def erase(self, *args): return _pygame.EntityVector_erase(self, *args)
+    def __init__(self, *args): 
+        this = _pygame.new_EntityVector(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _pygame.EntityVector_push_back(self, *args)
+    def front(self): return _pygame.EntityVector_front(self)
+    def back(self): return _pygame.EntityVector_back(self)
+    def assign(self, *args): return _pygame.EntityVector_assign(self, *args)
+    def resize(self, *args): return _pygame.EntityVector_resize(self, *args)
+    def insert(self, *args): return _pygame.EntityVector_insert(self, *args)
+    def reserve(self, *args): return _pygame.EntityVector_reserve(self, *args)
+    def capacity(self): return _pygame.EntityVector_capacity(self)
+    __swig_destroy__ = _pygame.delete_EntityVector
+    __del__ = lambda self : None;
+EntityVector_swigregister = _pygame.EntityVector_swigregister
+EntityVector_swigregister(EntityVector)
+
+class StringVector(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, StringVector, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, StringVector, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _pygame.StringVector_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _pygame.StringVector___nonzero__(self)
+    def __bool__(self): return _pygame.StringVector___bool__(self)
+    def __len__(self): return _pygame.StringVector___len__(self)
+    def pop(self): return _pygame.StringVector_pop(self)
+    def __getslice__(self, *args): return _pygame.StringVector___getslice__(self, *args)
+    def __setslice__(self, *args): return _pygame.StringVector___setslice__(self, *args)
+    def __delslice__(self, *args): return _pygame.StringVector___delslice__(self, *args)
+    def __delitem__(self, *args): return _pygame.StringVector___delitem__(self, *args)
+    def __getitem__(self, *args): return _pygame.StringVector___getitem__(self, *args)
+    def __setitem__(self, *args): return _pygame.StringVector___setitem__(self, *args)
+    def append(self, *args): return _pygame.StringVector_append(self, *args)
+    def empty(self): return _pygame.StringVector_empty(self)
+    def size(self): return _pygame.StringVector_size(self)
+    def clear(self): return _pygame.StringVector_clear(self)
+    def swap(self, *args): return _pygame.StringVector_swap(self, *args)
+    def get_allocator(self): return _pygame.StringVector_get_allocator(self)
+    def begin(self): return _pygame.StringVector_begin(self)
+    def end(self): return _pygame.StringVector_end(self)
+    def rbegin(self): return _pygame.StringVector_rbegin(self)
+    def rend(self): return _pygame.StringVector_rend(self)
+    def pop_back(self): return _pygame.StringVector_pop_back(self)
+    def erase(self, *args): return _pygame.StringVector_erase(self, *args)
+    def __init__(self, *args): 
+        this = _pygame.new_StringVector(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _pygame.StringVector_push_back(self, *args)
+    def front(self): return _pygame.StringVector_front(self)
+    def back(self): return _pygame.StringVector_back(self)
+    def assign(self, *args): return _pygame.StringVector_assign(self, *args)
+    def resize(self, *args): return _pygame.StringVector_resize(self, *args)
+    def insert(self, *args): return _pygame.StringVector_insert(self, *args)
+    def reserve(self, *args): return _pygame.StringVector_reserve(self, *args)
+    def capacity(self): return _pygame.StringVector_capacity(self)
+    __swig_destroy__ = _pygame.delete_StringVector
+    __del__ = lambda self : None;
+StringVector_swigregister = _pygame.StringVector_swigregister
+StringVector_swigregister(StringVector)
+
 
 def b2IsValid(*args):
   return _pygame.b2IsValid(*args)
@@ -1729,6 +1823,49 @@ def DialogBox_ProcessText(*args):
   return _pygame.DialogBox_ProcessText(*args)
 DialogBox_ProcessText = _pygame.DialogBox_ProcessText
 
+class ChoiceBoxDef(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ChoiceBoxDef, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ChoiceBoxDef, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _pygame.new_ChoiceBoxDef()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_setmethods__["text"] = _pygame.ChoiceBoxDef_text_set
+    __swig_getmethods__["text"] = _pygame.ChoiceBoxDef_text_get
+    if _newclass:text = _swig_property(_pygame.ChoiceBoxDef_text_get, _pygame.ChoiceBoxDef_text_set)
+    __swig_setmethods__["choices"] = _pygame.ChoiceBoxDef_choices_set
+    __swig_getmethods__["choices"] = _pygame.ChoiceBoxDef_choices_get
+    if _newclass:choices = _swig_property(_pygame.ChoiceBoxDef_choices_get, _pygame.ChoiceBoxDef_choices_set)
+    __swig_destroy__ = _pygame.delete_ChoiceBoxDef
+    __del__ = lambda self : None;
+ChoiceBoxDef_swigregister = _pygame.ChoiceBoxDef_swigregister
+ChoiceBoxDef_swigregister(ChoiceBoxDef)
+
+class ChoiceBox(DialogBox):
+    __swig_setmethods__ = {}
+    for _s in [DialogBox]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ChoiceBox, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DialogBox]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ChoiceBox, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_ChoiceBox(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_ChoiceBox
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.ChoiceBox_Update(self)
+    def Render(self): return _pygame.ChoiceBox_Render(self)
+    def modal(self): return _pygame.ChoiceBox_modal(self)
+    def OnAdded(self): return _pygame.ChoiceBox_OnAdded(self)
+    def OnKeyEvent(self, *args): return _pygame.ChoiceBox_OnKeyEvent(self, *args)
+ChoiceBox_swigregister = _pygame.ChoiceBox_swigregister
+ChoiceBox_swigregister(ChoiceBox)
+
 class MessageBoxDef(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, MessageBoxDef, name, value)
@@ -1804,53 +1941,6 @@ class GameScene(Scene):
     def SetPlayerInputLock(self, *args): return _pygame.GameScene_SetPlayerInputLock(self, *args)
 GameScene_swigregister = _pygame.GameScene_swigregister
 GameScene_swigregister(GameScene)
-
-class EntityVector(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, EntityVector, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, EntityVector, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _pygame.EntityVector_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _pygame.EntityVector___nonzero__(self)
-    def __bool__(self): return _pygame.EntityVector___bool__(self)
-    def __len__(self): return _pygame.EntityVector___len__(self)
-    def pop(self): return _pygame.EntityVector_pop(self)
-    def __getslice__(self, *args): return _pygame.EntityVector___getslice__(self, *args)
-    def __setslice__(self, *args): return _pygame.EntityVector___setslice__(self, *args)
-    def __delslice__(self, *args): return _pygame.EntityVector___delslice__(self, *args)
-    def __delitem__(self, *args): return _pygame.EntityVector___delitem__(self, *args)
-    def __getitem__(self, *args): return _pygame.EntityVector___getitem__(self, *args)
-    def __setitem__(self, *args): return _pygame.EntityVector___setitem__(self, *args)
-    def append(self, *args): return _pygame.EntityVector_append(self, *args)
-    def empty(self): return _pygame.EntityVector_empty(self)
-    def size(self): return _pygame.EntityVector_size(self)
-    def clear(self): return _pygame.EntityVector_clear(self)
-    def swap(self, *args): return _pygame.EntityVector_swap(self, *args)
-    def get_allocator(self): return _pygame.EntityVector_get_allocator(self)
-    def begin(self): return _pygame.EntityVector_begin(self)
-    def end(self): return _pygame.EntityVector_end(self)
-    def rbegin(self): return _pygame.EntityVector_rbegin(self)
-    def rend(self): return _pygame.EntityVector_rend(self)
-    def pop_back(self): return _pygame.EntityVector_pop_back(self)
-    def erase(self, *args): return _pygame.EntityVector_erase(self, *args)
-    def __init__(self, *args): 
-        this = _pygame.new_EntityVector(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def push_back(self, *args): return _pygame.EntityVector_push_back(self, *args)
-    def front(self): return _pygame.EntityVector_front(self)
-    def back(self): return _pygame.EntityVector_back(self)
-    def assign(self, *args): return _pygame.EntityVector_assign(self, *args)
-    def resize(self, *args): return _pygame.EntityVector_resize(self, *args)
-    def insert(self, *args): return _pygame.EntityVector_insert(self, *args)
-    def reserve(self, *args): return _pygame.EntityVector_reserve(self, *args)
-    def capacity(self): return _pygame.EntityVector_capacity(self)
-    __swig_destroy__ = _pygame.delete_EntityVector
-    __del__ = lambda self : None;
-EntityVector_swigregister = _pygame.EntityVector_swigregister
-EntityVector_swigregister(EntityVector)
 
 from pygamecore import *
 

@@ -87,8 +87,8 @@ void FontAsset::Unload () {
 
 float FontAsset::GetTextWidth (const string& text) {
     float width = 0;
-    float x;
-    float y;
+    float x = 0;
+    float y = 0;
     for (uint i = 0; i < text.size(); i++) {
         BBox verts;
         BBox texCoords;
