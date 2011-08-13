@@ -49,7 +49,7 @@ bool ChoiceBox::HasCharactersRemaining () const {
 void ChoiceBox::OnKeyEvent (SDL_KeyboardEvent event) {
     if (event.type == SDL_KEYDOWN) {
         switch (event.keysym.sym) {
-            case SDLK_z: 
+            case SDLK_z:
                 if (HasCharactersRemaining())
                     Skip();
                 else
@@ -60,7 +60,7 @@ void ChoiceBox::OnKeyEvent (SDL_KeyboardEvent event) {
                     m_choice--;
             break;
             case SDLK_RIGHT:
-                if (m_choice < m_def.choices.size() - 1)
+                if (m_choice < (int)m_def.choices.size() - 1)
                     m_choice++;
             break;
             default:
@@ -105,7 +105,7 @@ void ChoiceBox::Render () {
             const string& text = m_def.choices[i];
             Graphics::RenderText(m_font, text, x, y);
 
-            if (i == m_choice) {
+            if ((int)i == m_choice) {
                 // Draw cursor pointing at this choice, to the left and
                 // vertically centered on the text.
                 glPushMatrix();
