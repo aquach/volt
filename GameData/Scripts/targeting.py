@@ -6,9 +6,9 @@ def linearTarget(targetPos, targetVel, projectilePos, projectileSpeed):
     Predicts the time and location where a projectile should be fired to hit
     a target at at particular position moving with a particular velocity.
     Assumes that the target will move with the same velocity as they are
-    currently moving. Returns a float t which is the time of collision, or None
-    if it it is impossible. The position of collision and the firing direction
-    of the projectile are easily calculated from the time."""
+    currently moving. Returns a float t which is the time of collision and a
+    Vector2 which is the position of collision, or None if it it is
+    impossible."""
 
     S = projectileSpeed * projectileSpeed
     x = projectilePos.x - targetPos.x
@@ -30,4 +30,4 @@ def linearTarget(targetPos, targetVel, projectilePos, projectileSpeed):
     t2 = (-det + side) / denom
 
     t = t1 if t1 > 0 else t2
-    return t
+    return t, targetPos + targetVel * t

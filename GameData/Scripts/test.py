@@ -4,6 +4,8 @@ import random
 import threading
 import time
 
+import turret
+
 time.sleep(1)
 
 class State1(FSMState):
@@ -162,6 +164,11 @@ savePoints = scene().GetAllTagged('SavePoint')
 for savePoint in savePoints:
     #GameEntity(sign).OnAccessed(onAccessed)
     addSavePoint(GameEntity(savePoint))
+
+t = turret.Turret()
+t.SetPosition(Vector2(5, -5))
+scene().Add(t)
+
 
 print 'before', Game.Instance().frameNumber()
 time.sleep(0.0001)
