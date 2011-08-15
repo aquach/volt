@@ -141,12 +141,18 @@ void Entity::Load (const Json::Value& node) {
     m_transform.Load(node["transform"]);
     m_visible = node.get("visible", true).asBool();
     SetLayer(node.get("layer", 0).asInt());
+
+    for (uint i = 0; i < node["tags"].size(); i++)
+        m_tags.insert(node["tags"][i].asString());
 }
 
 void Entity::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
     node["visible"] = m_visible;
     node["layer"] = m_layer;
+    FOR_(set<string>::iterator, i, m_tags) {
+        node["tags"].append(*i);
+    }
 }
 
 void Entity::AddContactListener (EntityContactListener* listener) {

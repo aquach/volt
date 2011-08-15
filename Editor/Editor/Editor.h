@@ -22,6 +22,9 @@ class GLWidget;
 class PropertyModel;
 class QComboBox;
 class QLabel;
+class QLineEdit;
+class QListWidget;
+class QListWidgetItem;
 class QModelIndex;
 class QSettings;
 class QTableView;
@@ -90,6 +93,8 @@ private slots:
     void ReloadBrushes ();
     void RecomputeLightmap ();
     void SetInitScript ();
+    void AddTag ();
+    void RemoveTag (QListWidgetItem* item);
 
 private:
     class ModeState : public Volt::FSMState {
@@ -241,6 +246,8 @@ private:
     void Autosave ();
     void LoadBrushes ();
 
+    void RefreshTags ();
+
     Volt::AssetManager* m_assetManager;
     Volt::Graphics* m_graphics;
     Volt::PhysicsManager* m_physicsManager;
@@ -269,6 +276,8 @@ private:
     QTableView* m_properties;
     QComboBox* m_brushesCombo;
     EditorSelectionListener* m_selectionListener;
+    QListWidget* m_tagList;
+    QLineEdit* m_tagEdit;
 
     Volt::AppTime* m_appTime;
 };

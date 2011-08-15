@@ -34,14 +34,17 @@ enum ModeButtonType {
 void Editor::EditorSelectionListener::OnEntitySelected (Entity* e) {
     m_e->m_propertyModel->SetEntity(e);
     m_e->m_properties->resizeColumnsToContents();
+    m_e->RefreshTags();
 }
 
 void Editor::EditorSelectionListener::OnEntityDeselected (Entity* e) {
     m_e->m_propertyModel->SetEntity(NULL);
+    m_e->RefreshTags();
 }
 
 void Editor::EditorSelectionListener::OnDeselectAll () {
     m_e->m_propertyModel->SetEntity(NULL);
+    m_e->RefreshTags();
 }
 
 Editor::Editor (const Volt::DataSource* source)
@@ -296,6 +299,28 @@ Editor::Editor (const Volt::DataSource* source)
     layout->insertStretch(25);
 
     tools->setLayout(layout);
+
+    dock = new QDockWidget("Tags", this);
+    dock->setFeatures(QDockWidget::DockWidgetMovable |
+                      QDockWidget::DockWidgetFloatable);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+
+    QWidget* tags = new QWidget;
+    tags->setMaximumHeight(120);
+    dock->setWidget(tags);
+    layout = new QVBoxLayout;
+    tags->setLayout(layout);
+
+    m_tagList = new QListWidget;
+    layout->addWidget(m_tagList);
+    connect(m_tagList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this,
+            SLOT(RemoveTag(QListWidgetItem*)));
+
+    m_tagEdit = new QLineEdit;
+    layout->addWidget(m_tagEdit);
+    connect(m_tagEdit, SIGNAL(returnPressed()), this, SLOT(AddTag()));
+
 
     dock = new QDockWidget("Properties", this);
     dock->setFeatures(QDockWidget::DockWidgetMovable |
@@ -933,5 +958,39 @@ void Editor::SetInitScript () {
     if (ok && !text.isEmpty()) {
         m_scene->m_levelManager->SetStartScript(text.toStdString());
         OnModified();
+    }
+}
+
+void Editor::AddTag () {
+    vector<Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    string tag = m_tagEdit->text().toStdString();
+    for (uint i = 0; i < selectedEntities.size(); i++)
+        selectedEntities[i]->AddTag(tag);
+    RefreshTags();
+    m_tagEdit->setText("");
+}
+
+void Editor::RemoveTag (QListWidgetItem* item) {
+    vector<Entity*> selectedEntities;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    string tag = item->text().toStdString();
+    for (uint i = 0; i < selectedEntities.size(); i++)
+        selectedEntities[i]->RemoveTag(tag);
+    RefreshTags();
+}
+
+void Editor::RefreshTags () {
+    m_tagList->clear();
+    vector<Entity*> selectedEntities;
+    set<string> tags;
+    G_SelectionManager->GetSelectedEntities(&selectedEntities);
+    for (uint i = 0; i < selectedEntities.size(); i++) {
+        vector<string> entityTags;
+        selectedEntities[i]->GetTags(&entityTags);
+        copy(entityTags.begin(), entityTags.end(), inserter(tags, tags.end()));
+    }
+    FOR_(set<string>::iterator, i, tags) {
+        m_tagList->addItem(QString::fromStdString(*i));
     }
 }

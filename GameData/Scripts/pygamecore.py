@@ -113,7 +113,7 @@ class PyEntityAccessListener(pygame.EntityAccessListener):
             self.callback(self.entity, accessor)
 
 """Turns the given entity into a save point."""
-def savePoint(entity):
+def addSavePoint(entity):
     @background
     def saveDialog(unused_entity, unused_accessor):
         choice = choiceBox("Do you want to save?", ['Yes', 'No'])

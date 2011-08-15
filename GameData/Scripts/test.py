@@ -158,10 +158,10 @@ def startConversation():
 def onAccessed(sign, accessor):
     startConversation()
 
-signs = scene().GetAllTagged('Sign')
-for sign in signs:
+savePoints = scene().GetAllTagged('SavePoint')
+for savePoint in savePoints:
     #GameEntity(sign).OnAccessed(onAccessed)
-    savePoint(GameEntity(sign))
+    addSavePoint(GameEntity(savePoint))
 
 print 'before', Game.Instance().frameNumber()
 time.sleep(0.0001)
