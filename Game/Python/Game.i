@@ -68,6 +68,11 @@ namespace std {
 // Box2D libs.
 %include <Box2D/Common/b2Math.h>
 %include <Box2D/Dynamics/b2Body.h>
+//%include <Box2D/Dynamics/b2Fixture.h>
+//%include <Box2D/Collision/Shapes/b2Shape.h>
+//%include <Box2D/Collision/Shapes/b2CircleShape.h>
+//%include <Box2D/Collision/Shapes/b2PolygonShape.h>
+//%include <Box2D/Collision/Shapes/b2PolygonShape.h>
 
 // Volt.
 %include "Volt/Core/Color.h"
@@ -93,6 +98,8 @@ namespace std {
 %include "Volt/Game/AppTime.h"
 
 %rename(VoltEntity) Volt::Entity;
+%rename(CreateBodyWithDef) Volt::Entity::CreateBody(b2BodyDef);
+%rename(CreateBodyWithType) Volt::Entity::CreateBody(b2BodyType);
 %feature("director") EntityContactListener;
 %include "Volt/Game/Entity.h"
 
@@ -231,6 +238,10 @@ GameScene* scene () {
             pylistener.__disown__()
             self.AddContactListener(pylistener)
             return pylistener
+
+        def CreateBody(self, bodyType, dynamic=True, ignoresForces=False,
+                       sensor=False):
+            self.CreateBodyCustom(bodyType, dynamic, ignoresForces, sensor)
     }
 }
 

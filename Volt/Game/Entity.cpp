@@ -72,6 +72,40 @@ b2Body* Entity::CreateBody (b2BodyType type) {
     return CreateBody(def);
 }
 
+void Entity::CreateBodyCustom (const string& type, bool dynamic,
+                               bool ignoresForces, bool sensor) {
+    DestroyBody();
+
+    b2BodyDef def;
+    if (ignoresForces)
+        def.type = b2_kinematicBody;
+    else if (dynamic)
+        def.type = b2_dynamicBody;
+    else
+        def.type = b2_staticBody;
+
+    CreateBody(def);
+
+    b2FixtureDef fixtureDef;
+    b2CircleShape circle;
+    b2PolygonShape box;
+    if (type == "circle") {
+        circle.m_radius = m_transform.scale.x * 0.5f;
+        fixtureDef.shape = &circle;
+    } else if (type == "box") {
+        box.SetAsBox(m_transform.scale.x * 0.5f,
+                       m_transform.scale.y * 0.5f);
+        fixtureDef.shape = &box;
+    } else {
+        LOG(INFO) << "Warning: invalid type " << type;
+        return;
+    }
+
+    fixtureDef.isSensor = sensor;
+    m_body->CreateFixture(&fixtureDef);
+}
+
+
 void Entity::RemoveSelf () {
     if (m_scene != NULL)
         m_scene->Remove(this);

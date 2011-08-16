@@ -1202,7 +1202,9 @@ class VoltEntity(_object):
     def OnAdded(self): return _pygame.VoltEntity_OnAdded(self)
     def OnRemoved(self): return _pygame.VoltEntity_OnRemoved(self)
     def UpdatePhysics(self): return _pygame.VoltEntity_UpdatePhysics(self)
-    def CreateBody(self, *args): return _pygame.VoltEntity_CreateBody(self, *args)
+    def CreateBodyWithDef(self, *args): return _pygame.VoltEntity_CreateBodyWithDef(self, *args)
+    def CreateBodyWithType(self, *args): return _pygame.VoltEntity_CreateBodyWithType(self, *args)
+    def CreateBodyCustom(self, *args): return _pygame.VoltEntity_CreateBodyCustom(self, *args)
     def DestroyBody(self): return _pygame.VoltEntity_DestroyBody(self)
     def body(self): return _pygame.VoltEntity_body(self)
     def BeginContact(self, *args): return _pygame.VoltEntity_BeginContact(self, *args)
@@ -1231,6 +1233,10 @@ class VoltEntity(_object):
         pylistener.__disown__()
         self.AddContactListener(pylistener)
         return pylistener
+
+    def CreateBody(self, bodyType, dynamic=True, ignoresForces=False,
+                   sensor=False):
+        self.CreateBodyCustom(bodyType, dynamic, ignoresForces, sensor)
 
 VoltEntity_swigregister = _pygame.VoltEntity_swigregister
 VoltEntity_swigregister(VoltEntity)

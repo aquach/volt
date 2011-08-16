@@ -109,9 +109,11 @@ def moveCamera():
     scene().camera().WatchEntity(player)
 
 def onTouched(ladder, hit, contact):
+    if not hit.HasTag('Player'):
+        return
     print 'fade'
     #fadeOut()
-    moveCamera()
+    #moveCamera()
 
 ladders = scene().GetAllTagged('Ladder')
 for ladder in ladders:
@@ -143,7 +145,7 @@ def platform():
         e.body().SetLinearVelocity(Vector2(0, tween.value()).ToB2())
         #print tween.value()
     e.RemoveSelf()
-platform()
+#platform()
 
 @background
 def startConversation():

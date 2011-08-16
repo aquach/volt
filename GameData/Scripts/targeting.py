@@ -1,5 +1,8 @@
 import math
 
+"""Provides methods for targeting, for enemies to intelligently hit a moving
+target."""
+
 def linearTarget(targetPos, targetVel, projectilePos, projectileSpeed):
     """Calculates how to hit a target with linear prediction.
 

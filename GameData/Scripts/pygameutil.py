@@ -1,7 +1,11 @@
 import threading
 import pyvoltbootstrap
 
+"""Provides functionality for the game scripting engine to run scripts in
+separate threads."""
+
 def _filenameToModuleName (filename):
+    """Converts a game data path to a module name."""
     if filename.startswith('Scripts/'):
         filename = filename[8:]
     if filename.endswith('.py'):
@@ -20,11 +24,13 @@ class ScriptThread(threading.Thread):
         exec self.code in {}
 
 def runScript(code, origin=None):
+    """Runs the given script in a separate thread."""
     thread = ScriptThread(code, origin)
     threads.append(thread)
     thread.start()
 
 def runScriptFile(filename, forceReload = False):
+    """Runs the given script filename in a separate thread."""
     path = 'Scripts/' + filename
     if forceReload:
         reloaded = pyvoltbootstrap.reloadScript(path)
@@ -38,6 +44,7 @@ def runScriptFile(filename, forceReload = False):
     runScript(code, filename)
 
 def waitForScripts():
+    """Waits for all running scripts to complete."""
     print 'Waiting for scripts to complete...'
     threadsAlive = True
     while threadsAlive:

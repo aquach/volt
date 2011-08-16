@@ -27481,7 +27481,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_VoltEntity_CreateBodyWithDef(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
   b2BodyDef arg2 ;
@@ -27493,19 +27493,19 @@ SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody__SWIG_0(PyObject *SWIGUNUSEDPAR
   PyObject * obj1 = 0 ;
   b2Body *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_CreateBody",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_CreateBodyWithDef",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CreateBody" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CreateBodyWithDef" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Entity * >(argp1);
   {
     res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_b2BodyDef,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_CreateBody" "', argument " "2"" of type '" "b2BodyDef""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_CreateBodyWithDef" "', argument " "2"" of type '" "b2BodyDef""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "VoltEntity_CreateBody" "', argument " "2"" of type '" "b2BodyDef""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "VoltEntity_CreateBodyWithDef" "', argument " "2"" of type '" "b2BodyDef""'");
     } else {
       b2BodyDef * temp = reinterpret_cast< b2BodyDef * >(argp2);
       arg2 = *temp;
@@ -27524,7 +27524,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_VoltEntity_CreateBodyWithType(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
   b2BodyType arg2 ;
@@ -27536,15 +27536,15 @@ SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody__SWIG_1(PyObject *SWIGUNUSEDPAR
   PyObject * obj1 = 0 ;
   b2Body *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_CreateBody",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_CreateBodyWithType",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CreateBody" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CreateBodyWithType" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
   arg1 = reinterpret_cast< Volt::Entity * >(argp1);
   ecode2 = SWIG_AsVal_int(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "VoltEntity_CreateBody" "', argument " "2"" of type '" "b2BodyType""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "VoltEntity_CreateBodyWithType" "', argument " "2"" of type '" "b2BodyType""'");
   } 
   arg2 = static_cast< b2BodyType >(val2);
   {
@@ -27559,50 +27559,70 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_VoltEntity_CreateBody(PyObject *self, PyObject *args) {
-  int argc;
-  PyObject *argv[3];
-  int ii;
+SWIGINTERN PyObject *_wrap_VoltEntity_CreateBodyCustom(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  bool val3 ;
+  int ecode3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
+  bool val5 ;
+  int ecode5 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
   
-  if (!PyTuple_Check(args)) SWIG_fail;
-  argc = (int)PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
-    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:VoltEntity_CreateBodyCustom",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CreateBodyCustom" "', argument " "1"" of type '" "Volt::Entity *""'"); 
   }
-  if (argc == 2) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Volt__Entity, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_b2BodyDef, 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        return _wrap_VoltEntity_CreateBody__SWIG_0(self, args);
-      }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_CreateBodyCustom" "', argument " "2"" of type '" "std::string const &""'"); 
     }
-  }
-  if (argc == 2) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Volt__Entity, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_int(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        return _wrap_VoltEntity_CreateBody__SWIG_1(self, args);
-      }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "VoltEntity_CreateBodyCustom" "', argument " "2"" of type '" "std::string const &""'"); 
     }
+    arg2 = ptr;
   }
-  
+  ecode3 = SWIG_AsVal_bool(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "VoltEntity_CreateBodyCustom" "', argument " "3"" of type '" "bool""'");
+  } 
+  arg3 = static_cast< bool >(val3);
+  ecode4 = SWIG_AsVal_bool(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "VoltEntity_CreateBodyCustom" "', argument " "4"" of type '" "bool""'");
+  } 
+  arg4 = static_cast< bool >(val4);
+  ecode5 = SWIG_AsVal_bool(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "VoltEntity_CreateBodyCustom" "', argument " "5"" of type '" "bool""'");
+  } 
+  arg5 = static_cast< bool >(val5);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->CreateBodyCustom((std::string const &)*arg2,arg3,arg4,arg5);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'VoltEntity_CreateBody'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    CreateBody(Volt::Entity *,b2BodyDef)\n"
-    "    CreateBody(Volt::Entity *,b2BodyType)\n");
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return NULL;
 }
 
@@ -37625,7 +37645,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"VoltEntity_OnAdded", _wrap_VoltEntity_OnAdded, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_OnRemoved", _wrap_VoltEntity_OnRemoved, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_UpdatePhysics", _wrap_VoltEntity_UpdatePhysics, METH_VARARGS, NULL},
-	 { (char *)"VoltEntity_CreateBody", _wrap_VoltEntity_CreateBody, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_CreateBodyWithDef", _wrap_VoltEntity_CreateBodyWithDef, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_CreateBodyWithType", _wrap_VoltEntity_CreateBodyWithType, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_CreateBodyCustom", _wrap_VoltEntity_CreateBodyCustom, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_DestroyBody", _wrap_VoltEntity_DestroyBody, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_body", _wrap_VoltEntity_body, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_BeginContact", _wrap_VoltEntity_BeginContact, METH_VARARGS, NULL},

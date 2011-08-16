@@ -3,12 +3,11 @@ import os
 import sys
 import pyvoltbootstrap
 
-# Add path for shared libraries.
-#exeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
-#sys.path.insert(0, exeDir)
+"""Initialization module that sets up proper importing of modules with a custom
+handler."""
 
-# Custom importer that calls into AssetManager.
 class GameImporter(object):
+    """Custom importer that calls into AssetManager."""
     def moduleNameToFilename(self, moduleName):
         return 'Scripts/' + moduleName + '.py'
 

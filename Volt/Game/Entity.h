@@ -54,6 +54,8 @@ public:
     void UpdatePhysics ();
     b2Body* CreateBody (b2BodyDef def);
     b2Body* CreateBody (b2BodyType type);
+    void CreateBodyCustom (const string& type, bool dynamic,
+                           bool ignoresForces, bool sensor);
     void DestroyBody ();
     b2Body* body () const { return m_body; }
 

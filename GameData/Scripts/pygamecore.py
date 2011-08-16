@@ -2,38 +2,40 @@ import pygame
 import threading
 import time
 
+"""Provides helper methods available to all modules that import pygame."""
+
 def dt():
     return pygame.AppTime.Instance().dt()
 
 def level():
     return pygame.LevelManager.Instance()
 
-"""Sets the flag on a given Python proxy SWIG object such that Python no longer
-   owns it."""
 def disown(swigObj):
+    """Sets the flag on a given Python proxy SWIG object such that Python no
+    longer owns it."""
     swigObj.thisown = 0
     return swigObj
 
-"""Sleep, guarding against the level unloading while sleeping."""
 def longSleep(duration):
+    """Sleep, guarding against the level unloading while sleeping."""
     while not level().IsUnloading() and duration > 0:
         sleepTime = min(duration, 1)
         duration -= sleepTime
         time.sleep(sleepTime)
 
-"""Sleep until the frame counter has changed, indicating a frame has passed.
-   There can be an issue where a script is sleeping, waiting for the game to
-   progress, but the game is waiting for the script to finish, so limit the time
-   spent waiting."""
 def sleepFrame(tries=25):
+    """Sleep until the frame counter has changed, indicating a frame has
+    passed. There can be an issue where a script is sleeping, waiting for
+    the game to progress, but the game is waiting for the script to finish,
+    so limit the time spent waiting."""
     currentFrame = pygame.Game.Instance().frameNumber()
     while currentFrame == pygame.Game.Instance().frameNumber() and tries > 0:
         time.sleep(0.01)
         tries -= 1
 
-"""Wrapper message box generator."""
 def messageBox(message, wait=False, modal=True, canSkip=True,
                pauseDuration=1.0):
+    """Wrapper message box generator."""
     b = pygame.MessageBoxDef()
     b.text = message
     b.pauseDuration = pauseDuration
@@ -45,8 +47,9 @@ def messageBox(message, wait=False, modal=True, canSkip=True,
     if wait:
         box.WaitForFinish()
 
-"""Wrapper choice dialog generator. Returns the index of the chosen value."""
 def choiceBox(message, choices):
+    """Wrapper choice dialog generator. Returns the index of the chosen
+    value."""
     c = pygame.ChoiceBoxDef()
     c.text = message
     c.choices = pygame.StringVector(choices)
@@ -55,11 +58,10 @@ def choiceBox(message, choices):
     return choice.WaitForChoice()
     
 def background(f):
-    """
-    a threading decorator
-    use @background above the function you want to thread
-    (run in the background)
-    """
+    """Threading decorator.
+    
+    Use @background above the function you want to thread (run in the
+    background)."""
     def bg_f(*a, **kw):
         thread = threading.Thread(name=f.__name__, target=f, args=a, kwargs=kw)
         thread.start()
@@ -67,7 +69,7 @@ def background(f):
     return bg_f
 
 class PyEntity(pygame.Entity):
-    ''' Wrapper class for defining your own entities.'''
+    """Wrapper class for defining your own entities."""
     def __init__(self, disown=True):
         pygame.Entity.__init__(self)
         # Disown pointer from Python because we're probably going to give
@@ -87,7 +89,12 @@ class PyEntity(pygame.Entity):
     def Render(self):
         pass
 
+    def CanCollideWith(self, other):
+        return True
+
 class PyEntityContactListener(pygame.EntityContactListener):
+    """Python version of EntityContactListener that can call Python
+    callbacks."""
     def __init__(self, entity, beginCallback, endCallback):
         pygame.EntityContactListener.__init__(self)
         self.entity = entity
@@ -103,6 +110,8 @@ class PyEntityContactListener(pygame.EntityContactListener):
             self.endCallback(self.entity, other, contact)
 
 class PyEntityAccessListener(pygame.EntityAccessListener):
+    """Python version of EntityAccessListener that can call Python
+    callbacks."""
     def __init__(self, entity, callback):
         pygame.EntityAccessListener.__init__(self)
         self.entity = entity
@@ -112,8 +121,9 @@ class PyEntityAccessListener(pygame.EntityAccessListener):
         if self.callback:
             self.callback(self.entity, accessor)
 
-"""Turns the given entity into a save point."""
 def addSavePoint(entity):
+    """Turns the given entity into a save point."""
+    
     @background
     def saveDialog(unused_entity, unused_accessor):
         choice = choiceBox("Do you want to save?", ['Yes', 'No'])
