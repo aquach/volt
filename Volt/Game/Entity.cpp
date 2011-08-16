@@ -168,6 +168,12 @@ void Entity::SetLayer (int layer) {
 void Entity::CopyFrom (const Entity* other) {
     m_transform = other->m_transform;
     m_visible = other->m_visible;
+    FOR_(set<string>::iterator, i, m_tags) {
+        RemoveTag(*i);
+    }
+    FOR_(set<string>::iterator, i, other->m_tags) {
+        AddTag(*i);
+    }
 }
 
 void Entity::Load (const Json::Value& node) {

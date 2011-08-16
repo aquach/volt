@@ -29,7 +29,7 @@ public:
     /* Clone should be overriden in child classes that are clonable. They should
      * create an instance of the child class, then use CopyFrom to copy each
      * slice of the class into the new instance. */
-    virtual Entity* Clone () const { return NULL; };
+    virtual Entity* Clone () const { return NULL; }
     void CopyFrom (const Entity* other);
 
     Scene* scene () const { return m_scene; }
