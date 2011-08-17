@@ -91,6 +91,9 @@ public:
     void AddContactListener (EntityContactListener* listener);
     void RemoveContactListener (EntityContactListener* listener);
 
+    /* Virtual method for outputting string representation to stream. Can be
+     * upcalled by child classes instead of directly implementing operator<<.
+     */
     virtual ostream& ToString (ostream& stream) const;
 
 protected:

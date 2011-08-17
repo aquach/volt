@@ -34,3 +34,7 @@ ostream& Entity::ToString (ostream& stream) const {
     stream << "Game ";
     return Volt::Entity::ToString(stream);
 }
+
+ostream& operator<< (ostream& stream, const Entity& e) {
+    return e.ToString(stream);
+}

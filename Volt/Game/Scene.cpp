@@ -34,7 +34,6 @@ void Scene::RemoveAll () {
 }
 
 void Scene::Update () {
-
     if (m_hook != NULL)
         m_hook->OnUpdateStart();
         
