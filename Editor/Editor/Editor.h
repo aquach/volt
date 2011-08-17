@@ -35,7 +35,7 @@ class Editor : public QMainWindow {
     Q_OBJECT;
 
 public:
-    Editor (const Volt::DataSource* source);
+    Editor (const Volt::DataSource* source, int argc, char** argv);
     virtual ~Editor ();
 
     virtual void timerEvent (QTimerEvent* event);
@@ -95,6 +95,7 @@ private slots:
     void SetInitScript ();
     void AddTag ();
     void RemoveTag (QListWidgetItem* item);
+    void CreatePythonEntity (int index);
 
 private:
     class ModeState : public Volt::FSMState {
@@ -278,6 +279,7 @@ private:
     EditorSelectionListener* m_selectionListener;
     QListWidget* m_tagList;
     QLineEdit* m_tagEdit;
+    vector<string> m_pythonEntityPaths;
 
     Volt::AppTime* m_appTime;
 };

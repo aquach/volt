@@ -26,30 +26,6 @@ void LevelManager::Update () {
     }
 }
 
-Entity* CreatePythonEntity(const string& path) {
-    long result = 0;
-
-    PyObject* moduleName = Py_BuildValue("s", "entity_factory");
-    PyObject* module = PyImport_Import(moduleName);
-    if (module) {
-        PyObject* moduleDict = PyModule_GetDict(module);
-        PyObject* func = PyDict_GetItemString(moduleDict, "createEntity");
-        if (func != NULL && PyCallable_Check(func)) {
-            PyObject* args = Py_BuildValue("(s)", path.c_str());
-            PyObject* returnValue = PyObject_CallObject(func, args);
-            if (returnValue) {
-                result = PyLong_AsLong(returnValue);
-                Py_XDECREF(returnValue);
-            }
-            Py_XDECREF(args);
-        }
-        Py_XDECREF(module);
-    }
-    Py_XDECREF(moduleName);
-
-    return (Entity*)result;
-}
-
 void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     if (m_loadedFilename.size() > 0)
         UnloadLevel();

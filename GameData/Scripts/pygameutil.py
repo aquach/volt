@@ -4,12 +4,13 @@ import pyvoltbootstrap
 """Provides functionality for the game scripting engine to run scripts in
 separate threads."""
 
-def _filenameToModuleName (filename):
+def filenameToModuleName(filename):
     """Converts a game data path to a module name."""
     if filename.startswith('Scripts/'):
         filename = filename[8:]
     if filename.endswith('.py'):
         filename = filename[:-3]
+    filename = filename.replace('/', '.')
     return filename
 
 threads = []

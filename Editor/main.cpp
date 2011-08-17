@@ -8,7 +8,8 @@ int main(int argc, char *argv[]) {
 	LOG(INFO) << "Executable directory: " << exeDir;
 
     QApplication app(argc, argv);
-    Editor editor(new Volt::DirectoryDataSource(exeDir + "../GameData"));
+    Editor editor(new Volt::DirectoryDataSource(exeDir + "../GameData"),
+                  argc, argv);
     editor.show();
 
     return app.exec();

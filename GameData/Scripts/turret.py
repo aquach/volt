@@ -32,7 +32,7 @@ class Turret(PyEntity):
             if time.time() - self.startTime > Turret.TurretProjectile.TIMEOUT:
                 self.RemoveSelf()
                 return
-        
+
     def __init__(self):
         PyEntity.__init__(self)
         self.AddTag('Turret')
@@ -40,7 +40,7 @@ class Turret(PyEntity):
 
     def OnAdded(self):
         self.CreateBody('box', dynamic=False)
-        
+
     def Update(self):
         player = scene().GetFirstTagged('Player')
         if time.time() - self.lastFiredProjectile > 3:
@@ -54,11 +54,11 @@ class Turret(PyEntity):
                 t, hitPos = hitData
             else:
                 hitPos = player.position()
-            
+
             direction = hitPos - self.position()
             direction.Normalize()
             p = Turret.TurretProjectile(self.position(), hitPos)
             scene().Add(p)
-            
-            
-                                   
+
+
+

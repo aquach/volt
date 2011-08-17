@@ -5,6 +5,7 @@
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Viewport.h"
+#include "Volt/Python/Python.h"
 #include "Game/Game/DoodadManager.h"
 #include "Game/Game/LevelManager.h"
 #include "Game/Editor/EntityFactory.h"
@@ -12,6 +13,8 @@
 #include "Game/Entities/Game/Doodad.h"
 #include "Game/Entities/Game/Light.h"
 #include "Game/Entities/Game/Triangle.h"
+#include "Game/Python/Python.h"
+#include "Game/Python/PythonEntityFactory.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
 #include "Editor/Editor/PropertyModel.h"
@@ -47,7 +50,7 @@ void Editor::EditorSelectionListener::OnDeselectAll () {
     m_e->RefreshTags();
 }
 
-Editor::Editor (const Volt::DataSource* source)
+Editor::Editor (const Volt::DataSource* source, int argc, char** argv)
     : m_scene(NULL),
       m_graphics(NULL),
       m_physicsManager(NULL),
@@ -81,6 +84,9 @@ Editor::Editor (const Volt::DataSource* source)
 
     m_assetManager = new Volt::AssetManager(source);
     Volt::AssetManager::Register(m_assetManager);
+
+    Volt::Python::Initialize(argc, argv);
+    Python::Initialize();
 
     m_physicsManager = new Volt::PhysicsManager;
     m_physicsManager->SetDebugDraw(true);
@@ -285,7 +291,21 @@ Editor::Editor (const Volt::DataSource* source)
     groupLayout->addWidget(m_brushesCombo, 0, 1);
     connect(m_brushesCombo, SIGNAL(activated(int)), this,
             SLOT(CreateDoodad(int)));
+
+    combo = new QComboBox(this);
+    vector<string> pythonEntityNames;
+    PythonEntityFactory::GetEntityTypes(
+        m_assetManager->sourcePath() + "/Scripts",
+        &pythonEntityNames,
+        &m_pythonEntityPaths);
+    for (uint i = 0; i < pythonEntityNames.size(); i++)
+        combo->addItem(QString::fromStdString(pythonEntityNames[i]));
+    groupLayout->addWidget(combo, 1, 0);
+    connect(combo, SIGNAL(activated(int)), this,
+            SLOT(CreatePythonEntity(int)));
+
     createGroup->setLayout(groupLayout);
+
 
     layout->addWidget(createGroup);
 
@@ -993,4 +1013,10 @@ void Editor::RefreshTags () {
     FOR_(set<string>::iterator, i, tags) {
         m_tagList->addItem(QString::fromStdString(*i));
     }
+}
+
+void Editor::CreatePythonEntity (int index) {
+    Entity* e = PythonEntityFactory::CreateEntity(m_pythonEntityPaths[index]);
+    m_scene->Add(e);
+    OnModified();
 }
