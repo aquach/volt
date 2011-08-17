@@ -1,0 +1,3 @@
+*.json binary
+*.cxx -diff
+Game_wrap.h -diff
