@@ -279,7 +279,7 @@ private:
     EditorSelectionListener* m_selectionListener;
     QListWidget* m_tagList;
     QLineEdit* m_tagEdit;
-    vector<string> m_pythonEntityPaths;
+    vector<int> m_pythonEntityIds;
 
     Volt::AppTime* m_appTime;
 };

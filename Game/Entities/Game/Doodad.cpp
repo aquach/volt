@@ -9,6 +9,7 @@ Doodad::Doodad ()
 	: m_brush(NULL),
       m_brushId(-1) {
     AddTag("Doodad");
+    SetType("Doodad");
 }
 
 Doodad::~Doodad () {
@@ -98,7 +99,6 @@ void Doodad::Load (const Json::Value& node) {
 
 void Doodad::Save (Json::Value& node) const {
     Entity::Save(node);
-    node["type"] = "Doodad";
     m_tint.Save(node["tint"]);
     if (m_brush != NULL)
         node["brush"] = m_brushId;

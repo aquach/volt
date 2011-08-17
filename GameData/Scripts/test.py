@@ -183,6 +183,3 @@ print 'after2', Game.Instance().frameNumber()
 #PhysicsManager.Instance().SetGravity(Vector2(0, -30))
 
 print 'Finished'
-
-import entity_factory
-print 'entities', entity_factory.findAllEntities('../GameData/Scripts')

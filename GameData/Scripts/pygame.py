@@ -1525,6 +1525,8 @@ class Entity(VoltEntity):
     def Save(self, *args): return _pygame.Entity_Save(self, *args)
     def CopyFrom(self, *args): return _pygame.Entity_CopyFrom(self, *args)
     def ToString(self, *args): return _pygame.Entity_ToString(self, *args)
+    def SetType(self, *args): return _pygame.Entity_SetType(self, *args)
+    def type(self): return _pygame.Entity_type(self)
     def __disown__(self):
         self.this.disown()
         _pygame.disown_Entity(self)

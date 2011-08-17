@@ -5,6 +5,7 @@ REGISTER_ENTITY_(Ladder);
 
 Ladder::Ladder () {
     AddTag("Ladder");
+    SetType("Ladder");
     CreatePhysicsBody();
 }
 
@@ -42,7 +43,6 @@ void Ladder::Load (const Json::Value& node) {
 
 void Ladder::Save (Json::Value& node) const {
     Entity::Save(node);
-    node["type"] = "Ladder";
 }
 
 void Ladder::OnScaleChanged () {

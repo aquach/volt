@@ -37,7 +37,15 @@ public:
 
     virtual ostream& ToString (ostream& stream) const;
 
+    void SetType (string type) { m_type = type; }
+    const string& type () const { return m_type; }
+
 private:
+    /* The type of the Entity which is will be saved in level files and will
+     * be used to differentiate and create Entities. For Entities, this should
+     * be the name of the class, and for Python Entities, it should be the ID.
+     */
+    string m_type;
     set<EntityAccessListener*> m_accessListeners;
     bool m_occludesLight;
 };

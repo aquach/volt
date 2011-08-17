@@ -35,7 +35,6 @@ class Turret(PyEntity):
 
     def __init__(self):
         PyEntity.__init__(self)
-        self.AddTag('Turret')
         self.lastFiredProjectile = 0
 
     def OnAdded(self):

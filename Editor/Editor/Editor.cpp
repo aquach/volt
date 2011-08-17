@@ -297,7 +297,7 @@ Editor::Editor (const Volt::DataSource* source, int argc, char** argv)
     PythonEntityFactory::GetEntityTypes(
         m_assetManager->sourcePath() + "/Scripts",
         &pythonEntityNames,
-        &m_pythonEntityPaths);
+        &m_pythonEntityIds);
     for (uint i = 0; i < pythonEntityNames.size(); i++)
         combo->addItem(QString::fromStdString(pythonEntityNames[i]));
     groupLayout->addWidget(combo, 1, 0);
@@ -305,7 +305,6 @@ Editor::Editor (const Volt::DataSource* source, int argc, char** argv)
             SLOT(CreatePythonEntity(int)));
 
     createGroup->setLayout(groupLayout);
-
 
     layout->addWidget(createGroup);
 
@@ -1016,7 +1015,7 @@ void Editor::RefreshTags () {
 }
 
 void Editor::CreatePythonEntity (int index) {
-    Entity* e = PythonEntityFactory::CreateEntity(m_pythonEntityPaths[index]);
+    Entity* e = PythonEntityFactory::CreateEntity(m_pythonEntityIds[index]);
     m_scene->Add(e);
     OnModified();
 }

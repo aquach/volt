@@ -9,6 +9,7 @@ const float SELECT_SLACK = 0.3;
 
 Triangle::Triangle () {
     AddTag("Triangle");
+    SetType("Triangle");
 
     m_vertexColors[0] = Volt::Color::red;
     m_vertexColors[1] = Volt::Color::green;
@@ -211,7 +212,6 @@ void Triangle::GenerateStrokes () {
 
 void Triangle::Save (Json::Value& node) const {
     Entity::Save(node);
-    node["type"] = "Triangle";
 
     for (int i = 0; i < NUM_VERTS; i++) {
         Json::Value v;

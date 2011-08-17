@@ -22,6 +22,9 @@ void Entity::Load (const Json::Value& node) {
 void Entity::Save (Json::Value& node) const {
     Volt::Entity::Save(node);
     node["occludesLight"] = m_occludesLight;
+    node["type"] = m_type;
+    if (m_type == "")
+        LOG(WARNING) << "Saving Entity " << *this << " with no type.";
 }
 
 void Entity::OnAccessed (Entity* accessor) {

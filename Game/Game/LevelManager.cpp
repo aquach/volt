@@ -5,6 +5,7 @@
 #include "Volt/Python/Python.h"
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
+#include "Game/Python/PythonEntityFactory.h"
 #include "Game/Editor/EditorEntities.h"
 
 LevelManager* LevelManager::instance = NULL;
@@ -37,7 +38,13 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     for (uint i = 0; i < root["entities"].size(); i++) {
         const Json::Value& node = root["entities"][i];
         CHECK(node.isMember("type"));
-        Entity* e = EntityFactory::Create(node["type"].asString());
+        string type = node["type"].asString();
+        Entity* e = EntityFactory::Create(type);
+        if (e == NULL) {
+            int typeId = atoi(type.c_str());
+            e = PythonEntityFactory::CreateEntity(typeId);
+        }
+        CHECK_NOTNULL(e) << "Failed to load type " << type;
         e->Load(node);
         m_entities.insert(e);
         m_scene->Add(e, e->layer());

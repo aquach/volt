@@ -32329,6 +32329,68 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Entity_SetType(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Entity *arg1 = (Entity *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Entity_SetType",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Entity_SetType" "', argument " "1"" of type '" "Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Entity * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "Entity_SetType" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetType(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Entity_type(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Entity *arg1 = (Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Entity_type",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Entity_type" "', argument " "1"" of type '" "Entity const *""'"); 
+  }
+  arg1 = reinterpret_cast< Entity * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (std::string *) &((Entity const *)arg1)->type();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_disown_Entity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Entity *arg1 = (Entity *) 0 ;
@@ -37784,6 +37846,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Entity_Save", _wrap_Entity_Save, METH_VARARGS, NULL},
 	 { (char *)"Entity_CopyFrom", _wrap_Entity_CopyFrom, METH_VARARGS, NULL},
 	 { (char *)"Entity_ToString", _wrap_Entity_ToString, METH_VARARGS, NULL},
+	 { (char *)"Entity_SetType", _wrap_Entity_SetType, METH_VARARGS, NULL},
+	 { (char *)"Entity_type", _wrap_Entity_type, METH_VARARGS, NULL},
 	 { (char *)"disown_Entity", _wrap_disown_Entity, METH_VARARGS, NULL},
 	 { (char *)"Entity_swigregister", Entity_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_LevelManager", _wrap_new_LevelManager, METH_VARARGS, NULL},

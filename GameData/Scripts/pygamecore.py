@@ -1,6 +1,7 @@
-import pygame
 import threading
 import time
+import pygame
+import entity_factory
 
 """Provides helper methods available to all modules that import pygame."""
 
@@ -72,6 +73,15 @@ class PyEntity(pygame.Entity):
     """Wrapper class for defining your own entities."""
     def __init__(self, disown=True):
         pygame.Entity.__init__(self)
+
+        # Automatically add tag with the class name.
+        self.AddTag(self.__class__.__name__)
+
+        # Add type based on entity_factory.
+        entityTypeId = entity_factory.ENTITY_TYPES_BY_NAME.get(self.__class__.__name__, 0)
+        if entityTypeId != 0:
+            self.SetType(str(entityTypeId[0]))
+        
         # Disown pointer from Python because we're probably going to give
         # it to the Scene to handle.
         if disown:
@@ -91,7 +101,7 @@ class PyEntity(pygame.Entity):
 
     def CanCollideWith(self, other):
         return True
-
+        
 class PyEntityContactListener(pygame.EntityContactListener):
     """Python version of EntityContactListener that can call Python
     callbacks."""

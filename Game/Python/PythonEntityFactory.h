@@ -6,9 +6,9 @@ class Entity;
 
 namespace PythonEntityFactory {
 
-Entity* CreateEntity (const string& path);
+Entity* CreateEntity (int id);
 
 void GetEntityTypes (const string& searchPath, vector<string>* entityNames,
-                     vector<string>* entityPaths);
+                     vector<int>* entityIds);
 
 }

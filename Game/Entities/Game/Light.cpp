@@ -50,6 +50,7 @@ Light::Light ()
     m_nearbyEntitiesTimer = Volt::Random::RangeFloat(0.0, 0.1);
     m_listener = new LightSceneListener(this);
     AddTag("Light");
+    SetType("Light");
 
     m_strokeTexture = G_AssetManager->GetTexture("Textures/lightstroke.png");
 }
@@ -263,7 +264,6 @@ void Light::GenerateStrokes () {
 void Light::Save (Json::Value& node) const {
     Entity::Save(node);
 
-    node["type"] = "Light";
     m_color.Save(node["color"]);
     node["maxDistance"] = m_maxDistance;
     node["coneAngle"] = m_coneAngle;
