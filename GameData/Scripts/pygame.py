@@ -1633,8 +1633,15 @@ class Creature(Entity):
     __swig_getmethods__ = {}
     for _s in [Entity]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, Creature, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
+    def __init__(self): 
+        if self.__class__ == Creature:
+            _self = None
+        else:
+            _self = self
+        this = _pygame.new_Creature(_self, )
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _pygame.delete_Creature
     __del__ = lambda self : None;
     def OnRemoved(self): return _pygame.Creature_OnRemoved(self)
@@ -1644,6 +1651,11 @@ class Creature(Entity):
     def AddHitListener(self, *args): return _pygame.Creature_AddHitListener(self, *args)
     def RemoveHitListener(self, *args): return _pygame.Creature_RemoveHitListener(self, *args)
     def weaponTransform(self): return _pygame.Creature_weaponTransform(self)
+    def ToString(self, *args): return _pygame.Creature_ToString(self, *args)
+    def __disown__(self):
+        self.this.disown()
+        _pygame.disown_Creature(self)
+        return weakref_proxy(self)
 Creature_swigregister = _pygame.Creature_swigregister
 Creature_swigregister(Creature)
 

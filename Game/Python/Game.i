@@ -137,6 +137,7 @@ namespace std {
 %include "Game/Game/Entity.h"
 %include "Game/Game/LevelManager.h"
 %include "Game/Game/SaveData.h"
+%feature("director") Creature;
 %include "Game/Entities/Game/Creature.h"
 
 %ignore Light::STATIC_MAP_FOLDER;

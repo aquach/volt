@@ -3,7 +3,7 @@ from pygame import *
 import time
 import targeting
 
-class Turret(PyEntity):
+class Turret(PyCreature):
     class TurretProjectile(PyEntity):
         SPEED = 8
         TIMEOUT = 10
@@ -34,7 +34,7 @@ class Turret(PyEntity):
                 return
 
     def __init__(self):
-        PyEntity.__init__(self)
+        PyCreature.__init__(self)
         self.lastFiredProjectile = 0
 
     def OnAdded(self):
@@ -42,6 +42,7 @@ class Turret(PyEntity):
 
     def Update(self):
         if not gameMode(): return
+        print self
         player = scene().GetFirstTagged('Player')
         if time.time() - self.lastFiredProjectile > 3:
             self.lastFiredProjectile = time.time()

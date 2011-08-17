@@ -35,6 +35,8 @@ public:
         return m_transform.Multiply(m_weaponTransform);
     }
 
+    virtual ostream& ToString (ostream& stream) const;
+
 protected:
     void InvokeHitListeners (Entity* agent, float damage);
     float m_health;
@@ -49,3 +51,5 @@ private:
 
     DISALLOW_COPY_AND_ASSIGN(Creature);
 };
+
+ostream& operator<< (ostream& stream, const Creature& e);

@@ -5809,6 +5809,395 @@ void SwigDirector_Entity::GetProperties(std::vector< Property * > *properties) {
 }
 
 
+SwigDirector_Creature::SwigDirector_Creature(PyObject *self): Creature(), Swig::Director(self) {
+  SWIG_DIRECTOR_RGTR((Creature *)this, this); 
+}
+
+
+
+
+SwigDirector_Creature::~SwigDirector_Creature() {
+}
+
+Volt::Entity *SwigDirector_Creature::Clone() const {
+  void *swig_argp ;
+  int swig_res ;
+  swig_owntype own ;
+  
+  Volt::Entity *c_result;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 0;
+    const char * const swig_method_name = "Clone";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Clone", NULL);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+    swig_res = SWIG_ConvertPtrAndOwn(result, &swig_argp, SWIGTYPE_p_Volt__Entity,  0  | SWIG_POINTER_DISOWN, &own);
+    if (!SWIG_IsOK(swig_res)) {
+      Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""Volt::Entity *""'");
+    }
+    c_result = reinterpret_cast< Volt::Entity * >(swig_argp);
+    swig_acquire_ownership_obj(SWIG_as_voidptr(c_result), own /* & TODO: SWIG_POINTER_OWN */);
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+  return (Volt::Entity *) c_result;
+}
+
+
+void SwigDirector_Creature::Update() {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 1;
+    const char * const swig_method_name = "Update";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Update", NULL);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+void SwigDirector_Creature::Render() {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 2;
+    const char * const swig_method_name = "Render";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "Render", NULL);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+void SwigDirector_Creature::OnAdded() {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 3;
+    const char * const swig_method_name = "OnAdded";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnAdded", NULL);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+void SwigDirector_Creature::OnRemoved() {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 4;
+    const char * const swig_method_name = "OnRemoved";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnRemoved", NULL);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+bool SwigDirector_Creature::PreSolve(Volt::Entity *other) {
+  bool c_result;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    swig::SwigVar_PyObject obj0;
+    obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 5;
+    const char * const swig_method_name = "PreSolve";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"PreSolve", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+    bool swig_val;
+    int swig_res = SWIG_AsVal_bool(result, &swig_val);
+    if (!SWIG_IsOK(swig_res)) {
+      Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""bool""'");
+    }
+    c_result = static_cast< bool >(swig_val);
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+  return (bool) c_result;
+}
+
+
+bool SwigDirector_Creature::CanCollideWith(Volt::Entity *other) {
+  bool c_result;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    swig::SwigVar_PyObject obj0;
+    obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_Volt__Entity,  0 );
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 6;
+    const char * const swig_method_name = "CanCollideWith";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"CanCollideWith", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+    bool swig_val;
+    int swig_res = SWIG_AsVal_bool(result, &swig_val);
+    if (!SWIG_IsOK(swig_res)) {
+      Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""bool""'");
+    }
+    c_result = static_cast< bool >(swig_val);
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+  return (bool) c_result;
+}
+
+
+void SwigDirector_Creature::OnScaleChanged() {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 7;
+    const char * const swig_method_name = "OnScaleChanged";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, NULL, NULL);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *) "OnScaleChanged", NULL);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+void SwigDirector_Creature::Load(Json::Value const &node) {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    swig::SwigVar_PyObject obj0;
+    obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(&node), SWIGTYPE_p_Json__Value,  0 );
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 8;
+    const char * const swig_method_name = "Load";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"Load", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+void SwigDirector_Creature::Save(Json::Value &node) const {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    swig::SwigVar_PyObject obj0;
+    obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(&node), SWIGTYPE_p_Json__Value,  0 );
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 9;
+    const char * const swig_method_name = "Save";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"Save", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
+ostream &SwigDirector_Creature::ToString(ostream &stream) const {
+  void *swig_argp ;
+  int swig_res ;
+  swig_owntype own ;
+  
+  ostream *c_result;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    swig::SwigVar_PyObject obj0;
+    obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(&stream), SWIGTYPE_p_ostream,  0 );
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 10;
+    const char * const swig_method_name = "ToString";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"ToString", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+    swig_res = SWIG_ConvertPtrAndOwn(result, &swig_argp, SWIGTYPE_p_ostream,  0  | SWIG_POINTER_DISOWN, &own);
+    if (!SWIG_IsOK(swig_res)) {
+      Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ArgError(swig_res)), "in output value of type '""ostream &""'");
+    }
+    if (!swig_argp) {
+      Swig::DirectorTypeMismatchException::raise(SWIG_ErrorType(SWIG_ValueError), "invalid null reference " "in output value of type '""ostream &""'"); 
+    }
+    c_result = reinterpret_cast< ostream * >(swig_argp);
+    swig_acquire_ownership_obj(SWIG_as_voidptr(c_result), own /* & TODO: SWIG_POINTER_OWN */);
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+  return (ostream &) *c_result;
+}
+
+
+void SwigDirector_Creature::GetProperties(std::vector< Property * > *properties) {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+  {
+    swig::SwigVar_PyObject obj0;
+    obj0 = SWIG_NewPointerObj(SWIG_as_voidptr(properties), SWIGTYPE_p_std__vectorT_Property_p_std__allocatorT_Property_p_t_t,  0 );
+    if (!swig_get_self()) {
+      Swig::DirectorException::raise("'self' uninitialized, maybe you forgot to call Creature.__init__.");
+    }
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+    const size_t swig_method_index = 11;
+    const char * const swig_method_name = "GetProperties";
+    PyObject* method = swig_get_method(swig_method_index, swig_method_name);
+    swig::SwigVar_PyObject result = PyObject_CallFunction(method, (char *)"(O)" ,(PyObject *)obj0);
+#else
+    swig::SwigVar_PyObject result = PyObject_CallMethod(swig_get_self(), (char *)"GetProperties", (char *)"(O)" ,(PyObject *)obj0);
+#endif
+    if (result == NULL) {
+      PyObject *error = PyErr_Occurred();
+      {
+        if (error != NULL) {
+          PyErr_PrintEx(0);
+        }
+      }
+    }
+  }
+  SWIG_PYTHON_THREAD_END_BLOCK;
+}
+
+
 SwigDirector_DialogListener::SwigDirector_DialogListener(PyObject *self): DialogListener(), Swig::Director(self) {
   SWIG_DIRECTOR_RGTR((DialogListener *)this, this); 
 }
@@ -33576,6 +33965,33 @@ SWIGINTERN PyObject *CreatureHitListener_swigregister(PyObject *SWIGUNUSEDPARM(s
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_Creature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  PyObject *arg1 = (PyObject *) 0 ;
+  PyObject * obj0 = 0 ;
+  Creature *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_Creature",&obj0)) SWIG_fail;
+  arg1 = obj0;
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    if ( arg1 != Py_None ) {
+      /* subclassed */
+      result = (Creature *)new SwigDirector_Creature(arg1); 
+    } else {
+      SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+      SWIG_fail;
+    }
+    
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Creature, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_Creature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Creature *arg1 = (Creature *) 0 ;
@@ -33607,6 +34023,8 @@ SWIGINTERN PyObject *_wrap_Creature_OnRemoved(PyObject *SWIGUNUSEDPARM(self), Py
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"O:Creature_OnRemoved",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
@@ -33614,10 +34032,16 @@ SWIGINTERN PyObject *_wrap_Creature_OnRemoved(PyObject *SWIGUNUSEDPARM(self), Py
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_OnRemoved" "', argument " "1"" of type '" "Creature *""'"); 
   }
   arg1 = reinterpret_cast< Creature * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    (arg1)->OnRemoved();
-    SWIG_PYTHON_THREAD_END_ALLOW;
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      (arg1)->Creature::OnRemoved();
+    } else {
+      (arg1)->OnRemoved();
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
   }
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -33632,6 +34056,8 @@ SWIGINTERN PyObject *_wrap_Creature_Update(PyObject *SWIGUNUSEDPARM(self), PyObj
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"O:Creature_Update",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
@@ -33639,10 +34065,16 @@ SWIGINTERN PyObject *_wrap_Creature_Update(PyObject *SWIGUNUSEDPARM(self), PyObj
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_Update" "', argument " "1"" of type '" "Creature *""'"); 
   }
   arg1 = reinterpret_cast< Creature * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    (arg1)->Update();
-    SWIG_PYTHON_THREAD_END_ALLOW;
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      Swig::DirectorPureVirtualException::raise("Creature::Update");
+    } else {
+      (arg1)->Update();
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
   }
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -33657,6 +34089,8 @@ SWIGINTERN PyObject *_wrap_Creature_Render(PyObject *SWIGUNUSEDPARM(self), PyObj
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
   
   if (!PyArg_ParseTuple(args,(char *)"O:Creature_Render",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
@@ -33664,10 +34098,16 @@ SWIGINTERN PyObject *_wrap_Creature_Render(PyObject *SWIGUNUSEDPARM(self), PyObj
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_Render" "', argument " "1"" of type '" "Creature *""'"); 
   }
   arg1 = reinterpret_cast< Creature * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    (arg1)->Render();
-    SWIG_PYTHON_THREAD_END_ALLOW;
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      Swig::DirectorPureVirtualException::raise("Creature::Render");
+    } else {
+      (arg1)->Render();
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
   }
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -33798,6 +34238,84 @@ SWIGINTERN PyObject *_wrap_Creature_weaponTransform(PyObject *SWIGUNUSEDPARM(sel
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj((new Volt::Transform(static_cast< const Volt::Transform& >(result))), SWIGTYPE_p_Volt__Transform, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Creature_ToString(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Creature *arg1 = (Creature *) 0 ;
+  ostream *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  Swig::Director *director = 0;
+  bool upcall = false;
+  ostream *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Creature_ToString",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_ToString" "', argument " "1"" of type '" "Creature const *""'"); 
+  }
+  arg1 = reinterpret_cast< Creature * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_ostream,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Creature_ToString" "', argument " "2"" of type '" "ostream &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Creature_ToString" "', argument " "2"" of type '" "ostream &""'"); 
+  }
+  arg2 = reinterpret_cast< ostream * >(argp2);
+  director = SWIG_DIRECTOR_CAST(arg1);
+  upcall = (director && (director->swig_get_self()==obj0));
+  try {
+    if (upcall) {
+      result = (ostream *) &((Creature const *)arg1)->Creature::ToString(*arg2);
+    } else {
+      result = (ostream *) &((Creature const *)arg1)->ToString(*arg2);
+    }
+  } catch (Swig::DirectorException&) {
+    SWIG_fail;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ostream, 0 |  0 );
+  if (director) {
+    SWIG_AcquirePtr(resultobj, director->swig_release_ownership(SWIG_as_voidptr(result)));
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_disown_Creature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Creature *arg1 = (Creature *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:disown_Creature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "disown_Creature" "', argument " "1"" of type '" "Creature *""'"); 
+  }
+  arg1 = reinterpret_cast< Creature * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    {
+      Swig::Director *director = dynamic_cast<Swig::Director *>(arg1);
+      if (director) director->swig_disown();
+    }
+    
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -37888,6 +38406,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CreatureHitListener_OnDamage", _wrap_CreatureHitListener_OnDamage, METH_VARARGS, NULL},
 	 { (char *)"delete_CreatureHitListener", _wrap_delete_CreatureHitListener, METH_VARARGS, NULL},
 	 { (char *)"CreatureHitListener_swigregister", CreatureHitListener_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_Creature", _wrap_new_Creature, METH_VARARGS, NULL},
 	 { (char *)"delete_Creature", _wrap_delete_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_OnRemoved", _wrap_Creature_OnRemoved, METH_VARARGS, NULL},
 	 { (char *)"Creature_Update", _wrap_Creature_Update, METH_VARARGS, NULL},
@@ -37896,6 +38415,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Creature_AddHitListener", _wrap_Creature_AddHitListener, METH_VARARGS, NULL},
 	 { (char *)"Creature_RemoveHitListener", _wrap_Creature_RemoveHitListener, METH_VARARGS, NULL},
 	 { (char *)"Creature_weaponTransform", _wrap_Creature_weaponTransform, METH_VARARGS, NULL},
+	 { (char *)"Creature_ToString", _wrap_Creature_ToString, METH_VARARGS, NULL},
+	 { (char *)"disown_Creature", _wrap_disown_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_swigregister", Creature_swigregister, METH_VARARGS, NULL},
 	 { (char *)"LightStroke_vertices_set", _wrap_LightStroke_vertices_set, METH_VARARGS, NULL},
 	 { (char *)"LightStroke_vertices_get", _wrap_LightStroke_vertices_get, METH_VARARGS, NULL},

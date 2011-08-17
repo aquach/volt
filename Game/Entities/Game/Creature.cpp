@@ -33,3 +33,12 @@ void Creature::InvokeHitListeners (Entity* agent, float damage) {
         (*i)->OnDamage(agent, damage);
     }
 }
+
+ostream& Creature::ToString (ostream& stream) const {
+    stream << "Creature ";
+    return Entity::ToString(stream);
+}
+
+ostream& operator<< (ostream& stream, const Creature& e) {
+    return e.ToString(stream);
+}

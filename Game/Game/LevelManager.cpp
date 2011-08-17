@@ -41,6 +41,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         string type = node["type"].asString();
         Entity* e = EntityFactory::Create(type);
         if (e == NULL) {
+            continue;
             int typeId = atoi(type.c_str());
             e = PythonEntityFactory::CreateEntity(typeId);
         }

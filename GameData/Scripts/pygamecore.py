@@ -74,18 +74,21 @@ def background(f):
         return thread
     return bg_f
 
+def _addInfo(entity):
+    # Automatically add tag with the class name.
+    entity.AddTag(entity.__class__.__name__)
+
+    # Add type based on entity_factory.
+    entityTypeId = entity_factory.ENTITY_TYPES_BY_NAME.get(entity.__class__.__name__, 0)
+    if entityTypeId != 0:
+        entity.SetType(str(entityTypeId[0]))
+            
 class PyEntity(pygame.Entity):
     """Wrapper class for defining your own entities."""
     def __init__(self, disown=True):
         pygame.Entity.__init__(self)
 
-        # Automatically add tag with the class name.
-        self.AddTag(self.__class__.__name__)
-
-        # Add type based on entity_factory.
-        entityTypeId = entity_factory.ENTITY_TYPES_BY_NAME.get(self.__class__.__name__, 0)
-        if entityTypeId != 0:
-            self.SetType(str(entityTypeId[0]))
+        _addInfo(self)
         
         # Disown pointer from Python because we're probably going to give
         # it to the Scene to handle.
@@ -97,6 +100,22 @@ class PyEntity(pygame.Entity):
 
     def OnRemoved(self):
         pass
+
+    def Update(self):
+        pass
+
+    def Render(self):
+        pass
+
+    def CanCollideWith(self, other):
+        return True
+
+class PyCreature(pygame.Creature):
+    def __init__(self, disown=True):
+        pygame.Creature.__init__(self)
+        _addInfo(self)
+        if disown:
+            self.__disown__()
 
     def Update(self):
         pass

@@ -81,7 +81,7 @@ public:
         this->condition = (ptr != NULL);
         if (!condition) {
             SetupHeader(FATAL, file, lineNumber);
-            os << "Check failed: " << ptrName << " was null.";
+            os << "Check failed: " << ptrName << " was null. ";
         }
     }
 
