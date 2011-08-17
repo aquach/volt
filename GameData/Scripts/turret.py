@@ -41,6 +41,7 @@ class Turret(PyEntity):
         self.CreateBody('box', dynamic=False)
 
     def Update(self):
+        if not gameMode(): return
         player = scene().GetFirstTagged('Player')
         if time.time() - self.lastFiredProjectile > 3:
             self.lastFiredProjectile = time.time()

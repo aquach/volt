@@ -5,6 +5,11 @@ import entity_factory
 
 """Provides helper methods available to all modules that import pygame."""
 
+def gameMode():
+    """Returns whether or not the program running is the game or the editor.
+    Python Entities should generally not run game logic while in editor mode."""
+    return pygame.Game.Instance() is not None
+
 def dt():
     return pygame.AppTime.Instance().dt()
 
