@@ -7,16 +7,17 @@ class HealthBar;
 class PowerBar;
 class Weapon;
 
-/* Subclass this to receive callbacks when the Creature takes damage. */
-class CreatureHitListener {
+/* Subclass this to receive callbacks when the Creature takes damage or dies. */
+class CreatureListener {
 public:
-    virtual void OnDamage (Entity* agent, float damage) = 0;
+    virtual void OnDamage (Entity* agent, float damage) { };
+    virtual void OnDeath (Entity* agent) { };
 };
 
 class Creature : public Entity {
 public:
     Creature ();
-    virtual ~Creature () { }
+    virtual ~Creature ();
 
     virtual void OnRemoved ();
     virtual void Update () = 0;
@@ -24,11 +25,11 @@ public:
 
     void EquipWeapon (Weapon* weapon);
 
-    void AddHitListener (CreatureHitListener* listener) {
-        m_hitListeners.insert(listener);
+    void AddListener (CreatureListener* listener) {
+        m_listeners.insert(listener);
     }
-    void RemoveHitListener (CreatureHitListener* listener) {
-        m_hitListeners.erase(listener);
+    void RemoveListener (CreatureListener* listener) {
+        m_listeners.erase(listener);
     }
 
     Volt::Transform weaponTransform () const {
@@ -37,8 +38,9 @@ public:
 
     virtual ostream& ToString (ostream& stream) const;
 
+    void TakeDamage (Entity* agent, float damage);
+
 protected:
-    void InvokeHitListeners (Entity* agent, float damage);
     float m_health;
     float m_maxHealth;
     float m_power;
@@ -47,7 +49,7 @@ protected:
     Volt::Transform m_weaponTransform;
 
 private:
-    set<CreatureHitListener*> m_hitListeners;
+    set<CreatureListener*> m_listeners;
 
     DISALLOW_COPY_AND_ASSIGN(Creature);
 };

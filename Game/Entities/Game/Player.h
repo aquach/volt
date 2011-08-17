@@ -73,6 +73,14 @@ private:
     private:
         Player* m_p;
     };
+    class CreatureListener : public ::CreatureListener {
+    public:
+        explicit CreatureListener (Player* p) : m_p(p) { }
+        virtual void OnDamage (Entity* agent, float damage);
+        virtual void OnDeath (Entity* agent);
+    private:
+        Player* m_p;
+    };
 
     /* Physics */
     void OnContactBegin (Volt::Entity* other, b2Contact* contact);

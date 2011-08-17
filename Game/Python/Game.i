@@ -163,6 +163,10 @@ Entity* GameEntity (Volt::Entity* e) {
    return dynamic_cast<Entity*>(e);
 }
 
+Creature* CreatureCast (Volt::Entity* e) {
+   return dynamic_cast<Creature*>(e);
+}
+
 GameScene* scene () {
     return dynamic_cast<GameScene*>(Volt::Game::Instance()->currentScene());
 }

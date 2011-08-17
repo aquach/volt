@@ -1613,18 +1613,22 @@ def SaveData_Instance():
   return _pygame.SaveData_Instance()
 SaveData_Instance = _pygame.SaveData_Instance
 
-class CreatureHitListener(_object):
+class CreatureListener(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, CreatureHitListener, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CreatureListener, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, CreatureHitListener, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __getattr__ = lambda self, name: _swig_getattr(self, CreatureListener, name)
     __repr__ = _swig_repr
-    def OnDamage(self, *args): return _pygame.CreatureHitListener_OnDamage(self, *args)
-    __swig_destroy__ = _pygame.delete_CreatureHitListener
+    def OnDamage(self, *args): return _pygame.CreatureListener_OnDamage(self, *args)
+    def OnDeath(self, *args): return _pygame.CreatureListener_OnDeath(self, *args)
+    def __init__(self): 
+        this = _pygame.new_CreatureListener()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_CreatureListener
     __del__ = lambda self : None;
-CreatureHitListener_swigregister = _pygame.CreatureHitListener_swigregister
-CreatureHitListener_swigregister(CreatureHitListener)
+CreatureListener_swigregister = _pygame.CreatureListener_swigregister
+CreatureListener_swigregister(CreatureListener)
 
 class Creature(Entity):
     __swig_setmethods__ = {}
@@ -1648,10 +1652,11 @@ class Creature(Entity):
     def Update(self): return _pygame.Creature_Update(self)
     def Render(self): return _pygame.Creature_Render(self)
     def EquipWeapon(self, *args): return _pygame.Creature_EquipWeapon(self, *args)
-    def AddHitListener(self, *args): return _pygame.Creature_AddHitListener(self, *args)
-    def RemoveHitListener(self, *args): return _pygame.Creature_RemoveHitListener(self, *args)
+    def AddListener(self, *args): return _pygame.Creature_AddListener(self, *args)
+    def RemoveListener(self, *args): return _pygame.Creature_RemoveListener(self, *args)
     def weaponTransform(self): return _pygame.Creature_weaponTransform(self)
     def ToString(self, *args): return _pygame.Creature_ToString(self, *args)
+    def TakeDamage(self, *args): return _pygame.Creature_TakeDamage(self, *args)
     def __disown__(self):
         self.this.disown()
         _pygame.disown_Creature(self)
@@ -2028,6 +2033,10 @@ from pygamecore import *
 def GameEntity(*args):
   return _pygame.GameEntity(*args)
 GameEntity = _pygame.GameEntity
+
+def CreatureCast(*args):
+  return _pygame.CreatureCast(*args)
+CreatureCast = _pygame.CreatureCast
 
 def scene():
   return _pygame.scene()

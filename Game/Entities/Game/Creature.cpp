@@ -9,6 +9,13 @@ Creature::Creature ()
       m_weapon(NULL) {
 }
 
+Creature::~Creature () {
+    FOR_(set<CreatureListener*>::iterator, i, m_listeners) {
+        delete *i;
+    }
+    m_listeners.clear();
+}
+
 void Creature::OnRemoved () {
     if (m_weapon != NULL) {
         m_weapon->OnUnequip();
@@ -28,9 +35,19 @@ void Creature::EquipWeapon (Weapon* weapon) {
     }
 }
 
-void Creature::InvokeHitListeners (Entity* agent, float damage) {
-    FOR_(set<CreatureHitListener*>::iterator, i, m_hitListeners) {
+void Creature::TakeDamage (Entity* agent, float damage) {
+    if (m_health <= 0)
+        return;
+
+    m_health -= damage;
+    FOR_(set<CreatureListener*>::iterator, i, m_listeners) {
         (*i)->OnDamage(agent, damage);
+    }
+    if (m_health <= 0) {
+        // Invoke kill listener.
+        FOR_(set<CreatureListener*>::iterator, i, m_listeners) {
+            (*i)->OnDeath(agent);
+        }
     }
 }
 

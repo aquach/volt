@@ -18,10 +18,9 @@ class Turret(PyCreature):
 
         def OnHit(self, self2, hitEntity, contact):
             if hitEntity.HasTag('Player'):
-                print 'hit player!'
+                CreatureCast(hitEntity).TakeDamage(self, 1)
             elif hitEntity.HasTag('Triangle'):
                 self.RemoveSelf()
-            print hitEntity
 
         def OnAdded(self):
             self.CreateBody('box', sensor=True)
@@ -42,7 +41,6 @@ class Turret(PyCreature):
 
     def Update(self):
         if not gameMode(): return
-        print self
         player = scene().GetFirstTagged('Player')
         if time.time() - self.lastFiredProjectile > 3:
             self.lastFiredProjectile = time.time()

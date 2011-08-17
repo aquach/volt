@@ -203,7 +203,7 @@ Player::Player ()
         m_debugLabel->SetColor(Volt::Color::RGB(255, 255, 0));
     }
 
-    m_healthBar = new HealthBar(m_health / m_maxHealth, 50 /* Speed */);
+    m_healthBar = new HealthBar(m_health / m_maxHealth, 30 /* Speed */);
     m_powerBar = new PowerBar(m_power / m_maxPower, 50 /* Speed */);
 
     m_weaponTransform.position.Set(0.4, 0);
@@ -223,6 +223,7 @@ void Player::OnAdded () {
     }
     scene()->Add(m_healthBar, -40);
     scene()->Add(m_powerBar, -40);
+    AddListener(new Player::CreatureListener(this));
 }
 
 void Player::OnRemoved () {
@@ -322,4 +323,12 @@ void Player::OnContactEnd (Volt::Entity* other, b2Contact* contact) {
     } else if (dynamic_cast<Ladder*>(other) != NULL) {
         m_ladder = NULL;
     }
+}
+
+void Player::CreatureListener::OnDamage (Entity* agent, float damage) {
+    m_p->m_healthBar->AnimateTo(m_p->m_health / m_p->m_maxHealth);
+}
+
+void Player::CreatureListener::OnDeath (Entity* agent) {
+    // TODO: Game Over!
 }
