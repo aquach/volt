@@ -43,7 +43,7 @@ GameScene::GameScene ()
     DoodadManager::Register(m_doodadManager);
 
     m_levelManager = new LevelManager(this);
-    m_levelManager->SetPython(true);
+    m_levelManager->SetPythonInitScriptsEnabled(true);
     m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
     LevelManager::Register(m_levelManager);
 

@@ -12,7 +12,7 @@ LevelManager* LevelManager::instance = NULL;
 LevelManager::LevelManager (Volt::Scene* scene)
     : m_scene(scene),
       m_levelUnloading(false),
-      m_pythonEnabled(false){
+      m_pythonInitScriptsEnabled(false){
 }
 
 LevelManager::~LevelManager () {
@@ -39,7 +39,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         CHECK(node.isMember("type"));
         string type = node["type"].asString();
         Entity* e = EntityFactory::Create(type);
-        if (e == NULL && m_pythonEnabled) {
+        if (e == NULL) {
             int typeId = atoi(type.c_str());
             e = PythonEntityFactory::CreateEntity(typeId);
         }
@@ -50,7 +50,7 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
     }
 
     m_startScript = root.get("startScript", "").asString();
-    if (m_startScript.size() > 0 && m_pythonEnabled) {
+    if (m_startScript.size() > 0 && m_pythonInitScriptsEnabled) {
         LOG(INFO) << "Executing start script " << m_startScript;
         Volt::Python::RunGameScriptFile(m_startScript);
     }
@@ -94,7 +94,7 @@ bool LevelManager::LoadLevelFromFilename (const string& filename) {
 void LevelManager::UnloadLevel () {
     LOG(INFO) << "Unloading level...";
     m_levelUnloading = true;
-    if (m_pythonEnabled)
+    if (m_pythonInitScriptsEnabled)
         Volt::Python::WaitForScripts();
     FOR_ (set<Entity*>::iterator, i, m_entities)
         m_scene->Remove(*i);

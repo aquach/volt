@@ -1563,8 +1563,8 @@ class LevelManager(_object):
     def levelName(self): return _pygame.LevelManager_levelName(self)
     def SetLevelName(self, *args): return _pygame.LevelManager_SetLevelName(self, *args)
     def IsUnloading(self): return _pygame.LevelManager_IsUnloading(self)
-    def SetPython(self, *args): return _pygame.LevelManager_SetPython(self, *args)
-    def pythonEnabled(self): return _pygame.LevelManager_pythonEnabled(self)
+    def SetPythonInitScriptsEnabled(self, *args): return _pygame.LevelManager_SetPythonInitScriptsEnabled(self, *args)
+    def pythonInitScriptsEnabled(self): return _pygame.LevelManager_pythonInitScriptsEnabled(self)
     def startScript(self): return _pygame.LevelManager_startScript(self)
     def SetStartScript(self, *args): return _pygame.LevelManager_SetStartScript(self, *args)
 LevelManager_swigregister = _pygame.LevelManager_swigregister

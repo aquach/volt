@@ -33366,7 +33366,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_LevelManager_SetPython(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_LevelManager_SetPythonInitScriptsEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
   bool arg2 ;
@@ -33377,20 +33377,20 @@ SWIGINTERN PyObject *_wrap_LevelManager_SetPython(PyObject *SWIGUNUSEDPARM(self)
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_SetPython",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:LevelManager_SetPythonInitScriptsEnabled",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_SetPython" "', argument " "1"" of type '" "LevelManager *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_SetPythonInitScriptsEnabled" "', argument " "1"" of type '" "LevelManager *""'"); 
   }
   arg1 = reinterpret_cast< LevelManager * >(argp1);
   ecode2 = SWIG_AsVal_bool(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "LevelManager_SetPython" "', argument " "2"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "LevelManager_SetPythonInitScriptsEnabled" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    (arg1)->SetPython(arg2);
+    (arg1)->SetPythonInitScriptsEnabled(arg2);
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_Py_Void();
@@ -33400,7 +33400,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_LevelManager_pythonEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_LevelManager_pythonInitScriptsEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   LevelManager *arg1 = (LevelManager *) 0 ;
   void *argp1 = 0 ;
@@ -33408,15 +33408,15 @@ SWIGINTERN PyObject *_wrap_LevelManager_pythonEnabled(PyObject *SWIGUNUSEDPARM(s
   PyObject * obj0 = 0 ;
   bool result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_pythonEnabled",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:LevelManager_pythonInitScriptsEnabled",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_LevelManager, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_pythonEnabled" "', argument " "1"" of type '" "LevelManager const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "LevelManager_pythonInitScriptsEnabled" "', argument " "1"" of type '" "LevelManager const *""'"); 
   }
   arg1 = reinterpret_cast< LevelManager * >(argp1);
   {
     SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    result = (bool)((LevelManager const *)arg1)->pythonEnabled();
+    result = (bool)((LevelManager const *)arg1)->pythonInitScriptsEnabled();
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
@@ -38585,8 +38585,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"LevelManager_levelName", _wrap_LevelManager_levelName, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_SetLevelName", _wrap_LevelManager_SetLevelName, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_IsUnloading", _wrap_LevelManager_IsUnloading, METH_VARARGS, NULL},
-	 { (char *)"LevelManager_SetPython", _wrap_LevelManager_SetPython, METH_VARARGS, NULL},
-	 { (char *)"LevelManager_pythonEnabled", _wrap_LevelManager_pythonEnabled, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_SetPythonInitScriptsEnabled", _wrap_LevelManager_SetPythonInitScriptsEnabled, METH_VARARGS, NULL},
+	 { (char *)"LevelManager_pythonInitScriptsEnabled", _wrap_LevelManager_pythonInitScriptsEnabled, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_startScript", _wrap_LevelManager_startScript, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_SetStartScript", _wrap_LevelManager_SetStartScript, METH_VARARGS, NULL},
 	 { (char *)"LevelManager_swigregister", LevelManager_swigregister, METH_VARARGS, NULL},

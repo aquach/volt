@@ -107,6 +107,9 @@ class PyEntity(pygame.Entity):
     def Render(self):
         pass
 
+    def PreSolve(self, other):
+        return True
+        
     def CanCollideWith(self, other):
         return True
 
@@ -130,6 +133,9 @@ class PyCreature(pygame.Creature):
         pass
 
     def CanCollideWith(self, other):
+        return True
+
+    def PreSolve(self, other):
         return True
 
     def Clone(self):

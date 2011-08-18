@@ -38,8 +38,12 @@ public:
 
     /* Activate/Deactivate Python functionality. Editor doesn't want to run
      * Python scripts. */
-    void SetPython (bool b) { m_pythonEnabled = b; }
-    bool pythonEnabled () const { return m_pythonEnabled; }
+    void SetPythonInitScriptsEnabled (bool b) {
+        m_pythonInitScriptsEnabled = b;
+    }
+    bool pythonInitScriptsEnabled () const {
+        return m_pythonInitScriptsEnabled;
+    }
 
     const string& startScript () const { return m_startScript; }
     void SetStartScript (const string& script) { m_startScript = script; }
@@ -47,7 +51,7 @@ public:
 private:
     Volt::Scene* m_scene;
 
-    bool m_pythonEnabled;
+    bool m_pythonInitScriptsEnabled;
     bool m_levelUnloading;
     set<Entity*> m_entities;
     string m_loadedFilename;
