@@ -58,6 +58,9 @@ public:
                            bool ignoresForces, bool sensor);
     void DestroyBody ();
     b2Body* body () const { return m_body; }
+    /* Applies a force that cancels gravity. Call this during Update() if you
+     * want the entity to not be affected by gravity. */
+    void CancelGravity ();
 
     // These are called when entities enter and leave the bounding boxes of
     // other entities. Do not call these directly.

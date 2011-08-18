@@ -195,6 +195,13 @@ void Entity::Save (Json::Value& node) const {
     }
 }
 
+void Entity::CancelGravity () {
+    if (m_body != NULL) {
+        m_body->ApplyForce((-G_PhysicsManager->GetGravity()).ToB2(),
+                           m_body->GetWorldCenter());
+    }
+}
+
 void Entity::AddContactListener (EntityContactListener* listener) {
     m_contactListeners.insert(listener);
 }

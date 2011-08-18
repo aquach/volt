@@ -46,4 +46,4 @@ typedef unsigned int uint;
   void operator=(const TypeName&)
 
 #define FOR_(type, i, container) \
-    for (type i = container.begin(); i != container.end(); i++)
+    for (type i = container.begin(); i != container.end(); ++i)

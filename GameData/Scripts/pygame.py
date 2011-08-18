@@ -1207,6 +1207,7 @@ class VoltEntity(_object):
     def CreateBodyCustom(self, *args): return _pygame.VoltEntity_CreateBodyCustom(self, *args)
     def DestroyBody(self): return _pygame.VoltEntity_DestroyBody(self)
     def body(self): return _pygame.VoltEntity_body(self)
+    def CancelGravity(self): return _pygame.VoltEntity_CancelGravity(self)
     def BeginContact(self, *args): return _pygame.VoltEntity_BeginContact(self, *args)
     def EndContact(self, *args): return _pygame.VoltEntity_EndContact(self, *args)
     def PreSolve(self, *args): return _pygame.VoltEntity_PreSolve(self, *args)

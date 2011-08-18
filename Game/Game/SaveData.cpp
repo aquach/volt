@@ -24,7 +24,6 @@ bool SaveData::Load () {
 
     Volt::DataAsset asset;
     bool success = asset.Load(item);
-    delete data;
     if (!success)
         return false;
 

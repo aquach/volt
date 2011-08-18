@@ -28,6 +28,7 @@ class Turret(PyCreature):
 
         def Update(self):
             self.UpdatePhysics()
+            self.CancelGravity()
             if time.time() - self.startTime > Turret.TurretProjectile.TIMEOUT:
                 self.RemoveSelf()
                 return

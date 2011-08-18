@@ -28071,6 +28071,31 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_VoltEntity_CancelGravity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:VoltEntity_CancelGravity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_CancelGravity" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->CancelGravity();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_VoltEntity_BeginContact(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
@@ -38354,6 +38379,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"VoltEntity_CreateBodyCustom", _wrap_VoltEntity_CreateBodyCustom, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_DestroyBody", _wrap_VoltEntity_DestroyBody, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_body", _wrap_VoltEntity_body, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_CancelGravity", _wrap_VoltEntity_CancelGravity, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_BeginContact", _wrap_VoltEntity_BeginContact, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_EndContact", _wrap_VoltEntity_EndContact, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_PreSolve", _wrap_VoltEntity_PreSolve, METH_VARARGS, NULL},

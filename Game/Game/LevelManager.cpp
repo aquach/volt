@@ -1,6 +1,5 @@
 #include "Game/Game/LevelManager.h"
 #include <fstream>
-#include <Python.h>
 #include "Volt/Assets/DataSource.h"
 #include "Volt/Python/Python.h"
 #include "Game/Game/Entity.h"

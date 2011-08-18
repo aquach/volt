@@ -144,7 +144,7 @@ void Scene::Render () {
     Filters ::reverse_iterator currentTopFilterList = m_topFilters.rbegin();
 
     for (Layers::reverse_iterator layer = m_layers.rbegin();
-         layer != m_layers.rend(); layer++) {
+         layer != m_layers.rend(); ++layer) {
         int layerNum = layer->first;
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
@@ -159,7 +159,7 @@ void Scene::Render () {
                     if ((*i)->enabled())
                         (*i)->OnTopLayer();
                 }
-                currentTopFilterList++;
+                ++currentTopFilterList;
             }
 
             /* While we have a filter that should start on a layer lower
@@ -172,7 +172,7 @@ void Scene::Render () {
                     if ((*i)->enabled())
                         (*i)->OnBottomLayer();
                 }
-                currentBottomFilterList++;
+                ++currentBottomFilterList;
             }
 
             list<Entity*>& entityList = layer->second;
@@ -195,7 +195,7 @@ void Scene::Render () {
 
     // Alert remaining top filters.
     for (; currentTopFilterList != m_topFilters.rend();
-         currentTopFilterList++) {
+         ++currentTopFilterList) {
         int layerNum = currentTopFilterList->first;
         if (layerNum <= m_camera.backLayer() &&
             layerNum >= m_camera.frontLayer()) {
