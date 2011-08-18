@@ -115,7 +115,12 @@ private:
     Scene* m_scene;
     bool m_visible;
 
-    set<string> m_tags;
+    struct InsensitiveCompare {
+        bool operator() (const std::string& a, const std::string& b) const {
+            return strcasecmp(a.c_str(), b.c_str()) < 0;
+        }
+    };
+    set<string, InsensitiveCompare> m_tags;
     set<EntityContactListener*> m_contactListeners;
 
     DISALLOW_COPY_AND_ASSIGN(Entity);

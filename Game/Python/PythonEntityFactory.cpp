@@ -17,10 +17,17 @@ Entity* CreateEntity (int id) {
             if (returnValue) {
                 result = PyLong_AsLong(returnValue);
                 Py_XDECREF(returnValue);
+            } else {
+                LOG(WARNING) << "No return value for "
+                             << "entity_factory.createEntity";
             }
             Py_XDECREF(args);
+        } else {
+            LOG(WARNING) << "Could not find createEntity call.";
         }
         Py_XDECREF(module);
+    } else {
+        LOG(WARNING) << "Could not find module entity_factory.";
     }
     Py_XDECREF(moduleName);
 

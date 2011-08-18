@@ -1,5 +1,5 @@
 from pygame import *
-from pygameutil import filenameToModuleName
+from core.pygameutil import filenameToModuleName
 
 import os
 import re
@@ -9,7 +9,7 @@ import re
 """(ID, Class Name, Module Path). All three must be unique among all types.
 ID must be greater than 0."""
 ENTITY_TYPES = [
-    (1, 'Turret', 'turret'),
+    (1, 'Turret', 'creatures.turret'),
     (2, 'MyEntity', 'test'),
 ]
 

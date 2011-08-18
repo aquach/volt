@@ -37811,6 +37811,32 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_GameScene_player(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  GameScene *arg1 = (GameScene *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Player *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:GameScene_player",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_GameScene, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GameScene_player" "', argument " "1"" of type '" "GameScene *""'"); 
+  }
+  arg1 = reinterpret_cast< GameScene * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (Player *)(arg1)->player();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Player, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *GameScene_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
@@ -38747,6 +38773,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"GameScene_OnKeyEvent", _wrap_GameScene_OnKeyEvent, METH_VARARGS, NULL},
 	 { (char *)"GameScene_ShowDialogBox", _wrap_GameScene_ShowDialogBox, METH_VARARGS, NULL},
 	 { (char *)"GameScene_SetPlayerInputLock", _wrap_GameScene_SetPlayerInputLock, METH_VARARGS, NULL},
+	 { (char *)"GameScene_player", _wrap_GameScene_player, METH_VARARGS, NULL},
 	 { (char *)"GameScene_swigregister", GameScene_swigregister, METH_VARARGS, NULL},
 	 { (char *)"GameEntity", _wrap_GameEntity, METH_VARARGS, NULL},
 	 { (char *)"CreatureCast", _wrap_CreatureCast, METH_VARARGS, NULL},

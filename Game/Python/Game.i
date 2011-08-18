@@ -153,7 +153,7 @@ namespace std {
 
 // Importing custom python code.
 %pythoncode {
-    from pygamecore import *
+    from core.pygamecore import *
 }
 
 // Casting helper methods.

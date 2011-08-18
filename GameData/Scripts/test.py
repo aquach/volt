@@ -4,7 +4,11 @@ import random
 import threading
 import time
 
-import turret
+import game.level
+
+sleepFrame()
+sleepFrame()
+game.level.activateLevelPrimitives()
 
 time.sleep(1)
 
@@ -162,15 +166,9 @@ def startConversation():
 def onAccessed(sign, accessor):
     startConversation()
 
-savePoints = scene().GetAllTagged('SavePoint')
-for savePoint in savePoints:
-    #GameEntity(sign).OnAccessed(onAccessed)
-    addSavePoint(GameEntity(savePoint))
-
 #t = turret.Turret()
 #t.SetPosition(Vector2(5, -5))
 #scene().Add(t)
-
 
 print 'before', Game.Instance().frameNumber()
 time.sleep(0.0001)

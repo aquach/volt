@@ -9,12 +9,29 @@ handler."""
 class GameImporter(object):
     """Custom importer that calls into AssetManager."""
     def moduleNameToFilename(self, moduleName):
+        moduleName = moduleName.replace('.', '/')
         return 'Scripts/' + moduleName + '.py'
 
-    def find_module(self, fullname, path=None):
+    def packageNameToFilename(self, packageName):
+        packageName = packageName.replace('.', '/')
+        return 'Scripts/' + packageName + '/__init__.py'
+
+
+    def getCode(self, fullname):
+        # Choose between package and module loading.
         path = self.moduleNameToFilename(fullname)
+        packagePath = self.packageNameToFilename(fullname)
         code = pyvoltbootstrap.getCode(path)
-        if code:
+        packageCode = pyvoltbootstrap.getCode(packagePath)
+        
+        path = packagePath if packagePath else path
+        code = packageCode if packageCode is not None else code
+        return path, code
+                
+    def find_module(self, fullname, path=None):
+        
+        path, code = self.getCode(fullname)
+        if code is not None:
             return self
         else:
             return None
@@ -26,13 +43,16 @@ class GameImporter(object):
         mod.__loader__ = self
         mod.__name__ = fullname
         sys.modules[fullname] = mod
-        path = self.moduleNameToFilename(fullname)
+        path, code = self.getCode(fullname)
         mod.__file__ = path
-        code = pyvoltbootstrap.getCode(path)
-        exec code in mod.__dict__
+        if code:
+            exec code in mod.__dict__
+        else:
+            # Package
+            mod.__path__ = fullname
         return mod
 
 sys.meta_path.append(GameImporter())
 
 import pygame
-import pygameutil
+import core.pygameutil

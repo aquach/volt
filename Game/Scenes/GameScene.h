@@ -27,6 +27,8 @@ public:
     void ShowDialogBox (DialogBox* box);
     void SetPlayerInputLock (bool lock);
 
+    Player* player () { return m_player; }
+
 private:
     Player* m_player;
 

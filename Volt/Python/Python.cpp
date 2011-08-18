@@ -53,13 +53,14 @@ void Terminate () {
 
 void WaitForScripts () {
     // Hack!
-    PyRun_SimpleString("pygameutil.waitForScripts()");
+    PyRun_SimpleString("core.pygameutil.waitForScripts()");
 }
 
 void RunGameScriptFile (const string& scriptPath) {
     // Hack!
     char command[128];
-    sprintf(command, "pygameutil.runScriptFile('%s')", scriptPath.c_str());
+    sprintf(command, "core.pygameutil.runScriptFile('%s')",
+            scriptPath.c_str());
     PyRun_SimpleString(command);
 }
 

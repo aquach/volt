@@ -2026,10 +2026,11 @@ class GameScene(Scene):
     def OnKeyEvent(self, *args): return _pygame.GameScene_OnKeyEvent(self, *args)
     def ShowDialogBox(self, *args): return _pygame.GameScene_ShowDialogBox(self, *args)
     def SetPlayerInputLock(self, *args): return _pygame.GameScene_SetPlayerInputLock(self, *args)
+    def player(self): return _pygame.GameScene_player(self)
 GameScene_swigregister = _pygame.GameScene_swigregister
 GameScene_swigregister(GameScene)
 
-from pygamecore import *
+from core.pygamecore import *
 
 
 def GameEntity(*args):

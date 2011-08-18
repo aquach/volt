@@ -44,7 +44,6 @@ GameScene::GameScene ()
 
     m_levelManager = new LevelManager(this);
     m_levelManager->SetPythonInitScriptsEnabled(true);
-    m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
     LevelManager::Register(m_levelManager);
 
     m_conversationManager = new ConversationManager(this);
@@ -53,8 +52,6 @@ GameScene::GameScene ()
     LightManager::Register(m_lightManager);
 
     SetHook(new GamePerfHook);
-
-    camera()->WatchEntity(m_player);
 
     //EdgeFilter* f = new EdgeFilter("EdgeFilter", 40, -5);
     //AddFilter(f);
@@ -74,8 +71,8 @@ void GameScene::Update () {
 }
 
 void GameScene::OnBegin () {
-    //Volt::Python::RunGameScriptFile("test.py");
-    //Python::RunGameScriptFile("threadTest.py");
+    m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
+    camera()->WatchEntity(m_player);
 }
 
 void GameScene::OnEnd () {

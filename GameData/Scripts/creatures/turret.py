@@ -2,7 +2,7 @@ from pygame import *
 
 import random
 import time
-import targeting
+import game.targeting
 
 class Turret(PyCreature):
     class TurretProjectile(PyEntity):
@@ -54,10 +54,8 @@ class Turret(PyCreature):
         if time.time() - self.lastFiredProjectile > 3:
             self.lastFiredProjectile = time.time()
             playerVel = Vector2(player.body().GetLinearVelocity())
-            hitData = targeting.linearTarget(player.position(),
-                                             playerVel,
-                                             self.position(),
-                                             Turret.TurretProjectile.SPEED)
+            hitData = game.targeting.linearTarget(player.position(),
+                playerVel, self.position(), Turret.TurretProjectile.SPEED)
             if hitData and random.random() < 0.5:
                 t, hitPos = hitData
             else:
