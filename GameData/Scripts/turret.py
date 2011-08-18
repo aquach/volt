@@ -1,5 +1,6 @@
 from pygame import *
 
+import random
 import time
 import targeting
 
@@ -15,6 +16,8 @@ class Turret(PyCreature):
             self.dir.Normalize()
             self.startTime = time.time()
             self.OnTouched(self.OnHit)
+            self.SetScale(Vector2(1, 0.5))
+            self.SetLookAt(self.dir)
 
         def OnHit(self, self2, hitEntity, contact):
             if hitEntity.HasTag('Player'):
@@ -40,6 +43,11 @@ class Turret(PyCreature):
     def OnAdded(self):
         self.CreateBody('box', dynamic=False)
 
+    def Clone(self):
+        t = Turret()
+        super(Turret, t).CopyFrom(self)
+        return t
+
     def Update(self):
         if not gameMode(): return
         player = scene().GetFirstTagged('Player')
@@ -50,7 +58,7 @@ class Turret(PyCreature):
                                              playerVel,
                                              self.position(),
                                              Turret.TurretProjectile.SPEED)
-            if hitData:
+            if hitData and random.random() < 0.5:
                 t, hitPos = hitData
             else:
                 hitPos = player.position()

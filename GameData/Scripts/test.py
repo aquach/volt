@@ -167,9 +167,9 @@ for savePoint in savePoints:
     #GameEntity(sign).OnAccessed(onAccessed)
     addSavePoint(GameEntity(savePoint))
 
-t = turret.Turret()
-t.SetPosition(Vector2(5, -5))
-scene().Add(t)
+#t = turret.Turret()
+#t.SetPosition(Vector2(5, -5))
+#scene().Add(t)
 
 
 print 'before', Game.Instance().frameNumber()

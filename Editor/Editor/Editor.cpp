@@ -776,6 +776,8 @@ void Editor::Clone () {
             m_scene->Add(cloned, entity->layer());
             if (Entity* e = dynamic_cast<Entity*>(cloned))
                 G_SelectionManager->SelectEntity(e);
+        } else {
+            statusBar()->showMessage("That entity is not clonable.");
         }
     }
 }

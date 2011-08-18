@@ -28440,6 +28440,48 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_VoltEntity_SetLookAt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::Entity *arg1 = (Volt::Entity *) 0 ;
+  Volt::Vector2 arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:VoltEntity_SetLookAt",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__Entity, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VoltEntity_SetLookAt" "', argument " "1"" of type '" "Volt::Entity *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::Entity * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Volt__Vector2,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "VoltEntity_SetLookAt" "', argument " "2"" of type '" "Volt::Vector2""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "VoltEntity_SetLookAt" "', argument " "2"" of type '" "Volt::Vector2""'");
+    } else {
+      Volt::Vector2 * temp = reinterpret_cast< Volt::Vector2 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetLookAt(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_VoltEntity_scale(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::Entity *arg1 = (Volt::Entity *) 0 ;
@@ -38399,6 +38441,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"VoltEntity_SetPosition", _wrap_VoltEntity_SetPosition, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_rotation", _wrap_VoltEntity_rotation, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_SetRotation", _wrap_VoltEntity_SetRotation, METH_VARARGS, NULL},
+	 { (char *)"VoltEntity_SetLookAt", _wrap_VoltEntity_SetLookAt, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_scale", _wrap_VoltEntity_scale, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_SetScale", _wrap_VoltEntity_SetScale, METH_VARARGS, NULL},
 	 { (char *)"VoltEntity_visible", _wrap_VoltEntity_visible, METH_VARARGS, NULL},

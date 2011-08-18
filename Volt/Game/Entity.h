@@ -80,6 +80,7 @@ public:
     void SetPosition (Vector2 pos);
     float rotation () const { return m_transform.rotation; }
     void SetRotation (float rotation);
+    void SetLookAt (Vector2 lookAt) { SetRotation(lookAt.GetAngleDegrees()); }
     Vector2 scale () const { return m_transform.scale; }
     void SetScale (Vector2 scale);
 

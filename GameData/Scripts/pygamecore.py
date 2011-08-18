@@ -110,6 +110,12 @@ class PyEntity(pygame.Entity):
     def CanCollideWith(self, other):
         return True
 
+    def Clone(self):
+        return None
+
+    def OnScaleChanged(self):
+        pass
+
 class PyCreature(pygame.Creature):
     def __init__(self, disown=True):
         pygame.Creature.__init__(self)
@@ -125,6 +131,12 @@ class PyCreature(pygame.Creature):
 
     def CanCollideWith(self, other):
         return True
+
+    def Clone(self):
+        return None
+
+    def OnScaleChanged(self):
+        pass
         
 class PyEntityContactListener(pygame.EntityContactListener):
     """Python version of EntityContactListener that can call Python

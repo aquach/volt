@@ -1218,6 +1218,7 @@ class VoltEntity(_object):
     def SetPosition(self, *args): return _pygame.VoltEntity_SetPosition(self, *args)
     def rotation(self): return _pygame.VoltEntity_rotation(self)
     def SetRotation(self, *args): return _pygame.VoltEntity_SetRotation(self, *args)
+    def SetLookAt(self, *args): return _pygame.VoltEntity_SetLookAt(self, *args)
     def scale(self): return _pygame.VoltEntity_scale(self)
     def SetScale(self, *args): return _pygame.VoltEntity_SetScale(self, *args)
     def visible(self): return _pygame.VoltEntity_visible(self)
