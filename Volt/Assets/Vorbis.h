@@ -2,8 +2,6 @@
 
 #include "Volt/Core/Core.h"
 #include <ogg/ogg.h>
-#include <vorbis/codec.h>
-#include <vorbis/vorbisfile.h>
 
 namespace Volt {
 

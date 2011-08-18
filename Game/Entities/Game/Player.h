@@ -11,7 +11,9 @@ namespace Volt {
     class SpriteAnimation;
 };
 
+class HealthBar;
 class Ladder;
+class PowerBar;
 
 class Player : public Creature {
 public:

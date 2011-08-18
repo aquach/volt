@@ -1158,6 +1158,8 @@ class EntityContactListener(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, EntityContactListener, name)
     __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_EntityContactListener
+    __del__ = lambda self : None;
     def OnContactBegin(self, *args): return _pygame.EntityContactListener_OnContactBegin(self, *args)
     def OnContactEnd(self, *args): return _pygame.EntityContactListener_OnContactEnd(self, *args)
     def __init__(self): 
@@ -1168,8 +1170,6 @@ class EntityContactListener(_object):
         this = _pygame.new_EntityContactListener(_self, )
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _pygame.delete_EntityContactListener
-    __del__ = lambda self : None;
     def __disown__(self):
         self.this.disown()
         _pygame.disown_EntityContactListener(self)
@@ -1474,6 +1474,8 @@ class EntityAccessListener(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, EntityAccessListener, name)
     __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_EntityAccessListener
+    __del__ = lambda self : None;
     def OnAccessed(self, *args): return _pygame.EntityAccessListener_OnAccessed(self, *args)
     def __init__(self): 
         if self.__class__ == EntityAccessListener:
@@ -1483,8 +1485,6 @@ class EntityAccessListener(_object):
         this = _pygame.new_EntityAccessListener(_self, )
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _pygame.delete_EntityAccessListener
-    __del__ = lambda self : None;
     def __disown__(self):
         self.this.disown()
         _pygame.disown_EntityAccessListener(self)
@@ -1620,14 +1620,14 @@ class CreatureListener(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, CreatureListener, name)
     __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_CreatureListener
+    __del__ = lambda self : None;
     def OnDamage(self, *args): return _pygame.CreatureListener_OnDamage(self, *args)
     def OnDeath(self, *args): return _pygame.CreatureListener_OnDeath(self, *args)
     def __init__(self): 
         this = _pygame.new_CreatureListener()
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _pygame.delete_CreatureListener
-    __del__ = lambda self : None;
 CreatureListener_swigregister = _pygame.CreatureListener_swigregister
 CreatureListener_swigregister(CreatureListener)
 
@@ -1827,6 +1827,8 @@ class DialogListener(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DialogListener, name)
     __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_DialogListener
+    __del__ = lambda self : None;
     def OnDialogFinished(self): return _pygame.DialogListener_OnDialogFinished(self)
     def __init__(self): 
         if self.__class__ == DialogListener:
@@ -1836,8 +1838,6 @@ class DialogListener(_object):
         this = _pygame.new_DialogListener(_self, )
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _pygame.delete_DialogListener
-    __del__ = lambda self : None;
     def __disown__(self):
         self.this.disown()
         _pygame.disown_DialogListener(self)

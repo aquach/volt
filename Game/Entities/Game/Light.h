@@ -6,8 +6,6 @@
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Game/Entity.h"
 
-class LightManager;
-
 struct LightStroke {
     Vector2 vertices[4];
     Volt::Color color;

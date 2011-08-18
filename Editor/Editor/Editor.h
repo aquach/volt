@@ -16,7 +16,6 @@ namespace Volt {
 extern const char* EDITOR_TITLE;
 
 class EditorScene;
-class EditorSelectionListener;
 class Entity;
 class GLWidget;
 class PropertyModel;
@@ -28,7 +27,6 @@ class QListWidgetItem;
 class QModelIndex;
 class QSettings;
 class QTableView;
-class SelectionManager;
 class Triangle;
 
 class Editor : public QMainWindow {

@@ -1,11 +1,11 @@
 #include "Game/Game/LevelManager.h"
 #include <fstream>
 #include "Volt/Assets/DataSource.h"
+#include "Volt/Game/Scene.h"
 #include "Volt/Python/Python.h"
 #include "Game/Game/Entity.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Python/PythonEntityFactory.h"
-#include "Game/Editor/EditorEntities.h"
 
 LevelManager* LevelManager::instance = NULL;
 

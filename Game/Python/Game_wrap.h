@@ -19,6 +19,7 @@ class SwigDirector_EntityContactListener : public Volt::EntityContactListener, p
 
 public:
     SwigDirector_EntityContactListener(PyObject *self);
+    virtual ~SwigDirector_EntityContactListener();
     virtual void OnContactBegin(Volt::Entity *other, b2Contact *contact);
     virtual void OnContactEnd(Volt::Entity *other, b2Contact *contact);
 
@@ -111,6 +112,7 @@ class SwigDirector_EntityAccessListener : public EntityAccessListener, public Sw
 
 public:
     SwigDirector_EntityAccessListener(PyObject *self);
+    virtual ~SwigDirector_EntityAccessListener();
     virtual void OnAccessed(Entity *accessor);
 
 
@@ -267,6 +269,7 @@ class SwigDirector_DialogListener : public DialogListener, public Swig::Director
 
 public:
     SwigDirector_DialogListener(PyObject *self);
+    virtual ~SwigDirector_DialogListener();
     virtual void OnDialogFinished();
 
 

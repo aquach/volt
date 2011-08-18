@@ -19,7 +19,7 @@ public:
     void ReloadSprites ();
 
     void SetXFlip (bool flip) {
-        m_transform.scale.x = abs(m_transform.scale.x) * flip ? 1 : -1;
+        m_transform.scale.x = abs(m_transform.scale.x) * (flip ? 1 : -1);
     }
 
 private:

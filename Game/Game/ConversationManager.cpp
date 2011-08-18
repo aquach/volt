@@ -1,5 +1,5 @@
 #include "Game/Game/ConversationManager.h"
-#include "Game/Entities/Gui/MessageBox.h"
+#include "Game/Entities/Gui/DialogBox.h"
 #include "Game/Scenes/GameScene.h"
 
 ConversationManager::ConversationManager (GameScene* scene)

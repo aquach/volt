@@ -2,7 +2,6 @@
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Graphics/GpuProgram.h"
 #include "Volt/Graphics/OpenGL.h"
-#include "Volt/Graphics/SDLWindow.h"
 #include "Volt/Graphics/Viewport.h"
 
 namespace Volt {

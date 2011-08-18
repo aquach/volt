@@ -5,8 +5,6 @@
 
 namespace Volt {
     class Entity;
-    class Filter;
-    class Scene;
 }
 
 class GamePerfHook : public Volt::SceneHook {

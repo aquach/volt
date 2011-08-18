@@ -3,15 +3,14 @@
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
 
-class HealthBar;
-class PowerBar;
 class Weapon;
 
 /* Subclass this to receive callbacks when the Creature takes damage or dies. */
 class CreatureListener {
 public:
-    virtual void OnDamage (Entity* agent, float damage) { };
-    virtual void OnDeath (Entity* agent) { };
+    virtual ~CreatureListener () { }
+    virtual void OnDamage (Entity* agent, float damage) { }
+    virtual void OnDeath (Entity* agent) { }
 };
 
 class Creature : public Entity {

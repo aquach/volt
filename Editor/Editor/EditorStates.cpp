@@ -1,10 +1,9 @@
 #include "Editor/Editor/Editor.h"
 #include <QtGui>
 #include "Game/Editor/SelectionManager.h"
-#include "Game/Entities/Game/Triangle.h"
+#include "Game/Game/Entity.h"
 #include "Editor/Editor/EditorScene.h"
 #include "Editor/Editor/GLWidget.h"
-#include "Editor/Editor/PropertyModel.h"
 
 const float ANGLE_SNAP = 5.0f;
 

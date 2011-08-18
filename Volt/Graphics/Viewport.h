@@ -1,11 +1,8 @@
 #pragma once
 
 #include "Volt/Core/Core.h"
-#include "Volt/Graphics/Input.h"
 
 namespace Volt {
-
-class Game;
 
 /**
  *  Manages an area that draws OpenGL, maybe a window or a QT widget.

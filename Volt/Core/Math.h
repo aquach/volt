@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cmath>
-#include <cstdlib>
-#include <ctime>
 
 #ifndef INFINITY
     #define INFINITY 1e+08

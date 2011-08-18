@@ -5235,6 +5235,9 @@ SwigDirector_EntityContactListener::SwigDirector_EntityContactListener(PyObject 
 
 
 
+SwigDirector_EntityContactListener::~SwigDirector_EntityContactListener() {
+}
+
 void SwigDirector_EntityContactListener::OnContactBegin(Volt::Entity *other, b2Contact *contact) {
   SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   {
@@ -5394,6 +5397,9 @@ SwigDirector_EntityAccessListener::SwigDirector_EntityAccessListener(PyObject *s
 
 
 
+
+SwigDirector_EntityAccessListener::~SwigDirector_EntityAccessListener() {
+}
 
 void SwigDirector_EntityAccessListener::OnAccessed(Entity *accessor) {
   SWIG_PYTHON_THREAD_BEGIN_BLOCK;
@@ -6208,6 +6214,9 @@ SwigDirector_DialogListener::SwigDirector_DialogListener(PyObject *self): Dialog
 
 
 
+
+SwigDirector_DialogListener::~SwigDirector_DialogListener() {
+}
 
 void SwigDirector_DialogListener::OnDialogFinished() {
   SWIG_PYTHON_THREAD_BEGIN_BLOCK;
@@ -27169,6 +27178,31 @@ SWIGINTERN PyObject *AppTime_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObje
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_delete_EntityContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityContactListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__EntityContactListener, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityContactListener" "', argument " "1"" of type '" "Volt::EntityContactListener *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::EntityContactListener * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    delete arg1;
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_EntityContactListener_OnContactBegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
@@ -27292,31 +27326,6 @@ SWIGINTERN PyObject *_wrap_new_EntityContactListener(PyObject *SWIGUNUSEDPARM(se
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Volt__EntityContactListener, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_EntityContactListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Volt::EntityContactListener *arg1 = (Volt::EntityContactListener *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityContactListener",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__EntityContactListener, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityContactListener" "', argument " "1"" of type '" "Volt::EntityContactListener *""'"); 
-  }
-  arg1 = reinterpret_cast< Volt::EntityContactListener * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    delete arg1;
-    SWIG_PYTHON_THREAD_END_ALLOW;
-  }
-  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -32188,6 +32197,31 @@ SWIGINTERN PyObject *EdgeFilter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyO
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_delete_EntityAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  EntityAccessListener *arg1 = (EntityAccessListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityAccessListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EntityAccessListener, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityAccessListener" "', argument " "1"" of type '" "EntityAccessListener *""'"); 
+  }
+  arg1 = reinterpret_cast< EntityAccessListener * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    delete arg1;
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_EntityAccessListener_OnAccessed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   EntityAccessListener *arg1 = (EntityAccessListener *) 0 ;
@@ -32251,31 +32285,6 @@ SWIGINTERN PyObject *_wrap_new_EntityAccessListener(PyObject *SWIGUNUSEDPARM(sel
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_EntityAccessListener, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_EntityAccessListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  EntityAccessListener *arg1 = (EntityAccessListener *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_EntityAccessListener",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_EntityAccessListener, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EntityAccessListener" "', argument " "1"" of type '" "EntityAccessListener *""'"); 
-  }
-  arg1 = reinterpret_cast< EntityAccessListener * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    delete arg1;
-    SWIG_PYTHON_THREAD_END_ALLOW;
-  }
-  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -33919,6 +33928,31 @@ SWIGINTERN PyObject *SaveData_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObj
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_delete_CreatureListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CreatureListener *arg1 = (CreatureListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CreatureListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CreatureListener, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CreatureListener" "', argument " "1"" of type '" "CreatureListener *""'"); 
+  }
+  arg1 = reinterpret_cast< CreatureListener * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    delete arg1;
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_CreatureListener_OnDamage(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   CreatureListener *arg1 = (CreatureListener *) 0 ;
@@ -34007,31 +34041,6 @@ SWIGINTERN PyObject *_wrap_new_CreatureListener(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CreatureListener, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_CreatureListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  CreatureListener *arg1 = (CreatureListener *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_CreatureListener",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CreatureListener, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CreatureListener" "', argument " "1"" of type '" "CreatureListener *""'"); 
-  }
-  arg1 = reinterpret_cast< CreatureListener * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    delete arg1;
-    SWIG_PYTHON_THREAD_END_ALLOW;
-  }
-  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -36092,6 +36101,31 @@ SWIGINTERN PyObject *EntityFactory_swigregister(PyObject *SWIGUNUSEDPARM(self), 
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_delete_DialogListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  DialogListener *arg1 = (DialogListener *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_DialogListener",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogListener, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_DialogListener" "', argument " "1"" of type '" "DialogListener *""'"); 
+  }
+  arg1 = reinterpret_cast< DialogListener * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    delete arg1;
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_DialogListener_OnDialogFinished(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   DialogListener *arg1 = (DialogListener *) 0 ;
@@ -36146,31 +36180,6 @@ SWIGINTERN PyObject *_wrap_new_DialogListener(PyObject *SWIGUNUSEDPARM(self), Py
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_DialogListener, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_DialogListener(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  DialogListener *arg1 = (DialogListener *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_DialogListener",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_DialogListener, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_DialogListener" "', argument " "1"" of type '" "DialogListener *""'"); 
-  }
-  arg1 = reinterpret_cast< DialogListener * >(argp1);
-  {
-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
-    delete arg1;
-    SWIG_PYTHON_THREAD_END_ALLOW;
-  }
-  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -38351,10 +38360,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"AppTime_Instance", _wrap_AppTime_Instance, METH_VARARGS, NULL},
 	 { (char *)"delete_AppTime", _wrap_delete_AppTime, METH_VARARGS, NULL},
 	 { (char *)"AppTime_swigregister", AppTime_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_EntityContactListener", _wrap_delete_EntityContactListener, METH_VARARGS, NULL},
 	 { (char *)"EntityContactListener_OnContactBegin", _wrap_EntityContactListener_OnContactBegin, METH_VARARGS, NULL},
 	 { (char *)"EntityContactListener_OnContactEnd", _wrap_EntityContactListener_OnContactEnd, METH_VARARGS, NULL},
 	 { (char *)"new_EntityContactListener", _wrap_new_EntityContactListener, METH_VARARGS, NULL},
-	 { (char *)"delete_EntityContactListener", _wrap_delete_EntityContactListener, METH_VARARGS, NULL},
 	 { (char *)"disown_EntityContactListener", _wrap_disown_EntityContactListener, METH_VARARGS, NULL},
 	 { (char *)"EntityContactListener_swigregister", EntityContactListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_VoltEntity", _wrap_delete_VoltEntity, METH_VARARGS, NULL},
@@ -38497,9 +38506,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"EdgeFilter_OnBottomLayer", _wrap_EdgeFilter_OnBottomLayer, METH_VARARGS, NULL},
 	 { (char *)"EdgeFilter_OnTopLayer", _wrap_EdgeFilter_OnTopLayer, METH_VARARGS, NULL},
 	 { (char *)"EdgeFilter_swigregister", EdgeFilter_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_EntityAccessListener", _wrap_delete_EntityAccessListener, METH_VARARGS, NULL},
 	 { (char *)"EntityAccessListener_OnAccessed", _wrap_EntityAccessListener_OnAccessed, METH_VARARGS, NULL},
 	 { (char *)"new_EntityAccessListener", _wrap_new_EntityAccessListener, METH_VARARGS, NULL},
-	 { (char *)"delete_EntityAccessListener", _wrap_delete_EntityAccessListener, METH_VARARGS, NULL},
 	 { (char *)"disown_EntityAccessListener", _wrap_disown_EntityAccessListener, METH_VARARGS, NULL},
 	 { (char *)"EntityAccessListener_swigregister", EntityAccessListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Entity", _wrap_new_Entity, METH_VARARGS, NULL},
@@ -38553,10 +38562,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"SaveData_SetInt", _wrap_SaveData_SetInt, METH_VARARGS, NULL},
 	 { (char *)"SaveData_Increment", _wrap_SaveData_Increment, METH_VARARGS, NULL},
 	 { (char *)"SaveData_swigregister", SaveData_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_CreatureListener", _wrap_delete_CreatureListener, METH_VARARGS, NULL},
 	 { (char *)"CreatureListener_OnDamage", _wrap_CreatureListener_OnDamage, METH_VARARGS, NULL},
 	 { (char *)"CreatureListener_OnDeath", _wrap_CreatureListener_OnDeath, METH_VARARGS, NULL},
 	 { (char *)"new_CreatureListener", _wrap_new_CreatureListener, METH_VARARGS, NULL},
-	 { (char *)"delete_CreatureListener", _wrap_delete_CreatureListener, METH_VARARGS, NULL},
 	 { (char *)"CreatureListener_swigregister", CreatureListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Creature", _wrap_new_Creature, METH_VARARGS, NULL},
 	 { (char *)"delete_Creature", _wrap_delete_Creature, METH_VARARGS, NULL},
@@ -38634,9 +38643,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"EntityFactory_Create", _wrap_EntityFactory_Create, METH_VARARGS, NULL},
 	 { (char *)"EntityFactory_GetEntityTypes", _wrap_EntityFactory_GetEntityTypes, METH_VARARGS, NULL},
 	 { (char *)"EntityFactory_swigregister", EntityFactory_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_DialogListener", _wrap_delete_DialogListener, METH_VARARGS, NULL},
 	 { (char *)"DialogListener_OnDialogFinished", _wrap_DialogListener_OnDialogFinished, METH_VARARGS, NULL},
 	 { (char *)"new_DialogListener", _wrap_new_DialogListener, METH_VARARGS, NULL},
-	 { (char *)"delete_DialogListener", _wrap_delete_DialogListener, METH_VARARGS, NULL},
 	 { (char *)"disown_DialogListener", _wrap_disown_DialogListener, METH_VARARGS, NULL},
 	 { (char *)"DialogListener_swigregister", DialogListener_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_DialogBox", _wrap_delete_DialogBox, METH_VARARGS, NULL},

@@ -8,7 +8,6 @@ namespace Volt {
 const int NUM_BUFFERS = 2;
 
 class DataItem;
-class SoundManager;
 class SingleSound;
 class MultipleSound;
 

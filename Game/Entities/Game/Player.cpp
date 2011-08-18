@@ -3,6 +3,7 @@
 #include "Volt/Game/AppTime.h"
 #include "Volt/Game/FSM.h"
 #include "Volt/Game/PhysicsManager.h"
+#include "Volt/Game/Scene.h"
 #include "Volt/Graphics/SDLWindow.h"
 #include "Volt/Graphics/SpriteAnimation.h"
 #include "Volt/Gui/Label.h"
@@ -13,7 +14,6 @@
 #include "Game/Entities/Gui/HealthBar.h"
 #include "Game/Entities/Gui/PowerBar.h"
 #include "Game/Graphics/Graphics.h"
-#include "Game/Scenes/GameScene.h"
 
 const float WIDTH = 1.5f;
 const float HEIGHT = 2.0f;

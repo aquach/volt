@@ -1,6 +1,8 @@
 #include "Volt/Assets/SoundAsset.h"
 #include <AL/al.h>
 #include <ogg/ogg.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Assets/Vorbis.h"
 #include "Volt/Assets/DataSource.h"

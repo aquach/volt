@@ -1,4 +1,6 @@
 #include "Volt/Assets/Vorbis.h"
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
 
 namespace Volt {
 

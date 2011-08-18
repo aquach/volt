@@ -8,6 +8,7 @@ class Property;
 
 class EntityAccessListener {
 public:
+    virtual ~EntityAccessListener () { }
     virtual void OnAccessed (Entity* accessor) = 0;
 };
 

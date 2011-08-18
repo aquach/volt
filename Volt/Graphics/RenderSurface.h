@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Volt/Core/Core.h"
-#include "Volt/Assets/AssetManager.h"
 #include "Volt/Graphics/OpenGL.h"
 
 namespace Volt {

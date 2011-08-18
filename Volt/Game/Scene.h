@@ -3,7 +3,6 @@
 #include "Volt/Core/Core.h"
 #include "Volt/Graphics/Camera.h"
 #include "Volt/Graphics/Input.h"
-#include "Volt/Game/Game.h"
 #include <set>
 
 namespace Volt {
@@ -23,6 +22,7 @@ public:
      * when entities are added/removed. */
     class SceneListener {
     public:
+        virtual ~SceneListener () { }
         virtual void OnEntityAdded (Entity* e) { }
         virtual void OnEntityRemoved (Entity* e) { }
     };

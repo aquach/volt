@@ -1,5 +1,4 @@
 #include "Game/Core/Core.h"
-#include "Volt/Assets/AssetManager.h"
 
 namespace Volt {
 

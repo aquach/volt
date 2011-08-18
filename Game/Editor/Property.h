@@ -8,6 +8,7 @@ class Property {
 public:
     Property (const string& name)
         : m_name(name) { }
+    virtual ~Property () { }
     virtual void Save (const string& input) = 0;
     virtual void Load (string* out) const = 0;
 

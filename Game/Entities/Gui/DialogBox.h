@@ -7,6 +7,7 @@
 
 class DialogListener {
 public:
+    virtual ~DialogListener () { }
     virtual void OnDialogFinished () = 0;
 };
 

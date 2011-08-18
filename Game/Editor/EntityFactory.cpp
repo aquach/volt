@@ -1,5 +1,4 @@
 #include "EntityFactory.h"
-#include "Game/Game/Entity.h"
 
 EntityFactory::Types* EntityFactory::s_types = NULL;
 

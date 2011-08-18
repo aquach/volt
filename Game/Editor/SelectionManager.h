@@ -14,6 +14,7 @@ class SelectionManager {
 public:
     class SelectionListener {
     public:
+        virtual ~SelectionListener () { }
         virtual void OnEntitySelected (Entity* e) = 0;
         virtual void OnEntityDeselected (Entity* e) = 0;
         virtual void OnDeselectAll () = 0;
