@@ -26,6 +26,8 @@ def linearTarget(targetPos, targetVel, projectilePos, projectileSpeed):
         return None
 
     denom = S - vx * vx - vy * vy
+    if denom == 0:
+        return None
     side = -vx * x - vy * y
 
     det = math.sqrt(det)
