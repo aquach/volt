@@ -25,12 +25,13 @@ public:
     //virtual void OnMouseMoveEvent (SDL_MouseMotionEvent event);
 
     void ShowDialogBox (DialogBox* box);
-    void SetPlayerInputLock (bool lock);
+    void SetPlayerInputLock (bool lock) { m_inputLock = lock; }
 
     Player* player () { return m_player; }
 
 private:
     Player* m_player;
+    bool m_inputLock;
 
     LevelManager* m_levelManager;
     LightManager* m_lightManager;

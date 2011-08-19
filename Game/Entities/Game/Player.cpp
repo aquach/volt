@@ -35,16 +35,14 @@ void Player::NormalState::Update ()  {
 
     // Left and right movement.
     Vector2 vel = m_p->m_body->GetLinearVelocity();
-    if (!m_p->m_inputLock) {
-        if (m_p->m_keyState.IsKeyPressed(SDLK_LEFT) ||
-            m_p->m_keyState.IsKeyPressed(SDLK_RIGHT)) {
-            float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
-            int dir = m_p->m_keyState.IsKeyPressed(SDLK_LEFT) ? -1 : 1;
-            if (vel.x * dir < MOVE_MAX_VEL) {
-                float vx = MOVE_IMPULSE * dir * airMult;
-                m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
-                                           m_p->m_body->GetWorldCenter());
-            }
+    if (m_p->m_keyState.IsKeyPressed(SDLK_LEFT) ||
+        m_p->m_keyState.IsKeyPressed(SDLK_RIGHT)) {
+        float airMult = m_p->IsOnGround() ? 1.0f : AIR_ACCEL;
+        int dir = m_p->m_keyState.IsKeyPressed(SDLK_LEFT) ? -1 : 1;
+        if (vel.x * dir < MOVE_MAX_VEL) {
+            float vx = MOVE_IMPULSE * dir * airMult;
+            m_p->m_body->ApplyLinearImpulse(b2Vec2(vx, 0),
+                                       m_p->m_body->GetWorldCenter());
         }
     }
 

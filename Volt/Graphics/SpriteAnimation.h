@@ -10,6 +10,7 @@ class Entity;
 class SpriteAnimation {
 public:
     SpriteAnimation (Entity* e, DataAssetRef animationData);
+    SpriteAnimation (Entity* e, const string& animationDataPath);
     ~SpriteAnimation () { }
 
     void Update ();

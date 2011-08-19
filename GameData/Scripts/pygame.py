@@ -549,6 +549,280 @@ class b2Body(_object):
 b2Body_swigregister = _pygame.b2Body_swigregister
 b2Body_swigregister(b2Body)
 
+class SDL_KeyboardEvent(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SDL_KeyboardEvent, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SDL_KeyboardEvent, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["type"] = _pygame.SDL_KeyboardEvent_type_set
+    __swig_getmethods__["type"] = _pygame.SDL_KeyboardEvent_type_get
+    if _newclass:type = _swig_property(_pygame.SDL_KeyboardEvent_type_get, _pygame.SDL_KeyboardEvent_type_set)
+    __swig_setmethods__["which"] = _pygame.SDL_KeyboardEvent_which_set
+    __swig_getmethods__["which"] = _pygame.SDL_KeyboardEvent_which_get
+    if _newclass:which = _swig_property(_pygame.SDL_KeyboardEvent_which_get, _pygame.SDL_KeyboardEvent_which_set)
+    __swig_setmethods__["state"] = _pygame.SDL_KeyboardEvent_state_set
+    __swig_getmethods__["state"] = _pygame.SDL_KeyboardEvent_state_get
+    if _newclass:state = _swig_property(_pygame.SDL_KeyboardEvent_state_get, _pygame.SDL_KeyboardEvent_state_set)
+    __swig_setmethods__["keysym"] = _pygame.SDL_KeyboardEvent_keysym_set
+    __swig_getmethods__["keysym"] = _pygame.SDL_KeyboardEvent_keysym_get
+    if _newclass:keysym = _swig_property(_pygame.SDL_KeyboardEvent_keysym_get, _pygame.SDL_KeyboardEvent_keysym_set)
+    def __init__(self): 
+        this = _pygame.new_SDL_KeyboardEvent()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_SDL_KeyboardEvent
+    __del__ = lambda self : None;
+SDL_KeyboardEvent_swigregister = _pygame.SDL_KeyboardEvent_swigregister
+SDL_KeyboardEvent_swigregister(SDL_KeyboardEvent)
+
+SDLK_UNKNOWN = _pygame.SDLK_UNKNOWN
+SDLK_FIRST = _pygame.SDLK_FIRST
+SDLK_BACKSPACE = _pygame.SDLK_BACKSPACE
+SDLK_TAB = _pygame.SDLK_TAB
+SDLK_CLEAR = _pygame.SDLK_CLEAR
+SDLK_RETURN = _pygame.SDLK_RETURN
+SDLK_PAUSE = _pygame.SDLK_PAUSE
+SDLK_ESCAPE = _pygame.SDLK_ESCAPE
+SDLK_SPACE = _pygame.SDLK_SPACE
+SDLK_EXCLAIM = _pygame.SDLK_EXCLAIM
+SDLK_QUOTEDBL = _pygame.SDLK_QUOTEDBL
+SDLK_HASH = _pygame.SDLK_HASH
+SDLK_DOLLAR = _pygame.SDLK_DOLLAR
+SDLK_AMPERSAND = _pygame.SDLK_AMPERSAND
+SDLK_QUOTE = _pygame.SDLK_QUOTE
+SDLK_LEFTPAREN = _pygame.SDLK_LEFTPAREN
+SDLK_RIGHTPAREN = _pygame.SDLK_RIGHTPAREN
+SDLK_ASTERISK = _pygame.SDLK_ASTERISK
+SDLK_PLUS = _pygame.SDLK_PLUS
+SDLK_COMMA = _pygame.SDLK_COMMA
+SDLK_MINUS = _pygame.SDLK_MINUS
+SDLK_PERIOD = _pygame.SDLK_PERIOD
+SDLK_SLASH = _pygame.SDLK_SLASH
+SDLK_0 = _pygame.SDLK_0
+SDLK_1 = _pygame.SDLK_1
+SDLK_2 = _pygame.SDLK_2
+SDLK_3 = _pygame.SDLK_3
+SDLK_4 = _pygame.SDLK_4
+SDLK_5 = _pygame.SDLK_5
+SDLK_6 = _pygame.SDLK_6
+SDLK_7 = _pygame.SDLK_7
+SDLK_8 = _pygame.SDLK_8
+SDLK_9 = _pygame.SDLK_9
+SDLK_COLON = _pygame.SDLK_COLON
+SDLK_SEMICOLON = _pygame.SDLK_SEMICOLON
+SDLK_LESS = _pygame.SDLK_LESS
+SDLK_EQUALS = _pygame.SDLK_EQUALS
+SDLK_GREATER = _pygame.SDLK_GREATER
+SDLK_QUESTION = _pygame.SDLK_QUESTION
+SDLK_AT = _pygame.SDLK_AT
+SDLK_LEFTBRACKET = _pygame.SDLK_LEFTBRACKET
+SDLK_BACKSLASH = _pygame.SDLK_BACKSLASH
+SDLK_RIGHTBRACKET = _pygame.SDLK_RIGHTBRACKET
+SDLK_CARET = _pygame.SDLK_CARET
+SDLK_UNDERSCORE = _pygame.SDLK_UNDERSCORE
+SDLK_BACKQUOTE = _pygame.SDLK_BACKQUOTE
+SDLK_a = _pygame.SDLK_a
+SDLK_b = _pygame.SDLK_b
+SDLK_c = _pygame.SDLK_c
+SDLK_d = _pygame.SDLK_d
+SDLK_e = _pygame.SDLK_e
+SDLK_f = _pygame.SDLK_f
+SDLK_g = _pygame.SDLK_g
+SDLK_h = _pygame.SDLK_h
+SDLK_i = _pygame.SDLK_i
+SDLK_j = _pygame.SDLK_j
+SDLK_k = _pygame.SDLK_k
+SDLK_l = _pygame.SDLK_l
+SDLK_m = _pygame.SDLK_m
+SDLK_n = _pygame.SDLK_n
+SDLK_o = _pygame.SDLK_o
+SDLK_p = _pygame.SDLK_p
+SDLK_q = _pygame.SDLK_q
+SDLK_r = _pygame.SDLK_r
+SDLK_s = _pygame.SDLK_s
+SDLK_t = _pygame.SDLK_t
+SDLK_u = _pygame.SDLK_u
+SDLK_v = _pygame.SDLK_v
+SDLK_w = _pygame.SDLK_w
+SDLK_x = _pygame.SDLK_x
+SDLK_y = _pygame.SDLK_y
+SDLK_z = _pygame.SDLK_z
+SDLK_DELETE = _pygame.SDLK_DELETE
+SDLK_WORLD_0 = _pygame.SDLK_WORLD_0
+SDLK_WORLD_1 = _pygame.SDLK_WORLD_1
+SDLK_WORLD_2 = _pygame.SDLK_WORLD_2
+SDLK_WORLD_3 = _pygame.SDLK_WORLD_3
+SDLK_WORLD_4 = _pygame.SDLK_WORLD_4
+SDLK_WORLD_5 = _pygame.SDLK_WORLD_5
+SDLK_WORLD_6 = _pygame.SDLK_WORLD_6
+SDLK_WORLD_7 = _pygame.SDLK_WORLD_7
+SDLK_WORLD_8 = _pygame.SDLK_WORLD_8
+SDLK_WORLD_9 = _pygame.SDLK_WORLD_9
+SDLK_WORLD_10 = _pygame.SDLK_WORLD_10
+SDLK_WORLD_11 = _pygame.SDLK_WORLD_11
+SDLK_WORLD_12 = _pygame.SDLK_WORLD_12
+SDLK_WORLD_13 = _pygame.SDLK_WORLD_13
+SDLK_WORLD_14 = _pygame.SDLK_WORLD_14
+SDLK_WORLD_15 = _pygame.SDLK_WORLD_15
+SDLK_WORLD_16 = _pygame.SDLK_WORLD_16
+SDLK_WORLD_17 = _pygame.SDLK_WORLD_17
+SDLK_WORLD_18 = _pygame.SDLK_WORLD_18
+SDLK_WORLD_19 = _pygame.SDLK_WORLD_19
+SDLK_WORLD_20 = _pygame.SDLK_WORLD_20
+SDLK_WORLD_21 = _pygame.SDLK_WORLD_21
+SDLK_WORLD_22 = _pygame.SDLK_WORLD_22
+SDLK_WORLD_23 = _pygame.SDLK_WORLD_23
+SDLK_WORLD_24 = _pygame.SDLK_WORLD_24
+SDLK_WORLD_25 = _pygame.SDLK_WORLD_25
+SDLK_WORLD_26 = _pygame.SDLK_WORLD_26
+SDLK_WORLD_27 = _pygame.SDLK_WORLD_27
+SDLK_WORLD_28 = _pygame.SDLK_WORLD_28
+SDLK_WORLD_29 = _pygame.SDLK_WORLD_29
+SDLK_WORLD_30 = _pygame.SDLK_WORLD_30
+SDLK_WORLD_31 = _pygame.SDLK_WORLD_31
+SDLK_WORLD_32 = _pygame.SDLK_WORLD_32
+SDLK_WORLD_33 = _pygame.SDLK_WORLD_33
+SDLK_WORLD_34 = _pygame.SDLK_WORLD_34
+SDLK_WORLD_35 = _pygame.SDLK_WORLD_35
+SDLK_WORLD_36 = _pygame.SDLK_WORLD_36
+SDLK_WORLD_37 = _pygame.SDLK_WORLD_37
+SDLK_WORLD_38 = _pygame.SDLK_WORLD_38
+SDLK_WORLD_39 = _pygame.SDLK_WORLD_39
+SDLK_WORLD_40 = _pygame.SDLK_WORLD_40
+SDLK_WORLD_41 = _pygame.SDLK_WORLD_41
+SDLK_WORLD_42 = _pygame.SDLK_WORLD_42
+SDLK_WORLD_43 = _pygame.SDLK_WORLD_43
+SDLK_WORLD_44 = _pygame.SDLK_WORLD_44
+SDLK_WORLD_45 = _pygame.SDLK_WORLD_45
+SDLK_WORLD_46 = _pygame.SDLK_WORLD_46
+SDLK_WORLD_47 = _pygame.SDLK_WORLD_47
+SDLK_WORLD_48 = _pygame.SDLK_WORLD_48
+SDLK_WORLD_49 = _pygame.SDLK_WORLD_49
+SDLK_WORLD_50 = _pygame.SDLK_WORLD_50
+SDLK_WORLD_51 = _pygame.SDLK_WORLD_51
+SDLK_WORLD_52 = _pygame.SDLK_WORLD_52
+SDLK_WORLD_53 = _pygame.SDLK_WORLD_53
+SDLK_WORLD_54 = _pygame.SDLK_WORLD_54
+SDLK_WORLD_55 = _pygame.SDLK_WORLD_55
+SDLK_WORLD_56 = _pygame.SDLK_WORLD_56
+SDLK_WORLD_57 = _pygame.SDLK_WORLD_57
+SDLK_WORLD_58 = _pygame.SDLK_WORLD_58
+SDLK_WORLD_59 = _pygame.SDLK_WORLD_59
+SDLK_WORLD_60 = _pygame.SDLK_WORLD_60
+SDLK_WORLD_61 = _pygame.SDLK_WORLD_61
+SDLK_WORLD_62 = _pygame.SDLK_WORLD_62
+SDLK_WORLD_63 = _pygame.SDLK_WORLD_63
+SDLK_WORLD_64 = _pygame.SDLK_WORLD_64
+SDLK_WORLD_65 = _pygame.SDLK_WORLD_65
+SDLK_WORLD_66 = _pygame.SDLK_WORLD_66
+SDLK_WORLD_67 = _pygame.SDLK_WORLD_67
+SDLK_WORLD_68 = _pygame.SDLK_WORLD_68
+SDLK_WORLD_69 = _pygame.SDLK_WORLD_69
+SDLK_WORLD_70 = _pygame.SDLK_WORLD_70
+SDLK_WORLD_71 = _pygame.SDLK_WORLD_71
+SDLK_WORLD_72 = _pygame.SDLK_WORLD_72
+SDLK_WORLD_73 = _pygame.SDLK_WORLD_73
+SDLK_WORLD_74 = _pygame.SDLK_WORLD_74
+SDLK_WORLD_75 = _pygame.SDLK_WORLD_75
+SDLK_WORLD_76 = _pygame.SDLK_WORLD_76
+SDLK_WORLD_77 = _pygame.SDLK_WORLD_77
+SDLK_WORLD_78 = _pygame.SDLK_WORLD_78
+SDLK_WORLD_79 = _pygame.SDLK_WORLD_79
+SDLK_WORLD_80 = _pygame.SDLK_WORLD_80
+SDLK_WORLD_81 = _pygame.SDLK_WORLD_81
+SDLK_WORLD_82 = _pygame.SDLK_WORLD_82
+SDLK_WORLD_83 = _pygame.SDLK_WORLD_83
+SDLK_WORLD_84 = _pygame.SDLK_WORLD_84
+SDLK_WORLD_85 = _pygame.SDLK_WORLD_85
+SDLK_WORLD_86 = _pygame.SDLK_WORLD_86
+SDLK_WORLD_87 = _pygame.SDLK_WORLD_87
+SDLK_WORLD_88 = _pygame.SDLK_WORLD_88
+SDLK_WORLD_89 = _pygame.SDLK_WORLD_89
+SDLK_WORLD_90 = _pygame.SDLK_WORLD_90
+SDLK_WORLD_91 = _pygame.SDLK_WORLD_91
+SDLK_WORLD_92 = _pygame.SDLK_WORLD_92
+SDLK_WORLD_93 = _pygame.SDLK_WORLD_93
+SDLK_WORLD_94 = _pygame.SDLK_WORLD_94
+SDLK_WORLD_95 = _pygame.SDLK_WORLD_95
+SDLK_KP0 = _pygame.SDLK_KP0
+SDLK_KP1 = _pygame.SDLK_KP1
+SDLK_KP2 = _pygame.SDLK_KP2
+SDLK_KP3 = _pygame.SDLK_KP3
+SDLK_KP4 = _pygame.SDLK_KP4
+SDLK_KP5 = _pygame.SDLK_KP5
+SDLK_KP6 = _pygame.SDLK_KP6
+SDLK_KP7 = _pygame.SDLK_KP7
+SDLK_KP8 = _pygame.SDLK_KP8
+SDLK_KP9 = _pygame.SDLK_KP9
+SDLK_KP_PERIOD = _pygame.SDLK_KP_PERIOD
+SDLK_KP_DIVIDE = _pygame.SDLK_KP_DIVIDE
+SDLK_KP_MULTIPLY = _pygame.SDLK_KP_MULTIPLY
+SDLK_KP_MINUS = _pygame.SDLK_KP_MINUS
+SDLK_KP_PLUS = _pygame.SDLK_KP_PLUS
+SDLK_KP_ENTER = _pygame.SDLK_KP_ENTER
+SDLK_KP_EQUALS = _pygame.SDLK_KP_EQUALS
+SDLK_UP = _pygame.SDLK_UP
+SDLK_DOWN = _pygame.SDLK_DOWN
+SDLK_RIGHT = _pygame.SDLK_RIGHT
+SDLK_LEFT = _pygame.SDLK_LEFT
+SDLK_INSERT = _pygame.SDLK_INSERT
+SDLK_HOME = _pygame.SDLK_HOME
+SDLK_END = _pygame.SDLK_END
+SDLK_PAGEUP = _pygame.SDLK_PAGEUP
+SDLK_PAGEDOWN = _pygame.SDLK_PAGEDOWN
+SDLK_F1 = _pygame.SDLK_F1
+SDLK_F2 = _pygame.SDLK_F2
+SDLK_F3 = _pygame.SDLK_F3
+SDLK_F4 = _pygame.SDLK_F4
+SDLK_F5 = _pygame.SDLK_F5
+SDLK_F6 = _pygame.SDLK_F6
+SDLK_F7 = _pygame.SDLK_F7
+SDLK_F8 = _pygame.SDLK_F8
+SDLK_F9 = _pygame.SDLK_F9
+SDLK_F10 = _pygame.SDLK_F10
+SDLK_F11 = _pygame.SDLK_F11
+SDLK_F12 = _pygame.SDLK_F12
+SDLK_F13 = _pygame.SDLK_F13
+SDLK_F14 = _pygame.SDLK_F14
+SDLK_F15 = _pygame.SDLK_F15
+SDLK_NUMLOCK = _pygame.SDLK_NUMLOCK
+SDLK_CAPSLOCK = _pygame.SDLK_CAPSLOCK
+SDLK_SCROLLOCK = _pygame.SDLK_SCROLLOCK
+SDLK_RSHIFT = _pygame.SDLK_RSHIFT
+SDLK_LSHIFT = _pygame.SDLK_LSHIFT
+SDLK_RCTRL = _pygame.SDLK_RCTRL
+SDLK_LCTRL = _pygame.SDLK_LCTRL
+SDLK_RALT = _pygame.SDLK_RALT
+SDLK_LALT = _pygame.SDLK_LALT
+SDLK_RMETA = _pygame.SDLK_RMETA
+SDLK_LMETA = _pygame.SDLK_LMETA
+SDLK_LSUPER = _pygame.SDLK_LSUPER
+SDLK_RSUPER = _pygame.SDLK_RSUPER
+SDLK_MODE = _pygame.SDLK_MODE
+SDLK_COMPOSE = _pygame.SDLK_COMPOSE
+SDLK_HELP = _pygame.SDLK_HELP
+SDLK_PRINT = _pygame.SDLK_PRINT
+SDLK_SYSREQ = _pygame.SDLK_SYSREQ
+SDLK_BREAK = _pygame.SDLK_BREAK
+SDLK_MENU = _pygame.SDLK_MENU
+SDLK_POWER = _pygame.SDLK_POWER
+SDLK_EURO = _pygame.SDLK_EURO
+SDLK_UNDO = _pygame.SDLK_UNDO
+SDLK_LAST = _pygame.SDLK_LAST
+KMOD_NONE = _pygame.KMOD_NONE
+KMOD_LSHIFT = _pygame.KMOD_LSHIFT
+KMOD_RSHIFT = _pygame.KMOD_RSHIFT
+KMOD_LCTRL = _pygame.KMOD_LCTRL
+KMOD_RCTRL = _pygame.KMOD_RCTRL
+KMOD_LALT = _pygame.KMOD_LALT
+KMOD_RALT = _pygame.KMOD_RALT
+KMOD_LMETA = _pygame.KMOD_LMETA
+KMOD_RMETA = _pygame.KMOD_RMETA
+KMOD_NUM = _pygame.KMOD_NUM
+KMOD_CAPS = _pygame.KMOD_CAPS
+KMOD_MODE = _pygame.KMOD_MODE
+KMOD_RESERVED = _pygame.KMOD_RESERVED
 class Color(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Color, name, value)
@@ -1122,6 +1396,27 @@ class Filter(_object):
     def name(self): return _pygame.Filter_name(self)
 Filter_swigregister = _pygame.Filter_swigregister
 Filter_swigregister(Filter)
+
+class SpriteAnimation(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SpriteAnimation, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SpriteAnimation, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _pygame.new_SpriteAnimation(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _pygame.delete_SpriteAnimation
+    __del__ = lambda self : None;
+    def Update(self): return _pygame.SpriteAnimation_Update(self)
+    def Render(self): return _pygame.SpriteAnimation_Render(self)
+    def PlayTrack(self, *args): return _pygame.SpriteAnimation_PlayTrack(self, *args)
+    def frameUserData(self): return _pygame.SpriteAnimation_frameUserData(self)
+    def ReloadSprites(self): return _pygame.SpriteAnimation_ReloadSprites(self)
+    def SetXFlip(self, *args): return _pygame.SpriteAnimation_SetXFlip(self, *args)
+SpriteAnimation_swigregister = _pygame.SpriteAnimation_swigregister
+SpriteAnimation_swigregister(SpriteAnimation)
 
 class AppTime(_object):
     __swig_setmethods__ = {}
@@ -1742,7 +2037,6 @@ class Player(Creature):
     def OnAdded(self): return _pygame.Player_OnAdded(self)
     def OnRemoved(self): return _pygame.Player_OnRemoved(self)
     def IsOnGround(self): return _pygame.Player_IsOnGround(self)
-    def SetInputLock(self, *args): return _pygame.Player_SetInputLock(self, *args)
 Player_swigregister = _pygame.Player_swigregister
 Player_swigregister(Player)
 
@@ -1925,7 +2219,7 @@ class ChoiceBox(DialogBox):
                 self.choiceBox = choiceBox
                 self.choice = -1
                 self.alertSemaphore = alertSemaphore
-                
+
             def OnDialogFinished(self):
                 self.choice = self.choiceBox.choice()
                 self.alertSemaphore.release()
@@ -1933,7 +2227,7 @@ class ChoiceBox(DialogBox):
         semaphore = threading.Semaphore(0)
         listener = ChoiceFinishListener(self, semaphore)
         self.AddDialogListener(listener)
-            
+
         semaphore.acquire()
 
         return listener.choice
@@ -1993,14 +2287,14 @@ class MessageBox(DialogBox):
                 DialogListener.__init__(self)
                 self.__disown__()
                 self.alertSemaphore = alertSemaphore
-                
+
             def OnDialogFinished(self):
                 self.alertSemaphore.release()
 
         semaphore = threading.Semaphore(0)
         listener = DialogFinishListener(semaphore)
         self.AddDialogListener(listener)
-            
+
         semaphore.acquire()
 
 MessageBox_swigregister = _pygame.MessageBox_swigregister

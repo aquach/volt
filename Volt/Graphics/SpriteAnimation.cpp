@@ -13,6 +13,12 @@ SpriteAnimation::SpriteAnimation (Entity* e, DataAssetRef animationData)
     Load(animationData);
 }
 
+SpriteAnimation::SpriteAnimation (Entity* e, const string& animationDataPath)
+    : m_entity(e),
+      m_currentTrack(NULL) {
+    Load(G_AssetManager->GetData(animationDataPath));
+}
+
 const Json::Value& SpriteAnimation::frameUserData () {
     return currentFrame()->userData;
 }

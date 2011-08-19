@@ -20,6 +20,7 @@
 #include "Volt/Graphics/Camera.h"
 #include "Volt/Graphics/Graphics.h"
 #include "Volt/Graphics/Filter.h"
+#include "Volt/Graphics/SpriteAnimation.h"
 #include "Volt/Game/Scene.h"
 
 #include "Game/Filters/BlendFilter.h"
@@ -74,6 +75,16 @@ namespace std {
 //%include <Box2D/Collision/Shapes/b2PolygonShape.h>
 //%include <Box2D/Collision/Shapes/b2PolygonShape.h>
 
+// SDL Input.
+/** Keyboard event structure */
+typedef struct SDL_KeyboardEvent {
+	Uint8 type;	/**< SDL_KEYDOWN or SDL_KEYUP */
+	Uint8 which;	/**< The keyboard device index */
+	Uint8 state;	/**< SDL_PRESSED or SDL_RELEASED */
+	SDL_keysym keysym;
+} SDL_KeyboardEvent;
+%include <SDL/SDL_keysym.h>
+
 // Volt.
 %include "Volt/Core/Color.h"
 %include "Volt/Core/Math.h"
@@ -94,6 +105,8 @@ namespace std {
 
 %include "Volt/Graphics/Camera.h"
 %include "Volt/Graphics/Filter.h"
+%ignore Volt::SpriteAnimation::SpriteAnimation(Entity*, DataAssetRef);
+%include "Volt/Graphics/SpriteAnimation.h"
 
 %include "Volt/Game/AppTime.h"
 
@@ -183,14 +196,14 @@ GameScene* scene () {
                     DialogListener.__init__(self)
                     self.__disown__()
                     self.alertSemaphore = alertSemaphore
-                    
+
                 def OnDialogFinished(self):
                     self.alertSemaphore.release()
 
             semaphore = threading.Semaphore(0)
             listener = DialogFinishListener(semaphore)
             self.AddDialogListener(listener)
-                
+
             semaphore.acquire()
     }
 }
@@ -205,7 +218,7 @@ GameScene* scene () {
                     self.choiceBox = choiceBox
                     self.choice = -1
                     self.alertSemaphore = alertSemaphore
-                    
+
                 def OnDialogFinished(self):
                     self.choice = self.choiceBox.choice()
                     self.alertSemaphore.release()
@@ -213,7 +226,7 @@ GameScene* scene () {
             semaphore = threading.Semaphore(0)
             listener = ChoiceFinishListener(self, semaphore)
             self.AddDialogListener(listener)
-                
+
             semaphore.acquire()
 
             return listener.choice
