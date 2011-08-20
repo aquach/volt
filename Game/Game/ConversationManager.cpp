@@ -1,10 +1,12 @@
 #include "Game/Game/ConversationManager.h"
 #include "Game/Entities/Gui/DialogBox.h"
-#include "Game/Scenes/GameScene.h"
 
 ConversationManager::ConversationManager (GameScene* scene)
-    : m_gameScene(scene) {
+    : m_gameScene(scene),
+      m_inputListener(NULL) {
     m_font = G_AssetManager->GetFont("Fonts/Mido.ttf", 32.0);
+    m_inputListener = new ConversationManager::InputListener(this);
+    m_gameScene->AddInputListener(m_inputListener, 2);
 }
 
 
@@ -15,19 +17,22 @@ ConversationManager::~ConversationManager () {
             delete box;
         m_boxes.pop();
     }
+    m_gameScene->RemoveInputListener(m_inputListener);
 }
 
-void ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
+bool ConversationManager::InputListener::OnKeyEvent (SDL_KeyboardEvent event) {
+    return m_cm->OnKeyEvent(event);
+}
+
+bool ConversationManager::OnKeyEvent (SDL_KeyboardEvent event) {
     if (m_boxes.empty())
-        return;
+        return false;
     DialogBox* box = m_boxes.front();
     box->OnKeyEvent(event);
+    return box->modal();
 }
 
 void ConversationManager::Update () {
-    // TODO: Fix player input. Make keyboard niput something more sensible.
-    m_gameScene->SetPlayerInputLock(false);
-
     if (m_boxes.empty())
         return;
 
@@ -43,14 +48,6 @@ void ConversationManager::Update () {
             box = m_boxes.front();
             m_gameScene->Add(box);
         }
-    }
-
-    if (box != NULL) {
-        m_gameScene->SetPlayerInputLock(box->modal());
-    } else {
-        /* Keep it locked until the next update so the player can't see the
-         * key that ended this MessageBox. */
-        m_gameScene->SetPlayerInputLock(true);
     }
 }
 

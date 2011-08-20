@@ -2300,6 +2300,19 @@ class MessageBox(DialogBox):
 MessageBox_swigregister = _pygame.MessageBox_swigregister
 MessageBox_swigregister(MessageBox)
 
+class GameInputListener(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, GameInputListener, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, GameInputListener, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _pygame.delete_GameInputListener
+    __del__ = lambda self : None;
+    def OnKeyEvent(self, *args): return _pygame.GameInputListener_OnKeyEvent(self, *args)
+GameInputListener_swigregister = _pygame.GameInputListener_swigregister
+GameInputListener_swigregister(GameInputListener)
+
 class GameScene(Scene):
     __swig_setmethods__ = {}
     for _s in [Scene]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -2321,6 +2334,8 @@ class GameScene(Scene):
     def ShowDialogBox(self, *args): return _pygame.GameScene_ShowDialogBox(self, *args)
     def SetPlayerInputLock(self, *args): return _pygame.GameScene_SetPlayerInputLock(self, *args)
     def player(self): return _pygame.GameScene_player(self)
+    def AddInputListener(self, *args): return _pygame.GameScene_AddInputListener(self, *args)
+    def RemoveInputListener(self, *args): return _pygame.GameScene_RemoveInputListener(self, *args)
 GameScene_swigregister = _pygame.GameScene_swigregister
 GameScene_swigregister(GameScene)
 

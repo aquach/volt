@@ -79,13 +79,18 @@ void GameScene::OnEnd () {
 }
 
 void GameScene::OnKeyEvent (SDL_KeyboardEvent event) {
-    bool handled = m_scriptConsole->OnKeyEvent(event);
-    if (handled)
-        return;
+    bool handled = false;
+    FOR_(InputListeners::iterator, i, m_inputListeners) {
+        FOR_(set<GameInputListener*>::iterator, iter, i->second) {
+            if ((*iter)->OnKeyEvent(event)) {
+                handled = true;
+                break;
+            }
+        }
+        if (handled)
+            break;
+    }
 
-    m_conversationManager->OnKeyEvent(event);
-    if (!m_playerInputLock)
-        m_player->OnKeyEvent(event);
     if (event.type == SDL_KEYDOWN) {
         switch (event.keysym.sym) {
             case SDLK_ESCAPE:

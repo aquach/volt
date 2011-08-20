@@ -5,6 +5,7 @@
 #include "Volt/Graphics/Input.h"
 #include "Volt/Game/Entity.h"
 #include "Volt/Assets/AssetManager.h"
+#include "Game/Scenes/GameScene.h"
 
 namespace Volt {
     class Label;
@@ -21,9 +22,17 @@ public:
     virtual void Update ();
     virtual void Render ();
 
+private:
+    class InputListener : public GameInputListener {
+    public:
+        InputListener (ScriptConsole* sl) : m_sl(sl) { }
+        virtual ~InputListener () { }
+        virtual bool OnKeyEvent (SDL_KeyboardEvent event);
+    private:
+        ScriptConsole* m_sl;
+    };
     bool OnKeyEvent (SDL_KeyboardEvent event);
 
-private:
     deque<string> m_history;
     int m_historyLocation;
     string m_currentText;
@@ -31,4 +40,5 @@ private:
     float m_blinkTimer;
     bool m_visible;
     Volt::Label* m_label;
+    InputListener* m_inputListener;
 };

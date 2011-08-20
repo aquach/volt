@@ -115,21 +115,19 @@ void Player::LadderState::Update () {
 
     // Movement up and down ladder.
     bool canMove = false;
-    if (!m_p->m_inputLock) {
-        if (m_p->m_keyState.IsKeyPressed(SDLK_UP) ||
-            m_p->m_keyState.IsKeyPressed(SDLK_DOWN)) {
-            int dir = m_p->m_keyState.IsKeyPressed(SDLK_UP) ? -1 : 1;
-            if (
-                (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
-                (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
-            ) {
-                canMove = true;
-                if (vel.y * dir < MOVE_MAX_VEL) {
-                    float vy = MOVE_IMPULSE * dir;
-                    m_p->m_body->ApplyLinearImpulse(
-                        b2Vec2(0, vy),
-                        m_p->m_body->GetWorldCenter());
-                }
+    if (m_p->m_keyState.IsKeyPressed(SDLK_UP) ||
+        m_p->m_keyState.IsKeyPressed(SDLK_DOWN)) {
+        int dir = m_p->m_keyState.IsKeyPressed(SDLK_UP) ? -1 : 1;
+        if (
+            (dir > 0 && m_p->position().y < m_p->m_ladder->bottomY()) ||
+            (dir < 0 && m_p->position().y > m_p->m_ladder->topY())
+        ) {
+            canMove = true;
+            if (vel.y * dir < MOVE_MAX_VEL) {
+                float vy = MOVE_IMPULSE * dir;
+                m_p->m_body->ApplyLinearImpulse(
+                    b2Vec2(0, vy),
+                    m_p->m_body->GetWorldCenter());
             }
         }
     }
@@ -163,8 +161,7 @@ Player::Player ()
       m_fsm(NULL),
       m_debugLabel(NULL),
       m_healthBar(NULL),
-      m_powerBar(NULL),
-      m_inputLock(false) {
+      m_powerBar(NULL) {
     AddTag("Player");
 
     b2BodyDef def;
@@ -250,7 +247,7 @@ void Player::Update () {
 
 void Player::UpdateJump () {
     Vector2 vel = m_body->GetLinearVelocity();
-    if (!m_inputLock && m_keyState.IsKeyPressed(SDLK_z)) {
+    if (m_keyState.IsKeyPressed(SDLK_z)) {
         if (IsOnGround()) {
             m_jumpTimer = JUMP_TIME;
             m_anim->PlayTrack("jump");
@@ -267,8 +264,6 @@ void Player::UpdateJump () {
 }
 
 void Player::OnKeyEvent (SDL_KeyboardEvent event) {
-    if (m_inputLock)
-        return;
     m_keyState.Update(event);
     if (event.keysym.sym == SDLK_F3)
         m_anim->ReloadSprites();

@@ -14,7 +14,8 @@ ScriptConsole::ScriptConsole ()
     : m_historyLocation(0),
       m_cursor(0),
       m_blinkTimer(0),
-      m_label(NULL) {
+      m_label(NULL),
+      m_inputListener(NULL) {
     setVisible(false);
 }
 
@@ -29,10 +30,20 @@ void ScriptConsole::OnAdded () {
     m_label->SetAnchorY(Volt::Label::ANCHOR_BOTTOM);
     m_label->SetColor(Volt::Color::white);
     scene()->Add(m_label, -51);
+
+    GameScene* gameScene = dynamic_cast<GameScene*>(scene());
+    if (gameScene) {
+        m_inputListener = new ScriptConsole::InputListener(this);
+        gameScene->AddInputListener(m_inputListener, 1);
+    }
 }
 
 void ScriptConsole::OnRemoved () {
     scene()->Remove(m_label);
+    GameScene* gameScene = dynamic_cast<GameScene*>(scene());
+    if (gameScene) {
+        gameScene->RemoveInputListener(m_inputListener);
+    }
 }
 
 void ScriptConsole::Update () {
@@ -60,6 +71,10 @@ void ScriptConsole::Render () {
         Graphics::RenderLine(Vector2(x, y - 20), Vector2(x, y + 5));
     }
     glPopMatrix();
+}
+
+bool ScriptConsole::InputListener::OnKeyEvent (SDL_KeyboardEvent event) {
+    return m_sl->OnKeyEvent(event);
 }
 
 bool ScriptConsole::OnKeyEvent (SDL_KeyboardEvent event) {
