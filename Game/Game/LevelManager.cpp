@@ -49,6 +49,9 @@ void LevelManager::LoadLevel (Volt::DataAssetRef asset) {
         m_scene->Add(e, e->layer());
     }
 
+    // Actually add them to the world.
+    m_scene->ResolveEntityChanges();
+
     m_startScript = root.get("startScript", "").asString();
     if (m_startScript.size() > 0 && m_pythonInitScriptsEnabled) {
         LOG(INFO) << "Executing start script " << m_startScript;

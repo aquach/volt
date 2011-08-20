@@ -22,9 +22,16 @@ public:
      * when entities are added/removed. */
     class SceneListener {
     public:
-        virtual ~SceneListener () { }
+        SceneListener () : m_scene(NULL) { }
+        virtual ~SceneListener ();
+
         virtual void OnEntityAdded (Entity* e) { }
         virtual void OnEntityRemoved (Entity* e) { }
+
+        Scene* scene () { return m_scene; }
+    private:
+        friend class Scene;
+        Scene* m_scene;
     };
 
     typedef map<int, list<Entity* > > Layers;
@@ -76,14 +83,22 @@ public:
     void SetHook (SceneHook* hook);
 
     void AddSceneListener (SceneListener* listener) {
+        CHECK(listener->m_scene == NULL);
         m_sceneListeners.insert(listener);
+        listener->m_scene = this;
     }
     void RemoveSceneListener (SceneListener* listener) {
+        CHECK(listener->m_scene == this);
         m_sceneListeners.erase(listener);
+        listener->m_scene = NULL;
     }
 
     Entity* GetFirstTagged (const string& tag);
     void GetAllTagged (const string& tag, vector<Entity*>* entities);
+
+    // Do not call this from any Update or Render method of an Entity/Filter!
+    // It will break the Update/Render loop!
+    void ResolveEntityChanges ();
 
 protected:
     Game* m_game;
@@ -94,7 +109,6 @@ protected:
 private:
     friend class Game;
 
-    void ResolveEntityChanges ();
     void ResolveFilterChanges ();
     void NotifyAddListeners (Entity* entity);
     void NotifyRemoveListeners (Entity* entity);

@@ -15,6 +15,7 @@
 #include "Game/Entities/Gui/PowerBar.h"
 #include "Game/Graphics/Graphics.h"
 
+#if 0
 const float WIDTH = 1.5f;
 const float HEIGHT = 2.0f;
 const float AIR_ACCEL = 0.15f;
@@ -325,3 +326,4 @@ void Player::CreatureListener::OnDamage (Entity* agent, float damage) {
 void Player::CreatureListener::OnDeath (Entity* agent) {
     // TODO: Game Over!
 }
+#endif

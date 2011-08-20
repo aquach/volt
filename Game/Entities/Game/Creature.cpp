@@ -1,6 +1,11 @@
 #include "Game/Entities/Game/Creature.h"
 #include "Game/Entities/Game/Weapon.h"
 
+CreatureListener::~CreatureListener () {
+    if (m_creature != NULL)
+        m_creature->RemoveCreatureListener(this);
+}
+
 Creature::Creature ()
     : m_health(21),
       m_maxHealth(25),

@@ -4,6 +4,11 @@
 
 namespace Volt {
 
+EntityContactListener::~EntityContactListener () {
+    if (m_entity != NULL)
+        m_entity->RemoveContactListener(this);
+}
+
 Entity::Entity ()
     : m_layer(0),
       m_scene(NULL),
@@ -203,11 +208,15 @@ void Entity::CancelGravity () {
 }
 
 void Entity::AddContactListener (EntityContactListener* listener) {
+    CHECK(listener->m_entity == NULL);
     m_contactListeners.insert(listener);
+    listener->m_entity = this;
 }
 
 void Entity::RemoveContactListener (EntityContactListener* listener) {
+    CHECK(listener->m_entity == this);
     m_contactListeners.erase(listener);
+    listener->m_entity = NULL;
 }
 
 void Entity::BeginContact (Entity* other, b2Contact* contact) {

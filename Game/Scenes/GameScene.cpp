@@ -2,8 +2,9 @@
 #include "Volt/Assets/AssetManager.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/SDLWindow.h"
+#include "Volt/Graphics/SpriteAnimation.h"
 #include "Volt/Graphics/Viewport.h"
-#include "Game/Entities/Game/Player.h"
+#include "Game/Entities/Game/Humanoid.h"
 #include "Game/Game/ConversationManager.h"
 #include "Game/Game/DoodadManager.h"
 #include "Game/Game/Entity.h"
@@ -14,12 +15,17 @@
 
 const float WORLD_TO_SCREEN_SCALE = 30;
 
+GameScene::GameInputListener::~GameInputListener () {
+    if (m_gameScene != NULL)
+        m_gameScene->RemoveInputListener(this);
+}
+
 GameScene::GameScene ()
-    : m_player(NULL),
-      m_levelManager(NULL),
+    : m_levelManager(NULL),
       m_conversationManager(NULL),
       m_doodadManager(NULL),
-      m_scriptConsole(NULL) {
+      m_scriptConsole(NULL),
+      m_updateFreeze(false) {
 
     m_scriptConsole = new ScriptConsole;
     Add(m_scriptConsole, -50);
@@ -31,8 +37,14 @@ GameScene::GameScene ()
         WORLD_TO_SCREEN_SCALE,
         WORLD_TO_SCREEN_SCALE);
 
-    m_player = new Player;
-    Add(m_player, -2);
+    Humanoid* player = new Humanoid;
+    player->AddTag("Player");
+    Volt::DataAssetRef animation = G_AssetManager->GetData(
+        "Sprites/Player/player.json");
+    player->SetAnimation(new Volt::SpriteAnimation(player, animation));
+    Add(player, -2);
+    player->CreateInputListener(this);
+    camera()->WatchEntity(player);
     //Umbrella* u = new Umbrella;
     //Add(u, -2);
     //m_player->EquipWeapon(u);
@@ -65,14 +77,15 @@ GameScene::~GameScene () {
 }
 
 void GameScene::Update () {
-    Scene::Update();
+    if (!m_updateFreeze)
+        Scene::Update();
     m_conversationManager->Update();
     m_levelManager->Update();
 }
 
 void GameScene::OnBegin () {
     m_levelManager->LoadLevel(G_AssetManager->GetData("Levels/world.json"));
-    camera()->WatchEntity(m_player);
+    ResolveEntityChanges();
 }
 
 void GameScene::OnEnd () {

@@ -6,8 +6,6 @@ import time
 
 import game.level
 
-sleepFrame()
-sleepFrame()
 game.level.activateLevelPrimitives()
 
 time.sleep(1)

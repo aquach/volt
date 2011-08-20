@@ -23,7 +23,7 @@ public:
     virtual void Render ();
 
 private:
-    class InputListener : public GameInputListener {
+    class InputListener : public GameScene::GameInputListener {
     public:
         InputListener (ScriptConsole* sl) : m_sl(sl) { }
         virtual ~InputListener () { }
@@ -40,5 +40,5 @@ private:
     float m_blinkTimer;
     bool m_visible;
     Volt::Label* m_label;
-    InputListener* m_inputListener;
+    GameScene::GameInputListener* m_inputListener;
 };

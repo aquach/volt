@@ -16,54 +16,9 @@
 			],
 			"transform" : 
 			{
-				"position" : [ 9.0, -16.0 ],
-				"rotation" : 600.0,
-				"scale" : [ 3.0, 12.0 ]
-			},
-			"type" : "Triangle",
-			"vertexColors" : 
-			[
-				
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 0.0,
-					"r" : 1.0
-				},
-				
-				{
-					"a" : 1.0,
-					"b" : 0.0,
-					"g" : 1.0,
-					"r" : 0.0
-				},
-				
-				{
-					"a" : 1.0,
-					"b" : 1.0,
-					"g" : 0.0,
-					"r" : 0.0
-				}
-			],
-			"visible" : true
-		},
-		
-		{
-			"layer" : 0,
-			"occludesLight" : true,
-			"tags" : [ "Triangle" ],
-			"texture" : "",
-			"textureCoords" : 
-			[
-				[ 0.0, 0.0 ],
-				[ 1.0, 0.0 ],
-				[ 0.0, 1.0 ]
-			],
-			"transform" : 
-			{
-				"position" : [ 5.0, -16.0 ],
-				"rotation" : 615.0,
-				"scale" : [ 3.0, 12.0 ]
+				"position" : [ -2.0, 3.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 50.0, 1.0 ]
 			},
 			"type" : "Triangle",
 			"vertexColors" : 
@@ -128,8 +83,8 @@
 			],
 			"transform" : 
 			{
-				"position" : [ 7.0, -16.0 ],
-				"rotation" : 610.0,
+				"position" : [ 9.0, -16.0 ],
+				"rotation" : 600.0,
 				"scale" : [ 3.0, 12.0 ]
 			},
 			"type" : "Triangle",
@@ -162,20 +117,6 @@
 		
 		{
 			"layer" : 0,
-			"occludesLight" : false,
-			"tags" : [ "Ladder" ],
-			"transform" : 
-			{
-				"position" : [ 3.0, -15.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 0.50, 10.0 ]
-			},
-			"type" : "Ladder",
-			"visible" : true
-		},
-		
-		{
-			"layer" : 0,
 			"occludesLight" : true,
 			"tags" : [ "Triangle" ],
 			"texture" : "",
@@ -187,9 +128,9 @@
 			],
 			"transform" : 
 			{
-				"position" : [ -2.0, 3.0 ],
-				"rotation" : 0.0,
-				"scale" : [ 50.0, 1.0 ]
+				"position" : [ 5.0, -16.0 ],
+				"rotation" : 615.0,
+				"scale" : [ 3.0, 12.0 ]
 			},
 			"type" : "Triangle",
 			"vertexColors" : 
@@ -19578,6 +19519,65 @@
 				"scale" : [ 1.0, 1.0 ]
 			},
 			"type" : "Light",
+			"visible" : true
+		},
+		
+		{
+			"layer" : 0,
+			"occludesLight" : true,
+			"tags" : [ "Triangle" ],
+			"texture" : "",
+			"textureCoords" : 
+			[
+				[ 0.0, 0.0 ],
+				[ 1.0, 0.0 ],
+				[ 0.0, 1.0 ]
+			],
+			"transform" : 
+			{
+				"position" : [ 7.0, -16.0 ],
+				"rotation" : 610.0,
+				"scale" : [ 3.0, 12.0 ]
+			},
+			"type" : "Triangle",
+			"vertexColors" : 
+			[
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 0.0,
+					"r" : 1.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 0.0,
+					"g" : 1.0,
+					"r" : 0.0
+				},
+				
+				{
+					"a" : 1.0,
+					"b" : 1.0,
+					"g" : 0.0,
+					"r" : 0.0
+				}
+			],
+			"visible" : true
+		},
+		
+		{
+			"layer" : 0,
+			"occludesLight" : false,
+			"tags" : [ "Ladder" ],
+			"transform" : 
+			{
+				"position" : [ 3.0, -15.0 ],
+				"rotation" : 0.0,
+				"scale" : [ 0.50, 10.0 ]
+			},
+			"type" : "Ladder",
 			"visible" : true
 		},
 		
@@ -41811,7 +41811,7 @@
 			"tags" : [ "Ladder" ],
 			"transform" : 
 			{
-				"position" : [ 20.0, -7.0 ],
+				"position" : [ 21.50, -7.0 ],
 				"rotation" : 0.0,
 				"scale" : [ 0.50, 20.0 ]
 			},

@@ -18,7 +18,7 @@ public:
     void ShowDialogBox (DialogBox* box);
 
 private:
-    class InputListener : public GameInputListener {
+    class InputListener : public GameScene::GameInputListener {
     public:
         InputListener (ConversationManager* cm) : m_cm(cm) { }
         virtual ~InputListener () { }

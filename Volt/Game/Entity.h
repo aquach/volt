@@ -13,9 +13,16 @@ class Scene;
 
 class EntityContactListener {
 public:
-    virtual ~EntityContactListener () { }
+    EntityContactListener () : m_entity(NULL) { }
+    virtual ~EntityContactListener ();
+
     virtual void OnContactBegin (Entity* other, b2Contact* contact) = 0;
     virtual void OnContactEnd (Entity* other, b2Contact* contact) = 0;
+
+    Entity* entity () { return m_entity; }
+private:
+    friend class Entity;
+    Entity* m_entity;
 };
 
 class Entity {

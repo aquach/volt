@@ -9,6 +9,11 @@
 
 namespace Volt {
 
+Scene::SceneListener::~SceneListener () {
+    if (m_scene != NULL)
+        m_scene->RemoveSceneListener(this);
+}
+
 Scene::Scene ()
     : m_isPaused(false),
       m_isEditor(false),

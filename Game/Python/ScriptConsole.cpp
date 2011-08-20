@@ -40,10 +40,7 @@ void ScriptConsole::OnAdded () {
 
 void ScriptConsole::OnRemoved () {
     scene()->Remove(m_label);
-    GameScene* gameScene = dynamic_cast<GameScene*>(scene());
-    if (gameScene) {
-        gameScene->RemoveInputListener(m_inputListener);
-    }
+    delete m_inputListener;
 }
 
 void ScriptConsole::Update () {

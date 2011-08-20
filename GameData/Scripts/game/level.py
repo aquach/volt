@@ -20,5 +20,5 @@ def triggerSpawnLocation():
     spawnLocation = scene().GetFirstTagged('SpawnLocation')
     if spawnLocation:
         pos = spawnLocation.position()
-        scene().player().SetPosition(pos)
+        scene().GetFirstTagged('Player').SetPosition(pos)
         scene().camera().transform.position = pos

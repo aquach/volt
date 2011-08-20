@@ -3,14 +3,22 @@
 #include "Game/Core/Core.h"
 #include "Game/Game/Entity.h"
 
+class Creature;
 class Weapon;
 
 /* Subclass this to receive callbacks when the Creature takes damage or dies. */
 class CreatureListener {
 public:
-    virtual ~CreatureListener () { }
+    CreatureListener () : m_creature(NULL) { }
+    virtual ~CreatureListener ();
+
     virtual void OnDamage (Entity* agent, float damage) { }
     virtual void OnDeath (Entity* agent) { }
+
+    Creature* creature () { return m_creature; }
+private:
+    friend class Creature;
+    Creature* m_creature;
 };
 
 class Creature : public Entity {
@@ -24,11 +32,15 @@ public:
 
     void EquipWeapon (Weapon* weapon);
 
-    void AddListener (CreatureListener* listener) {
+    void AddCreatureListener (CreatureListener* listener) {
+        CHECK(listener->m_creature == NULL);
         m_listeners.insert(listener);
+        listener->m_creature = this;
     }
-    void RemoveListener (CreatureListener* listener) {
+    void RemoveCreatureListener (CreatureListener* listener) {
+        CHECK(listener->m_creature == this);
         m_listeners.erase(listener);
+        listener->m_creature = NULL;
     }
 
     Volt::Transform weaponTransform () const {

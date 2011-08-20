@@ -19,6 +19,8 @@ public:
     void TransitionTo (string stateName);
     void DelayTransitionTo (string stateName);
 
+    const string& name () const { return m_stateName; }
+
 protected:
     string m_stateName;
 

@@ -155,7 +155,7 @@ typedef struct SDL_KeyboardEvent {
 
 %ignore Light::STATIC_MAP_FOLDER;
 %include "Game/Entities/Game/Light.h"
-%include "Game/Entities/Game/Player.h"
+//%include "Game/Entities/Game/Player.h"
 %include "Game/Entities/Game/Triangle.h"
 %include "Game/Editor/EntityFactory.h"
 %feature("director") DialogListener;

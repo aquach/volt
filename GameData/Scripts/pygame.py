@@ -1453,10 +1453,6 @@ class EntityContactListener(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, EntityContactListener, name)
     __repr__ = _swig_repr
-    __swig_destroy__ = _pygame.delete_EntityContactListener
-    __del__ = lambda self : None;
-    def OnContactBegin(self, *args): return _pygame.EntityContactListener_OnContactBegin(self, *args)
-    def OnContactEnd(self, *args): return _pygame.EntityContactListener_OnContactEnd(self, *args)
     def __init__(self): 
         if self.__class__ == EntityContactListener:
             _self = None
@@ -1465,6 +1461,11 @@ class EntityContactListener(_object):
         this = _pygame.new_EntityContactListener(_self, )
         try: self.this.append(this)
         except: self.this = this
+    __swig_destroy__ = _pygame.delete_EntityContactListener
+    __del__ = lambda self : None;
+    def OnContactBegin(self, *args): return _pygame.EntityContactListener_OnContactBegin(self, *args)
+    def OnContactEnd(self, *args): return _pygame.EntityContactListener_OnContactEnd(self, *args)
+    def entity(self): return _pygame.EntityContactListener_entity(self)
     def __disown__(self):
         self.this.disown()
         _pygame.disown_EntityContactListener(self)
@@ -1563,6 +1564,7 @@ class FSMState(_object):
     def OnExit(self): return _pygame.FSMState_OnExit(self)
     def TransitionTo(self, *args): return _pygame.FSMState_TransitionTo(self, *args)
     def DelayTransitionTo(self, *args): return _pygame.FSMState_DelayTransitionTo(self, *args)
+    def name(self): return _pygame.FSMState_name(self)
     def __disown__(self):
         self.this.disown()
         _pygame.disown_FSMState(self)
@@ -1717,6 +1719,7 @@ class Scene(_object):
         return entities
 
 
+    def ResolveEntityChanges(self): return _pygame.Scene_ResolveEntityChanges(self)
 Scene_swigregister = _pygame.Scene_swigregister
 Scene_swigregister(Scene)
 
@@ -1916,14 +1919,15 @@ class CreatureListener(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, CreatureListener, name)
     __repr__ = _swig_repr
-    __swig_destroy__ = _pygame.delete_CreatureListener
-    __del__ = lambda self : None;
-    def OnDamage(self, *args): return _pygame.CreatureListener_OnDamage(self, *args)
-    def OnDeath(self, *args): return _pygame.CreatureListener_OnDeath(self, *args)
     def __init__(self): 
         this = _pygame.new_CreatureListener()
         try: self.this.append(this)
         except: self.this = this
+    __swig_destroy__ = _pygame.delete_CreatureListener
+    __del__ = lambda self : None;
+    def OnDamage(self, *args): return _pygame.CreatureListener_OnDamage(self, *args)
+    def OnDeath(self, *args): return _pygame.CreatureListener_OnDeath(self, *args)
+    def creature(self): return _pygame.CreatureListener_creature(self)
 CreatureListener_swigregister = _pygame.CreatureListener_swigregister
 CreatureListener_swigregister(CreatureListener)
 
@@ -1949,8 +1953,8 @@ class Creature(Entity):
     def Update(self): return _pygame.Creature_Update(self)
     def Render(self): return _pygame.Creature_Render(self)
     def EquipWeapon(self, *args): return _pygame.Creature_EquipWeapon(self, *args)
-    def AddListener(self, *args): return _pygame.Creature_AddListener(self, *args)
-    def RemoveListener(self, *args): return _pygame.Creature_RemoveListener(self, *args)
+    def AddCreatureListener(self, *args): return _pygame.Creature_AddCreatureListener(self, *args)
+    def RemoveCreatureListener(self, *args): return _pygame.Creature_RemoveCreatureListener(self, *args)
     def weaponTransform(self): return _pygame.Creature_weaponTransform(self)
     def ToString(self, *args): return _pygame.Creature_ToString(self, *args)
     def TakeDamage(self, *args): return _pygame.Creature_TakeDamage(self, *args)
@@ -2016,29 +2020,6 @@ class Light(Entity):
     def renderBounds(self): return _pygame.Light_renderBounds(self)
 Light_swigregister = _pygame.Light_swigregister
 Light_swigregister(Light)
-
-class Player(Creature):
-    __swig_setmethods__ = {}
-    for _s in [Creature]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Player, name, value)
-    __swig_getmethods__ = {}
-    for _s in [Creature]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
-    __getattr__ = lambda self, name: _swig_getattr(self, Player, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _pygame.new_Player()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _pygame.delete_Player
-    __del__ = lambda self : None;
-    def Update(self): return _pygame.Player_Update(self)
-    def Render(self): return _pygame.Player_Render(self)
-    def OnKeyEvent(self, *args): return _pygame.Player_OnKeyEvent(self, *args)
-    def OnAdded(self): return _pygame.Player_OnAdded(self)
-    def OnRemoved(self): return _pygame.Player_OnRemoved(self)
-    def IsOnGround(self): return _pygame.Player_IsOnGround(self)
-Player_swigregister = _pygame.Player_swigregister
-Player_swigregister(Player)
 
 class BrushStroke(_object):
     __swig_setmethods__ = {}
@@ -2300,19 +2281,6 @@ class MessageBox(DialogBox):
 MessageBox_swigregister = _pygame.MessageBox_swigregister
 MessageBox_swigregister(MessageBox)
 
-class GameInputListener(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, GameInputListener, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, GameInputListener, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
-    __repr__ = _swig_repr
-    __swig_destroy__ = _pygame.delete_GameInputListener
-    __del__ = lambda self : None;
-    def OnKeyEvent(self, *args): return _pygame.GameInputListener_OnKeyEvent(self, *args)
-GameInputListener_swigregister = _pygame.GameInputListener_swigregister
-GameInputListener_swigregister(GameInputListener)
-
 class GameScene(Scene):
     __swig_setmethods__ = {}
     for _s in [Scene]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -2332,10 +2300,10 @@ class GameScene(Scene):
     def OnEnd(self): return _pygame.GameScene_OnEnd(self)
     def OnKeyEvent(self, *args): return _pygame.GameScene_OnKeyEvent(self, *args)
     def ShowDialogBox(self, *args): return _pygame.GameScene_ShowDialogBox(self, *args)
-    def SetPlayerInputLock(self, *args): return _pygame.GameScene_SetPlayerInputLock(self, *args)
-    def player(self): return _pygame.GameScene_player(self)
     def AddInputListener(self, *args): return _pygame.GameScene_AddInputListener(self, *args)
     def RemoveInputListener(self, *args): return _pygame.GameScene_RemoveInputListener(self, *args)
+    def SetUpdateFreeze(self, *args): return _pygame.GameScene_SetUpdateFreeze(self, *args)
+    def updateFrozen(self): return _pygame.GameScene_updateFrozen(self)
 GameScene_swigregister = _pygame.GameScene_swigregister
 GameScene_swigregister(GameScene)
 
