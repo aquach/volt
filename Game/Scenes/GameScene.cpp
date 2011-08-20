@@ -4,6 +4,7 @@
 #include "Volt/Graphics/SDLWindow.h"
 #include "Volt/Graphics/SpriteAnimation.h"
 #include "Volt/Graphics/Viewport.h"
+#include "Game/Editor/EditorEntities.h"
 #include "Game/Entities/Game/Humanoid.h"
 #include "Game/Game/ConversationManager.h"
 #include "Game/Game/DoodadManager.h"
@@ -70,6 +71,12 @@ GameScene::GameScene ()
 }
 
 GameScene::~GameScene () {
+    FOR_(InputListeners::iterator, i, m_inputListeners) {
+        FOR_(set<GameInputListener*>::iterator, iter, i->second) {
+            RemoveInputListener(*iter);
+        }
+    }
+
     delete m_conversationManager;
     delete m_levelManager;
     delete m_doodadManager;

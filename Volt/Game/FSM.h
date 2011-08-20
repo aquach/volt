@@ -38,10 +38,10 @@ public:
 
     void Update ();
 
-    void TransitionTo (string stateName);
-    void DelayTransitionTo (string stateName);
+    void TransitionTo (const string& stateName);
+    void DelayTransitionTo (const string& stateName);
 
-    void AddState (FSMState* newState, string stateName);
+    void AddState (FSMState* newState, const string& stateName);
     const string& stateName () const {
         return m_currentState->m_stateName;
     }

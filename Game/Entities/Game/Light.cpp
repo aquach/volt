@@ -65,7 +65,6 @@ void Light::OnAdded () {
 }
 
 void Light::OnRemoved () {
-    scene()->RemoveSceneListener(m_listener);
 }
 
 void Light::UpdateNearbyEntities () {

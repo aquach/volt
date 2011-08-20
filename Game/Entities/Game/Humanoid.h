@@ -26,54 +26,46 @@ public:
         ACTION_BLOCK
     };
 
+    /* A test that is invoked when checking whether or not it's possible to
+     * an action trigger to fire. Allows customization for various states
+     * that require certain things to be true before allowing state enter.
+     */
+    class ActionTriggerTest {
+    public:
+        virtual bool CanTransition () { return true; }
+    };
+
     class HumanoidState : public Volt::FSMState {
     public:
         explicit HumanoidState (Humanoid* Humanoid)
             : m_h(Humanoid) { }
+        virtual ~HumanoidState ();
 
-        virtual void Update () = 0;
-        virtual void OnEnter () = 0;
+        virtual void Update ();
+        virtual void OnEnter () { m_stateTime = 0; }
         virtual void OnExit () = 0;
         virtual void OnStruckEnemy () = 0;
         //virtual void OnStruck () = 0;
         virtual void OnAction (Action action) = 0;
 
-        /* Possibly add multiple actions and state names in AND/OR combo? */
-        void AddActionTrigger (Action action, const string& stateName);
+        /* Adds an action trigger to the host Humanoid, so that when the
+         * specified action is executed and the ActionTriggerTest returns
+         * true, the Humanoid will immediately switch to this state (provided
+         * action lock is off). This provides a mechanism for entering various
+         * states based on actions, like climbing a ladder, attacking, running,
+         * etc regardless of what state the Humanoid is currently in. For
+         * combo-based states where the original state matters, see OnAction.
+         */
+        void AddActionTrigger (Action action, ActionTriggerTest* test);
+
+        float stateTime () const { return m_stateTime; }
 
     protected:
         Humanoid* m_h;
 
     private:
+        float m_stateTime;
         DISALLOW_COPY_AND_ASSIGN(HumanoidState);
-    };
-
-    class IdleState : public HumanoidState {
-    public:
-        explicit IdleState (Humanoid* Humanoid)
-            : HumanoidState(Humanoid) { }
-        virtual void Update ();
-        virtual void OnEnter ();
-        virtual void OnExit ();
-        virtual void OnStruckEnemy () { }
-        //virtual void OnStruck () { }
-        virtual void OnAction (Action action) { }
-
-        virtual void OnKeyEvent (SDL_KeyboardEvent event);
-    };
-
-    class LadderState : public HumanoidState {
-    public:
-        explicit LadderState (Humanoid* Humanoid)
-            : HumanoidState(Humanoid) { }
-        virtual void Update ();
-        virtual void OnEnter ();
-        virtual void OnExit ();
-        virtual void OnStruckEnemy () { }
-        //virtual void OnStruck () { }
-        virtual void OnAction (Action action) { }
-
-        virtual void OnKeyEvent (SDL_KeyboardEvent event);
     };
 
     Humanoid ();
@@ -88,14 +80,23 @@ public:
     bool IsOnGround () const;
 
     /* External physics controls on the humanoid that HumanoidStates can use. */
-    void Run (float maxSpeed);
+    void Run (int dir);
     void Slide (float amount, float time);
     void ApplyVelocity (Vector2 vel);
-    void Jump (float speed);
+    void Jump ();
     void Fall ();
     void HitPause (float time); /* Pause when hit or being hit. */
     void Recover (float time); /* Recovery phase of being hit */
     /* MORE */
+
+    void SetRunSpeed (float speed) { m_runSpeed = speed; }
+    bool runSpeed () const { return m_runSpeed; }
+
+    void SetJumpSpeed (float speed) { m_jumpSpeed = speed; }
+    bool jumpSpeed () const { return m_jumpSpeed; }
+
+    void SetJumpTime (float speed) { m_jumpTime = speed; }
+    bool jumpTime () const { return m_jumpTime; }
 
     /* Super armor means that you do not need to recover and cannot fall. */
     void SetSuperArmor (bool enabled) { m_superArmor = enabled; }
@@ -108,15 +109,53 @@ public:
     bool actionLocked () const { return m_actionLock; }
 
     void SetAnimation (Volt::SpriteAnimation* animation) { m_anim = animation; }
-    void AddState (Humanoid::HumanoidState* state);
+    void AddState (Humanoid::HumanoidState* state, const string& stateName);
 
+    /* Creates an input listener to the scene so that the user's input will
+     * affect this Humanoid.
+     */
     void CreateInputListener (GameScene* gameScene);
     void RemoveInputListener ();
 
 private:
+    // Starting states for Humanoid.
+    class IdleState : public HumanoidState {
+    public:
+        explicit IdleState (Humanoid* humanoid)
+            : HumanoidState(humanoid) { }
+        virtual void Update ();
+        virtual void OnEnter ();
+        virtual void OnExit () { }
+        virtual void OnStruckEnemy () { }
+        //virtual void OnStruck () { }
+        virtual void OnAction (Action action) { }
+    };
+
+    class RunningState : public HumanoidState {
+    public:
+        explicit RunningState (Humanoid* humanoid);
+        virtual void Update ();
+        virtual void OnEnter ();
+        virtual void OnExit () { }
+        virtual void OnStruckEnemy () { }
+        //virtual void OnStruck () { }
+        virtual void OnAction (Action action) { }
+    };
+
+    class LadderState : public HumanoidState {
+    public:
+        explicit LadderState (Humanoid* humanoid)
+            : HumanoidState(humanoid) { }
+        virtual void Update ();
+        virtual void OnEnter ();
+        virtual void OnExit ();
+        virtual void OnStruckEnemy () { }
+        //virtual void OnStruck () { }
+        virtual void OnAction (Action action) { }
+    };
+
     class ContactListener : public Volt::EntityContactListener {
     public:
-        explicit ContactListener () { }
         virtual void OnContactBegin (Volt::Entity* other, b2Contact* contact) {
             Humanoid* h = dynamic_cast<Humanoid*>(entity());
             if (h != NULL)
@@ -147,22 +186,26 @@ private:
 
     b2Body* m_sideContacts[4];
     float m_jumpTimer;
-    Ladder* m_ladder;
     bool m_superArmor;
+    float m_runSpeed;
+    float m_jumpTime;
+    float m_jumpSpeed;
 
     /* States */
-    void AddActionTrigger (Action action, const string& stateName,
+    void AddActionTrigger (Action action, ActionTriggerTest* test,
                            Humanoid::HumanoidState* state);
+    void RemoveActionTriggers (Humanoid::HumanoidState* state);
     Volt::FSM* m_fsm;
     bool m_actionLock;
     struct Trigger {
         Action action;
-        string startStateName;
+        ActionTriggerTest* test;
         Humanoid::HumanoidState* changeToState;
     };
     vector<Trigger> m_actionTriggers;
 
     /* Animation */
+    void PlayAnimTrack (const string& name);
     Volt::SpriteAnimation* m_anim;
 
     /* GUI */

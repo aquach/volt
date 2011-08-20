@@ -34,7 +34,7 @@ void FSM::Update () {
     m_currentState->Update();
 }
 
-void FSM::TransitionTo (string stateName) {
+void FSM::TransitionTo (const string& stateName) {
     States::iterator i = m_states.find(stateName);
     CHECK(i != m_states.end()) << "Missing state " << stateName;
 
@@ -46,18 +46,15 @@ void FSM::TransitionTo (string stateName) {
     m_currentState = nextState;
 }
 
-void FSM::DelayTransitionTo (string stateName) {
+void FSM::DelayTransitionTo (const string& stateName) {
     m_delayState = stateName;
 }
 
-void FSM::AddState (FSMState* newState, string stateName) {
+void FSM::AddState (FSMState* newState, const string& stateName) {
     CHECK(newState->m_fsm == NULL);
     newState->m_fsm = this;
     newState->m_stateName = stateName;
-    pair<States::iterator, bool> result = m_states.insert(
-        make_pair(stateName, newState));
-
-    CHECK(result.second) << stateName << " already in the FSM.";
+    m_states.insert(make_pair(stateName, newState));
 }
 
 }

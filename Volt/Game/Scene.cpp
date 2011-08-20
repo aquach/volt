@@ -21,6 +21,10 @@ Scene::Scene ()
 }
 
 Scene::~Scene () {
+    FOR_(set<SceneListener*>::iterator, i, m_sceneListeners) {
+        RemoveSceneListener(*i);
+    }
+
     RemoveAll();
     ResolveEntityChanges();
     FOR_ (Filters::iterator, i, m_bottomFilters) {

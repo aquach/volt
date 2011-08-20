@@ -17,7 +17,7 @@ ConversationManager::~ConversationManager () {
             delete box;
         m_boxes.pop();
     }
-    m_gameScene->RemoveInputListener(m_inputListener);
+    delete m_inputListener;
 }
 
 bool ConversationManager::InputListener::OnKeyEvent (SDL_KeyboardEvent event) {
