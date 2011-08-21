@@ -38,4 +38,6 @@ void DestroyLock (Lock* lock);
 void AcquireLock (Lock* lock);
 void ReleaseLock (Lock* lock);
 
+int StringCompareCaseInsensitive (const char* a, const char* b);
+
 }

@@ -127,6 +127,10 @@ void ReleaseLock (Lock* lock) {
     pthread_mutex_unlock(lock);
 }
 
+int StringCompareCaseInsensitive (const char* a, const char* b) {
+	return strcasecmp(a, b);
+}
+
 #else
 
 // Windows implementations.
@@ -172,6 +176,10 @@ void AcquireLock (Lock* lock) {
 
 void ReleaseLock (Lock* lock) {
     LeaveCriticalSection(lock);
+}
+
+int StringCompareCaseInsensitive (const char* a, const char* b) {
+	return _stricmp(a, b);
 }
 
 #endif

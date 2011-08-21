@@ -22,14 +22,16 @@ Entity::~Entity () {
         G_PhysicsManager->world()->DestroyBody(m_body);
         G_PhysicsManager->UnlockWorld();
     }
-    FOR_(set<EntityContactListener*>::iterator, i,
-         m_contactListeners) {
-        delete (*i);
+
+    set<EntityContactListener*>::iterator iter = m_contactListeners.begin();
+    while (iter != m_contactListeners.end()) {
+        RemoveContactListener(*iter);
+        iter = m_contactListeners.begin();
     }
 }
 
 void Entity::AddTag (const string& tag) {
-    pair<set<string>::iterator, bool> result = m_tags.insert(tag);
+    pair<TagList::iterator, bool> result = m_tags.insert(tag);
     if (result.second && m_scene != NULL) {
         m_scene->OnEntityTagAdd(this, tag);
     }
@@ -120,7 +122,7 @@ ostream& Entity::ToString (ostream& stream) const {
     stream << "Entity [";
     int size = m_tags.size();
     int count = 0;
-    FOR_ (set<string>::const_iterator, i, m_tags) {
+    FOR_(TagList::const_iterator, i, m_tags) {
         stream << *i << (count == size - 1 ? "" : ", ");
         count++;
     }
@@ -173,10 +175,10 @@ void Entity::SetLayer (int layer) {
 void Entity::CopyFrom (const Entity* other) {
     m_transform = other->m_transform;
     m_visible = other->m_visible;
-    FOR_(set<string>::iterator, i, m_tags) {
+    FOR_(TagList::iterator, i, m_tags) {
         RemoveTag(*i);
     }
-    FOR_(set<string>::iterator, i, other->m_tags) {
+    FOR_(TagList::const_iterator, i, other->m_tags) {
         AddTag(*i);
     }
 }
@@ -195,7 +197,7 @@ void Entity::Save (Json::Value& node) const {
     m_transform.Save(node["transform"]);
     node["visible"] = m_visible;
     node["layer"] = m_layer;
-    FOR_(set<string>::iterator, i, m_tags) {
+    FOR_(TagList::const_iterator, i, m_tags) {
         node["tags"].append(*i);
     }
 }

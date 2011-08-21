@@ -72,8 +72,10 @@ GameScene::GameScene ()
 
 GameScene::~GameScene () {
     FOR_(InputListeners::iterator, i, m_inputListeners) {
-        FOR_(set<GameInputListener*>::iterator, iter, i->second) {
+        set<GameInputListener*>::iterator iter = i->second.begin();
+        while (iter != i->second.end()) {
             RemoveInputListener(*iter);
+            iter = i->second.begin();
         }
     }
 

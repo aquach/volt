@@ -124,10 +124,11 @@ private:
 
     struct InsensitiveCompare {
         bool operator() (const std::string& a, const std::string& b) const {
-            return strcasecmp(a.c_str(), b.c_str()) < 0;
+            return Volt::StringCompareCaseInsensitive(a.c_str(), b.c_str()) < 0;
         }
     };
-    set<string, InsensitiveCompare> m_tags;
+    typedef set<string, InsensitiveCompare> TagList;
+    TagList m_tags;
     set<EntityContactListener*> m_contactListeners;
 
     DISALLOW_COPY_AND_ASSIGN(Entity);

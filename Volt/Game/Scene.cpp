@@ -21,8 +21,10 @@ Scene::Scene ()
 }
 
 Scene::~Scene () {
-    FOR_(set<SceneListener*>::iterator, i, m_sceneListeners) {
-        RemoveSceneListener(*i);
+    set<SceneListener*>::iterator iter = m_sceneListeners.begin();
+    while (iter != m_sceneListeners.end()) {
+        RemoveSceneListener(*iter);
+        iter = m_sceneListeners.begin();
     }
 
     RemoveAll();
