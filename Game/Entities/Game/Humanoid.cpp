@@ -41,50 +41,7 @@ void Humanoid::HumanoidState::Update () {
     m_stateTime += G_Time->dt();
 }
 
-void Humanoid::IdleState::Update ()  {
-}
-
-/*
-void Humanoid::IdleState::OnKeyEvent (SDL_KeyboardEvent event) {
-    // Climbing ladders.
-    if (event.keysym.sym == SDLK_UP || event.keysym.sym == SDLK_DOWN) {
-        if (event.type == SDL_KEYDOWN && m_h->m_ladder != NULL) {
-            TransitionTo("Ladder");
-        }
-    }
-
-    // Accessing things.
-    if (event.keysym.sym == SDLK_UP) {
-        if (event.type == SDL_KEYDOWN) {
-            vector<Volt::Entity*> entities;
-            m_h->scene()->GetEntitiesAtPoint(m_h->position(), &entities);
-            for (uint i = 0; i < entities.size(); i++) {
-                if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
-                    e->OnAccessed(m_h);
-                }
-            }
-        }
-    }
-
-    // Wall jump.
-    if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
-        if (!m_h->IsOnGround()) {
-            SideContact type = m_h->m_body->GetLinearVelocity().x > 0 ?
-                               RIGHT : LEFT;
-            if (m_h->m_sideContacts[type] != NULL) {
-                float dir = SIGNOF(m_h->m_body->GetLinearVelocity().x);
-                b2Vec2 impulse(-dir * JUMP_IMPULSE * 5, -JUMP_IMPULSE * 5);
-                m_h->m_body->ApplyLinearImpulse(
-                    impulse,
-                    m_h->m_body->GetWorldCenter());
-            }
-        }
-    }
-}
-*/
-
 void Humanoid::IdleState::OnEnter () {
-    Humanoid::HumanoidState::Update();
     m_h->PlayAnimTrack("idle");
 }
 
@@ -95,6 +52,8 @@ Humanoid::RunningState::RunningState (Humanoid* humanoid)
 }
 
 void Humanoid::RunningState::Update () {
+    m_h->PlayAnimTrack("run");
+
     // Left and right movement.
     int dir = 0;
     if (m_h->m_keyState.IsKeyPressed(SDLK_LEFT))
@@ -111,11 +70,33 @@ void Humanoid::RunningState::Update () {
 
 void Humanoid::RunningState::OnEnter () {
     Humanoid::HumanoidState::Update();
-    m_h->PlayAnimTrack("run");
+}
+
+bool Humanoid::LadderState::LadderTriggerTest::CanTransition () {
+    Ladder* l = m_state->FindLadder();
+    return l != NULL;
+}
+
+Ladder* Humanoid::LadderState::FindLadder () {
+    vector<Volt::Entity*> entities;
+    Vector2 halfExtents(WIDTH / 2, HEIGHT / 2);
+    m_h->scene()->GetEntitiesInArea(m_h->position() - halfExtents,
+                                    m_h->position() + halfExtents,
+                                    &entities);
+    for (uint i = 0; i < entities.size(); i++) {
+        if (Ladder* l = dynamic_cast<Ladder*>(entities[i])) {
+            return l;
+        }
+    }
+    return NULL;
+}
+
+Humanoid::LadderState::LadderState (Humanoid* humanoid)
+    : HumanoidState(humanoid) {
+    AddActionTrigger(ACTION_UP, new LadderTriggerTest(this));
 }
 
 void Humanoid::LadderState::Update () {
-    /*
     Vector2 vel = m_h->m_body->GetLinearVelocity();
 
     // Nullify gravity.
@@ -130,8 +111,8 @@ void Humanoid::LadderState::Update () {
         m_h->m_keyState.IsKeyPressed(SDLK_DOWN)) {
         int dir = m_h->m_keyState.IsKeyPressed(SDLK_UP) ? -1 : 1;
         if (
-            (dir > 0 && m_h->position().y < m_h->m_ladder->bottomY()) ||
-            (dir < 0 && m_h->position().y > m_h->m_ladder->topY())
+            (dir > 0 && m_h->position().y < m_ladder->bottomY()) ||
+            (dir < 0 && m_h->position().y > m_ladder->topY())
         ) {
             canMove = true;
             if (vel.y * dir < RUN_SPEED) {
@@ -146,27 +127,26 @@ void Humanoid::LadderState::Update () {
     if (!canMove) {
         m_h->m_body->SetLinearVelocity(b2Vec2(0, 0));
     }
-    */
 }
 
 void Humanoid::LadderState::OnEnter () {
+    m_ladder = FindLadder();
+    CHECK_NOTNULL(m_ladder);
     // Lock to ladder.
-    //b2Vec2 v(m_h->m_ladder->position().x, m_h->position().y);
-    //m_h->m_body->SetTransform(v, 0);
-    //m_h->m_body->SetLinearVelocity(b2Vec2(0, 0));
+    b2Vec2 v(m_ladder->position().x, m_h->position().y);
+    m_h->m_body->SetTransform(v, 0);
+    m_h->m_body->SetLinearVelocity(b2Vec2(0, 0));
+    m_h->PlayAnimTrack("idle"); // TODO: Ladder anim.
 }
 
 void Humanoid::LadderState::OnExit () {
+    m_ladder = NULL;
 }
 
-/*
-void Humanoid::LadderState::OnKeyEvent (SDL_KeyboardEvent event) {
-    // Getting off ladders.
-    if (event.keysym.sym == SDLK_z && event.type == SDL_KEYDOWN) {
-        TransitionTo("Normal");
-    }
+void Humanoid::LadderState::OnAction (Action action) {
+    if (action == ACTION_JUMP)
+        TransitionTo("Idle");
 }
-*/
 
 Humanoid::Humanoid ()
     : m_jumpTimer(0.0f),
@@ -267,12 +247,14 @@ bool Humanoid::OnKeyEvent (SDL_KeyboardEvent event) {
         Action action = ACTION_UNKNOWN;
         // TODO: Use KeyBindings.
         switch (event.keysym.sym) {
-            case SDLK_UP: action = ACTION_JUMP; break;
+            case SDLK_z: action = ACTION_JUMP; break;
+            case SDLK_UP: action = ACTION_UP; break;
             case SDLK_LEFT: action = ACTION_LEFT; break;
             case SDLK_RIGHT: action = ACTION_RIGHT; break;
-            case SDLK_z: action = ACTION_ATTACK; break;
-            case SDLK_x: action = ACTION_ATTACK2; break;
-            case SDLK_c: action = ACTION_BLOCK; break;
+            case SDLK_DOWN: action = ACTION_DOWN; break;
+            case SDLK_x: action = ACTION_ATTACK; break;
+            case SDLK_c: action = ACTION_ATTACK2; break;
+            case SDLK_v: action = ACTION_BLOCK; break;
             default: break;
         }
         LOG(INFO) << "ACTION: " << action;
@@ -292,6 +274,19 @@ bool Humanoid::OnKeyEvent (SDL_KeyboardEvent event) {
             state = dynamic_cast<Humanoid::HumanoidState*>(m_fsm->state());
             CHECK_NOTNULL(state);
             state->OnAction(action);
+
+            // Wall jumping.
+            if (action == ACTION_JUMP) {
+                WallJump();
+            } else if (action == ACTION_DOWN) {
+                vector<Volt::Entity*> entities;
+                scene()->GetEntitiesAtPoint(position(), &entities);
+                for (uint i = 0; i < entities.size(); i++) {
+                    if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
+                        e->OnAccessed(this);
+                    }
+                }
+            }
         }
     }
 
@@ -313,7 +308,6 @@ void Humanoid::OnContactBegin (Volt::Entity* other, b2Contact* contact) {
         //LOG(INFO) << dir;
         if (dir.y > 0 && abs(dir.y) > abs(dir.x)) {
             m_sideContacts[BOTTOM] = other->body();
-            m_anim->PlayTrack("idle");
         } else if (dir.x > 0 && abs(dir.x) > abs(dir.y)) {
             m_sideContacts[RIGHT] = other->body();
         } else if (dir.x < 0 && abs(dir.x) > abs(dir.y)) {
@@ -337,7 +331,7 @@ void Humanoid::CreateInputListener (GameScene* gameScene) {
         delete m_inputListener;
 
     m_inputListener = new Humanoid::InputListener(this);
-    gameScene->AddInputListener(m_inputListener, 2);
+    gameScene->AddInputListener(m_inputListener, 3);
 }
 
 void Humanoid::RemoveInputListener () {
@@ -362,10 +356,12 @@ void Humanoid::AddActionTrigger (Action action, ActionTriggerTest* test,
 void Humanoid::RemoveActionTriggers (Humanoid::HumanoidState* state) {
     for (vector<Trigger>::iterator i = m_actionTriggers.begin();
         i != m_actionTriggers.end();) {
-        if (i->changeToState == state)
+        if (i->changeToState == state) {
+            delete i->test;
             i = m_actionTriggers.erase(i);
-        else
+        } else {
             i++;
+        }
     }
 }
 
@@ -392,6 +388,7 @@ void Humanoid::Run (int dir) {
 void Humanoid::Jump () {
     Vector2 vel = m_body->GetLinearVelocity();
 
+    // TODO: Can't jump off ladders because of this check.
     if (IsOnGround()) {
         m_jumpTimer = m_jumpTime;
         m_anim->PlayTrack("jump");
@@ -409,4 +406,15 @@ void Humanoid::Jump () {
 void Humanoid::ApplyVelocity (Vector2 vel) {
     m_body->ApplyLinearImpulse((vel * m_body->GetMass()).ToB2(),
                                m_body->GetWorldCenter());
+}
+
+void Humanoid::WallJump () {
+    if (!IsOnGround()) {
+        SideContact type = m_body->GetLinearVelocity().x > 0 ? RIGHT : LEFT;
+        if (m_sideContacts[type] != NULL) {
+            float dir = SIGNOF(m_body->GetLinearVelocity().x);
+            b2Vec2 impulse(-dir * JUMP_IMPULSE * 5, -JUMP_IMPULSE * 5);
+            m_body->ApplyLinearImpulse(impulse, m_body->GetWorldCenter());
+        }
+    }
 }

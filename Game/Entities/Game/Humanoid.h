@@ -19,8 +19,10 @@ public:
     enum Action {
         ACTION_UNKNOWN = -1,
         ACTION_JUMP,
+        ACTION_UP,
         ACTION_LEFT,
         ACTION_RIGHT,
+        ACTION_DOWN,
         ACTION_ATTACK,
         ACTION_ATTACK2,
         ACTION_BLOCK
@@ -84,6 +86,7 @@ public:
     void Slide (float amount, float time);
     void ApplyVelocity (Vector2 vel);
     void Jump ();
+    void WallJump ();
     void Fall ();
     void HitPause (float time); /* Pause when hit or being hit. */
     void Recover (float time); /* Recovery phase of being hit */
@@ -123,7 +126,7 @@ private:
     public:
         explicit IdleState (Humanoid* humanoid)
             : HumanoidState(humanoid) { }
-        virtual void Update ();
+        virtual void Update () { }
         virtual void OnEnter ();
         virtual void OnExit () { }
         virtual void OnStruckEnemy () { }
@@ -144,14 +147,26 @@ private:
 
     class LadderState : public HumanoidState {
     public:
-        explicit LadderState (Humanoid* humanoid)
-            : HumanoidState(humanoid) { }
+        explicit LadderState (Humanoid* humanoid);
         virtual void Update ();
         virtual void OnEnter ();
         virtual void OnExit ();
         virtual void OnStruckEnemy () { }
         //virtual void OnStruck () { }
-        virtual void OnAction (Action action) { }
+        virtual void OnAction (Action action);
+    private:
+        class LadderTriggerTest : public ActionTriggerTest {
+        public:
+            LadderTriggerTest (LadderState* state)
+                : m_state(state) { }
+            virtual bool CanTransition ();
+        private:
+            LadderState* m_state;
+        };
+
+        Ladder* FindLadder ();
+
+        Ladder* m_ladder;
     };
 
     class ContactListener : public Volt::EntityContactListener {

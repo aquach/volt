@@ -106,8 +106,8 @@ void SpriteAnimation::PlayTrack (const string& trackName) {
     Tracks::iterator iter = m_tracks.find(trackName);
     CHECK(iter != m_tracks.end()) << "Could not find animation track "
         << trackName;
-    // Do nothing if track is already playing.
-    if (&iter->second == m_currentTrack)
+    // Do nothing if track is already playing and it's a looping track.
+    if (&iter->second == m_currentTrack && m_currentTrack->loops)
         return;
     m_currentTrack = &iter->second;
     m_currentTrack->t = 0;
