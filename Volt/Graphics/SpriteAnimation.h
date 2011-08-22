@@ -13,6 +13,7 @@ public:
     SpriteAnimation (Entity* e, const string& animationDataPath);
     ~SpriteAnimation () { }
 
+    bool completed () const;
     void Update ();
     void Render ();
     void PlayTrack (const string& trackName);

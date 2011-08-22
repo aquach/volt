@@ -1,6 +1,6 @@
 #include "Game/Entities/Game/Umbrella.h"
 #include "Game/Graphics/Graphics.h"
-#include "Game/Entities/Game/Player.h"
+#include "Game/Entities/Game/Creature.h"
 
 Umbrella::Umbrella () {
 }

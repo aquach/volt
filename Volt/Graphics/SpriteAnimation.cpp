@@ -130,6 +130,11 @@ SpriteAnimation::AnimationFrame* SpriteAnimation::currentFrame () {
     return &m_currentTrack->frames[m_currentTrack->frameIndices[index]];
 }
 
+bool SpriteAnimation::completed () const {
+    float percent = m_currentTrack->t / m_currentTrack->duration;
+    return !m_currentTrack->loops && percent >= 1.0f;
+}
+
 void SpriteAnimation::Render () {
     glPushMatrix();
     Graphics::TransformMatrix(m_entity->transform());

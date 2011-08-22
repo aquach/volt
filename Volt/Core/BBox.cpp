@@ -1,4 +1,5 @@
 #include "Volt/Core/BBox.h"
+#include "Volt/Core/Logging.h"
 #include "Volt/Core/Macros.h"
 
 namespace Volt
@@ -50,6 +51,21 @@ bool BBox::Intersects (const BBox& other) const {
         return false;
 
     return true;
+}
+
+void BBox::Load (const Json::Value& node) {
+    CHECK(node.size() == 2);
+    min.Load(node[0u]);
+    max.Load(node[1u]);
+}
+
+void BBox::Save (Json::Value& node) const {
+    Json::Value minNode;
+    min.Save(minNode);
+    Json::Value maxNode;
+    max.Save(maxNode);
+    node.append(minNode);
+    node.append(maxNode);
 }
 
 ostream& operator<< (ostream& stream, const BBox& box) {

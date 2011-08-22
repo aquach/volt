@@ -41,6 +41,21 @@
                 "Sprites/Player/run_3.png",
                 "Sprites/Player/run_4.png"
             ]
+        },
+        {
+            "name": "strike1",
+            "loops": false,
+            "seesaws": false,
+            "duration": 1,
+            "frames" : [
+                {
+                    "texture": "Sprites/Player/run_3.png",
+                    "hitboxes": [
+                        [[ 0.2, -0.5 ], [ 1.0, 1.0 ]],
+                        [[ -0.3, -2 ], [ 0.3, -1 ]]
+                    ]
+                }
+            ]
         }
     ]
 }

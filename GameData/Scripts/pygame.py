@@ -1301,6 +1301,8 @@ class BBox(_object):
     def BoundingCircle(self, *args): return _pygame.BBox_BoundingCircle(self, *args)
     def Intersects(self, *args): return _pygame.BBox_Intersects(self, *args)
     def Expand(self, *args): return _pygame.BBox_Expand(self, *args)
+    def Load(self, *args): return _pygame.BBox_Load(self, *args)
+    def Save(self, *args): return _pygame.BBox_Save(self, *args)
     __swig_destroy__ = _pygame.delete_BBox
     __del__ = lambda self : None;
 BBox_swigregister = _pygame.BBox_swigregister
@@ -1409,6 +1411,7 @@ class SpriteAnimation(_object):
         except: self.this = this
     __swig_destroy__ = _pygame.delete_SpriteAnimation
     __del__ = lambda self : None;
+    def completed(self): return _pygame.SpriteAnimation_completed(self)
     def Update(self): return _pygame.SpriteAnimation_Update(self)
     def Render(self): return _pygame.SpriteAnimation_Render(self)
     def PlayTrack(self, *args): return _pygame.SpriteAnimation_PlayTrack(self, *args)

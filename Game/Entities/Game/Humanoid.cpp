@@ -52,6 +52,8 @@ Humanoid::RunningState::RunningState (Humanoid* humanoid)
 }
 
 void Humanoid::RunningState::Update () {
+    Humanoid::HumanoidState::Update();
+
     m_h->PlayAnimTrack("run");
 
     // Left and right movement.
@@ -68,9 +70,6 @@ void Humanoid::RunningState::Update () {
     }
 }
 
-void Humanoid::RunningState::OnEnter () {
-    Humanoid::HumanoidState::Update();
-}
 
 bool Humanoid::LadderState::LadderTriggerTest::CanTransition () {
     Ladder* l = m_state->FindLadder();
@@ -148,6 +147,25 @@ void Humanoid::LadderState::OnAction (Action action) {
         TransitionTo("Idle");
 }
 
+Humanoid::Strike1State::Strike1State (Humanoid* humanoid)
+    : HumanoidState(humanoid) {
+    AddActionTrigger(ACTION_ATTACK, NULL);
+}
+
+void Humanoid::Strike1State::Update () {
+    if (m_h->m_anim->completed())
+        TransitionTo("Idle");
+}
+
+void Humanoid::Strike1State::OnEnter () {
+    m_h->m_anim->PlayTrack("strike1");
+}
+
+void Humanoid::Strike1State::OnStruckEnemy (Creature* enemy) {
+    LOG(INFO) << "HURT A " << *enemy;
+    enemy->TakeDamage(m_h, 1);
+}
+
 Humanoid::Humanoid ()
     : m_jumpTimer(0.0f),
       m_debugDraw(true),
@@ -183,6 +201,7 @@ Humanoid::Humanoid ()
     m_fsm->AddState(new Humanoid::IdleState(this), "Idle");
     m_fsm->AddState(new Humanoid::LadderState(this), "Ladder");
     m_fsm->AddState(new Humanoid::RunningState(this), "Running");
+    m_fsm->AddState(new Humanoid::Strike1State(this), "Strike1");
 
     AddContactListener(new ContactListener);
 
@@ -230,6 +249,29 @@ void Humanoid::Update () {
 
     if (m_keyState.IsKeyPressed(SDLK_z) && !m_actionLock) {
         Jump();
+    }
+
+    // Check hitboxes.
+    HumanoidState* state = dynamic_cast<HumanoidState*>(m_fsm->state());
+    const Json::Value& data = m_anim->frameUserData();
+    if (!data.empty()) {
+        const Json::Value& hitboxes = data.get("hitboxes", "");
+        for (uint i = 0; i < hitboxes.size(); i++) {
+            Volt::BBox b;
+            b.Load(hitboxes[i]);
+
+            b.min += position();
+            b.max += position();
+
+            vector<Volt::Entity*> entities;
+            scene()->GetEntitiesInArea(b.min, b.max, &entities);
+            for (uint i = 0; i < entities.size(); i++) {
+                Creature* c = dynamic_cast<Creature*>(entities[i]);
+                if (entities[i] != this && c != NULL) {
+                    state->OnStruckEnemy(c);
+                }
+            }
+        }
     }
 
     if (m_debugDraw) {
@@ -297,6 +339,25 @@ bool Humanoid::OnKeyEvent (SDL_KeyboardEvent event) {
 
 void Humanoid::Render () {
     m_anim->Render();
+    if (m_debugDraw) {
+        // Draw hitboxes.
+        Graphics::SetColor(Volt::Color::RGBA(255, 0, 0, 128));
+
+        const Json::Value& data = m_anim->frameUserData();
+        if (!data.empty()) {
+            const Json::Value& hitboxes = data.get("hitboxes", "");
+            for (uint i = 0; i < hitboxes.size(); i++) {
+                Volt::BBox b;
+                b.Load(hitboxes[i]);
+
+                glPushMatrix();
+                Graphics::Translate(b.center() + position());
+                Vector2 extents = b.extents();
+                Graphics::RenderQuad(extents.x, extents.y);
+                glPopMatrix();
+            }
+        }
+    }
 }
 
 void Humanoid::OnContactBegin (Volt::Entity* other, b2Contact* contact) {

@@ -46,7 +46,7 @@ public:
         virtual void Update ();
         virtual void OnEnter () { m_stateTime = 0; }
         virtual void OnExit () = 0;
-        virtual void OnStruckEnemy () = 0;
+        virtual void OnStruckEnemy (Creature* enemy) = 0;
         //virtual void OnStruck () = 0;
         virtual void OnAction (Action action) = 0;
 
@@ -129,7 +129,7 @@ private:
         virtual void Update () { }
         virtual void OnEnter ();
         virtual void OnExit () { }
-        virtual void OnStruckEnemy () { }
+        virtual void OnStruckEnemy (Creature* enemy) { }
         //virtual void OnStruck () { }
         virtual void OnAction (Action action) { }
     };
@@ -138,9 +138,9 @@ private:
     public:
         explicit RunningState (Humanoid* humanoid);
         virtual void Update ();
-        virtual void OnEnter ();
+        virtual void OnEnter () { }
         virtual void OnExit () { }
-        virtual void OnStruckEnemy () { }
+        virtual void OnStruckEnemy (Creature* enemy) { }
         //virtual void OnStruck () { }
         virtual void OnAction (Action action) { }
     };
@@ -151,7 +151,7 @@ private:
         virtual void Update ();
         virtual void OnEnter ();
         virtual void OnExit ();
-        virtual void OnStruckEnemy () { }
+        virtual void OnStruckEnemy (Creature* enemy) { }
         //virtual void OnStruck () { }
         virtual void OnAction (Action action);
     private:
@@ -168,6 +168,19 @@ private:
 
         Ladder* m_ladder;
     };
+
+    // Attacking states.
+    class Strike1State : public HumanoidState {
+    public:
+        explicit Strike1State (Humanoid* humanoid);
+        virtual void Update ();
+        virtual void OnEnter ();
+        virtual void OnExit () { }
+        virtual void OnStruckEnemy (Creature* enemy);
+        //virtual void OnStruck () { }
+        virtual void OnAction (Action action) { }
+    };
+
 
     class ContactListener : public Volt::EntityContactListener {
     public:

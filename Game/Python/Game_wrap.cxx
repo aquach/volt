@@ -3376,6 +3376,7 @@ namespace swig {
 
 #include "Volt/Game/AppTime.h"
 #include "Volt/Game/Entity.h"
+#include "Volt/Game/FSM.h"
 #include "Volt/Game/Game.h"
 #include "Volt/Game/PhysicsManager.h"
 #include "Volt/Graphics/Camera.h"
@@ -3391,7 +3392,6 @@ namespace swig {
 #include "Game/Game/SaveData.h"
 #include "Game/Entities/Game/Creature.h"
 #include "Game/Entities/Game/Light.h"
-#include "Game/Entities/Game/Player.h"
 #include "Game/Entities/Game/Triangle.h"
 #include "Game/Editor/EntityFactory.h"
 #include "Game/Entities/Gui/ChoiceBox.h"
@@ -25996,6 +25996,80 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_BBox_Load(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::BBox *arg1 = (Volt::BBox *) 0 ;
+  Json::Value *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:BBox_Load",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__BBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BBox_Load" "', argument " "1"" of type '" "Volt::BBox *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::BBox * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Json__Value,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "BBox_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "BBox_Load" "', argument " "2"" of type '" "Json::Value const &""'"); 
+  }
+  arg2 = reinterpret_cast< Json::Value * >(argp2);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->Load((Json::Value const &)*arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_BBox_Save(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::BBox *arg1 = (Volt::BBox *) 0 ;
+  Json::Value *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:BBox_Save",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__BBox, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BBox_Save" "', argument " "1"" of type '" "Volt::BBox const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::BBox * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Json__Value,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "BBox_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "BBox_Save" "', argument " "2"" of type '" "Json::Value &""'"); 
+  }
+  arg2 = reinterpret_cast< Json::Value * >(argp2);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    ((Volt::BBox const *)arg1)->Save(*arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_BBox(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Volt::BBox *arg1 = (Volt::BBox *) 0 ;
@@ -27415,6 +27489,32 @@ SWIGINTERN PyObject *_wrap_delete_SpriteAnimation(PyObject *SWIGUNUSEDPARM(self)
     SWIG_PYTHON_THREAD_END_ALLOW;
   }
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SpriteAnimation_completed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Volt::SpriteAnimation *arg1 = (Volt::SpriteAnimation *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:SpriteAnimation_completed",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Volt__SpriteAnimation, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SpriteAnimation_completed" "', argument " "1"" of type '" "Volt::SpriteAnimation const *""'"); 
+  }
+  arg1 = reinterpret_cast< Volt::SpriteAnimation * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((Volt::SpriteAnimation const *)arg1)->completed();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -38904,6 +39004,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"BBox_BoundingCircle", _wrap_BBox_BoundingCircle, METH_VARARGS, NULL},
 	 { (char *)"BBox_Intersects", _wrap_BBox_Intersects, METH_VARARGS, NULL},
 	 { (char *)"BBox_Expand", _wrap_BBox_Expand, METH_VARARGS, NULL},
+	 { (char *)"BBox_Load", _wrap_BBox_Load, METH_VARARGS, NULL},
+	 { (char *)"BBox_Save", _wrap_BBox_Save, METH_VARARGS, NULL},
 	 { (char *)"delete_BBox", _wrap_delete_BBox, METH_VARARGS, NULL},
 	 { (char *)"BBox_swigregister", BBox_swigregister, METH_VARARGS, NULL},
 	 { (char *)"Vector3_x_set", _wrap_Vector3_x_set, METH_VARARGS, NULL},
@@ -38955,6 +39057,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Filter_swigregister", Filter_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_SpriteAnimation", _wrap_new_SpriteAnimation, METH_VARARGS, NULL},
 	 { (char *)"delete_SpriteAnimation", _wrap_delete_SpriteAnimation, METH_VARARGS, NULL},
+	 { (char *)"SpriteAnimation_completed", _wrap_SpriteAnimation_completed, METH_VARARGS, NULL},
 	 { (char *)"SpriteAnimation_Update", _wrap_SpriteAnimation_Update, METH_VARARGS, NULL},
 	 { (char *)"SpriteAnimation_Render", _wrap_SpriteAnimation_Render, METH_VARARGS, NULL},
 	 { (char *)"SpriteAnimation_PlayTrack", _wrap_SpriteAnimation_PlayTrack, METH_VARARGS, NULL},

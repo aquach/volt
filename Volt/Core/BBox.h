@@ -1,5 +1,6 @@
 #pragma once
 
+#include <json/json.h>
 #include "Volt/Core/Macros.h"
 #include "Volt/Core/Math.h"
 #include "Volt/Core/Vector2.h"
@@ -41,6 +42,9 @@ public:
     bool Intersects (const BBox& other) const;
 
     BBox Expand (float margin) const;
+
+    void Load (const Json::Value& node);
+    void Save (Json::Value& node) const;
 };
 
 ostream& operator<< (ostream& stream, const BBox& box);
