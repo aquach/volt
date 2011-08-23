@@ -51,6 +51,10 @@ public:
 
     void TakeDamage (Entity* agent, float damage);
 
+    int facing () const { return m_facingRight ? 1 : -1; }
+    bool facingRight () const { return m_facingRight; }
+    void SetFacingRight (bool facing) { m_facingRight = facing; }
+
 protected:
     float m_health;
     float m_maxHealth;
@@ -58,6 +62,7 @@ protected:
     float m_maxPower;
     Weapon* m_weapon;
     Volt::Transform m_weaponTransform;
+    bool m_facingRight;
 
 private:
     set<CreatureListener*> m_listeners;

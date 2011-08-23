@@ -1961,6 +1961,9 @@ class Creature(Entity):
     def weaponTransform(self): return _pygame.Creature_weaponTransform(self)
     def ToString(self, *args): return _pygame.Creature_ToString(self, *args)
     def TakeDamage(self, *args): return _pygame.Creature_TakeDamage(self, *args)
+    def facing(self): return _pygame.Creature_facing(self)
+    def facingRight(self): return _pygame.Creature_facingRight(self)
+    def SetFacingRight(self, *args): return _pygame.Creature_SetFacingRight(self, *args)
     def __disown__(self):
         self.this.disown()
         _pygame.disown_Creature(self)

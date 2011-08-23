@@ -11,7 +11,8 @@ Creature::Creature ()
       m_maxHealth(25),
       m_power(19),
       m_maxPower(20),
-      m_weapon(NULL) {
+      m_weapon(NULL),
+      m_facingRight(true) {
 }
 
 Creature::~Creature () {

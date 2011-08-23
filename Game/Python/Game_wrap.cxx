@@ -35262,6 +35262,92 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Creature_facing(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Creature *arg1 = (Creature *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Creature_facing",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_facing" "', argument " "1"" of type '" "Creature const *""'"); 
+  }
+  arg1 = reinterpret_cast< Creature * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (int)((Creature const *)arg1)->facing();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Creature_facingRight(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Creature *arg1 = (Creature *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Creature_facingRight",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_facingRight" "', argument " "1"" of type '" "Creature const *""'"); 
+  }
+  arg1 = reinterpret_cast< Creature * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = (bool)((Creature const *)arg1)->facingRight();
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Creature_SetFacingRight(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Creature *arg1 = (Creature *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Creature_SetFacingRight",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Creature, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Creature_SetFacingRight" "', argument " "1"" of type '" "Creature *""'"); 
+  }
+  arg1 = reinterpret_cast< Creature * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Creature_SetFacingRight" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    (arg1)->SetFacingRight(arg2);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_disown_Creature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Creature *arg1 = (Creature *) 0 ;
@@ -39295,6 +39381,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Creature_weaponTransform", _wrap_Creature_weaponTransform, METH_VARARGS, NULL},
 	 { (char *)"Creature_ToString", _wrap_Creature_ToString, METH_VARARGS, NULL},
 	 { (char *)"Creature_TakeDamage", _wrap_Creature_TakeDamage, METH_VARARGS, NULL},
+	 { (char *)"Creature_facing", _wrap_Creature_facing, METH_VARARGS, NULL},
+	 { (char *)"Creature_facingRight", _wrap_Creature_facingRight, METH_VARARGS, NULL},
+	 { (char *)"Creature_SetFacingRight", _wrap_Creature_SetFacingRight, METH_VARARGS, NULL},
 	 { (char *)"disown_Creature", _wrap_disown_Creature, METH_VARARGS, NULL},
 	 { (char *)"Creature_swigregister", Creature_swigregister, METH_VARARGS, NULL},
 	 { (char *)"LightStroke_vertices_set", _wrap_LightStroke_vertices_set, METH_VARARGS, NULL},

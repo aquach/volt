@@ -159,6 +159,7 @@ void Humanoid::Strike1State::Update () {
 
 void Humanoid::Strike1State::OnEnter () {
     m_h->m_anim->PlayTrack("strike1");
+    m_h->ApplyVelocity(Vector2(5, 0) * m_h->facing());
 }
 
 void Humanoid::Strike1State::OnStruckEnemy (Creature* enemy) {
@@ -259,6 +260,9 @@ void Humanoid::Update () {
         for (uint i = 0; i < hitboxes.size(); i++) {
             Volt::BBox b;
             b.Load(hitboxes[i]);
+            b.min.x *= facing();
+            b.max.x *= facing();
+            b = Volt::BBox(b.min, b.max);
 
             b.min += position();
             b.max += position();
@@ -299,7 +303,23 @@ bool Humanoid::OnKeyEvent (SDL_KeyboardEvent event) {
             case SDLK_v: action = ACTION_BLOCK; break;
             default: break;
         }
-        LOG(INFO) << "ACTION: " << action;
+        // Wall jumping.
+        if (action == ACTION_JUMP) {
+            WallJump();
+        } else if (action == ACTION_DOWN) {
+            vector<Volt::Entity*> entities;
+            scene()->GetEntitiesAtPoint(position(), &entities);
+            for (uint i = 0; i < entities.size(); i++) {
+                if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
+                    e->OnAccessed(this);
+                }
+            }
+        } else if (action == ACTION_LEFT) {
+            SetFacingRight(false);
+        } else if (action == ACTION_RIGHT) {
+            SetFacingRight(true);
+        }
+
         if (action != ACTION_UNKNOWN) {
             for (uint i = 0; i < m_actionTriggers.size(); i++) {
                 Trigger* t = &m_actionTriggers[i];
@@ -316,19 +336,6 @@ bool Humanoid::OnKeyEvent (SDL_KeyboardEvent event) {
             state = dynamic_cast<Humanoid::HumanoidState*>(m_fsm->state());
             CHECK_NOTNULL(state);
             state->OnAction(action);
-
-            // Wall jumping.
-            if (action == ACTION_JUMP) {
-                WallJump();
-            } else if (action == ACTION_DOWN) {
-                vector<Volt::Entity*> entities;
-                scene()->GetEntitiesAtPoint(position(), &entities);
-                for (uint i = 0; i < entities.size(); i++) {
-                    if (Entity* e = dynamic_cast<Entity*>(entities[i])) {
-                        e->OnAccessed(this);
-                    }
-                }
-            }
         }
     }
 
@@ -338,10 +345,12 @@ bool Humanoid::OnKeyEvent (SDL_KeyboardEvent event) {
 }
 
 void Humanoid::Render () {
+    m_anim->SetXFlip(facingRight());
     m_anim->Render();
     if (m_debugDraw) {
         // Draw hitboxes.
         Graphics::SetColor(Volt::Color::RGBA(255, 0, 0, 128));
+        Graphics::SetBlend(Graphics::BLEND_ALPHA);
 
         const Json::Value& data = m_anim->frameUserData();
         if (!data.empty()) {
@@ -349,6 +358,9 @@ void Humanoid::Render () {
             for (uint i = 0; i < hitboxes.size(); i++) {
                 Volt::BBox b;
                 b.Load(hitboxes[i]);
+                b.min.x *= facing();
+                b.max.x *= facing();
+                b = Volt::BBox(b.min, b.max);
 
                 glPushMatrix();
                 Graphics::Translate(b.center() + position());
@@ -357,6 +369,8 @@ void Humanoid::Render () {
                 glPopMatrix();
             }
         }
+
+        Graphics::SetBlend(Graphics::BLEND_NONE);
     }
 }
 
