@@ -39,7 +39,8 @@ string AssetManager::sourcePath() const {
 FontAssetRef AssetManager::GetFont (
     const string& path, float size, int textureWidth, int textureHeight) {
 
-    FontAssetRef asset = GetAssetByKey<FontAsset>(path);
+    string key = FontAsset::BuildKey(path, size);
+    FontAssetRef asset = GetAssetByKey<FontAsset>(key);
     if (asset.HasAsset())
         return asset;
 

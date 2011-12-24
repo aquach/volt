@@ -31,10 +31,16 @@ public:
     float size () const { return m_size; }
 
     virtual string assetKey () const {
+        return BuildKey(path(), m_size);
+    }
+
+    // Needed by AssetManager when looking up assets.
+    static string BuildKey (const string& path, float size) {
         char buffer[512];
-        sprintf(buffer, "%s-%.3f", path().c_str(), m_size);
+        sprintf(buffer, "%s-%.3f", path.c_str(), size);
         return buffer;
     }
+
 
 private:
     void* m_fontCData;
